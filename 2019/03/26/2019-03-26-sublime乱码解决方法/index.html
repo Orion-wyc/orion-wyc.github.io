@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Yuchen">
   <meta name="keywords" content="">
-  <title>VMWARE使用记录 - Yuchen&#39;s Blog</title>
+  <title>sublime乱码解决方法 - Yuchen&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -157,8 +157,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2019-01-26 00:00" pubdate>
-        2019年1月26日 凌晨
+      <time datetime="2019-03-26 00:00" pubdate>
+        2019年3月26日 凌晨
       </time>
     </span>
   
@@ -169,7 +169,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      423 字
+      820 字
     </span>
   
 
@@ -179,7 +179,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      4
+      12
        分钟
     </span>
   
@@ -209,36 +209,91 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto" id="post">
             <!-- SEO header -->
-            <h1 style="display: none">VMWARE使用记录</h1>
+            <h1 style="display: none">sublime乱码解决方法</h1>
             
             <div class="markdown-body" id="post-body">
-              <p>#<strong>VMWare</strong> ##<strong>解决虚拟机vmware安装64位系统“此主机支持 Intel VT-x，但 Intel VT-x 处于禁用状态”的问题</strong></p>
-<p><strong>所遇到的情况</strong> 虚拟机使用的是VMware Workstation ，并且首次在虚拟机体验64 位系统。在新建好虚拟机，运行时候就出现了VMware Workstation 的提醒：此主机支持 Intel VT-x，但 Intel VT-x 处于禁用状态。如图：</p>
-<div class="hljs"><pre><code class="hljs angelscript">提示信息：
+              <p>sublime text 3是一款非常好用的代码编辑器，通过一些配置可以实现多种语言的编译运行，但是也会遇到出现中文显示乱码或者运行程序之后输出结果为乱码，今天就针对这个问题进行一个汇总。</p>
+<p>对于代码中中文注释或其他内容出现乱码，通常情况下使用"ConvertToUTF8"这个插件就可以解决问题，如果解决不了，可以尝试在文本文件中另存为，保存编码格式从ASCII修改为UTF-8，复制另存的代码，然后删除之前在sublime中出现乱码的文件，重新创建并将代码粘贴。（如果没有解决，可留言交流或者在看看其他解决方法）</p>
+<p>另外一种情况的乱码可以修改环境配置文件，常用参考配置如下，容易采用UTF-8的编码。（"-fexec-charset=gbk"这句一定要加上）</p>
+<p>C/C++：</p>
+<div class="hljs"><pre><code class="hljs C++"> &#123;
+ <span class="hljs-string">&quot;cmd&quot;</span>: [<span class="hljs-string">&quot;gcc&quot;</span>, <span class="hljs-string">&quot;$&#123;file&#125;&quot;</span>, <span class="hljs-string">&quot;-fexec-charset=gbk&quot;</span>,<span class="hljs-string">&quot;-o&quot;</span>, <span class="hljs-string">&quot;$&#123;file_path&#125;/$&#123;file_base_name&#125;&quot;</span>, <span class="hljs-string">&quot;&amp;&quot;</span>, <span class="hljs-string">&quot;start&quot;</span>, <span class="hljs-string">&quot;cmd&quot;</span>, <span class="hljs-string">&quot;/c&quot;</span>, <span class="hljs-string">&quot;$&#123;file_base_name&#125; &amp; echo. &amp; pause&quot;</span>],
+ <span class="hljs-string">&quot;file_regex&quot;</span>: <span class="hljs-string">&quot;^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$&quot;</span>,
+ <span class="hljs-string">&quot;working_dir&quot;</span>: <span class="hljs-string">&quot;$&#123;file_path&#125;&quot;</span>,
+ <span class="hljs-string">&quot;selector&quot;</span>: <span class="hljs-string">&quot;source.c, source.c++&quot;</span>,
+ <span class="hljs-string">&quot;shell&quot;</span>: <span class="hljs-literal">true</span>,
+ <span class="hljs-string">&quot;encoding&quot;</span>:<span class="hljs-string">&quot;UTF-8&quot;</span>,
+&#125;
+<span class="hljs-number">2.</span> 保存为g++.sublime-build即可（g++可以改成自己好记的）
+<span class="hljs-number">3.</span> 然后ctrl+shift+b选择g++编译</code></pre></div>
+<p>或者：</p>
+<div class="hljs"><pre><code class="hljs C++">&#123;
+    <span class="hljs-string">&quot;encoding&quot;</span>: <span class="hljs-string">&quot;utf-8&quot;</span>,
+    <span class="hljs-string">&quot;working_dir&quot;</span>: <span class="hljs-string">&quot;$file_path&quot;</span>,
+    <span class="hljs-string">&quot;shell_cmd&quot;</span>: <span class="hljs-string">&quot;g++ -Wall -std=c++11 -fexec-charset=GBK \&quot;$file_name\&quot; -o \&quot;$file_base_name\&quot;&quot;</span>,
+    <span class="hljs-string">&quot;file_regex&quot;</span>: <span class="hljs-string">&quot;^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$&quot;</span>,
+    <span class="hljs-string">&quot;selector&quot;</span>: <span class="hljs-string">&quot;source.c++&quot;</span>,
 
-已将该虚拟机配置为使用 <span class="hljs-number">64</span> 位客户机操作系统。但是，无法执行 <span class="hljs-number">64</span> 位操作。
-
-此主机支持 Intel VT-x，但 Intel VT-x 处于禁用状态。
-
-如果已在 BIOS/固件设置中禁用 Intel VT-x，或主机自更改此设置后从未重新启动，则 Intel VT-x 可能被禁用。
-
-(<span class="hljs-number">1</span>) 确认 BIOS/固件设置中启用了 Intel VT-x 并禁用了“可信执行”。
-
-(<span class="hljs-number">2</span>) 如果这两项 BIOS/固件设置有一项已更改，请重新启动主机。
-
-(<span class="hljs-number">3</span>) 如果您在安装 VMware Workstation 之后从未重新启动主机，请重新启动。
-
-(<span class="hljs-number">4</span>) 将主机的 BIOS/固件更新至最新版本。
-
-有关更多详细信息，请参见 http:<span class="hljs-comment">//vmware.com/info?id=152。</span>
+    <span class="hljs-string">&quot;variants&quot;</span>: 
+    [
+        &#123;   
+        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;Run&quot;</span>,
+        <span class="hljs-string">&quot;shell_cmd&quot;</span>: <span class="hljs-string">&quot;g++ -Wall -std=c++11 -fexec-charset=GBK \&quot;$file\&quot; -o \&quot;$file_base_name\&quot; &amp;&amp; start cmd /c \&quot;\&quot;$&#123;file_path&#125;/$&#123;file_base_name&#125;\&quot; &amp; pause\&quot;&quot;</span>
+        &#125;
+    ]
+&#125;
 </code></pre></div>
-<p><strong>解决方法</strong></p>
-<p>看上面的提示 也就很好解决了：直接修改BIOS设置即可</p>
-<p>以下以个人HP-暗影精灵2电脑为例：</p>
-<p>1、关机，开机，在启动时，按F10进入BIOS 设置页面；</p>
-<p>2、选择 Security，再选择Virtual ization并点击enter建进入该功能，在新功能中选择Intel (R) Virtualization Technology ，此时该选项应该是disabled（关闭）的；</p>
-<p>3、将Disabled（关闭）改为 Enabled（开启）；</p>
-<p>4、保存设置，点击F10，保存后退出，重启即可</p>
+<p>Python：</p>
+<div class="hljs"><pre><code class="hljs C++">&#123; 
+<span class="hljs-string">&quot;cmd&quot;</span>: [<span class="hljs-string">&quot;c:/Python36/python.exe&quot;</span>,<span class="hljs-string">&quot;-u&quot;</span>, <span class="hljs-string">&quot;$file&quot;</span>], <span class="hljs-comment">//自己安装路径</span>
+<span class="hljs-string">&quot;file_regex&quot;</span>:<span class="hljs-string">&quot;^[ ]*File \&quot;(...*?)\&quot;, line ([0-9])*&quot;</span>,
+<span class="hljs-string">&quot;env&quot;</span>: &#123;<span class="hljs-string">&quot;PYTHONIOENCODING&quot;</span>: <span class="hljs-string">&quot;utf8&quot;</span>&#125;, 
+<span class="hljs-string">&quot;selector&quot;</span>: <span class="hljs-string">&quot;source.python&quot;</span> 
+&#125;</code></pre></div>
+<p>Java:</p>
+<p>预先安装JDK并配置环境变量</p>
+<ul>
+<li>新建JAVA_HOME C:Files.0_181（jdk绝对路径）path 最前面添加%JAVA_HOME%;%JAVA_HOME%;</li>
+<li>新建CLASSPATH .;%JAVA_HOME%;%JAVA_HOME%.jar;%JAVA_HOME%.jar</li>
+</ul>
+<div class="hljs"><pre><code class="hljs C++">    &#123;<span class="hljs-string">&quot;cmd&quot;</span>: [<span class="hljs-string">&quot;javac&quot;</span>, <span class="hljs-string">&quot;-encoding&quot;</span>, <span class="hljs-string">&quot;UTF-8&quot;</span>, <span class="hljs-string">&quot;-d&quot;</span>, <span class="hljs-string">&quot;.&quot;</span>, <span class="hljs-string">&quot;$file&quot;</span>],
+    <span class="hljs-string">&quot;file_regex&quot;</span>: <span class="hljs-string">&quot;^(...*?):([0-9]*):?([0-9]*)&quot;</span>,
+    <span class="hljs-string">&quot;selector&quot;</span>: <span class="hljs-string">&quot;source.java&quot;</span>,
+    <span class="hljs-string">&quot;encoding&quot;</span>: <span class="hljs-string">&quot;GBK&quot;</span>,
+    <span class="hljs-comment">//执行完上面的命令就结束</span>
+ 
+    <span class="hljs-comment">// 下面的命令需要按Ctrl+Shift+b来运行</span>
+    <span class="hljs-string">&quot;variants&quot;</span>: [&#123;
+        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;Run&quot;</span>,
+        <span class="hljs-string">&quot;shell&quot;</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-string">&quot;cmd&quot;</span>: [<span class="hljs-string">&quot;start&quot;</span>, <span class="hljs-string">&quot;cmd&quot;</span>, <span class="hljs-string">&quot;/c&quot;</span>, <span class="hljs-string">&quot;java $&#123;file_base_name&#125; &amp;echo. &amp; pause&quot;</span>],
+        <span class="hljs-comment">// /c是执行完命令后关闭cmd窗口,</span>
+        <span class="hljs-comment">// /k是执行完命令后不关闭cmd窗口。</span>
+        <span class="hljs-comment">// echo. 相当于输入一个回车</span>
+        <span class="hljs-comment">// pause命令使cmd窗口按任意键后才关闭</span>
+        <span class="hljs-string">&quot;working_dir&quot;</span>: <span class="hljs-string">&quot;$&#123;file_path&#125;&quot;</span>,
+        <span class="hljs-string">&quot;encoding&quot;</span>: <span class="hljs-string">&quot;GBK&quot;</span>
+    &#125;]
+&#125;</code></pre></div>
+<p>或者写一个runJava.bat文件放在jdk的bin目录下（具体可自行搜索）：</p>
+<div class="hljs"><pre><code class="hljs bat">@<span class="hljs-built_in">ECHO</span> OFF 
+<span class="hljs-built_in">cd</span> %~dp1 
+<span class="hljs-built_in">ECHO</span> Compiling %~nx1
+<span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXIST</span> %~n1.class ( 
+<span class="hljs-built_in">DEL</span> %~n1.class 
+) 
+javac %~nx1 
+<span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXIST</span> %~n1.class ( 
+<span class="hljs-built_in">ECHO</span> [OUTPUT]:
+java %~n1 
+)</code></pre></div>
+<p>配合下面的配置文件：</p>
+<div class="hljs"><pre><code class="hljs C++">&#123;
+	<span class="hljs-string">&quot;cmd&quot;</span>: [<span class="hljs-string">&quot;runJava.bat&quot;</span>, <span class="hljs-string">&quot;$file&quot;</span>],
+	<span class="hljs-string">&quot;file_regex&quot;</span>: <span class="hljs-string">&quot;^(...*?):([0-9]*):?([0-9]*)&quot;</span>,
+	<span class="hljs-string">&quot;selector&quot;</span>: <span class="hljs-string">&quot;source.java&quot;</span>,
+	<span class="hljs-string">&quot;encoding&quot;</span>: <span class="hljs-string">&quot;UTF-8&quot;</span>
+&#125;</code></pre></div>
 
             </div>
             <hr>
@@ -262,9 +317,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2019/02/27/2019-02-27-Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0(%E4%B8%80)/">
+                      <a href="/2019/04/01/2019-04-01-%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85Nest-simulator/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">《Java核心技术（卷I）》学习笔记 (一)</span>
+                        <span class="hidden-mobile">如何安装Nest-simulator</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -272,8 +327,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2019/01/15/2018-11-14-C%E8%AF%AD%E8%A8%80%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8/">
-                        <span class="hidden-mobile">用Flex构造简易C语言词法分析器</span>
+                      <a href="/2019/02/27/2019-02-27-Java%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0(%E4%B8%80)/">
+                        <span class="hidden-mobile">《Java核心技术（卷I）》学习笔记 (一)</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -416,7 +471,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "VMWARE使用记录&nbsp;",
+        "sublime乱码解决方法&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

@@ -1,0 +1,1968 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.jpg">
+  <link rel="icon" type="image/png" href="/img/favicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Yuchen">
+  <meta name="keywords" content="">
+  <title>算法整理（更新中...） - Yuchen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/tomorrow-night-eighties.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Yuchen's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/main4.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-05-21 00:00" pubdate>
+        2019年5月21日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      12.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      171
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">算法整理（更新中...）</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h1 id="算法整理"><font color="#0000dd">算法整理</font></h1>
+<h2 id="基础数据结构">基础数据结构</h2>
+<h3 id="数组">数组</h3>
+<h3 id="链表双向链表">链表、双向链表</h3>
+<h3 id="队列单调队列优先队列双端队列">队列、单调队列、优先队列、双端队列</h3>
+<h3 id="栈单调栈">栈、单调栈</h3>
+<h2 id="中级数据结构">中级数据结构</h2>
+<h3 id="堆">堆</h3>
+<h3 id="并查集带权并查集">并查集、带权并查集</h3>
+<h3 id="hash表">Hash表</h3>
+<h4 id="自然溢出">自然溢出</h4>
+<h4 id="双hash">双Hash</h4>
+<h2 id="高级数据结构">高级数据结构</h2>
+<h3 id="树状数组">树状数组</h3>
+<h3 id="线段树线段树合并">线段树、线段树合并</h3>
+<h3 id="平衡树">平衡树</h3>
+<h4 id="treap">Treap</h4>
+<h4 id="splay">splay</h4>
+<h4 id="替罪羊树">替罪羊树</h4>
+<h3 id="块状数组块状链表">块状数组、块状链表</h3>
+<h3 id="嵌套数据结构">嵌套数据结构</h3>
+<h4 id="树套树">树套树</h4>
+<h4 id="dp套dp">DP套DP</h4>
+<h3 id="可并堆">可并堆</h3>
+<h4 id="左偏树">左偏树</h4>
+<h4 id="配对堆">配对堆</h4>
+<h3 id="k-d-tree四分树">K-D Tree、四分树</h3>
+<h2 id="可持久化数据结构">可持久化数据结构</h2>
+<h3 id="可持久化线段树">可持久化线段树</h3>
+<h4 id="主席树">主席树</h4>
+<h3 id="可持久化平衡树">可持久化平衡树</h3>
+<h3 id="可持久化并查集">可持久化并查集</h3>
+<h3 id="可持久化块状数组">可持久化块状数组</h3>
+<h2 id="字符串算法">字符串算法</h2>
+<h3 id="kmp">KMP</h3>
+<h3 id="manacher">Manacher</h3>
+<h3 id="trie">Trie</h3>
+<h3 id="ac自动机">AC自动机</h3>
+<h3 id="后缀数组">后缀数组</h3>
+<h3 id="后缀树">后缀树</h3>
+<h3 id="后缀自动机">后缀自动机</h3>
+<h2 id="图论算法">图论算法</h2>
+<h3 id="图的搜索">图的搜索</h3>
+<h4 id="bfs-dfs"><font color="#00dd00">BFS DFS</font></h4>
+<p>基本思想：BFS使用队列，宽度优先；DFS使用递归写法or非递归(堆栈)实现，深度优先。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;vector&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;queue&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stack&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> INF = <span class="hljs-number">0x3f3f3f3f</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAX_V = <span class="hljs-number">10</span>;
+
+<span class="hljs-keyword">int</span> V, E;
+<span class="hljs-keyword">int</span> G[MAX_V][MAX_V];<span class="hljs-comment">//邻接矩阵</span>
+
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Edge</span> &#123;</span>
+	<span class="hljs-keyword">int</span> to, cost;
+	Edge(<span class="hljs-keyword">int</span> to, <span class="hljs-keyword">int</span> cost): to(to), cost(cost) &#123;&#125;;
+&#125;;
+<span class="hljs-built_in">vector</span>&lt;Edge&gt; M[MAX_V];<span class="hljs-comment">//邻接表</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; P;<span class="hljs-comment">//first-to ,second-cost(unused)</span>
+
+<span class="hljs-keyword">int</span> visited[MAX_V];
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">add_edge</span><span class="hljs-params">(<span class="hljs-keyword">int</span> u, <span class="hljs-keyword">int</span> v)</span> </span>&#123;
+	G[u][v] = <span class="hljs-number">1</span>;
+	G[v][u] = <span class="hljs-number">1</span>;
+	M[u].push_back(Edge(v, <span class="hljs-number">0</span>));
+	M[v].push_back(Edge(u, <span class="hljs-number">0</span>));
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFS1</span><span class="hljs-params">(<span class="hljs-keyword">int</span> s)</span> </span>&#123; <span class="hljs-comment">//递归 邻接矩阵</span>
+	<span class="hljs-built_in">cout</span> &lt;&lt; s &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;
+	visited[s] = <span class="hljs-number">1</span>;
+	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= V; i++) &#123;
+		<span class="hljs-keyword">if</span> ( visited[i] == <span class="hljs-number">0</span> &amp;&amp; G[s][i] != INF) &#123;
+			DFS1(i);
+		&#125;
+	&#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">BFS1</span><span class="hljs-params">(<span class="hljs-keyword">int</span> s)</span> </span>&#123; <span class="hljs-comment">//邻接矩阵</span>
+	<span class="hljs-built_in">queue</span>&lt;<span class="hljs-keyword">int</span>&gt; q;
+	q.push(s);
+	<span class="hljs-keyword">while</span> (!q.empty()) &#123;
+		<span class="hljs-keyword">int</span> p = q.front();
+		q.pop();
+		<span class="hljs-keyword">if</span> (visited[p] == <span class="hljs-number">0</span>) &#123;
+			<span class="hljs-built_in">cout</span> &lt;&lt; p &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;
+		&#125;
+		visited[p] = <span class="hljs-number">1</span>;
+		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= V; i++) &#123;
+			<span class="hljs-keyword">if</span> (visited[i] == <span class="hljs-number">0</span> &amp;&amp; G[p][i] &lt; INF) &#123;
+				q.push(i);
+			&#125;
+		&#125;
+	&#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFS2</span><span class="hljs-params">(<span class="hljs-keyword">int</span> s)</span> </span>&#123; <span class="hljs-comment">//递归 邻接表</span>
+	<span class="hljs-built_in">cout</span> &lt;&lt; s &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;
+	visited[s] = <span class="hljs-number">1</span>;
+	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; M[s].size(); i++) &#123;
+		Edge e = M[s][i];
+		<span class="hljs-keyword">if</span> ( visited[e.to] == <span class="hljs-number">0</span>) &#123;
+			DFS1(e.to);
+		&#125;
+	&#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">BFS2</span><span class="hljs-params">(<span class="hljs-keyword">int</span> s)</span> </span>&#123; <span class="hljs-comment">//邻接表</span>
+	<span class="hljs-built_in">queue</span>&lt;<span class="hljs-keyword">int</span>&gt; q;
+	q.push(s);
+	<span class="hljs-keyword">while</span> (!q.empty()) &#123;
+		<span class="hljs-keyword">int</span> p = q.front();
+		q.pop();
+		<span class="hljs-keyword">if</span> (!visited[p]) &#123;
+			<span class="hljs-built_in">cout</span> &lt;&lt; p &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;
+		&#125;
+		visited[p] = <span class="hljs-number">1</span>;
+		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; M[p].size(); i++) &#123;
+			Edge t = M[p][i];
+			<span class="hljs-keyword">if</span> (!visited[t.to]) &#123;
+				q.push(t.to);
+			&#125;
+		&#125;
+	&#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFS3</span><span class="hljs-params">(<span class="hljs-keyword">int</span> s)</span> </span>&#123; <span class="hljs-comment">//非递归 邻接矩阵</span>
+	<span class="hljs-built_in">stack</span>&lt;<span class="hljs-keyword">int</span>&gt; _s;
+	_s.push(s);
+	<span class="hljs-keyword">while</span> (!_s.empty()) &#123;
+		<span class="hljs-keyword">int</span> p = _s.top();
+		<span class="hljs-keyword">if</span> (!visited[p]) &#123;
+			<span class="hljs-built_in">cout</span> &lt;&lt; p &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;
+			visited[p] = <span class="hljs-number">1</span>;
+		&#125;
+		<span class="hljs-keyword">int</span> flag = <span class="hljs-number">0</span>;
+		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= V; i++) &#123;
+			<span class="hljs-keyword">if</span> (!visited[i] &amp;&amp; G[p][i] == <span class="hljs-number">1</span>) &#123;
+				<span class="hljs-comment">// visited[i] = 1;</span>
+				<span class="hljs-comment">// cout &lt;&lt; i &lt;&lt; &quot; &quot;;</span>
+				_s.push(i);
+				flag = <span class="hljs-number">1</span>;
+				<span class="hljs-keyword">break</span>;
+			&#125;
+		&#125;
+		<span class="hljs-keyword">if</span> (flag == <span class="hljs-number">0</span>) &#123;
+			_s.pop();
+		&#125;
+	&#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFS4</span><span class="hljs-params">(<span class="hljs-keyword">int</span> s)</span> </span>&#123; <span class="hljs-comment">//非递归 邻接表</span>
+	<span class="hljs-built_in">stack</span>&lt;<span class="hljs-keyword">int</span>&gt; _s;
+	_s.push(s);
+	<span class="hljs-keyword">while</span> (!_s.empty()) &#123;
+		<span class="hljs-keyword">int</span> p = _s.top();
+		<span class="hljs-keyword">if</span> (!visited[p]) &#123;
+			<span class="hljs-built_in">cout</span> &lt;&lt; p &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;
+			visited[p] = <span class="hljs-number">1</span>;
+		&#125;
+		<span class="hljs-keyword">int</span> flag = <span class="hljs-number">0</span>;
+		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; M[p].size(); i++) &#123;
+			Edge e = M[p][i];
+			<span class="hljs-keyword">if</span> (!visited[e.to]) &#123;
+				<span class="hljs-comment">// visited[i] = 1;</span>
+				<span class="hljs-comment">// cout &lt;&lt; i &lt;&lt; &quot; &quot;;</span>
+				_s.push(e.to);
+				flag = <span class="hljs-number">1</span>;
+				<span class="hljs-keyword">break</span>;
+			&#125;
+		&#125;
+		<span class="hljs-keyword">if</span> (flag == <span class="hljs-number">0</span>) &#123;
+			_s.pop();
+		&#125;
+	&#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;
+	fill(G[<span class="hljs-number">0</span>], G[<span class="hljs-number">0</span>] + MAX_V * MAX_V, INF);
+	<span class="hljs-built_in">cin</span> &gt;&gt; V &gt;&gt; E;
+	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; E; i++) &#123;
+		<span class="hljs-keyword">int</span> u, v, w;
+		<span class="hljs-built_in">cin</span> &gt;&gt; u &gt;&gt; v;
+		add_edge(u, v);
+	&#125;
+
+	<span class="hljs-keyword">int</span> st = <span class="hljs-number">1</span>;
+
+	fill(visited, visited + MAX_V, <span class="hljs-number">0</span>);
+	DFS1(st);<span class="hljs-comment">//邻接矩阵</span>
+	<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+
+	fill(visited, visited + MAX_V, <span class="hljs-number">0</span>);
+	BFS1(st);
+	<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+
+	fill(visited, visited + MAX_V, <span class="hljs-number">0</span>);
+	DFS2(st);<span class="hljs-comment">//邻接表</span>
+	<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+
+	fill(visited, visited + MAX_V, <span class="hljs-number">0</span>);
+	BFS2(st);
+	<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+
+	fill(visited, visited + MAX_V, <span class="hljs-number">0</span>);
+	DFS3(st);
+	<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+
+	fill(visited, visited + MAX_V, <span class="hljs-number">0</span>);
+	DFS4(st);
+	<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">8 9</span>
+<span class="hljs-comment">1 2</span>
+<span class="hljs-comment">1 3</span>
+<span class="hljs-comment">2 4</span>
+<span class="hljs-comment">2 5</span>
+<span class="hljs-comment">4 8</span>
+<span class="hljs-comment">5 8</span>
+<span class="hljs-comment">3 6</span>
+<span class="hljs-comment">3 7</span>
+<span class="hljs-comment">6 7</span>
+<span class="hljs-comment">*/</span></code></pre></div>
+<h3 id="最短路径次短路">最短路径、次短路</h3>
+<hr />
+<p>连通图：在无向图中，若任意两个顶点vivi与vjvj都有路径相通，则称该无向图为连通图。 强连通图：在有向图中，若任意两个顶点vivi与vjvj都有路径相通，则称该有向图为强连通图。 连通网：在连通图中，若图的边具有一定的意义，每一条边都对应着一个数，称为权；权代表着连接连个顶点的代价，称这种连通图叫做连通网。 生成树：一个连通图的生成树是指一个连通子图，它含有图中全部n个顶点，但只有足以构成一棵树的n-1条边。一颗有n个顶点的生成树有且仅有n-1条边，如果生成树中再添加一条边，则必定成环。 最小生成树：在连通网的所有生成树中，所有边的代价和最小的生成树，称为最小生成树。</p>
+<hr />
+<h4 id="dijkstra"><font color="#00dd00">Dijkstra</font></h4>
+<p><strong>基本思想</strong>（邻接矩阵表述）</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/C2681595858/article/details/85687836#1_Dijkstra_3">参考资料</a></p>
+<p>设定两个集合<span class="math inline">\(A\)</span>和<span class="math inline">\(B\)</span>，<span class="math inline">\(A\)</span>中存放我们已经处理过的顶点，<span class="math inline">\(B\)</span>中存放图中剩余顶点。刚开始的时候，<span class="math inline">\(A\)</span>中只有一个我们选定的起点<span class="math inline">\(v_0\)</span>，每一次从集合<span class="math inline">\(B\)</span>中取到<span class="math inline">\(v_0\)</span>的代价最小的点并入，每一次并入时都需要修改<span class="math inline">\(v_0\)</span>到<span class="math inline">\(B\)</span>中顶点的代价，直到所有的顶点都并入为止。</p>
+<p><strong>算法准备</strong></p>
+<ol type="1">
+<li>数组<span class="math inline">\(dist\)</span>，用于存放<span class="math inline">\(v_0\)</span>到图中个顶点的代价，数组下标表示顶点编号</li>
+<li>数组<span class="math inline">\(path\)</span>，用于存放路径，数组下标表示顶点编号，下标所对应的数组值表示能够到达当前这个顶点的前一个顶点编号，最后连起来就是<span class="math inline">\(v_0\)</span>到图中各顶点的最短路径了。如果没有前前驱顶点，则内容值为-1。</li>
+<li>数组<span class="math inline">\(set\)</span>，用于标识图中顶点是否被处理过，数组下标表示顶点编号。处理过为1，没处理过为0。</li>
+<li>使用图的邻接矩阵来存储有向带权图，<span class="math inline">\(graph[i][j]\)</span>。</li>
+</ol>
+<p><strong>算法过程（我们选择编号为0的顶点作为起点）</strong></p>
+<ol type="1">
+<li>首先进行3个数组的初始化，把set数组全部初始化为0；<span class="math inline">\(dist\)</span>数组全部初始化为无穷大，<span class="math inline">\(path\)</span>数组全部初始化为-1。</li>
+<li>将<span class="math inline">\(set[0]\)</span>的值设置为1，然后遍历邻接矩阵的第0行，依次更新<span class="math inline">\(dist\)</span>数组的每一项。</li>
+<li>将<span class="math inline">\(dist\)</span>数组中值不为无穷大的在<span class="math inline">\(path\)</span>中的对应下标，把它们的值改为0。因为编号为0的点是它们的前驱嘛。</li>
+<li>选择<span class="math inline">\(dist\)</span>数组中值最小的点的下标，这里为1。</li>
+<li>将<span class="math inline">\(set[1]\)</span>的值设置为1</li>
+<li>遍历邻接矩阵的第1行(因为1是最小权值的下标)，将dist[1]的值与邻接矩阵<span class="math inline">\(graph[1][i]\)</span>的值相加（此时是以编号为1的点作为中间点，看看由<span class="math inline">\(v_0\)</span>-&gt;<span class="math inline">\(v_1\)</span>再到其余点的路径长度会不会比<span class="math inline">\(v_0\)</span>直接到它们的路径长度短），如果这个值比dist[i]的值小，就更新<span class="math inline">\(dist[i]\)</span>，同时将<span class="math inline">\(path[i]\)</span>的值设置为1，执行这个操作的前提是，<span class="math inline">\(set[i]==0\)</span>。</li>
+<li>重复（4）~（6）步，如果已经处理过的点就不用再判断了。直到<span class="math inline">\(set\)</span>数组全变为1。</li>
+</ol>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-function">function <span class="hljs-title">Dijkstra</span><span class="hljs-params">(G, w, s)</span></span>
+	for each vertex v in V[G]   // 初始化
+		d[v] := infinity     <span class="hljs-comment">// 将各点的已知最短距离先设成无穷大</span>
+		previous[v] := undefined   <span class="hljs-comment">// 各点的已知最短路径上的前趋都未知</span>
+	d[s] := <span class="hljs-number">0</span>           <span class="hljs-comment">// 因为出发点到出发点间不需移动任何距离，所以可以直接将s到s的最小距离设为0</span>
+	S := empty <span class="hljs-built_in">set</span>
+	Q := <span class="hljs-built_in">set</span> of all vertices
+	<span class="hljs-keyword">while</span> Q is <span class="hljs-keyword">not</span> an empty <span class="hljs-built_in">set</span>      <span class="hljs-comment">// Dijkstra算法主体</span>
+		u := Extract_Min(Q)<span class="hljs-comment">//从Q中找一个距离远点s距离最小的点，加入S</span>
+		S.append(u)
+		<span class="hljs-keyword">for</span> each edge outgoing from u as (u,v)
+			<span class="hljs-keyword">if</span> d[v] &gt; d[u] + w(u,v)    <span class="hljs-comment">// 拓展边（u,v）。w(u,v)为从u到v的路径长度。</span>
+				d[v] := d[u] + w(u,v)  <span class="hljs-comment">// 更新路径长度到更小的那个和值。</span>
+				previous[v] := u   <span class="hljs-comment">// 纪录前趋顶点</span></code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//采用邻接矩阵存储</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;vector&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;queue&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> INF = <span class="hljs-number">0x3f3f3f3f</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAX_V = <span class="hljs-number">10</span>;
+
+<span class="hljs-keyword">int</span> V, E;
+<span class="hljs-keyword">int</span> G[MAX_V][MAX_V];
+<span class="hljs-keyword">int</span> dist[MAX_V];
+<span class="hljs-keyword">int</span> path[MAX_V];
+<span class="hljs-keyword">int</span> visited[MAX_V];
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment">采用邻接矩阵存储,需要设置visited数组判断是否已经访问过,</span>
+<span class="hljs-comment">保证已计算出最短路的结点访问次数唯一,</span>
+<span class="hljs-comment">作为对比可参考邻接表存储时的相应操作.</span>
+<span class="hljs-comment">*/</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dijkstra</span><span class="hljs-params">(<span class="hljs-keyword">int</span> s)</span> </span>&#123;
+	fill(path, path + MAX_V, <span class="hljs-number">-1</span>);
+	fill(visited, visited + MAX_V, <span class="hljs-number">0</span>);
+
+	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= V; j++) &#123;
+		dist[j] = G[s][j];
+		<span class="hljs-keyword">if</span> (G[s][j] &lt; INF) &#123;
+			path[j] = s;
+		&#125;
+	&#125;
+
+	dist[s] = <span class="hljs-number">0</span>;
+	visited[s] = <span class="hljs-number">1</span>;
+	path[s] = <span class="hljs-number">0</span>;
+
+	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= V - <span class="hljs-number">1</span>; i++) &#123;
+		<span class="hljs-keyword">int</span> minp = s, minw = INF;
+		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= V; j++) &#123;
+			<span class="hljs-keyword">if</span> (visited[j] == <span class="hljs-number">0</span> &amp;&amp; dist[j] &lt; minw) &#123;
+				minw = dist[j];
+				minp = j;
+			&#125;
+		&#125;
+		visited[minp] = <span class="hljs-number">1</span>;
+		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= V; j++) &#123;
+			<span class="hljs-keyword">if</span> (visited[j] == <span class="hljs-number">0</span> &amp;&amp; minw &lt; INF &amp;&amp; dist[j] &gt; G[minp][j] + minw) &#123;
+				dist[j] = G[minp][j] + minw;
+				path[j] = minp;
+
+			&#125;
+		&#125;
+	&#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">get_path</span><span class="hljs-params">(<span class="hljs-keyword">int</span> ed)</span> </span>&#123;
+	<span class="hljs-keyword">if</span> (path[ed] != <span class="hljs-number">-1</span>)
+		get_path(path[ed]);
+	<span class="hljs-keyword">else</span>
+		<span class="hljs-keyword">return</span>;
+	<span class="hljs-built_in">cout</span> &lt;&lt; ed &lt;&lt; <span class="hljs-string">&quot;-&gt;&quot;</span>;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;
+	<span class="hljs-built_in">cin</span> &gt;&gt; V &gt;&gt; E;
+	fill(G[<span class="hljs-number">0</span>], G[<span class="hljs-number">0</span>] + MAX_V * MAX_V, INF);
+	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; E; i++) &#123;
+		<span class="hljs-keyword">int</span> u, v, w;
+		<span class="hljs-built_in">cin</span> &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+		G[u][v] = w;
+	&#125;
+	<span class="hljs-keyword">int</span> st = <span class="hljs-number">2</span>, ed = <span class="hljs-number">1</span>;
+	dijkstra(st);
+	get_path(ed);
+	<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;end&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+	<span class="hljs-built_in">cout</span> &lt;&lt; dist[ed] &lt;&lt; <span class="hljs-built_in">endl</span>;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//采用邻接表存储</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;vector&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;queue&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> INF = <span class="hljs-number">0x3f3f3f3f</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAX_V = <span class="hljs-number">10</span>;
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Edge</span> &#123;</span>
+    <span class="hljs-keyword">int</span> to, cost;
+    Edge(<span class="hljs-keyword">int</span> to, <span class="hljs-keyword">int</span> cost): to(to), cost(cost) &#123;&#125;;<span class="hljs-comment">//C++初始化列表-构造函数内容：（参数列表，函数体，初始化列表）</span>
+&#125;;
+<span class="hljs-keyword">typedef</span> <span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; P;<span class="hljs-comment">//first-to ,second-cost</span>
+
+<span class="hljs-keyword">int</span> V, E;
+<span class="hljs-built_in">vector</span>&lt;Edge&gt; G[MAX_V];
+<span class="hljs-keyword">int</span> dist[MAX_V];
+<span class="hljs-keyword">int</span> path[MAX_V];
+<span class="hljs-comment">//bool visited[MAX_V];</span>
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment">采用邻接表存储,不需要设置visited数组判断是否已经访问过,</span>
+<span class="hljs-comment">因为采用优先队列维护已经保证访问次数唯一,</span>
+<span class="hljs-comment">作为对比可参考邻接矩阵存储时的相应操作.</span>
+<span class="hljs-comment">*/</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dijkstra</span><span class="hljs-params">(<span class="hljs-keyword">int</span> s)</span> </span>&#123;
+    <span class="hljs-built_in">priority_queue</span>&lt;P, <span class="hljs-built_in">vector</span>&lt;P&gt;, greater&lt;P&gt; &gt; que;
+    fill(dist, dist + V + <span class="hljs-number">1</span>, INF);
+    fill(path, path + V + <span class="hljs-number">1</span>, <span class="hljs-number">-1</span>);
+    dist[s] = <span class="hljs-number">0</span>;
+    path[s] = <span class="hljs-number">0</span>;
+    que.push(P(s, <span class="hljs-number">0</span>));
+
+    <span class="hljs-keyword">while</span> (!que.empty()) &#123;
+        P p = que.top();
+        que.pop();
+        <span class="hljs-keyword">int</span> v = p.first;
+        <span class="hljs-keyword">if</span> (dist[v] &lt; p.second) &#123;
+            <span class="hljs-keyword">continue</span>;
+        &#125;
+        <span class="hljs-comment">/*细节问题！这里是剪枝操作，因为之前加入的点更新的距离可能已经不是最短，</span>
+<span class="hljs-comment">        此时找到了另外一条最短路，节点也更新，即在优先队列中存在多个相同顶点序号，</span>
+<span class="hljs-comment">        不同距离的pair&lt;&gt;，例如&lt;2,3&gt;,&lt;2,2&gt;（下面样例）会同时存在，显然，&lt;2,3&gt;这对数据没必要在运行*/</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; G[v].size(); i++) &#123;
+            Edge e = G[v][i];
+            <span class="hljs-keyword">if</span> (dist[e.to] &gt; dist[v] + e.cost) &#123;
+                dist[e.to] = dist[v] + e.cost;
+                que.push(P(e.to, dist[e.to]));
+                path[e.to] = v;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">get_path</span><span class="hljs-params">(<span class="hljs-keyword">int</span> ed)</span> </span>&#123;
+    <span class="hljs-keyword">if</span> (path[ed]!=<span class="hljs-number">-1</span>)
+        get_path(path[ed]);
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-keyword">return</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; ed &lt;&lt; <span class="hljs-string">&quot;-&gt;&quot;</span>;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-built_in">cin</span> &gt;&gt; V &gt;&gt; E;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; E; i++) &#123;
+        <span class="hljs-keyword">int</span> u, v, w;
+        <span class="hljs-built_in">cin</span> &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        G[u].push_back(Edge(v, w));
+    &#125;
+    <span class="hljs-keyword">int</span> st = <span class="hljs-number">1</span>, ed = <span class="hljs-number">4</span>;
+    dijkstra(st);
+    get_path(ed);
+    <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;end&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-built_in">cout</span> &lt;&lt; dist[ed] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment">5 7</span>
+<span class="hljs-comment">1 2 1</span>
+<span class="hljs-comment">1 3 4</span>
+<span class="hljs-comment">1 5 1</span>
+<span class="hljs-comment">2 4 5</span>
+<span class="hljs-comment">5 2 1</span>
+<span class="hljs-comment">5 3 2</span>
+<span class="hljs-comment">3 4 2</span>
+<span class="hljs-comment">*/</span></code></pre></div>
+<p>在最短路径问题中，对于带权有向图G = (V, E)，<strong>Dijkstra</strong> 算法的初始实现版本未使用最小优先队列实现，其<strong>时间复杂度</strong>为O(V2)，基于Fibonacci heap 的最小优先队列实现版本，其<strong>时间复杂度</strong>为O(E + VlogV)。</p>
+<hr />
+<h4 id="bell-man-ford">Bell-man Ford</h4>
+<p><strong>算法思路</strong></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/C2681595858/article/details/85687836#1_Dijkstra_3">参考资料</a></p>
+<p><strong>核心思想是：</strong>首先对距离进行松弛，然后随着迭代次数的增加，距离越来越接近最短路径，直到最后得出最短路径。更具体一点说就是每一次检查每一条边 <span class="math inline">\(&lt;u,v&gt;\)</span> ,看是否有 <span class="math inline">\(d[v] &gt; d[u] + L_{uv}\)</span> 情况，如果有就更新 <span class="math inline">\(d[v]\)</span> 的值，这样一来每一遍大的循环就把源点的情况全局推进一步，然后最多推进n-1步也就把原点的情况推到了每一个节点。</p>
+<p><strong>松弛：</strong>每次松弛操作实际上是对相邻节点的访问，第 <span class="math inline">\(k\)</span> 次松弛操作保证了所有深度为 <span class="math inline">\(k\)</span> 的路径最短。由于图的最短路径最长不会经过超过 <span class="math inline">\(|V|-1\)</span> 条边，所以可知贝尔曼-福特算法所得为最短路径。</p>
+<p><strong>负边权操作：</strong>与迪科斯彻算法不同的是，迪科斯彻算法的基本操作“拓展”是在深度上寻路；而“松弛”操作则是在广度上寻路，这就确定了贝尔曼-福特算法可以对负边进行操作而不会影响结果。</p>
+<p><strong>负权环判定：</strong>因为负权环可以无限制的降低总花费，所以如果发现第 <span class="math inline">\(n\)</span> 次操作仍可降低花销，就一定存在负权环。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-function">procedure <span class="hljs-title">BellmanFord</span><span class="hljs-params">(<span class="hljs-built_in">list</span> vertices, <span class="hljs-built_in">list</span> edges, vertex source)</span></span>
+<span class="hljs-function">   <span class="hljs-comment">//读入边和顶点的列表并对distance和predecessor写入最短路径</span></span>
+<span class="hljs-function">   <span class="hljs-comment">// 初始化图</span></span>
+<span class="hljs-function">   <span class="hljs-keyword">for</span> each vertex v in vertices:</span>
+       if v is source then distance[v] := 0
+       <span class="hljs-keyword">else</span> distance[v] := infinity
+       predecessor[v] := null
+
+   <span class="hljs-comment">// 对每一条边重复进行“松弛”操作</span>
+   <span class="hljs-keyword">for</span> i from <span class="hljs-number">1</span> to size(vertices)<span class="hljs-number">-1</span>: <span class="hljs-comment">// V - 1 次松弛</span>
+       <span class="hljs-keyword">for</span> each edge (u, v) with weight w in edges:
+           <span class="hljs-keyword">if</span> distance[u] + w &lt; distance[v]:
+               distance[v] := distance[u] + w
+               predecessor[v] := u
+
+   <span class="hljs-comment">// 检查图中包含有负权重的环</span>
+   <span class="hljs-keyword">for</span> each edge (u, v) with weight w in edges:
+       <span class="hljs-keyword">if</span> distance[u] + w &lt; distance[v]:
+           error <span class="hljs-string">&quot;图中包含有负权重的环&quot;</span></code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt; </span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> maxnum = <span class="hljs-number">100</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> maxint = <span class="hljs-number">0x3f3f3f3f</span>;
+
+<span class="hljs-comment">// 边，</span>
+<span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Edge</span>&#123;</span>
+    <span class="hljs-keyword">int</span> u, v;    <span class="hljs-comment">// 起点，重点</span>
+    <span class="hljs-keyword">int</span> weight;  <span class="hljs-comment">// 边的权值</span>
+&#125;Edge;
+
+Edge edge[maxnum];     <span class="hljs-comment">// 保存边的值</span>
+<span class="hljs-keyword">int</span>  dist[maxnum];     <span class="hljs-comment">// 结点到源点最小距离</span>
+
+<span class="hljs-keyword">int</span> nodenum, edgenum, source;    <span class="hljs-comment">// 结点数，边数，源点</span>
+
+<span class="hljs-comment">// 初始化图</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-comment">// 输入结点数，边数，源点</span>
+    <span class="hljs-built_in">cin</span> &gt;&gt; nodenum &gt;&gt; edgenum &gt;&gt; source;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>; i&lt;=nodenum; ++i)
+        dist[i] = maxint;
+    dist[source] = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>; i&lt;=edgenum; ++i)&#123;
+        <span class="hljs-built_in">cin</span> &gt;&gt; edge[i].u &gt;&gt; edge[i].v &gt;&gt; edge[i].weight;
+        <span class="hljs-keyword">if</span>(edge[i].u == source)          <span class="hljs-comment">//注意这里设置初始情况</span>
+            dist[edge[i].v] = edge[i].weight;
+    &#125;
+&#125;
+
+<span class="hljs-comment">// 松弛计算</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">relax</span><span class="hljs-params">(<span class="hljs-keyword">int</span> u, <span class="hljs-keyword">int</span> v, <span class="hljs-keyword">int</span> weight)</span></span>&#123;
+    <span class="hljs-keyword">if</span>(dist[v] &gt; dist[u] + weight)
+        dist[v] = dist[u] + weight;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">Bellman_Ford</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>; i&lt;=nodenum<span class="hljs-number">-1</span>; ++i)
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">1</span>; j&lt;=edgenum; ++j)
+            relax(edge[j].u, edge[j].v, edge[j].weight);
+    <span class="hljs-keyword">bool</span> flag = <span class="hljs-number">1</span>;
+    <span class="hljs-comment">// 判断是否有负环路</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>; i&lt;=edgenum; ++i)
+        <span class="hljs-keyword">if</span>(dist[edge[i].v] &gt; dist[edge[i].u] + edge[i].weight)&#123;
+            flag = <span class="hljs-number">0</span>;
+            <span class="hljs-keyword">break</span>;
+        &#125;
+    <span class="hljs-keyword">return</span> flag;
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-comment">//freopen(&quot;input3.txt&quot;, &quot;r&quot;, stdin);</span>
+    init();
+    <span class="hljs-keyword">if</span>(Bellman_Ford())&#123;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span> ;i &lt;= nodenum; i++)
+            <span class="hljs-built_in">cout</span> &lt;&lt; dist[i] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    &#125; 
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre></div>
+<p>复杂度O(VE)</p>
+<hr />
+<h4 id="spfa">SPFA</h4>
+<p>算法思路</p>
+<p><strong>算法思想：</strong></p>
+<p>我们用数组记录每个结点的最短路径估计值，用邻接表来存储图G。</p>
+<p>我们采取的方法是动态逼近法：1.设立一个先进先出的队列用来保存待优化的结点。 2.优化时每次取出队首结点u，并且用u点当前的最短路径估计值对离开u点所指向的结点v进行松弛操作，如果v点的最短路径估计值有所调整，且v点不在当前的队列中，就将v点放入队尾。 3.这样不断从队列中取出结点来进行松弛操作，直至队列空为止。</p>
+<p>期望的时间复杂度O(ke)， 其中k为所有顶点进队的平均次数，可以证明k一般小于等于2。（?）</p>
+<div class="hljs"><pre><code class="hljs C++">procedure Shortest-Path-Faster-Algorithm(G, s)
+   <span class="hljs-keyword">for</span> each vertex v ≠ <span class="hljs-function">s in <span class="hljs-title">V</span><span class="hljs-params">(G)</span></span>
+<span class="hljs-function">       <span class="hljs-title">d</span><span class="hljs-params">(v)</span> :</span>= ∞
+   d(s) := <span class="hljs-number">0</span>
+   offer s into PQ <span class="hljs-comment">//PQ是优先队列</span>
+   <span class="hljs-keyword">while</span> PQ is <span class="hljs-keyword">not</span> empty
+       u := poll PQ
+       <span class="hljs-keyword">for</span> each edge (u, v) in E(G)
+           <span class="hljs-keyword">if</span> d(u) + w(u, v) &lt; d(v) then
+               d(v) := d(u) + w(u, v)
+               <span class="hljs-keyword">if</span> v is <span class="hljs-keyword">not</span> in PQ then
+                   offer v into PQ</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//bfs 万能啊</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">spfa_bfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> s)</span></span>&#123;
+    <span class="hljs-built_in">queue</span> &lt;<span class="hljs-keyword">int</span>&gt; q;
+    <span class="hljs-built_in">memset</span>(d,<span class="hljs-number">0x3f</span>,<span class="hljs-keyword">sizeof</span>(d));
+    d[s]=<span class="hljs-number">0</span>;
+    <span class="hljs-built_in">memset</span>(c,<span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span>(c));
+    <span class="hljs-built_in">memset</span>(vis,<span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span>(vis));
+
+    q.push(s);  vis[s]=<span class="hljs-number">1</span>; c[s]=<span class="hljs-number">1</span>;
+    <span class="hljs-comment">//顶点入队vis要做标记，另外要统计顶点的入队次数</span>
+    <span class="hljs-keyword">int</span> OK=<span class="hljs-number">1</span>;
+    <span class="hljs-keyword">while</span>(!q.empty())
+    &#123;
+        <span class="hljs-keyword">int</span> x;
+        x=q.front(); q.pop();  vis[x]=<span class="hljs-number">0</span>;
+        <span class="hljs-comment">//队头元素出队，并且消除标记</span>
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> k=f[x]; k!=<span class="hljs-number">0</span>; k=nnext[k]) <span class="hljs-comment">//遍历顶点x的邻接表</span>
+        &#123;
+            <span class="hljs-keyword">int</span> y=v[k];
+            <span class="hljs-keyword">if</span>( d[x]+w[k] &lt; d[y])
+            &#123;
+                d[y]=d[x]+w[k];  <span class="hljs-comment">//松弛</span>
+                <span class="hljs-keyword">if</span>(!vis[y])  <span class="hljs-comment">//顶点y不在队内</span>
+                &#123;
+                    vis[y]=<span class="hljs-number">1</span>;    <span class="hljs-comment">//标记</span>
+                    c[y]++;      <span class="hljs-comment">//统计次数</span>
+                    q.push(y);   <span class="hljs-comment">//入队</span>
+                    <span class="hljs-keyword">if</span>(c[y]&gt;NN)  <span class="hljs-comment">//超过入队次数上限，说明有负环</span>
+                        <span class="hljs-keyword">return</span> OK=<span class="hljs-number">0</span>;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> OK;
+&#125;
+
+<span class="hljs-comment">//dfs处理负环更快，但是仅限于有限深度</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">spfa_dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> u)</span></span>
+<span class="hljs-function"></span>&#123;
+    vis[u]=<span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> k=f[u]; k!=<span class="hljs-number">0</span>; k=e[k].next)
+    &#123;
+        <span class="hljs-keyword">int</span> v=e[k].v,w=e[k].w;
+        <span class="hljs-keyword">if</span>( d[u]+w &lt; d[v] )
+        &#123;
+            d[v]=d[u]+w;
+            <span class="hljs-keyword">if</span>(!vis[v])
+            &#123;
+                <span class="hljs-keyword">if</span>(spfa_dfs(v))
+                    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+            &#125;
+            <span class="hljs-keyword">else</span>
+                <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+        &#125;
+    &#125;
+    vis[u]=<span class="hljs-number">0</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre></div>
+<p>时间复杂度是O(α(n)n)，n为边数，α(n)为n的反阿克曼函数，一般小于等于4</p>
+<hr />
+<h4 id="floyd">Floyd</h4>
+<p>算法思路</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ECJTUACM-873284962/p/6995648.html">参考资料</a></p>
+<p><strong>Floyd-Warshall算法</strong>（Floyd-Warshall algorithm）是解决任意两点间的最短路径的一种算法，可以正确处理有向图或负权的最短路径问题，同时也被用于计算有向图的传递闭包。Floyd算法的时间复杂度为 <span class="math inline">\(O(N^3)\)</span> ，空间复杂度为 <span class="math inline">\(O(N^2)\)</span> 。Floyd算法是一个经典的动态规划算法。用通俗的语言来描述的话，首先我们的目标是寻找从点 u 到点 v 的最短路径，有两种情况：（1）直接从点 u 到 v 点（2）从点 u 经过若干个中间点 w 到点 v 。</p>
+<p>算法描述：a.从任意一条单边路径开始。所有两点之间的距离是边的权，如果两点之间没有边相连，则权为无穷大。b.对于每一对顶点 u 和 v，看看是否存在一个顶点 w 使得从 u 到 w 再到 v 比己知的路径更短。如果是更新它。</p>
+<div class="hljs"><pre><code class="hljs C++">let dist be a |V| × |V| <span class="hljs-built_in">array</span> of minimum distances initialized to ∞ (infinity)
+<span class="hljs-keyword">for</span> each vertex v
+    dist[v][v] ← <span class="hljs-number">0</span>
+<span class="hljs-function"><span class="hljs-keyword">for</span> each <span class="hljs-title">edge</span> <span class="hljs-params">(u,v)</span></span>
+    dist[u][v] ← w(u,v)  // the weight of the edge (u,v)
+<span class="hljs-keyword">for</span> k from <span class="hljs-number">1</span> to |V|
+    <span class="hljs-keyword">for</span> i from <span class="hljs-number">1</span> to |V|
+       <span class="hljs-keyword">for</span> j from <span class="hljs-number">1</span> to |V|
+          <span class="hljs-keyword">if</span> dist[i][j] &gt; dist[i][k] + dist[k][j] 
+             dist[i][j] ← dist[i][k] + dist[k][j]
+          end <span class="hljs-keyword">if</span></code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">floyed</span><span class="hljs-params">()</span></span>&#123;<span class="hljs-comment">//顶点的编号1~n</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> k=<span class="hljs-number">1</span>;k&lt;=n;k++)&#123;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">1</span>;j&lt;=n;j++)&#123;
+                dist[i][j] = min(dis[i][j],dis[i][k]+dis[k][j]);
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment">4 8   </span>
+<span class="hljs-comment">1 2 2   </span>
+<span class="hljs-comment">1 3 6   </span>
+<span class="hljs-comment">1 4 4   </span>
+<span class="hljs-comment">2 3 3   </span>
+<span class="hljs-comment">3 1 7   </span>
+<span class="hljs-comment">3 4 1   </span>
+<span class="hljs-comment">4 1 5   </span>
+<span class="hljs-comment">4 3 12 </span>
+<span class="hljs-comment">*/</span>
+<span class="hljs-comment">//传递闭包问题的修改版</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">floyd</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> k=<span class="hljs-number">0</span>;k&lt;n;k++)&#123;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)&#123;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>;j&lt;n;j++)&#123;
+                dp[i][j]=dp[i][j]||(dp[i][k]&amp;&amp;dp[k][j]);
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+<p>时间复杂度：<span class="math inline">\(O(n^3)\)</span></p>
+<hr />
+<ul>
+<li>图的连通
+<ul>
+<li>强连通分量</li>
+<li>双连通分量</li>
+<li>割点、桥</li>
+</ul></li>
+<li>网络流
+<ul>
+<li>最大流</li>
+<li>最小割</li>
+<li>费用流</li>
+<li>分数规划</li>
+<li>无汇无源可行流</li>
+</ul></li>
+<li>二分图
+<ul>
+<li>KM算法</li>
+<li>Hungary算法、HK算法</li>
+</ul></li>
+</ul>
+<hr />
+<h3 id="最小生成树">最小生成树</h3>
+<p>1.Prim在稠密图中比Kruskal优，在稀疏图中比Kruskal劣。</p>
+<p>2.Prim+Heap在任何时候都有令人满意的的时间复杂度，但是代价是空间消耗极大。【以及代码很复杂&gt;_&lt;】</p>
+<p>3.时间复杂度并不能反映出一个<a target="_blank" rel="noopener" href="https://blog.csdn.net/Haskei/article/details/53132681">算法</a>的实际优劣。</p>
+<h4 id="prim"><font color="#00dd00">Prim</font></h4>
+<p><strong>算法思路</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/alantu2018/p/8464561.html">参考资料</a></p>
+<p>定义：一个连通图的生成树是一个极小的连通子图，它包含图中全部的顶点（n个顶点），但只有n-1条边。最小生成树是构造连通网的最小代价（最小权值）生成树。</p>
+<p>最小生成树MST性质：假设N=（V,{E}）是一个连通网，U是顶点集V的一个非空子集。若（u,v）是一条具有最小权值（代价）的边，其中u∈U，v∈V-U，则必存在一颗包含边（u,v）的最小生成树。</p>
+<p><strong>Prim算法过程为：</strong></p>
+<p>书上是这么说的：假设N=（V,{E}）是连通图，TE是N上最小生成树中边的集合。算法从U={u_0}（u_0∈V），TE={}开始，重复执行下述操作：在所有u∈U，v∈V-U的边（u，v）∈E中找一条代价最小的边（u0，v0）并入集合TE，同时v0 并入U，直至U=V为止。此时TE中必有n-1条边，则T=（V，{TE}）为N的最小生成树。</p>
+<p>此算法可以称为“加点法”，每次迭代选择代价最小的边对应的点，加入到最小生成树中。算法从某一个顶点s开始，逐渐长大覆盖整个连通网的所有顶点。</p>
+<p>图的所有顶点集合为V；初始令集合u={s}, v=V−u; 在两个集合u,v能够组成的边中，选择一条代价最小的边(u0,v0)，加入到最小生成树中，并把v0并入到集合u中。 重复上述步骤，直到最小生成树有n-1条边或者n个顶点为止。 由于不断向集合u中加点，所以最小代价边必须同步更新；需要建立一个辅助数组mincost[MAX_V]，用来维护集合v中每个顶点与集合u中最小代价边信息。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/* wiki伪代码</span>
+<span class="hljs-comment">从单一顶点开始，普里姆算法按照以下步骤逐步扩大树中所含顶点的数目，直到遍及连通图的所有顶点。</span>
+<span class="hljs-comment">	输入：一个加权连通图，其中顶点集合为V，边集合为E；</span>
+<span class="hljs-comment">	初始化：Vnew=&#123;x&#125;，其中x为集合V中的任一节点（起始点），Enew=&#123;&#125;；</span>
+<span class="hljs-comment">	重复下列操作，直到Vnew = V：</span>
+<span class="hljs-comment">	在集合E中选取权值最小的边（u, v），其中u为集合Vnew中的元素，而v则是V中没有加入Vnew的顶点（如果存在有多条满足前述条件即具有相同权值的边，则可任意选取其中之一）；</span>
+<span class="hljs-comment">	将v加入集合Vnew中，将（u, v）加入集合Enew中；</span>
+<span class="hljs-comment">	输出：使用集合Vnew和Enew来描述所得到的最小生成树。</span>
+<span class="hljs-comment">*/</span></code></pre></div>
+<p><strong>主要过程是以“点”集合为中心算的，此外还可以使用Heap + Prim优化。</strong></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-keyword">int</span> cost[MAX _V][MAX _V]; <span class="hljs-comment">//cost[u][v]表 示边e=(u,v)的权值(不存在的情况下设为INF )</span>
+<span class="hljs-keyword">int</span> mincost[MAX_ V] ;  <span class="hljs-comment">//从集合X出发的边到每个顶点的最小权值</span>
+<span class="hljs-keyword">bool</span> used[MAX_ _V];  <span class="hljs-comment">// 顶点i是否包含在集合X中</span>
+<span class="hljs-keyword">int</span> V;  <span class="hljs-comment">//顶点数</span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">prim</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; V; i++) &#123;
+        mincost[i] = INF;
+        used[i] = <span class="hljs-literal">false</span>;
+    &#125;
+    mincost[<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">int</span> res = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) &#123;
+        <span class="hljs-keyword">int</span> v = <span class="hljs-number">-1</span>;  
+        <span class="hljs-comment">//从不属于X的顶点中选取从X到其权值最小的顶点</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> u = <span class="hljs-number">0</span>; u &lt; V; u++) &#123;
+            <span class="hljs-keyword">if</span> (!used[u] &amp;&amp; (v == <span class="hljs-number">-1</span> || mincost[u] &lt; mincost[v])) &#123;
+                v = u;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">if</span> (v == <span class="hljs-number">-1</span>) <span class="hljs-keyword">break</span>;
+        used[v] = <span class="hljs-literal">true</span>;  <span class="hljs-comment">//把顶点v加入X</span>
+        res += mincost[v];  <span class="hljs-comment">//把边的长度加到结果里</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> u = <span class="hljs-number">0</span>; u &lt; V; u++) &#123;
+            mincost[u] = min(mincost[u], cost[v][u]);
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> res;<span class="hljs-comment">//返回MST权值</span>
+&#125;</code></pre></div>
+<p>复杂度：临接矩阵<span class="math inline">\(O(|V|^2)\)</span> 邻接表 <span class="math inline">\(O(|E| log |V|)\)</span></p>
+<hr />
+<h4 id="krusual"><font color="#00dd00">Krusual</font></h4>
+<p>算法思路</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41754350/article/details/81460643">参考资料</a></p>
+<p>克鲁斯卡尔算法的基本思想是以边为主导地位，始终选择当前可用的最小边权的边（可以sort）。每次选择边权最小的边链接两个端点是kruskal的规则，并实时判断两个点之间有没有间接联通。</p>
+<p>Kruskal算法原理如下。首先，将每个顶点放入其自身的数据集合中。然后，按照权值的升序来选择边。当选择每条边时，判断定义边的顶点是否在不同的数据集中。如果是，将此边插入最小生成树的集合中，同时，将集合中包含每个顶点的联合体取出，如果不是，就移动到下一条边。重复这个过程直到所有的边都探查过。</p>
+<p>算法简单，需要使用到<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41754350/article/details/81271567">并查集</a>。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;cstdio&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">int</span> n,m,tot=<span class="hljs-number">0</span>,k=<span class="hljs-number">0</span>;<span class="hljs-comment">//n端点总数，m边数，tot记录最终答案，k已经连接了多少边 </span>
+<span class="hljs-keyword">int</span> fat[<span class="hljs-number">200010</span>];<span class="hljs-comment">//记录集体老大 </span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span></span>
+<span class="hljs-class">&#123;</span>
+	<span class="hljs-keyword">int</span> from,to,dis;<span class="hljs-comment">//结构体储存边 </span>
+&#125;edge[<span class="hljs-number">200010</span>];
+<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">cmp</span><span class="hljs-params">(<span class="hljs-keyword">const</span> node &amp;a,<span class="hljs-keyword">const</span> node &amp;b)</span><span class="hljs-comment">//sort排序（当然你也可以快排） </span></span>
+<span class="hljs-function"></span>&#123;
+	<span class="hljs-keyword">return</span> a.dis&lt;b.dis;
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">father</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span><span class="hljs-comment">//找集体老大，并查集的一部分 </span></span>
+<span class="hljs-function"></span>&#123;
+	<span class="hljs-keyword">if</span>(fat[x]!=x)
+	<span class="hljs-keyword">return</span> father(fat[x]);
+	<span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> x;
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">unionn</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x,<span class="hljs-keyword">int</span> y)</span><span class="hljs-comment">//加入团体，并查集的一部分 </span></span>
+<span class="hljs-function"></span>&#123;
+	fat[father(y)]=father(x);
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+	<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d&quot;</span>,&amp;n,&amp;m);<span class="hljs-comment">//输入点数，边数 </span>
+	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=m;i++)
+	&#123;
+		<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d%d&quot;</span>,&amp;edge[i].from,&amp;edge[i].to,&amp;edge[i].dis);<span class="hljs-comment">//输入边的信息 </span>
+	&#125;
+	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++) fat[i]=i;<span class="hljs-comment">//自己最开始就是自己的老大 （初始化） </span>
+	sort(edge+<span class="hljs-number">1</span>,edge+<span class="hljs-number">1</span>+m,cmp);<span class="hljs-comment">//按权值排序（kruskal的体现） </span>
+	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=m;i++)<span class="hljs-comment">//从小到大遍历 </span>
+	&#123;
+		<span class="hljs-keyword">if</span>(k==n<span class="hljs-number">-1</span>) <span class="hljs-keyword">break</span>;<span class="hljs-comment">//n个点需要n-1条边连接 </span>
+		<span class="hljs-keyword">if</span>(father(edge[i].from)!=father(edge[i].to))<span class="hljs-comment">//假如不在一个团体 </span>
+		&#123;
+			unionn(edge[i].from,edge[i].to);<span class="hljs-comment">//加入 </span>
+			tot+=edge[i].dis;<span class="hljs-comment">//记录边权 </span>
+			k++;<span class="hljs-comment">//已连接边数+1 </span>
+		&#125;
+	&#125;
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d&quot;</span>,tot);
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre></div>
+<p>时间复杂度：O(|Elog|E|)</p>
+<hr />
+<ul>
+<li>最小树形图
+<ul>
+<li>朱刘算法</li>
+</ul></li>
+<li>欧拉图</li>
+<li>环套树</li>
+<li>仙人掌</li>
+</ul>
+<h2 id="树相关">树相关</h2>
+<ul>
+<li><p>树上倍增</p>
+<ul>
+<li>最近公共祖先</li>
+</ul></li>
+<li><p>树链剖分</p></li>
+<li><p>动态树</p>
+<ul>
+<li>Link-Cut Tree</li>
+<li>树分块</li>
+</ul></li>
+<li><p>树分治</p>
+<ul>
+<li>点分治</li>
+<li>边分治</li>
+</ul></li>
+<li><p>虚树</p></li>
+<li><p>Prufer编码</p></li>
+<li><p>拓扑排序</p>
+<p><strong>基于DFS的拓扑排序</strong></p>
+<div class="hljs"><pre><code class="hljs c++">摘录一段维基百科上的伪码：
+L ← Empty <span class="hljs-built_in">list</span> that will contain the sorted nodes
+S ← Set of all nodes with no outgoing edges
+<span class="hljs-keyword">for</span> each node n in S <span class="hljs-keyword">do</span>
+    visit(n) 
+<span class="hljs-function">function <span class="hljs-title">visit</span><span class="hljs-params">(node n)</span></span>
+<span class="hljs-function">    <span class="hljs-keyword">if</span> n has <span class="hljs-keyword">not</span> been visited yet then</span>
+<span class="hljs-function">        mark n as visited</span>
+<span class="hljs-function">        <span class="hljs-keyword">for</span> each node m with an edgefrom m to ndo</span>
+<span class="hljs-function">            <span class="hljs-title">visit</span><span class="hljs-params">(m)</span></span>
+<span class="hljs-function">        add n to L</span></code></pre></div>
+<p>DFS的实现更加简单直观，使用递归实现。利用DFS实现拓扑排序，实际上只需要添加一行代码，即上面伪码中的最后一行：add n to L .需要注意的是，将顶点添加到结果List中的时机是在visit方法即将退出之时。这种方法十分巧妙。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> maxn = <span class="hljs-number">1000</span> + <span class="hljs-number">10</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> INF = <span class="hljs-number">1e9</span> + <span class="hljs-number">7</span>;
+<span class="hljs-keyword">int</span> T, n, m, cases;
+<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;Map[maxn];
+<span class="hljs-keyword">int</span> c[maxn];<span class="hljs-comment">//标记数组c[i] = 0 表示还未访问过点i， c[i] = 1表示已经访问过点i，并且还递归访问过它的所有子孙，c[i] = -1表示正在访问中，尚未返回</span>
+<span class="hljs-keyword">int</span> topo[maxn], t;
+<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> u)</span><span class="hljs-comment">//从u出发</span></span>
+<span class="hljs-function"></span>&#123;
+    c[u] = <span class="hljs-number">-1</span>;<span class="hljs-comment">//访问标志</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; Map[u].size(); i++)
+    &#123;
+        <span class="hljs-keyword">int</span> v = Map[u][i];
+        <span class="hljs-keyword">if</span>(c[v] &lt; <span class="hljs-number">0</span>)<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<span class="hljs-comment">//如果子孙比父亲先访问，说明存在有向环，失败退出</span>
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(!c[v] &amp;&amp; !dfs(v))<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<span class="hljs-comment">//如果子孙未被访问，访问子孙返回假，说明也是失败</span>
+    &#125;
+    c[u] = <span class="hljs-number">1</span>;
+    topo[--t] = u;<span class="hljs-comment">//在递归结束才加入topo排序中，这是由于在最深层次递归中，已经访问到了尽头，此时才是拓扑排序中的最后一个元素</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">toposort</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    t = n;
+    <span class="hljs-built_in">memset</span>(c, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(c));
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> u = <span class="hljs-number">1</span>; u &lt;= n; u++)<span class="hljs-keyword">if</span>(!c[u])
+        <span class="hljs-keyword">if</span>(!dfs(u))<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">while</span>(<span class="hljs-built_in">cin</span> &gt;&gt; n &gt;&gt; m)
+    &#123;
+        <span class="hljs-keyword">if</span>(!n &amp;&amp; !m)<span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">int</span> u, v;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;  i &lt;= n; i++)Map[i].clear();
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; m; i++)
+        &#123;
+            <span class="hljs-built_in">cin</span> &gt;&gt; u &gt;&gt; v;
+            Map[u].push_back(v);
+        &#125;
+        <span class="hljs-keyword">if</span>(toposort())
+        &#123;
+            <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">&quot;Great! There is not cycle.&quot;</span>&lt;&lt;<span class="hljs-built_in">endl</span>;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)<span class="hljs-built_in">cout</span>&lt;&lt;topo[i]&lt;&lt;<span class="hljs-string">&quot; &quot;</span>;
+            <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-built_in">endl</span>;
+        &#125;
+        <span class="hljs-keyword">else</span> <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">&quot;Network has a cycle!&quot;</span>&lt;&lt;<span class="hljs-built_in">endl</span>;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre></div>
+<p><strong>Kahn算法</strong></p>
+<p><strong>Kahn算法：</strong></p>
+<div class="hljs"><pre><code class="hljs C++">摘一段维基百科上关于Kahn算法的伪码描述：
+L← Empty <span class="hljs-built_in">list</span> that will contain the sorted elements
+S ← Set of all nodes with no incoming edges
+<span class="hljs-keyword">while</span> S is non-empty <span class="hljs-keyword">do</span>
+    remove a node n from S
+    insert n into L
+    foreach node m with an edge e from nto m <span class="hljs-keyword">do</span>
+        remove edge e from thegraph
+        ifm has no other incoming edges then
+            insert m into S
+<span class="hljs-keyword">if</span> graph has edges then
+    <span class="hljs-keyword">return</span> error (graph has at least onecycle)
+<span class="hljs-keyword">else</span> 
+    <span class="hljs-keyword">return</span> L (a topologically sortedorder)</code></pre></div>
+<p>不难看出该算法的实现十分直观，关键在于需要维护一个入度为0的顶点的集合：每次从该集合中取出(没有特殊的取出规则，随机取出也行，使用队列/栈也行，下同)一个顶点，将该顶点放入保存结果的List中。紧接着循环遍历由该顶点引出的所有边，从图中移除这条边，同时获取该边的另外一个顶点，如果该顶点的入度在减去本条边之后为0，那么也将这个顶点放到入度为0的集合中。然后继续从集合中取出一个顶点......当集合为空之后，检查图中是否还存在任何边，如果存在的话，说明图中至少存在一条环路。不存在的话则返回结果List，此List中的顺序就是对图进行拓扑排序的结果。</p>
+<p>实现算法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qinzhaokun/article/details/48541117">博客链接</a></p></li>
+</ul>
+<h2 id="数论">数论</h2>
+<ul>
+<li>欧几里得算法
+<ul>
+<li>扩展欧几里得算法</li>
+</ul></li>
+<li>筛法</li>
+<li>杜教筛</li>
+<li>快速幂</li>
+<li>裴蜀定理</li>
+<li>欧拉函数
+<ul>
+<li>欧拉定理</li>
+<li>费马小定理</li>
+</ul></li>
+<li>排列组合
+<ul>
+<li>Lucas定理</li>
+</ul></li>
+<li>乘法逆元</li>
+<li>矩阵乘法</li>
+<li>数学概率与期望</li>
+<li>博弈论
+<ul>
+<li>SG函数</li>
+<li>树上删边游戏</li>
+</ul></li>
+<li>拉格朗日乘子法</li>
+<li>中国剩余定理</li>
+<li>线性规划
+<ul>
+<li>单纯形</li>
+</ul></li>
+<li>辛普森积分</li>
+<li>模线性方程组</li>
+<li>莫比乌斯反演
+<ul>
+<li>莫比乌斯函数</li>
+</ul></li>
+<li>容次原理</li>
+<li>置换群</li>
+<li>FFT、NTT</li>
+<li>BSGS
+<ul>
+<li>扩展BSGS</li>
+</ul></li>
+</ul>
+<h2 id="动态规划">动态规划</h2>
+<ul>
+<li>背包问题</li>
+<li>概率DP</li>
+<li>状压DP</li>
+<li>区间DP</li>
+<li>树形DP</li>
+<li>数位DP</li>
+<li>插头DP</li>
+<li>斯坦纳树</li>
+<li>DP优化
+<ul>
+<li>单调队列优化</li>
+<li>矩阵乘法优化</li>
+<li>斜率优化</li>
+<li>四边形不等式优化</li>
+</ul></li>
+</ul>
+<h2 id="计算几何">计算几何</h2>
+<ul>
+<li>计算几何基础</li>
+<li>梯形剖分</li>
+<li>三角形剖分</li>
+<li>旋转卡壳</li>
+<li>半平面交</li>
+<li>pick定理</li>
+<li>扫描线</li>
+</ul>
+<h2 id="搜索">搜索</h2>
+<ul>
+<li>DFS、BFS</li>
+<li>A<em>、IDA</em></li>
+<li>迭代加深搜索</li>
+<li>双向BFS</li>
+</ul>
+<h2 id="随机化">随机化</h2>
+<ul>
+<li>模拟退火</li>
+<li>爬山算法</li>
+<li>随机增量法</li>
+</ul>
+<hr />
+<h2 id="排序算法">排序算法</h2>
+<p>这里将展示十中排序算法，包括内部排序和外部排序，各类排序算法的复杂度总结如下表：</p>
+<p>！！！待插入汇总表</p>
+<hr />
+<h3 id="插入排序">插入排序</h3>
+<h4 id="直接插入排序">直接插入排序</h4>
+<p><strong>算法思想：</strong> 将一个记录插入到已排序好的有序表中，从而得到一个新，记录数增1的有序表。即：先将序列的第1个记录看成是一个有序的子序列，然后从第2个记录逐个进行插入，直至整个序列有序为止。此方法可用于链表。</p>
+<p><strong>要点：</strong> 设立哨兵，作为临时存储和判断数组边界之用。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//插入排序</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Insert_Sort</span><span class="hljs-params">(<span class="hljs-keyword">int</span> <span class="hljs-built_in">list</span>[],<span class="hljs-keyword">int</span> count)</span></span>&#123;
+    <span class="hljs-keyword">int</span> temp;    <span class="hljs-comment">/*此处充当哨兵，不在list数组里面单独占一个单位*/</span>
+    <span class="hljs-keyword">int</span> i,j;
+    <span class="hljs-keyword">for</span>(i=<span class="hljs-number">1</span>;i&lt;count;i++)&#123;
+        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">list</span>[i]&lt;<span class="hljs-built_in">list</span>[i<span class="hljs-number">-1</span>])&#123;
+            temp = <span class="hljs-built_in">list</span>[i];
+            <span class="hljs-keyword">for</span>(j=i<span class="hljs-number">-1</span>;<span class="hljs-built_in">list</span>[j]&gt;temp&amp;&amp;j&gt;=<span class="hljs-number">0</span>;j--)&#123;
+                <span class="hljs-built_in">list</span>[j+<span class="hljs-number">1</span>] = <span class="hljs-built_in">list</span>[j];
+            &#125;
+            <span class="hljs-built_in">list</span>[j+<span class="hljs-number">1</span>] = temp;
+        &#125;
+    &#125;
+&#125;
+<span class="hljs-comment">//</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Sort</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a[], <span class="hljs-keyword">int</span> len)</span></span>&#123;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;len;i++)&#123;
+        <span class="hljs-keyword">if</span>(a[i]&lt;a[i<span class="hljs-number">-1</span>])&#123;
+            <span class="hljs-keyword">int</span> tmp = a[i];
+            <span class="hljs-keyword">int</span> j;
+            <span class="hljs-keyword">for</span>(j=i<span class="hljs-number">-1</span>;j&gt;=<span class="hljs-number">0</span>;j--)&#123;
+                <span class="hljs-keyword">if</span>(tmp&lt;a[j])&#123;
+                    a[j+<span class="hljs-number">1</span>] = a[j];
+                &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;<span class="hljs-comment">//上面那个拆开就是这样</span>
+            &#125;
+            a[j+<span class="hljs-number">1</span>] = tmp;
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+<h4 id="折半插入排序">折半插入排序</h4>
+<p><strong>基本概念：</strong> 折半插入排序（binary insertion sort）是对插入排序算法的一种改进，由于排序算法过程中，就是不断的依次将元素插入前面已排好序的序列中。由于前半部分为已排好序的数列，这样我们不用按顺序依次寻找插入点，可以采用折半查找的方法来加快寻找插入点的速度。</p>
+<p><strong>算法思想：</strong> 在将一个新元素插入已排好序的数组的过程中，寻找插入点时，将待插入区域的首元素设置为a[low]，末元素设置为a[high]，则轮比较时将待插入元素与a[m]，其中m=(low+high)/2相比较,如果比参考元素大，则选择a[low]到a[m-1]为新的插入区域(即high=m-1)，否则选择a[m+1]到a[high]为新的插入区域（即low=m+1），如此直至low&lt;=high不成立，即将此位置之后所有元素后移一位，并将新元素插入a[high+1]。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">BinaryInsertSort</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a[], <span class="hljs-keyword">int</span> n)</span>   </span>&#123;
+    <span class="hljs-keyword">int</span> i, j, k, low, high, m;
+    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">1</span>; i &lt; n; i++) &#123;
+        low = <span class="hljs-number">0</span>;
+        high = i - <span class="hljs-number">1</span>;
+
+        <span class="hljs-keyword">while</span>(low &lt;= high) &#123; <span class="hljs-comment">//主要优化就是用二分法寻找有序数组的目标值</span>
+            m = (low + high) / <span class="hljs-number">2</span>;
+            <span class="hljs-keyword">if</span>(a[m] &gt; a[i]) high = m - <span class="hljs-number">1</span>;
+            <span class="hljs-keyword">else</span> low = m + <span class="hljs-number">1</span>;
+        &#125;
+
+        <span class="hljs-keyword">if</span>(j != i - <span class="hljs-number">1</span>) &#123;
+            <span class="hljs-keyword">int</span> temp = a[i];
+            <span class="hljs-keyword">for</span>(k = i - <span class="hljs-number">1</span>; k &gt;= high + <span class="hljs-number">1</span>; k--)
+                a[k + <span class="hljs-number">1</span>] = a[k];
+            a[k + <span class="hljs-number">1</span>] = temp;
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+<h4 id="希尔排序">希尔排序</h4>
+<p><strong>基本思想：</strong> 希尔排序是把记录按下标的一定增量分组，对每组使用直接插入排序算法排序；随着增量逐渐减少，每组包含的关键词越来越多，当增量减至1时，整个文件恰被分成一组，算法便终止。</p>
+<p><strong>排序过程：</strong> 先取一个正整数<span class="math inline">\(d_1&lt;n\)</span> ，把所有序号相隔 <span class="math inline">\(d_1\)</span> 的数组元素放一组，组内进行直接插入排序；然后取 <span class="math inline">\(d_2&lt;d_1\)</span> ，重复上述分组和排序操作；直至 <span class="math inline">\(d_i=1\)</span> ，即所有记录放进一个组中排序为止。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//shell排序，序号是0~count-1，序号如果从1开始，写法上有一点区别</span>
+<span class="hljs-comment">//待排序数组和数组长度count</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Shell_Sort</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a[], <span class="hljs-keyword">int</span> len)</span> </span>&#123;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> d = len / <span class="hljs-number">2</span>; d &gt;= <span class="hljs-number">1</span>; d /= <span class="hljs-number">2</span>) &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = d; i &lt; len; i++) &#123;
+            <span class="hljs-keyword">if</span> (a[i] &lt; a[i - d]) &#123;
+                <span class="hljs-keyword">int</span> tmp = a[i];
+                <span class="hljs-keyword">int</span> j;
+                <span class="hljs-keyword">for</span> (j = i - d; j &gt;= <span class="hljs-number">0</span>; j -= d) &#123;
+                    <span class="hljs-keyword">if</span> (tmp &lt; a[j]) &#123;
+                        a[j + d] = a[j];
+                    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;
+                &#125;
+                a[j + d] = tmp;
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+<hr />
+<h3 id="交换排序">交换排序</h3>
+<h4 id="冒泡排序">冒泡排序</h4>
+<p>算法思想：冒泡排序比较简单，俩层循环，第一层循环决定终止位置，第二层循环从起点位置开始遍历，到终止位置，其间对比相邻俩个元素，根据升序或者降序需求比较值并进行兑换。假设有一个大小为 N 的无序序列，冒泡排序就是要每趟排序过程中通过两两比较，找到第 i 个小（大）的元素，将其往上排。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">BubbleSort</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arr[], <span class="hljs-keyword">int</span> n)</span></span>&#123;<span class="hljs-comment">//数组序号从0开始</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n - <span class="hljs-number">1</span>; i++)&#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; n - i - <span class="hljs-number">1</span>; j++)&#123;
+            <span class="hljs-keyword">if</span> (arr[j] &gt; arr[j + <span class="hljs-number">1</span>])&#123;<span class="hljs-comment">//递增排序，把大的先放到数组后面</span>
+                swap(arr[j], arr[j + <span class="hljs-number">1</span>]);
+                
+            &#125;
+        &#125;
+    &#125;
+&#125;
+<span class="hljs-comment">//逆序的写法，有序后加入flag提前退出</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">BubbleSort</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arr[], <span class="hljs-keyword">int</span> n)</span></span>&#123;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n - <span class="hljs-number">1</span>; i++)&#123;
+        <span class="hljs-keyword">bool</span> flag = <span class="hljs-literal">false</span>;<span class="hljs-comment">//判断本轮的冒泡是否更新</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = n<span class="hljs-number">-1</span>; j &gt; i; j--)&#123;<span class="hljs-comment">//把小的先放到数组前面,本轮选择第i小的数字</span>
+            <span class="hljs-keyword">if</span> (arr[j<span class="hljs-number">-1</span>] &gt; arr[j])&#123;<span class="hljs-comment">//递增排序</span>
+                swap(arr[j<span class="hljs-number">-1</span>], arr[j]);
+                flag = <span class="hljs-literal">true</span>;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">if</span>(!flag)<span class="hljs-keyword">return</span>;
+    &#125;
+&#125;</code></pre></div>
+<h4 id="快速排序">快速排序</h4>
+<p><strong>算法思想：</strong> 随机找出一个数，可以随机取，也可以取固定位置，一般是取第一个或最后一个称为基准，然后就是比基准小的在左边，比基准大的放到右边，如何放做，就是和基准进行交换，这样交换完左边都是比基准小的，右边都是比较基准大的，这样就将一个数组分成了两个子数组，然后再按照同样的方法把子数组再分成更小的子数组，直到不能分解为止。</p>
+<p><strong>算法流程：</strong> （1）设置两个变量i、j，排序开始的时候：i=0，j=N-1； （2）以第一个数组元素作为关键数据，赋值给key，即key=A[0]； （3）从j开始向前搜索，即由后开始向前搜索(j--)，找到第一个小于key的值A[j]，将A[j]和A[i]互换； （4）从i开始向后搜索，即由前开始向后搜索(i++)，找到第一个大于key的A[i]，将A[i]和A[j]互换； （5）重复第3、4步，直到i=j； (3,4步中，没找到符合条件的值，即3中A[j]不小于key,4中A[i]不大于key的时候改变j、i的值，使得j=j-1，i=i+1，直至找到为止。找到符合条件的值，进行交换的时候i， j指针位置不变。另外，i==j这一过程一定正好是i+或j-完成的时候，此时令循环结束）。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">partition</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arr[],<span class="hljs-keyword">int</span> left,<span class="hljs-keyword">int</span> right)</span></span>&#123;
+	<span class="hljs-keyword">int</span> temp=arr[left];
+	<span class="hljs-keyword">while</span>(left&lt;right)<span class="hljs-comment">//直达left和right重合的时候，才找到合适的位置</span>
+	&#123;
+		<span class="hljs-comment">//先从后往前找比基准小的</span>
+		<span class="hljs-keyword">while</span>(left&lt;right  &amp;&amp;  arr[right]&gt;=temp)
+            <span class="hljs-comment">//当right的值大于temp的值的时候才执行</span>
+		    <span class="hljs-comment">//等号一定得写，因为可能会出现，保存的temp元素和数据中的元素一样的，不写会出现死循环的现象</span>
+		&#123;
+			right--;
+		&#125;
+		arr[left]=arr[right];
+        <span class="hljs-comment">//当right的值小于temp的值的时候执行</span>
+		<span class="hljs-comment">//从前往后找，找比基准大的</span>
+		<span class="hljs-keyword">while</span>(left&lt;right  &amp;&amp; arr[left] &lt;=temp)<span class="hljs-comment">//当left的值小于temp的值的时候执行</span>
+		&#123;
+			left++;
+		&#125;
+		arr[right]=arr[left];<span class="hljs-comment">//当left的值大于temp的时候执行</span>
+	&#125;
+	arr[left]=temp;<span class="hljs-comment">//此时的left和right在同一个位置，此时为合适的位置，把temp的值给left</span>
+	<span class="hljs-keyword">return</span> left;<span class="hljs-comment">//此时返回的值是temp合适的位置，即小于它的在它的左边，大于它的在它的右边</span>
+&#125;
+ <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">quick</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arr[], <span class="hljs-keyword">int</span> left, <span class="hljs-keyword">int</span> right)</span></span>&#123;
+	<span class="hljs-keyword">if</span>(left&lt;right)&#123;
+		<span class="hljs-keyword">int</span> pivot=partition(arr,left,right);
+		quick(arr,left,pivot<span class="hljs-number">-1</span>);
+		quick(arr,pivot+<span class="hljs-number">1</span>,right);
+	&#125;
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">quick_sort</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arr[],<span class="hljs-keyword">int</span> len)</span></span>&#123;
+	quick(arr,<span class="hljs-number">0</span>,len<span class="hljs-number">-1</span>);
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+	<span class="hljs-keyword">int</span> arr[]=&#123;<span class="hljs-number">9</span>,<span class="hljs-number">5</span>,<span class="hljs-number">7</span>,<span class="hljs-number">10</span>,<span class="hljs-number">45</span>,<span class="hljs-number">12</span>&#125;;
+	<span class="hljs-keyword">int</span> len=<span class="hljs-keyword">sizeof</span>(arr)/<span class="hljs-keyword">sizeof</span>(arr[<span class="hljs-number">0</span>]);
+	quick_sort(arr,len);
+	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> k=<span class="hljs-number">0</span>;k&lt;len;++k)&#123;
+		<span class="hljs-built_in">cout</span>&lt;&lt;arr[k]&lt;&lt;<span class="hljs-string">&quot;  &quot;</span>;
+	&#125;
+	<span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-built_in">endl</span>;
+&#125;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">partition</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a[],<span class="hljs-keyword">int</span> low,<span class="hljs-keyword">int</span> high)</span></span>&#123;
+    <span class="hljs-keyword">int</span> tmp = a[low];
+    <span class="hljs-keyword">while</span>(low&lt;high)&#123;
+        <span class="hljs-keyword">while</span>(low&lt;high &amp;&amp; a[high]&gt;=tmp) --high;
+        a[low] = a[high];
+        <span class="hljs-keyword">while</span>(low&lt;high &amp;&amp; a[low]&lt;=tmp) ++low;
+        a[high] = a[low]; 
+    &#125;
+    a[low] = tmp;
+    <span class="hljs-keyword">return</span> low;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">quickSort</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a[], <span class="hljs-keyword">int</span> low,<span class="hljs-keyword">int</span> high)</span> </span>&#123;
+    <span class="hljs-keyword">if</span>(low &lt; high)&#123;
+        <span class="hljs-keyword">int</span> pos = partition(a,low,high);
+        quickSort(a,low,pos<span class="hljs-number">-1</span>);
+        quickSort(a,pos+<span class="hljs-number">1</span>,high);
+    &#125;
+&#125;</code></pre></div>
+<p><strong>快速排序的优化方法：</strong> <a target="_blank" rel="noopener" href="https://blog.csdn.net/lingling_nice/article/details/80943231">参考资料</a></p>
+<p>（1）三数取中法，解决数据基本有序的（就是找到数组中最小下标，最大下标，中间下标的数字，进行比较，把中间大的数组放在最左边）</p>
+<p>（2）随机选取基准，引入的原因是因为在待排序列是部分有序时，固定选取枢轴使快排效率底下，要缓解这种情况，就引入了随机选取枢轴，方法就是取待排序列中任意一个元素作为基准</p>
+<p>（3）优化小数组的交换，就是为了解决大才小用问题，<strong>对于很小和部分有序的数组，快排不如插排好</strong>。当待排序序列的长度分割到一定大小后，继续分割的效率比插入排序要差，此时可以使用插排而不是快排，快排截止范围：<strong>待排序序列长度N = 10</strong>，虽然在5~20之间任一截止范围都有可能产生类似的结果，这种做法也避免了一些有害的退化情形</p>
+<p>（4）在一次分割结束后，可以把与Key相等的元素聚在一起，继续下次分割时，不用再对与key相等元素分割，具体过程：在处理过程中，会有两个步骤第一步，在划分过程中，把与key相等元素放入数组的两端，第二步，划分结束后，把与key相等的元素移到枢轴周围</p>
+<hr />
+<h3 id="选择排序">选择排序</h3>
+<h4 id="简单选择排序">简单选择排序</h4>
+<p>算法思想：在要排序的一组数中，选出最小（或者最大）的一个数与第1个位置的数交换；然后在剩下的数当中再找最小（或者最大）的与第2个位置的数交换，依次类推，直到第n-1个元素（倒数第二个数）和第n个元素（最后一个数）比较为止。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//选择排序</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Select_Sort</span><span class="hljs-params">(<span class="hljs-keyword">int</span> <span class="hljs-built_in">list</span>[],<span class="hljs-keyword">int</span> count)</span></span>&#123;
+    <span class="hljs-keyword">int</span> min,i,j;
+    <span class="hljs-keyword">for</span>(i=<span class="hljs-number">0</span>;i&lt;count;i++)&#123;
+        min = i;
+        <span class="hljs-keyword">for</span>(j=i+<span class="hljs-number">1</span>;j&lt;count;j++)&#123;
+            <span class="hljs-keyword">if</span>(<span class="hljs-built_in">list</span>[min]&gt;<span class="hljs-built_in">list</span>[j])&#123;
+                min = j;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">if</span>(min!=i)&#123;
+            swap(<span class="hljs-built_in">list</span>[i],<span class="hljs-built_in">list</span>[min]);
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+<h4 id="堆排序">堆排序</h4>
+<p>堆排序是一种树形选择排序，是对直接选择排序的有效改进。 堆是一种特殊的树形数据结构，即完全二叉树。堆分为大根堆和小根堆，大根堆为根节点的值大于两个子节点的值；小根堆为根节点的值小于两个子节点的值，同时根节点的两个子树也分别是一个堆。</p>
+<p><strong>算法思想：</strong></p>
+<ul>
+<li>步骤一：建立大根堆--将n个元素组成的无序序列构建一个堆，从最后一个非叶子节点开始向下调整。</li>
+<li>步骤二：交换堆元素--交换堆尾元素和堆首元素，使堆尾元素为最大元素；</li>
+<li>步骤三：重建大根堆--将前n-1个元素组成的无序序列调整为大根堆；</li>
+</ul>
+<p>​ 重复执行步骤二和步骤三，直到整个序列有序。</p>
+<p>需要注意的是数组的序号可以从0开始也可以从1开始，写法上稍有不同，若初始序号是0，则对于序号是i的结点，</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//调整为一个堆</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Heap_AdjustDown</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *<span class="hljs-built_in">list</span>,<span class="hljs-keyword">int</span> s,<span class="hljs-keyword">int</span> m)</span><span class="hljs-comment">//数组的序号的从1开始</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-built_in">list</span>[<span class="hljs-number">0</span>] = <span class="hljs-built_in">list</span>[s];
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">2</span>*s;j&lt;=m;j = <span class="hljs-number">2</span>*j)
+    &#123;
+        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">list</span>[j]&lt;<span class="hljs-built_in">list</span>[j+<span class="hljs-number">1</span>]&amp;&amp;j&lt;m)
+        &#123;
+            j++;
+        &#125;
+        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">list</span>[<span class="hljs-number">0</span>]&gt;<span class="hljs-built_in">list</span>[j])
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-built_in">list</span>[s] = <span class="hljs-built_in">list</span>[j];
+        s = j;
+    &#125;
+    <span class="hljs-built_in">list</span>[s] = <span class="hljs-built_in">list</span>[<span class="hljs-number">0</span>];
+&#125;
+<span class="hljs-comment">/*这样写也可以</span>
+<span class="hljs-comment">void adjustDown(int a[],int k, int len)&#123;</span>
+<span class="hljs-comment">    a[0] = a[k];</span>
+<span class="hljs-comment">    for(int i=2*k;i&lt;=len;i*=2)&#123;</span>
+<span class="hljs-comment">        if(a[i]&lt;a[i+1]&amp;&amp;i&lt;len)i++;</span>
+<span class="hljs-comment">        //if(a[0]&gt;a[i])break;</span>
+<span class="hljs-comment">        if(a[i]&gt;a[k])&#123;</span>
+<span class="hljs-comment">            swap(a[i],a[k]);k = i;</span>
+<span class="hljs-comment">        &#125;</span>
+<span class="hljs-comment">        else break;</span>
+<span class="hljs-comment">        //a[k] = a[i];</span>
+<span class="hljs-comment">        </span>
+<span class="hljs-comment">    &#125;</span>
+<span class="hljs-comment">    //a[k] = a[0];</span>
+<span class="hljs-comment">&#125;</span>
+<span class="hljs-comment">*/</span>
+<span class="hljs-comment">//堆排序</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Heap_Sort</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *<span class="hljs-built_in">list</span>,<span class="hljs-keyword">int</span> len)</span><span class="hljs-comment">//数组的序号的从1开始</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-comment">//创建一个大顶堆</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> s = len/<span class="hljs-number">2</span>;s&gt;<span class="hljs-number">0</span>;s--)
+    &#123;
+        Heap_AdjustDown(<span class="hljs-built_in">list</span>,s,len);
+    &#125;
+ 
+    <span class="hljs-comment">//排序</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = len;i &gt; <span class="hljs-number">1</span>;i--)
+    &#123;
+        swap(<span class="hljs-built_in">list</span>[<span class="hljs-number">1</span>],<span class="hljs-built_in">list</span>[i]);
+        Heap_AdjustDown(<span class="hljs-built_in">list</span>,<span class="hljs-number">1</span>,i<span class="hljs-number">-1</span>);
+    &#125;
+&#125;</code></pre></div>
+<p>补充，堆的插入和删除：删除堆顶元素操作需要将堆顶元素与堆尾交换，由于破坏了堆的性质，需要向下调整Heap_AdjustDown。而插入元素操作，需要在堆尾插入，然后从堆尾开始向上调整Heap_AdjustUp。</p>
+<div class="hljs"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Heap_AdjustUp</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *<span class="hljs-built_in">list</span>,<span class="hljs-keyword">int</span> k)</span><span class="hljs-comment">//数组的序号的从1开始，参数k是向上调整的节点位置(list[k])，也是堆元素个数;list[0]用作临时变量存放结点数字</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-built_in">list</span>[<span class="hljs-number">0</span>] = <span class="hljs-built_in">list</span>[k];
+    <span class="hljs-keyword">int</span> i = k/<span class="hljs-number">2</span>;
+    <span class="hljs-keyword">while</span>(i&gt;<span class="hljs-number">0</span>&amp;&amp;<span class="hljs-built_in">list</span>[i]&lt;<span class="hljs-built_in">list</span>[<span class="hljs-number">0</span>])&#123;
+        <span class="hljs-built_in">list</span>[k] = <span class="hljs-built_in">list</span>[i];
+        k = i;
+        i = k/<span class="hljs-number">2</span>;
+    &#125;
+    <span class="hljs-built_in">list</span>[k] = <span class="hljs-built_in">list</span>[<span class="hljs-number">0</span>];
+&#125;</code></pre></div>
+<p>另外一种写法，差不多。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//调整为一个堆，这个写法是0序号开始</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Heap_AdjustDown</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *<span class="hljs-built_in">list</span>,<span class="hljs-keyword">int</span> s,<span class="hljs-keyword">int</span> m)</span><span class="hljs-comment">//list是待排序数组，s是开始调整的父亲结点，m是堆尾结点的序号</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">int</span> temp = <span class="hljs-built_in">list</span>[s];
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">2</span>*s+<span class="hljs-number">1</span>;j&lt;=m;j = <span class="hljs-number">2</span>*j+<span class="hljs-number">1</span>)
+    &#123;
+        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">list</span>[j]&lt;<span class="hljs-built_in">list</span>[j+<span class="hljs-number">1</span>]&amp;&amp;j&lt;m)
+        &#123;
+            j++;
+        &#125;
+        <span class="hljs-keyword">if</span>(temp&gt;<span class="hljs-built_in">list</span>[j])
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-built_in">list</span>[s] = <span class="hljs-built_in">list</span>[j];
+        s = j;
+    &#125;
+    <span class="hljs-built_in">list</span>[s] = temp;
+&#125;
+ 
+<span class="hljs-comment">//堆排序</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Heap_Sort</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *<span class="hljs-built_in">list</span>,<span class="hljs-keyword">int</span> len)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-comment">//创建一个大顶堆</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> s = len/<span class="hljs-number">2</span><span class="hljs-number">-1</span>;s&gt;=<span class="hljs-number">0</span>;s--)
+    &#123;
+        Heap_AdjustDown(<span class="hljs-built_in">list</span>,s,len<span class="hljs-number">-1</span>);
+    &#125;
+ 
+    <span class="hljs-comment">//排序</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = len<span class="hljs-number">-1</span>;i &gt;= <span class="hljs-number">1</span>;i--)
+    &#123;
+        swap(<span class="hljs-built_in">list</span>[<span class="hljs-number">0</span>],<span class="hljs-built_in">list</span>[i]);
+        Heap_AdjustDown(<span class="hljs-built_in">list</span>,<span class="hljs-number">0</span>,i<span class="hljs-number">-1</span>);
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Heap_AdjustUp</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *<span class="hljs-built_in">list</span>,<span class="hljs-keyword">int</span> k)</span><span class="hljs-comment">//数组的序号的从0开始，参数k是向上调整的节点位置，也是堆元素个数</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">int</span> tmp = <span class="hljs-built_in">list</span>[k];
+    <span class="hljs-keyword">int</span> i = (k<span class="hljs-number">-1</span>)/<span class="hljs-number">2</span>;
+    <span class="hljs-keyword">while</span>(i&gt;=<span class="hljs-number">0</span>&amp;&amp;<span class="hljs-built_in">list</span>[i]&lt;tmp)&#123;
+        <span class="hljs-built_in">list</span>[k] = <span class="hljs-built_in">list</span>[i];
+        k = i;
+        i = (k<span class="hljs-number">-1</span>)/<span class="hljs-number">2</span>;
+        <span class="hljs-keyword">if</span>(k==<span class="hljs-number">0</span>)<span class="hljs-keyword">break</span>;<span class="hljs-comment">//这里跳出，有空再改</span>
+    &#125;
+    <span class="hljs-built_in">list</span>[k] = tmp;
+&#125;</code></pre></div>
+<p>n个元素建立堆的时间复杂度是O(n)，调整堆的时间复杂度是O(h)</p>
+<hr />
+<h3 id="归并排序">归并排序</h3>
+<p><strong>算法思想：</strong>归并（Merge）排序法是将两个（或两个以上）有序表合并成一个新的有序表，即把待排序序列分为若干个子序列，每个子序列是有序的。然后再把有序子序列合并为整体有序序列。</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/orion_pistachio/article/details/70766898">参考资料</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//非递归</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">min</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y)</span> </span>&#123;
+    <span class="hljs-keyword">return</span> x &lt; y ? x : y;
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">merge_sort</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arr[], <span class="hljs-keyword">int</span> len)</span> </span>&#123;
+    <span class="hljs-keyword">int</span> *a = arr;
+    <span class="hljs-keyword">int</span> *b = (<span class="hljs-keyword">int</span> *) <span class="hljs-built_in">malloc</span>(len * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>));
+    <span class="hljs-keyword">int</span> seg, start;
+    <span class="hljs-keyword">for</span> (seg = <span class="hljs-number">1</span>; seg &lt; len; seg += seg) &#123;
+        <span class="hljs-keyword">for</span> (start = <span class="hljs-number">0</span>; start &lt; len; start += seg * <span class="hljs-number">2</span>) &#123;
+            <span class="hljs-keyword">int</span> low = start, mid = min(start + seg, len), high = min(start + seg * <span class="hljs-number">2</span>, len);
+            <span class="hljs-keyword">int</span> k = low;
+            <span class="hljs-keyword">int</span> start1 = low, end1 = mid;
+            <span class="hljs-keyword">int</span> start2 = mid, end2 = high;
+            <span class="hljs-keyword">while</span> (start1 &lt; end1 &amp;&amp; start2 &lt; end2)
+                b[k++] = a[start1] &lt; a[start2] ? a[start1++] : a[start2++];
+            <span class="hljs-keyword">while</span> (start1 &lt; end1)
+                b[k++] = a[start1++];
+            <span class="hljs-keyword">while</span> (start2 &lt; end2)
+                b[k++] = a[start2++];
+        &#125;
+        <span class="hljs-keyword">int</span> *temp = a;
+        a = b;
+        b = temp;
+    &#125;
+    <span class="hljs-keyword">if</span> (a != arr) &#123;
+        <span class="hljs-keyword">int</span> i;
+        <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; len; i++)
+            b[i] = a[i];
+        b = a;
+    &#125;
+    <span class="hljs-built_in">free</span>(b);
+&#125;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//递归</span>
+<span class="hljs-comment">//merge_sort_recursive（待排序数组，辅助数组，起始位置，结束位置）</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">merge_sort_recursive</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arr[], <span class="hljs-keyword">int</span> reg[], <span class="hljs-keyword">int</span> start, <span class="hljs-keyword">int</span> end)</span> </span>&#123;
+    <span class="hljs-keyword">if</span> (start &gt;= end)
+        <span class="hljs-keyword">return</span>;
+    <span class="hljs-keyword">int</span> len = end - start, mid = (len &gt;&gt; <span class="hljs-number">1</span>) + start;<span class="hljs-comment">//mid = (len)/2 + st</span>
+    <span class="hljs-keyword">int</span> start1 = start, end1 = mid;
+    <span class="hljs-keyword">int</span> start2 = mid + <span class="hljs-number">1</span>, end2 = end;
+    merge_sort_recursive(arr, reg, start1, end1);
+    merge_sort_recursive(arr, reg, start2, end2);
+    <span class="hljs-keyword">int</span> k = start;
+    <span class="hljs-keyword">while</span> (start1 &lt;= end1 &amp;&amp; start2 &lt;= end2)
+        reg[k++] = arr[start1] &lt; arr[start2] ? arr[start1++] : arr[start2++];
+    <span class="hljs-keyword">while</span> (start1 &lt;= end1)
+        reg[k++] = arr[start1++];
+    <span class="hljs-keyword">while</span> (start2 &lt;= end2)
+        reg[k++] = arr[start2++];
+    <span class="hljs-keyword">for</span> (k = start; k &lt;= end; k++)
+        arr[k] = reg[k];
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">merge_sort</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arr[], <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> len)</span> </span>&#123;
+    <span class="hljs-keyword">int</span> reg[len];
+    merge_sort_recursive(arr, reg, <span class="hljs-number">0</span>, len - <span class="hljs-number">1</span>);
+&#125;</code></pre></div>
+<h3 id="基数排序">基数排序</h3>
+<p>两种多关键码排序方法：最高位优先(Most Significant Digit first)法，简称MSD 法；最低位优先(Least Significant Digit first)法，简称LSD 法。实现方法是将所有待比较数值（正整数）统一为同样的数字长度，数字较短的数前面补零。然后，从最低位开始，依次进行一次排序。这样从最低位排序一直到最高位排序完成以后，数列就变成一个有序序列。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxbit</span><span class="hljs-params">(<span class="hljs-keyword">int</span> data[], <span class="hljs-keyword">int</span> n)</span> <span class="hljs-comment">//辅助函数，求数据的最大位数</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">int</span> maxData = data[<span class="hljs-number">0</span>];		<span class="hljs-comment">///&lt; 最大数</span>
+    <span class="hljs-comment">/// 先求出最大数，再求其位数，这样有原先依次每个数判断其位数，稍微优化点。</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; n; ++i)
+    &#123;
+        <span class="hljs-keyword">if</span> (maxData &lt; data[i])
+            maxData = data[i];
+    &#125;
+    <span class="hljs-keyword">int</span> d = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">int</span> p = <span class="hljs-number">10</span>;
+    <span class="hljs-keyword">while</span> (maxData &gt;= p)
+    &#123;
+        <span class="hljs-comment">//p *= 10; // Maybe overflow</span>
+        maxData /= <span class="hljs-number">10</span>;
+        ++d;
+    &#125;
+    <span class="hljs-keyword">return</span> d;
+<span class="hljs-comment">/*    int d = 1; //保存最大的位数</span>
+<span class="hljs-comment">    int p = 10;</span>
+<span class="hljs-comment">    for(int i = 0; i &lt; n; ++i)</span>
+<span class="hljs-comment">    &#123;</span>
+<span class="hljs-comment">        while(data[i] &gt;= p)</span>
+<span class="hljs-comment">        &#123;</span>
+<span class="hljs-comment">            p *= 10;</span>
+<span class="hljs-comment">            ++d;</span>
+<span class="hljs-comment">        &#125;</span>
+<span class="hljs-comment">    &#125;</span>
+<span class="hljs-comment">    return d;*/</span>
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">radixsort</span><span class="hljs-params">(<span class="hljs-keyword">int</span> data[], <span class="hljs-keyword">int</span> n)</span> <span class="hljs-comment">//基数排序</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">int</span> d = maxbit(data, n);
+    <span class="hljs-keyword">int</span> *tmp = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[n];
+    <span class="hljs-keyword">int</span> *count = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">10</span>]; <span class="hljs-comment">//计数器</span>
+    <span class="hljs-keyword">int</span> i, j, k;
+    <span class="hljs-keyword">int</span> radix = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">1</span>; i &lt;= d; i++) <span class="hljs-comment">//进行d次排序</span>
+    &#123;
+        <span class="hljs-keyword">for</span>(j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">10</span>; j++)
+            count[j] = <span class="hljs-number">0</span>; <span class="hljs-comment">//每次分配前清空计数器</span>
+        <span class="hljs-keyword">for</span>(j = <span class="hljs-number">0</span>; j &lt; n; j++)
+        &#123;
+            k = (data[j] / radix) % <span class="hljs-number">10</span>; <span class="hljs-comment">//统计每个桶中的记录数</span>
+            count[k]++;
+        &#125;
+        <span class="hljs-keyword">for</span>(j = <span class="hljs-number">1</span>; j &lt; <span class="hljs-number">10</span>; j++)
+            count[j] = count[j - <span class="hljs-number">1</span>] + count[j]; <span class="hljs-comment">//将tmp中的位置依次分配给每个桶</span>
+        <span class="hljs-keyword">for</span>(j = n - <span class="hljs-number">1</span>; j &gt;= <span class="hljs-number">0</span>; j--) <span class="hljs-comment">//将所有桶中记录依次收集到tmp中</span>
+        &#123;
+            k = (data[j] / radix) % <span class="hljs-number">10</span>;
+            tmp[count[k] - <span class="hljs-number">1</span>] = data[j];
+            count[k]--;
+        &#125;
+        <span class="hljs-keyword">for</span>(j = <span class="hljs-number">0</span>; j &lt; n; j++) <span class="hljs-comment">//将临时数组的内容复制到data中</span>
+            data[j] = tmp[j];
+        radix = radix * <span class="hljs-number">10</span>;
+    &#125;
+    <span class="hljs-keyword">delete</span> []tmp;
+    <span class="hljs-keyword">delete</span> []count;
+&#125;</code></pre></div>
+<h3 id="外部排序算法之多路归并排序">外部排序算法之多路归并排序</h3>
+<hr />
+<h2 id="其他">其他</h2>
+<ul>
+<li><p>分治</p>
+<ul>
+<li>CDQ分治</li>
+<li>整体二分</li>
+</ul></li>
+<li><p>莫队算法</p>
+<ul>
+<li>树上莫队算法</li>
+<li>待修改莫队算法</li>
+</ul></li>
+<li><p>分块</p></li>
+<li><p>高精度</p></li>
+<li><p>离线</p></li>
+<li><p>RMQ</p>
+<ul>
+<li>ST表</li>
+</ul></li>
+<li><p>二分法</p>
+<ul>
+<li>二分答案</li>
+<li>二分查找</li>
+</ul></li>
+<li><p>三分法</p></li>
+<li><p>贪心</p></li>
+<li><p>模拟</p></li>
+<li><p><strong>P类问题：</strong>存在多项式时间算法的问题。(P：polynomial，多项式)</p>
+<p><strong>NP类问题：</strong>能在多项式时间内验证得出一个正确解的问题。(NP:Nondeterministic polynomial，非确定性多项式)P类问题是NP问题的子集，因为存在多项式时间解法的问题，总能在多项式时间内验证他。注意定义，这里是验证。NP类问题，我用个人的俗话理解就是，不知道这个问题是不是存在多项式时间内的算法，所以叫non-deterministic非确定性，但是我们可以在多项式时间内验证并得出这个问题的一个正确解。举个例子，</p>
+<p><strong>NPC问题：</strong>如果所有np问题都能在多项式时间内转化为他，则称该np问题为npc问题(NPC:NP complete又叫NP完全问题)NPC问题是NP问题的子集。</p>
+<p><strong>NPH问题：</strong>我们又叫NP难问题，他不是一个NP问题，然后所有的NPC问题都可以在多项式时间内转化为他的话，我们就叫他NPH（hard）问题。</p></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/10/16/2019-10-16-%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">深度学习入门</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/05/20/2019-05-20-CSDN%E5%8D%9A%E5%AE%A2/">
+                        <span class="hidden-mobile">CSDN博客链接</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="" target="_blank" rel="nofollow noopener"><span>tudou</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="" target="_blank" rel="nofollow noopener">
+        <span>digua</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "算法整理（更新中...）&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

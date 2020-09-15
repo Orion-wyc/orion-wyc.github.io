@@ -1,0 +1,717 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.jpg">
+  <link rel="icon" type="image/png" href="/img/favicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Yuchen">
+  <meta name="keywords" content="">
+  <title>《Java核心技术（卷I）》学习笔记 (一) - Yuchen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/tomorrow-night-eighties.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Yuchen's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/main4.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-02-27 00:00" pubdate>
+        2019年2月27日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      49
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">《Java核心技术（卷I）》学习笔记 (一)</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h1 id="java核心技术卷i学习笔记">Java核心技术（卷I）学习笔记</h1>
+<h2 id="第三章-java基本程序设计结构"><strong>第三章 Java基本程序设计结构</strong></h2>
+<p>[2019-02-27]</p>
+<ol type="1">
+<li><p>在Java中使用"final"指示常量，一般来说变量名使用全大写字母，且该变量只可以赋值一次。在main方法外使用"static final"定义类常量，可以在同一个类中所有的方法中使用，若定义为"public"则可以再其它类中使用。</p></li>
+<li><p>Integer是整数类，已封装，而int是基本的数据类型。</p></li>
+<li><p>public static strictfp void main.........该方法中所有计算使用严格的浮点计算，中间结果不会截断。</p></li>
+<li><p>常用数学函数：</p>
+<p>Math.sin Math.cos Math.tan Math.atan Math.atan2 Math.exp Math.log Math.log10 Math.PI Math.E</p>
+<figure>
+<img src="C:\Users\Orion_wyc\AppData\Roaming\Typora\typora-user-images\1551248540993.png" srcset="/img/loading.gif" alt="1551248540993" /><figcaption aria-hidden="true">1551248540993</figcaption>
+</figure></li>
+<li><p>32位的int型数字如果移位运算需要mod32，1&lt;&lt;37 &lt;=&gt; 1&lt;&lt;5。</p></li>
+<li><p>Java中可使用"+"连接两个字符串，当某个字符串与非字符串类型P连接时，会自动将P转化成字符串类型。</p></li>
+<li><p>Java中不可直接修改字符串某个位置具体的字符，但是可以修改整个字符串变量，例如，str = str.substring(0,3) + "p!",可将原来的str(内容是Hel)改为"Help!"。</p>
+<p>String类对象被称为不可变对象。</p>
+<p>检测两个字符串（变量）是否相等可使用s.equals(p)。</p>
+<p><strong>（P50）具体参见Java String类 API文档</strong></p></li>
+<li><p>有时要检查一个字符串既不是null 也不为空串，这种情况下就需要使用以下条件： if (str != null &amp;&amp; str.length() != 0)</p></li>
+<li><p><strong><em>码点与代码单元部分暂时略过</em></strong></p></li>
+<li><p>使用字符串构建器(StringBuilder类)来构建多个短小字符（串）的拼接字符串，最后使用builder.toString方法来得到一个完整的字符串。</p></li>
+<li><p>（卷I）【P58】 printf 格式化输出控制字符，【P60】时间输出格式，文件读写等。</p></li>
+<li><p>在C++ 中， 可以在嵌套的块中重定义一个变量。在内层定义的变量会覆盖在 外层定义的变量。这样， 有可能会导致程序设计错误， 因此在Java 中不允许这样做。</p></li>
+<li><p>Java中的switch-case结构与C语言中相同：</p>
+<div class="hljs"><pre><code class="hljs Java"><span class="hljs-keyword">switch</span> (choice)
+&#123;
+<span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
+	<span class="hljs-keyword">break</span>;
+<span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:
+	<span class="hljs-keyword">break</span>;
+<span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:
+	<span class="hljs-keyword">break</span>;
+<span class="hljs-keyword">case</span> <span class="hljs-number">4</span>:
+	<span class="hljs-keyword">break</span>;
+<span class="hljs-keyword">default</span>:
+<span class="hljs-comment">// bad input</span>
+	<span class="hljs-keyword">break</span>;
+&#125;</code></pre></div></li>
+<li><p>【P76-78】Java大数计算 BigInteger（整数）和BigDecimal（浮点数）</p>
+<div class="hljs"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-comment">//计算1000!</span>
+        BigInteger ans = BigInteger.valueOf(<span class="hljs-number">1</span>);
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">1000</span>;i++)&#123;
+            BigInteger input = BigInteger.valueOf(i);
+            ans = ans.multiply(input);
+        &#125;
+        System.out.print(ans);
+    &#125;
+&#125;</code></pre></div></li>
+<li><p>Java中数组声明方式有二：Type[] a或者Type a[]，一般使用前者，只有Type[] a = new Type[N]，才算声明了一个长度为N的数组。多维数组的声明相同，并且可以声明不规则长度的数组，先初始化行数，在分配每一行的长度大小。【P89】</p>
+<p>int[] small Primes = { 2, 3, 5, 7, 11, 13 };//不使用new来初始化</p>
+<p>small Primes = new int[] { 17, 19, 23, 29, 31, 37 };//重新初始化</p>
+<p>--匿名数组？？？</p>
+<p>copyOf(array,arraylength)数组拷贝。</p></li>
+<li><p>for each循环，功能与C++、Python相同。</p>
+<div class="hljs"><pre><code class="hljs Java"></code></pre></div></li>
+<li><p>命令行参数 "String[] agrs"，网上有详细说明。</p></li>
+</ol>
+<p><strong>[2019-02-28]--还未UP</strong></p>
+<h2 id="第四章-对象与类">第四章 对象与类</h2>
+<ol type="1">
+<li><p>OOP三特性：对象的行为、状态和标识。</p></li>
+<li><p>类之间三大关系：</p>
+<p>依赖(uses-a)--如果一个类的方法操纵另一个 类的对象，我们就说一个类依赖于另一个类</p>
+<p>聚合(has-a)--聚合关系意味着类A 的对象包含类B 的对象</p>
+<p>集成(is-a)--用于表示特殊与一般关系。</p></li>
+<li><p>UML ( Unified Modeling Language , 统一建模语言）绘制类图（软工未选修）。</p>
+<figure>
+<img src="C:\Users\Orion_wyc\AppData\Roaming\Typora\typora-user-images\1551352375509.png" srcset="/img/loading.gif" alt="1551352375509" /><figcaption aria-hidden="true">1551352375509</figcaption>
+</figure></li>
+<li><p>LocalDate类（感觉好奇怪）</p>
+<p>只访问对象而不修改对象的方法有时称为访问器方法(accesser method)</p>
+<p>会对对象造成影响，改变其状态的方法叫做更改器方法(mutator method)</p>
+<div class="hljs"><pre><code class="hljs Java"><span class="hljs-keyword">import</span> java.time.*;
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Orion233</span>
+<span class="hljs-comment"> * print this month‘s calendar</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        LocalDate date = LocalDate.now();
+        <span class="hljs-keyword">int</span> month = date.getMonthValue();
+        <span class="hljs-keyword">int</span> today = date.getDayOfMonth() ;
+        date = date.minusDays(today - <span class="hljs-number">1</span>); <span class="hljs-comment">// Set to start of month</span>
+        DayOfWeek weekday = date.getDayOfWeek() ;
+        <span class="hljs-keyword">int</span> value = weekday.getValue();
+
+        System.out.println(<span class="hljs-string">&quot;Mon Tue Wed Thu Fri Sat Sun&quot;</span> + value) ;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; value; i++)
+            System.out.print(<span class="hljs-string">&quot;    &quot;</span>);
+        <span class="hljs-keyword">while</span> (date.getMonthValue() == month)
+        &#123;
+            System.out.printf(<span class="hljs-string">&quot;%3d&quot;</span>, date.getDayOfMonth()) ;
+            <span class="hljs-keyword">if</span> (date.getDayOfMonth() == today)
+                System.out.print(<span class="hljs-string">&quot;*&quot;</span>);
+            <span class="hljs-keyword">else</span>
+                System.out.print(<span class="hljs-string">&quot; &quot;</span>) ;
+            date = date.plusDays(<span class="hljs-number">1</span>) ;
+            <span class="hljs-keyword">if</span> (date.getDayOfWeek() .getValue() == <span class="hljs-number">1</span>) System.out.println();
+        &#125;
+        <span class="hljs-keyword">if</span> (date.getDayOfWeek() .getValue() != <span class="hljs-number">1</span>) System.out.println() ;
+    &#125;
+&#125;</code></pre></div></li>
+<li><p>Java构造器（所有的Java 对象都是在堆中构造的）：</p>
+<p>•构造器与类同名 •每个类可以有一个以上的构造器 •构造器可以有0 个、1 个或多个参数 •构造器没有返回值 •构造器总是伴随着new 操作一起调用</p></li>
+<li><p>隐式参数与显式参数</p>
+<p>this标识隐式参数，这样可以更好地实例域与局部变量明显地区分开来。</p>
+<p><strong>成员变量：</strong></p>
+<p>​ ①成员变量定义在类中，在整个类中都可以被访问。</p>
+<p>​ ②成员变量随着对象的建立而建立，随着对象的消失而消失，存在于对象所在的堆内存中。</p>
+<p>​ ③成员变量有默认初始化值。</p>
+<p><strong>局部变量：</strong></p>
+<p>​ ①局部变量只定义在局部范围内，如：函数内，语句内等，只在所属的区域有效。</p>
+<p>​ ②局部变量存在于栈内存中，作用的范围结束，变量空间会自动释放。</p>
+<p>​ ③局部变量没有默认初始化值</p>
+<div class="hljs"><pre><code class="hljs Java">进行局部运算的时候，局部变量会屏蔽全局变量。
+Example：
+Class A
+&#123;
+	<span class="hljs-keyword">int</span> a = <span class="hljs-number">1</span>；
+   	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>
+<span class="hljs-function">	</span>&#123;
+		A c = <span class="hljs-keyword">new</span> A();
+ 		a = <span class="hljs-number">2</span>;
+		System.out.println(a);
+		System.out.println(c.a);
+	&#125;
+&#125;</code></pre></div>
+<div class="hljs"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age=<span class="hljs-number">1000</span>;<span class="hljs-comment">//定义成员变量，年龄为1000</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setAge</span><span class="hljs-params">(<span class="hljs-keyword">int</span> age)</span> </span>&#123;
+        age=age;
+        System.out.println(<span class="hljs-string">&quot;方法内的年龄&quot;</span>+age);
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sayHello</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.println(<span class="hljs-string">&quot;我的年龄是&quot;</span>+age+<span class="hljs-string">&quot;.&quot;</span>);
+    &#125;
+&#125;
+......
+Person p=<span class="hljs-keyword">new</span> Person();
+p.setAge(<span class="hljs-number">20</span>);
+p.sayHello();
+......
+Results:
+<span class="hljs-comment">//方法内的年龄20</span>
+<span class="hljs-comment">//我的年龄是1000.</span>
+
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment">如果不同名，那么方法内的变量名代表成员变量；如果同名，那么方法内的变量名就只表示局部变量了，和成员变量一毛钱关系都没有了。</span>
+<span class="hljs-comment">所以，首先当我们创建了一个Person对象p，在创建对象的时候就已经完成了成员变量的初始化了。成员变量age的初始值是1000。</span>
+<span class="hljs-comment">当我们p.setAge(20)的时候，其实这个20只在setAge这个方法内起作用，所以输出了方法内年龄20，执行完这句话后，20就被销毁了。</span>
+<span class="hljs-comment">然后执行sayHello，它里面的age代表的是成员变量的值，所以依旧是1000。</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">所以这里应该使用this表示当前对象。</span>
+<span class="hljs-comment">this.age在这里具体表示p对象的age(即p对象的成员变量age)的值是20。</span>
+<span class="hljs-comment">*/</span></code></pre></div></li>
+<li><p>方法可以访问所属类的私有特性（ feature ), 而不仅限于访问隐式参数的私有特性。一个方法可以访问所属类的所有 对象的私有数据。</p></li>
+<li><p>另参考：</p></li>
+<li><p>可以将实例域定义为final。构建对象时必须初始化这样的域。也就是说， 必须确保在每一个构造器执行之后， 这个域的值被设置， 并且在后面的操作中， 不能够再对它进行修改。例如， 可以将Employee 类中的name 域声明为final , 因为在对象构建之后， 这个值不会再被修改， 即没有setName 方法。</p>
+<p>PS：StringBUilder的例子不大一样，他可以修改，见【P112】</p>
+<p>[2019-03-01]</p></li>
+<li><p>如果将域定义为static, 每个类中只有一个这样的域。而每一个对象对于所有的实例域 却都有自己的一份拷贝。</p>
+<p>参考资料：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/dolphin0520/p/3799052.html">Java中的static关键字解析</a></p>
+<p>静态变量、静态常量</p>
+<p>静态成员变量虽然独立于对象，但是不代表不可以通过对象去访问，所有的静态方法和静态变量都可以通过对象访问（只要访问权限足够）。</p>
+<p>--What is a field in java?</p>
+<p>--A field is an attribute. A field may be a class’s variable, an object’s variable, an object’s method’s variable, or a parameter of a function.</p>
+<p>field，域是一种属性，可以是一个类变量，一个对象变量，一个对象方法变量或者是一个函数的参数。（补充，class's variables，类的实例变量和静态变量称为class's variables，类属变量，也称类变量或数据域，其实翻译成属性也可以，类属性，听起来不会怪怪的，来自百度百科）。</p></li>
+<li><p>可以使用对象调用静态方法e.g.可以用 harry.getNextId( ) 代替 Employee.getNextId( )，但是建议使用类名，而不是对象来调用 静态方法。</p>
+<p>在下面2种情?下使用静态方法：</p>
+<p>&lt;1&gt; 一个方法不需要访问对象状态，其所需参数都是通过显式参数提供（例如：Math.pow )</p>
+<p>&lt;2&gt; 一个方法只需要访问类的静态域（例如：Employee.getNextld）</p></li>
+<li><p>P132 4.4.4 工厂方法</p>
+<ol type="1">
+<li><p>博客出处：http://blog.csdn.net/cgwshxs/archive/2008/12/05/3455136.aspx</p>
+<p><strong>静态工厂方法讲解<一></strong> ​ 创建类的实例的最常见的方式是用new语句调用类的构造方法。在这种情况下，程序可以创建类的任意多个实例，每执行一条new语句，都会导致Java虚拟机的堆区中产生一个新的对象。假如类需要进一步封装创建自身实例的细节，并且控制自身实例的数目，那么可以提供静态工厂方法。 例如Class实例是Java虚拟机在加载一个类时自动创建的，程序无法用new语句创建java.lang.Class类的实例，因为Class类没有提供public类型的构造方法。为了使程序能获得代表某个类的Class实例，在Class类中提供了静态工厂方法</p>
+<div class="hljs"><pre><code class="hljs reasonml"><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(String <span class="hljs-params">name</span>)</span>，它的使用方式如下：
+
+Class c=<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Class</span>.</span></span><span class="hljs-keyword">for</span><span class="hljs-constructor">Name(<span class="hljs-string">&quot;Sample&quot;</span>)</span>; <span class="hljs-comment">//返回代表Sample类的实例</span></code></pre></div>
+<p>静态工厂方法与用new语句调用的构造方法相比，有以下区别。</p>
+<p>（1）构造方法的名字必须与类名相同。这一特性的优点是符合Java语言的规范，缺点是类的所有重载的构造方法的名字都相同，不能从名字上区分每个重载方法，容易引起混淆。静态工厂方法的方法名可以是任意的，这一特性的优点是可以提高程序代码的可读性，在方法名中能体现与实例有关的信息。例如Gender类有两个静态工厂方法：getFemale()和getMale()。</p>
+<div class="hljs"><pre><code class="hljs Java">Gender.java
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Gender</span></span>&#123;
+   <span class="hljs-keyword">private</span> String description;
+   <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Gender female=<span class="hljs-keyword">new</span> Gender(<span class="hljs-string">&quot;女&quot;</span>);
+   <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Gender male=<span class="hljs-keyword">new</span> Gender(<span class="hljs-string">&quot;男&quot;</span>);
+   <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Gender</span><span class="hljs-params">(String description)</span></span>&#123;<span class="hljs-keyword">this</span>.description=description;&#125;
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Gender <span class="hljs-title">getFemale</span><span class="hljs-params">()</span></span>&#123;
+     <span class="hljs-keyword">return</span> female;
+   &#125;
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Gender <span class="hljs-title">getMale</span><span class="hljs-params">()</span></span>&#123;
+      <span class="hljs-keyword">return</span> male;
+   &#125;
+   <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getDescription</span><span class="hljs-params">()</span></span>&#123;<span class="hljs-keyword">return</span> description;&#125;
+&#125;</code></pre></div>
+<p>这一特性的缺点是与其他的静态方法没有明显的区别，使用户难以识别类中到底哪些静态方法专门负责返回类的实例。为了减少这一缺点带来的负面影响，可以在为静态工厂方法命名时尽量遵守约定俗成的规范，当然这不是必需的。目前比较流行的规范是把静态工厂方法命名为valueOf或者getInstance。</p>
+<div class="hljs"><pre><code class="hljs Java">valueOf：该方法返回的实例与它的参数具有同样的值，例如：
+       
+Integer a=Integer.valueOf(<span class="hljs-number">100</span>); <span class="hljs-comment">//返回取值为100的Integer对象</span></code></pre></div>
+<p>从上面代码可以看出，valueOf()方法能执行类型转换操作，在本例中，把int类型的基本数据转换为Integer对象。</p>
+<p>getInstance：返回的实例与参数匹配，例如：</p>
+<p>//返回符合中国标准的日历</p>
+<div class="hljs"><pre><code class="hljs Java">Calendar cal=Calendar.getInstance(Locale.CHINA);</code></pre></div>
+<p>（2）每次执行new语句时，都会创建一个新的对象。而静态工厂方法每次被调用的时候，是否会创建一个新的对象完全取决于方法的实现。</p>
+<p>（3）new语句只能创建当前类的实例，而静态工厂方法可以返回当前类的子类的实例，这一特性可以在创建松耦合的系统接口时发挥作用。</p>
+<p>静态工厂方法最主要的特点是：每次被调用的时候，不一定要创建一个新的对象。利用这一特点，静态工厂方法可用来创建以下类的实例。 单例类：只有惟一的实例的类。 枚举类：实例的数量有限的类。 具有实例缓存的类：能把已经创建的实例暂且存放在缓存中的类。 具有实例缓存的不可变类：不可变类的实例一旦创建，其属性值就不会被改变。</p>
+<p><strong>静态工厂方法讲解<二></strong> 实例化对象的方法：</p>
+<p>1.构造函数。</p>
+<p>2.静态工厂方法。（我不常用，但JAVA平台库有好多例子）</p>
+<p>对于构造函数，是新建对象是自动调用的方法，返回该对象，主要用于初始化类的成员字段。而另外一种构建对象的方式是采用静态工厂方法。静态工厂方法与别的静态方法没有什么区别，只不过该方法产生的类对象，不做其他事情，如我们常用的Sington单态模式。使用静态工厂方法主要有以下优点：</p>
+<p>第一：静态工厂方法可以突破构造函数不能自由命名的限制，对于不同的工厂方法可以采用不同的会意的名字，是程序具有更好的可读性。JAVA平台库的java.text.Format的子类NumberFormat就有getInstance() , getPrecentInstance() , getCurrencyInstatnce()等静态方法，通过不同的名字产生特定的对象。</p>
+<p>第二：静态工厂方法是用来产生对象用的，至于产生什么类型的对象没有限制，这就意味这只要返回原返回类型或原返回类型的子类型都可以，这样就加大了程序设计和使用的灵活行，如java.util集合框架就采用了这种优势，这样就可以更好达到封装的目的，降低API的数目和用户的使用难度，java.util.Connections是集合框架的辅助类用于对原有的集合类进行进一步封装，产生一些同步的集合，不可修改的视图。都是采用静态工厂方法实现的，至于方法内部的实现类就完全别封装了。也迫使我们使用接口编程。</p>
+<p>第三：静态工厂方法所创建的对象可以在编译时不存在，动态创建对象，采用放射，类似SPRING的IOC容器方转。最典型的例子就是spi服务提供者框架，Service Provider Iframe 是一种用于在运行时刻产生对象的框架，达到对象的创建与使用分离，是对象的客户和对象之间解耦，增加程序的灵活性和可扩展性。既然spi可以动态创建对象，那么采用什么机制来创建什么对象，创建对象的依据是什么了，spi必须一种统一的注册机制，对于要创建的对象，应该在XML文件中配置，到时候，只要提供一个字符串，就可以凭借该字符串来创建配置的对象。简单实现如下：</p>
+<div class="hljs"><pre><code class="hljs Java"> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SPITest</span></span>&#123;
+ <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Map SPIMap = <span class="hljs-keyword">new</span> HashMap();
+ <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initSPIMapIfNeccury</span><span class="hljs-params">()</span></span>&#123;
+ <span class="hljs-keyword">if</span>(SPIMap == <span class="hljs-keyword">null</span>)&#123;
+ SPIMap = <span class="hljs-keyword">new</span> HashMap();
+ &#125; 
+
+<span class="hljs-comment">//initMap user the sepecify XML </span>
+<span class="hljs-comment">//the map key is a beanName ,the value is a Object which config by XML</span>
+
+ &#125;
+
+ <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getInstace</span><span class="hljs-params">(String beanName)</span></span>&#123;
+ Object result = <span class="hljs-keyword">null</span>;
+ <span class="hljs-keyword">try</span>&#123;
+ <span class="hljs-keyword">if</span>(SPIMap.containsKey(beanName))&#123;
+ result = SPIMap.get(beanName);
+ &#125; <span class="hljs-keyword">else</span>&#123;
+ <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Exception(<span class="hljs-string">&quot; please config the xml file ,this bean is not exists!&quot;</span>);
+ &#125;
+ &#125;<span class="hljs-keyword">catch</span>(Exception exce)&#123;
+ exce.printStackTrace();
+ &#125;
+ <span class="hljs-keyword">return</span> result;
+ &#125;
+&#125;</code></pre></div>
+<p>可以明显看出待创建的对象具体创建哪个对象，在编译时并不知道，只有在运行时刻才知道,将对象的创建工作推迟到运行时，这即是优点，有是缺点，失去了编译检查的功能。</p></li>
+</ol>
+<p><strong>但静态工厂方法又有缺点：</strong></p>
+<div class="hljs"><pre><code>第一：如果将要创建的对象的构造方法是私有的或是default的，就有可能不能创建该对象。</code></pre></div>
+<p>​ 第二：采用构造函数实例化对象，是语言的规范，而静态工厂方法与其他的静态方法没有区别，就增加了用户使用的区别。但这可以尽量采用一些家喻户晓的名字解决，让用户看到改名字就知道该方法是静态工厂方法。如getInstance（）。</p></li>
+<li><p>未完待续...</p></li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/03/26/2019-03-26-sublime%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">sublime乱码解决方法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/01/26/2019-01-26-VMWare%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/">
+                        <span class="hidden-mobile">VMWARE使用记录</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="" target="_blank" rel="nofollow noopener"><span>tudou</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="" target="_blank" rel="nofollow noopener">
+        <span>digua</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "《Java核心技术（卷I）》学习笔记 (一)&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

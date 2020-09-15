@@ -1,0 +1,618 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.jpg">
+  <link rel="icon" type="image/png" href="/img/favicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Yuchen">
+  <meta name="keywords" content="">
+  <title>如何安装Nest-simulator - Yuchen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/tomorrow-night-eighties.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Yuchen's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/main4.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-04-01 00:00" pubdate>
+        2019年4月1日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      27
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">如何安装Nest-simulator</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h2 id="如何安装nest-simulator">如何安装nest simulator</h2>
+<p>官方参考链接：<a target="_blank" rel="noopener" href="https://nest-simulator.readthedocs.io/en/latest/installation/linux_install.html#dependencies" class="uri">https://nest-simulator.readthedocs.io/en/latest/installation/linux_install.html#dependencies</a></p>
+<p>官方是不支持直接在windows上安装nest的，但是可以使用virtualBox或者vmware来间接使用。</p>
+<h4 id="所需材料"><strong>所需材料</strong></h4>
+<ol type="1">
+<li>nest simulator源代码（我使用的是2.16.0版本，github上可以找到源代码）</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://nest-simulator.readthedocs.io/en/latest/download.html" class="uri">https://nest-simulator.readthedocs.io/en/latest/download.html</a></p>
+<ol type="1">
+<li>vmware player 15（正版免费，官网有）</li>
+<li>Ubuntu16.04.4的iso镜像</li>
+<li>windows10上安装</li>
+</ol>
+<h4 id="安装步骤">安装步骤</h4>
+<ol type="1">
+<li><p>首先安装好vmware并创建虚拟机，建议安装linux tool，可以直接在主机和虚拟机之间复制粘贴、可以全屏。可参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/stpeace/article/details/78598333" class="uri">https://blog.csdn.net/stpeace/article/details/78598333</a></p></li>
+<li><p>在Ubuntu中安装下列包：</p>
+<div class="hljs"><pre><code class="hljs Shell">sudo apt-get install -y build-essential cmake libltdl7-dev libreadline6-dev \
+libncurses5-dev libgsl0-dev python-all-dev python-numpy python-scipy \
+python-matplotlib ipython openmpi-bin libopenmpi-dev python-nose
+
+//注意，这里可以先不安装，编译、安装nest的时候遇到有缺少的在安装，直接安装
+//在Ubuntu16.04上会遇到一些包的依赖的问题，见下。</code></pre></div></li>
+<li><p>解压缩tarball：</p>
+<div class="hljs"><pre><code class="hljs shell">tar -xzvf nest-simulator-2.16.0.tar.gz</code></pre></div></li>
+<li><p>创建编译的目录：</p>
+<div class="hljs"><pre><code class="hljs shell">mkdir nest-simulator-2.16.0-build</code></pre></div></li>
+<li><p>cmake</p>
+<div class="hljs"><pre><code class="hljs shell">cmake -DCMAKE_INSTALL_PREFIX:PATH=&lt;/install/path&gt; &lt;/path/to/NEST/src&gt;
+
+//&lt;/install/path&gt;是安装的目录，即nest-simulator-2.16.0-build文件夹
+//&lt;/path/to/NEST/src&gt;是源代码的目录
+//目录最好都是绝对路径</code></pre></div>
+<p>出现NEST Configuration Summary之后不报错就可以make、make install、make installcheck了。</p></li>
+</ol>
+<p><strong>会遇到的问题！！</strong></p>
+<p>安装过程中第一步就出现了错误</p>
+<div class="hljs"><pre><code class="hljs shell">orion@orion233:~$ sudo apt-get install -y build-essential cmake libltdl7-dev libreadline6-dev \
+<span class="hljs-meta">&gt;</span><span class="bash"> libncurses5-dev libgsl0-dev python-all-dev python-numpy python-scipy \</span>
+<span class="hljs-meta">&gt;</span><span class="bash"> python-matplotlib ipython openmpi-bin libopenmpi-dev python-nose</span>
+sudo: unable to resolve host orion233
+[sudo] password for orion: 
+Sorry, try again.
+[sudo] password for orion: 
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+Note, selecting &#x27;libltdl-dev&#x27; instead of &#x27;libltdl7-dev&#x27;
+Note, selecting &#x27;libgsl-dev&#x27; instead of &#x27;libgsl0-dev&#x27;
+build-essential is already the newest version (12.1ubuntu2).
+cmake is already the newest version (3.5.1-1ubuntu1).
+libgsl-dev is already the newest version (2.1+dfsg-2).
+libltdl-dev is already the newest version (2.4.6-0.1).
+libncurses5-dev is already the newest version (6.0+20160213-1ubuntu1).
+libreadline6-dev is already the newest version (6.3-8ubuntu2).
+ipython is already the newest version (2.4.1-1).
+openmpi-bin is already the newest version (1.10.2-8ubuntu1).
+Some packages could not be installed. This may mean that you have
+requested an impossible situation or if you are using the unstable
+distribution that some required packages have not yet been created
+or been moved out of Incoming.
+The following information may help to resolve the situation:
+
+The following packages have unmet dependencies:
+ libopenmpi-dev : Depends: libhwloc-dev but it is not going to be installed
+ python-all-dev : Depends: python (= 2.7.11-1) but 2.7.12-1~16.04 is to be installed
+                  Depends: python-all (= 2.7.11-1) but it is not going to be installed
+                  Depends: libpython-all-dev (= 2.7.11-1) but it is not going to be installed
+                  Depends: python-dev (= 2.7.11-1) but it is not going to be installed
+                  Depends: python2.7-dev (&gt;= 2.7-7) but it is not going to be installed
+ python-numpy : Depends: liblapack3 but it is not going to be installed or
+                         liblapack.so.3
+ python-scipy : Depends: libgfortran3 (&gt;= 4.6) but it is not going to be installed
+                Depends: liblapack3 but it is not going to be installed or
+                         liblapack.so.3
+                Recommends: python-dev but it is not going to be installed
+E: Unable to correct problems, you have held broken packages.
+</code></pre></div>
+<p>这是一些包之间相互依赖出现了问题，Linux下经常需要安装不同类型的库，在Ubuntu中，这些类库都是以“lib_name-version”的形式命名的。很多库之间存在依赖关系，即要安装这个就必须安装那个。有时候，类库之间依赖关系无法满足，你所要安装的程序就不能安装。 这类问题大多是由于相互依赖的几个库中一个或多个的版本已经更新，而用户要安装的库依赖于这几个库的较低的版本，这时候可以试试使用“sudo aptitude install ”（尖括号内为你要安装的程序的名字）。我们莫慌，先安装<strong>aptitude</strong></p>
+<p><strong>使用aptitude</strong></p>
+<p>aptitude与 apt-get 一样，是 Debian 及其衍生系统中功能极其强大的包管理工具。与 apt-get 不同的是，aptitude在处理依赖问题上更佳一些。举例来说，aptitude在删除一个包时，会同时删除本身所依赖的包。这样，系统中不会残留无用的包，整个系统更为干净。</p>
+<p>sudo aptitude install python-numpy</p>
+<p>运行后，不接受未安装方案，接受降级方案。搞定。</p>
+<div class="hljs"><pre><code class="hljs angelscript"><span class="hljs-symbol">orion@</span>orion233:~$ sudo aptitude install libopenmpi-dev
+The following NEW packages will be installed:
+  libhwloc-dev&#123;a&#125; libibverbs-dev&#123;a&#125; libnuma-dev&#123;ab&#125; libopenmpi-dev 
+<span class="hljs-number">0</span> packages upgraded, <span class="hljs-number">4</span> newly installed, <span class="hljs-number">0</span> to remove <span class="hljs-keyword">and</span> <span class="hljs-number">0</span> <span class="hljs-keyword">not</span> upgraded.
+Need to <span class="hljs-keyword">get</span> <span class="hljs-number">802</span> kB of archives. After unpacking <span class="hljs-number">5.510</span> kB will be used.
+The following packages have unmet dependencies:
+ libnuma-dev : Depends: libnuma1 (= <span class="hljs-number">2.0</span><span class="hljs-number">.11</span><span class="hljs-number">-1</span>ubuntu1) but <span class="hljs-number">2.0</span><span class="hljs-number">.11</span><span class="hljs-number">-1</span>ubuntu1<span class="hljs-number">.1</span> <span class="hljs-keyword">is</span> installed.
+The following actions will resolve these dependencies:
+
+     Keep the following packages at their current version:
+<span class="hljs-number">1</span>)     libhwloc-dev [Not Installed]                       
+<span class="hljs-number">2</span>)     libnuma-dev [Not Installed]                        
+<span class="hljs-number">3</span>)     libopenmpi-dev [Not Installed]                     
+
+
+
+Accept <span class="hljs-keyword">this</span> solution? [Y/n/q/?] n
+The following actions will resolve these dependencies:
+
+     Downgrade the following packages:                               
+<span class="hljs-number">1</span>)     libnuma1 [<span class="hljs-number">2.0</span><span class="hljs-number">.11</span><span class="hljs-number">-1</span>ubuntu1<span class="hljs-number">.1</span> (now) -&gt; <span class="hljs-number">2.0</span><span class="hljs-number">.11</span><span class="hljs-number">-1</span>ubuntu1 (xenial)]
+
+
+
+Accept <span class="hljs-keyword">this</span> solution? [Y/n/q/?] Y
+The following packages will be DOWNGRADED:
+  libnuma1 
+The following NEW packages will be installed:
+  libhwloc-dev&#123;a&#125; libibverbs-dev&#123;a&#125; libnuma-dev&#123;a&#125; libopenmpi-dev 
+<span class="hljs-number">0</span> packages upgraded, <span class="hljs-number">4</span> newly installed, <span class="hljs-number">1</span> downgraded, <span class="hljs-number">0</span> to remove <span class="hljs-keyword">and</span> <span class="hljs-number">0</span> <span class="hljs-keyword">not</span> upgraded.
+Need to <span class="hljs-keyword">get</span> <span class="hljs-number">823</span> kB of archives. After unpacking <span class="hljs-number">5.510</span> kB will be used.
+Do you want to <span class="hljs-keyword">continue</span>? [Y/n/?] Y
+Get: <span class="hljs-number">1</span> http:<span class="hljs-comment">//ftp.sjtu.edu.cn/ubuntu xenial/main amd64 libnuma1 amd64 2.0.11-1ubuntu1 [21,0 kB]</span>
+Get: <span class="hljs-number">2</span> http:<span class="hljs-comment">//ftp.sjtu.edu.cn/ubuntu xenial/main amd64 libnuma-dev amd64 2.0.11-1ubuntu1 [31,7 kB]</span>
+Get: <span class="hljs-number">3</span> http:<span class="hljs-comment">//ftp.sjtu.edu.cn/ubuntu xenial/universe amd64 libhwloc-dev amd64 1.11.2-3 [155 kB]</span>
+Get: <span class="hljs-number">4</span> http:<span class="hljs-comment">//ftp.sjtu.edu.cn/ubuntu xenial/main amd64 libibverbs-dev amd64 1.1.8-1.1ubuntu2 [77,6 kB]</span>
+Get: <span class="hljs-number">5</span> http:<span class="hljs-comment">//ftp.sjtu.edu.cn/ubuntu xenial/universe amd64 libopenmpi-dev amd64 1.10.2-8ubuntu1 [537 kB]</span>
+Fetched <span class="hljs-number">823</span> kB <span class="hljs-keyword">in</span> <span class="hljs-number">2</span>s (<span class="hljs-number">275</span> kB/s)         
+dpkg: warning: downgrading libnuma1:amd64 <span class="hljs-keyword">from</span> <span class="hljs-number">2.0</span><span class="hljs-number">.11</span><span class="hljs-number">-1</span>ubuntu1<span class="hljs-number">.1</span> to <span class="hljs-number">2.0</span><span class="hljs-number">.11</span><span class="hljs-number">-1</span>ubuntu1
+(Reading database ... <span class="hljs-number">180946</span> files <span class="hljs-keyword">and</span> directories currently installed.)
+Preparing to unpack .../libnuma1_2<span class="hljs-number">.0</span><span class="hljs-number">.11</span><span class="hljs-number">-1</span>ubuntu1_amd64.deb ...
+Unpacking libnuma1:amd64 (<span class="hljs-number">2.0</span><span class="hljs-number">.11</span><span class="hljs-number">-1</span>ubuntu1) over (<span class="hljs-number">2.0</span><span class="hljs-number">.11</span><span class="hljs-number">-1</span>ubuntu1<span class="hljs-number">.1</span>) ...
+Selecting previously unselected package libnuma-dev:amd64.
+Preparing to unpack .../libnuma-dev_2<span class="hljs-number">.0</span><span class="hljs-number">.11</span><span class="hljs-number">-1</span>ubuntu1_amd64.deb ...
+Unpacking libnuma-dev:amd64 (<span class="hljs-number">2.0</span><span class="hljs-number">.11</span><span class="hljs-number">-1</span>ubuntu1) ...
+Selecting previously unselected package libhwloc-dev:amd64.
+Preparing to unpack .../libhwloc-dev_1<span class="hljs-number">.11</span><span class="hljs-number">.2</span><span class="hljs-number">-3</span>_amd64.deb ...
+Unpacking libhwloc-dev:amd64 (<span class="hljs-number">1.11</span><span class="hljs-number">.2</span><span class="hljs-number">-3</span>) ...
+Selecting previously unselected package libibverbs-dev.
+Preparing to unpack .../libibverbs-dev_1<span class="hljs-number">.1</span><span class="hljs-number">.8</span><span class="hljs-number">-1.1</span>ubuntu2_amd64.deb ...
+Unpacking libibverbs-dev (<span class="hljs-number">1.1</span><span class="hljs-number">.8</span><span class="hljs-number">-1.1</span>ubuntu2) ...
+Selecting previously unselected package libopenmpi-dev.
+Preparing to unpack .../libopenmpi-dev_1<span class="hljs-number">.10</span><span class="hljs-number">.2</span><span class="hljs-number">-8</span>ubuntu1_amd64.deb ...
+Unpacking libopenmpi-dev (<span class="hljs-number">1.10</span><span class="hljs-number">.2</span><span class="hljs-number">-8</span>ubuntu1) ...
+Processing triggers <span class="hljs-keyword">for</span> libc-bin (<span class="hljs-number">2.23</span><span class="hljs-number">-0</span>ubuntu10) ...
+Processing triggers <span class="hljs-keyword">for</span> man-db (<span class="hljs-number">2.7</span><span class="hljs-number">.5</span><span class="hljs-number">-1</span>) ...
+Setting up libnuma1:amd64 (<span class="hljs-number">2.0</span><span class="hljs-number">.11</span><span class="hljs-number">-1</span>ubuntu1) ...
+Setting up libnuma-dev:amd64 (<span class="hljs-number">2.0</span><span class="hljs-number">.11</span><span class="hljs-number">-1</span>ubuntu1) ...
+Setting up libhwloc-dev:amd64 (<span class="hljs-number">1.11</span><span class="hljs-number">.2</span><span class="hljs-number">-3</span>) ...
+Setting up libibverbs-dev (<span class="hljs-number">1.1</span><span class="hljs-number">.8</span><span class="hljs-number">-1.1</span>ubuntu2) ...
+Setting up libopenmpi-dev (<span class="hljs-number">1.10</span><span class="hljs-number">.2</span><span class="hljs-number">-8</span>ubuntu1) ...
+update-alternatives: using /usr/lib/openmpi/include to provide /usr/include/mpi (mpi) <span class="hljs-keyword">in</span> <span class="hljs-built_in">auto</span> mode
+Processing triggers <span class="hljs-keyword">for</span> libc-bin (<span class="hljs-number">2.23</span><span class="hljs-number">-0</span>ubuntu10) ...
+</code></pre></div>
+<p>按照上述方法（主要是17、15行）全部处理好包的版本和依赖问题，那么就可以一次输入一开始的那段指令，安装所有的包了。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/05/20/2019-05-20-CSDN%E5%8D%9A%E5%AE%A2/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CSDN博客链接</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/03/26/2019-03-26-sublime%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
+                        <span class="hidden-mobile">sublime乱码解决方法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="" target="_blank" rel="nofollow noopener"><span>tudou</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="" target="_blank" rel="nofollow noopener">
+        <span>digua</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "如何安装Nest-simulator&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
