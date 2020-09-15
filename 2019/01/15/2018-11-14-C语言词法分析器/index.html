@@ -1,0 +1,645 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.jpg">
+  <link rel="icon" type="image/png" href="/img/favicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Yuchen">
+  <meta name="keywords" content="">
+  <title>用Flex构造简易C语言词法分析器 - Yuchen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/tomorrow-night-eighties.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Yuchen's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/main4.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-01-15 00:00" pubdate>
+        2019年1月15日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      962 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">用Flex构造简易C语言词法分析器</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <p><strong>Flex构造C语言词法分析器</strong> 可以识别大部分的C语言关键字和标识符，可以去除注释（多行单行都可以），可以识别整数和浮点数，可以识别错误的浮点数。</p>
+<p>lex文件结构：</p>
+<div class="hljs"><pre><code class="hljs cpp"> [第一部分：定义段]
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment"> *按照C语言语法，声明文件包含，宏定义，常数定义，全局变量及外部变量定义，函数声明等</span>
+<span class="hljs-comment"> */</span>
+ %%
+ 第二部分：词法规则段
+  <span class="hljs-comment">/*</span>
+<span class="hljs-comment"> *核心部分，正则定义和状态定义（解释见后）</span>
+<span class="hljs-comment"> */</span>
+ %%
+ 第三部分：辅助函数段]
+  <span class="hljs-comment">/*</span>
+<span class="hljs-comment"> * 辅助函数段用C语言语法来写，辅助函数一般是在词法规则段中用到的函数。这一部分一般会被直接拷贝到lex.yy.c中。</span>
+<span class="hljs-comment"> */</span></code></pre></div>
+<p>状态定义：</p>
+<div class="hljs"><pre><code class="hljs c"><span class="hljs-string">&quot;//&quot;</span>.* &#123;&#125;
+<span class="hljs-string">&quot;/*&quot;</span> &#123;BEGIN COMMENT;&#125;
+&lt;COMMENT&gt;<span class="hljs-string">&quot;*/&quot;</span> &#123;BEGIN INITIAL;&#125;
+&lt;COMMENT&gt;. &#123;&#125;</code></pre></div>
+<p>这一部分是根据不同的状态使用不同的规则，比如要识别多行注释，则添加BEGIN COMMENT即可转移到&lt; COMMENT &gt;状态。</p>
+<p>代码如下：</p>
+<div class="hljs"><pre><code class="hljs cpp">在这里插入代码片<span class="hljs-comment">/*</span>
+<span class="hljs-comment"> *t2.lex 词法分析器</span>
+<span class="hljs-comment"> *班级：计科1604</span>
+<span class="hljs-comment"> *学号：1030416414</span>
+<span class="hljs-comment"> *姓名：wyc（ORION233）</span>
+<span class="hljs-comment"> *时间：2018-11-4</span>
+<span class="hljs-comment"> */</span>
+%option pointer
+%option noyywrap
+%x COMMENT
+%&#123;
+	<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+	<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;string.h&gt;</span></span>
+	<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MAXLEN 100</span>
+	<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MAXTYPE 10</span>
+	<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> MAXSTR 15</span>
+
+	<span class="hljs-keyword">char</span> *a[MAXTYPE] = &#123;<span class="hljs-string">&quot;type&quot;</span>,<span class="hljs-string">&quot;for&quot;</span>,<span class="hljs-string">&quot;integer&quot;</span>,<span class="hljs-string">&quot;decimal&quot;</span>,<span class="hljs-string">&quot;identify&quot;</span>,<span class="hljs-string">&quot;bracket&quot;</span>,<span class="hljs-string">&quot;QUOTE&quot;</span>,<span class="hljs-string">&quot;OPT&quot;</span>,<span class="hljs-string">&quot;float&quot;</span>&#125;;
+	<span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span>
+		<span class="hljs-keyword">int</span> line;	<span class="hljs-comment">//store line numbers</span>
+		<span class="hljs-keyword">int</span> id;		<span class="hljs-comment">// store tag</span>
+		<span class="hljs-keyword">char</span> text[MAXSTR];	<span class="hljs-comment">//store yytext</span>
+	&#125;tag[MAXLEN];	<span class="hljs-comment">//store tags</span>
+	<span class="hljs-keyword">int</span> flag = <span class="hljs-number">0</span>;	<span class="hljs-comment">//error flag</span>
+	<span class="hljs-keyword">int</span> cnt = <span class="hljs-number">0</span>;	<span class="hljs-comment">//array notation counter</span>
+    <span class="hljs-keyword">int</span> line=<span class="hljs-number">1</span>;		<span class="hljs-comment">//line counter</span>
+%&#125;
+DIGIT [<span class="hljs-number">0</span><span class="hljs-number">-9</span>]
+OINTEGER [<span class="hljs-number">1</span><span class="hljs-number">-9</span>]&#123;DIGIT&#125;*
+INTEGER (<span class="hljs-string">&quot;+&quot;</span>|<span class="hljs-string">&quot;-&quot;</span>)?&#123;OINTEGER&#125;
+DECIMAL &#123;INTEGER&#125;(.&#123;OINTEGER&#125;)?
+LETTER [a-zA-Z]
+ID (&#123;LETTER&#125;|_)(&#123;LETTER&#125;|_|&#123;DIGIT&#125;)*
+OPT (<span class="hljs-string">&quot;+=&quot;</span>|<span class="hljs-string">&quot;-=&quot;</span>|<span class="hljs-string">&quot;*=&quot;</span>|<span class="hljs-string">&quot;/=&quot;</span>|<span class="hljs-string">&quot;+&quot;</span>|<span class="hljs-string">&quot;-&quot;</span>|<span class="hljs-string">&quot;*&quot;</span>|<span class="hljs-string">&quot;/&quot;</span>|<span class="hljs-string">&quot;&lt;=&quot;</span>|<span class="hljs-string">&quot;&gt;=&quot;</span>|<span class="hljs-string">&quot;==&quot;</span>|<span class="hljs-string">&quot;=&quot;</span>)
+INDEX &#123;DIGIT&#125;+(\.&#123;DIGIT&#125;+)?e([+-])?&#123;DIGIT&#125;+
+ERROR &#123;DIGIT&#125;+(\.&#123;DIGIT&#125;+)?e
+
+%%
+<span class="hljs-string">&quot;//&quot;</span>.* &#123;&#125;
+<span class="hljs-string">&quot;/*&quot;</span> &#123;BEGIN COMMENT;&#125;
+&lt;COMMENT&gt;<span class="hljs-string">&quot;*/&quot;</span> &#123;BEGIN INITIAL;&#125;
+&lt;COMMENT&gt;. &#123;&#125;
+
+\n &#123;++line;&#125;
+(<span class="hljs-keyword">int</span>|<span class="hljs-keyword">float</span>|<span class="hljs-keyword">double</span>|<span class="hljs-keyword">short</span>) &#123;
+	tag[cnt].line = line;
+	tag[cnt].id = <span class="hljs-number">0</span>;
+	<span class="hljs-built_in">strcpy</span>(tag[cnt].text,yytext); <span class="hljs-comment">//has bugs--use strcpy is ok,no pointer </span>
+	<span class="hljs-comment">//printf(&quot;%s : %d--%d\n&quot;,tag[cnt].text,yyleng,cnt);</span>
+	cnt++;
+&#125;
+<span class="hljs-keyword">for</span> &#123;
+	tag[cnt].line = line;
+	tag[cnt].id = <span class="hljs-number">1</span>;
+	<span class="hljs-built_in">strcpy</span>(tag[cnt].text,<span class="hljs-string">&quot;&quot;</span>); 
+	<span class="hljs-comment">//printf(&quot;%s : %d--%d\n&quot;,tag[cnt].text,yyleng,cnt);</span>
+	cnt++;
+&#125;
+&#123;INTEGER&#125; &#123;
+	tag[cnt].line = line;
+	tag[cnt].id = <span class="hljs-number">2</span>;
+	<span class="hljs-built_in">strcpy</span>(tag[cnt].text,yytext); 
+	<span class="hljs-comment">//printf(&quot;%s : %d--%d\n&quot;,tag[cnt].text,yyleng,cnt);</span>
+	cnt++;
+&#125;
+&#123;DECIMAL&#125; &#123;
+	tag[cnt].line = line;
+	tag[cnt].id = <span class="hljs-number">3</span>;
+	<span class="hljs-built_in">strcpy</span>(tag[cnt].text,yytext); 
+	<span class="hljs-comment">//printf(&quot;%s : %d--%d\n&quot;,tag[cnt].text,yyleng,cnt);</span>
+	cnt++;
+&#125;
+&#123;ID&#125; &#123;
+	tag[cnt].line = line;
+	tag[cnt].id = <span class="hljs-number">4</span>;
+	<span class="hljs-built_in">strcpy</span>(tag[cnt].text,yytext); 
+	<span class="hljs-comment">//printf(&quot;%s : %d--%d\n&quot;,tag[cnt].text,yyleng,cnt);</span>
+	cnt++;
+&#125;
+(<span class="hljs-string">&quot;(&quot;</span>|<span class="hljs-string">&quot;)&quot;</span>|<span class="hljs-string">&quot;&#123;&quot;</span>|<span class="hljs-string">&quot;&#125;&quot;</span>|<span class="hljs-string">&quot;[&quot;</span>|<span class="hljs-string">&quot;]&quot;</span>) &#123;
+	tag[cnt].line = line;
+	tag[cnt].id = <span class="hljs-number">5</span>;
+	<span class="hljs-built_in">strcpy</span>(tag[cnt].text,yytext); 
+	<span class="hljs-comment">//printf(&quot;%s : %d--%d\n&quot;,tag[cnt].text,yyleng,cnt);</span>
+	cnt++;
+&#125;
+<span class="hljs-string">&quot;\&quot;&quot;</span> &#123;
+	tag[cnt].line = line;
+	tag[cnt].id = <span class="hljs-number">6</span>;
+	<span class="hljs-built_in">strcpy</span>(tag[cnt].text,<span class="hljs-string">&quot;&quot;</span>); 
+	<span class="hljs-comment">//printf(&quot;%s : %d--%d\n&quot;,tag[cnt].text,yyleng,cnt);</span>
+	cnt++;
+&#125;
+&#123;OPT&#125; &#123;
+	tag[cnt].line = line;
+	tag[cnt].id = <span class="hljs-number">7</span>;
+	<span class="hljs-built_in">strcpy</span>(tag[cnt].text,yytext); 
+	<span class="hljs-comment">//printf(&quot;%s : %d--%d\n&quot;,tag[cnt].text,yyleng,cnt);</span>
+	cnt++;
+&#125;
+&#123;INDEX&#125; &#123;
+	tag[cnt].line = line;
+	tag[cnt].id = <span class="hljs-number">8</span>;
+	<span class="hljs-built_in">strcpy</span>(tag[cnt].text,yytext); 
+	<span class="hljs-comment">//printf(&quot;%s : %d--%d\n&quot;,tag[cnt].text,yyleng,cnt);</span>
+	cnt++;
+&#125;
+&#123;ERROR&#125; &#123;
+	flag = <span class="hljs-number">1</span>;
+	tag[cnt].line = line;
+	tag[cnt].id = <span class="hljs-number">-1</span>;	<span class="hljs-comment">//soso</span>
+	<span class="hljs-built_in">strcpy</span>(tag[cnt].text,yytext); 
+	cnt++;
+&#125;
+. &#123;&#125;
+
+%%
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123;
+	<span class="hljs-comment">/*</span>
+<span class="hljs-comment">	 *begin lexical analysis</span>
+<span class="hljs-comment">	 *present all the tags</span>
+<span class="hljs-comment">	 *but ...</span>
+<span class="hljs-comment">	 */</span>
+	yylex();
+
+	<span class="hljs-keyword">if</span>(flag) &#123;<span class="hljs-comment">//print ERRORS</span>
+		<span class="hljs-keyword">int</span> i;
+		<span class="hljs-keyword">for</span>(i=<span class="hljs-number">0</span>;i&lt;cnt;i++)&#123;
+			<span class="hljs-keyword">if</span>(tag[i].id == <span class="hljs-number">-1</span>)&#123;
+				<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Error type A at Line %d: Illegal floating point number \&quot;%s\&quot;.\n&quot;</span>,tag[i].line,tag[i].text);
+				<span class="hljs-keyword">break</span>;
+			&#125;
+		&#125;
+		
+	&#125; <span class="hljs-keyword">else</span> &#123;
+		<span class="hljs-keyword">int</span> i;
+		<span class="hljs-keyword">for</span>(i=<span class="hljs-number">0</span>;i&lt;cnt;i++)&#123;
+			<span class="hljs-keyword">if</span>(tag[i].id == <span class="hljs-number">5</span>)&#123;<span class="hljs-comment">//print &quot;QUOTE&quot;</span>
+				<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;line%d:(%s, \&quot;%s\&quot;)\n&quot;</span>,tag[i].line,a[tag[i].id],tag[i].text);
+			&#125; <span class="hljs-keyword">else</span> &#123;
+				<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;line%d:(%s, %s)\n&quot;</span>,tag[i].line,a[tag[i].id],tag[i].text);
+			&#125;
+		&#125;
+	&#125;
+	
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+
+
+</code></pre></div>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/">编译原理</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/01/26/2019-01-26-VMWare%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">VMWARE使用记录</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/01/15/2018-11-14-Flex-Bison%E5%AE%89%E8%A3%85/">
+                        <span class="hidden-mobile">Flex-Bison在windows下的安装与使用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="" target="_blank" rel="nofollow noopener"><span>tudou</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="" target="_blank" rel="nofollow noopener">
+        <span>digua</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "用Flex构造简易C语言词法分析器&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

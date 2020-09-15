@@ -1,0 +1,844 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.jpg">
+  <link rel="icon" type="image/png" href="/img/favicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Yuchen">
+  <meta name="keywords" content="">
+  <title>深度学习入门 - Yuchen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/tomorrow-night-eighties.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Yuchen's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/main4.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2019-10-16 00:00" pubdate>
+        2019年10月16日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      9.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      103
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">深度学习入门</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h1 id="深度学习入门">深度学习入门</h1>
+<p>开始时间：2019年09月17日</p>
+<hr />
+<h2 id="感知机">感知机</h2>
+<ul>
+<li><p><strong>感知机（perceptron）</strong>接收多个输入信号，输出一个信号。学习是确定合适的参数的过程，而人要做的是思考感知机的构造（模型），并把训练数据交给计算机。</p></li>
+<li><p><span class="math inline">\(y=\left\{\begin{array}{ll}{0} &amp; {\left(b+w_{1} x_{1}+w_{2} x_{2} \leqslant 0\right)} \\ {1} &amp; {\left(b+w_{1} x_{1}+w_{2} x_{2}&gt;0\right)}\end{array}\right.\)</span> ，此处，<span class="math inline">\(b\)</span> 称为偏置，<span class="math inline">\(w_1\)</span> 和 <span class="math inline">\(w_2\)</span> 称为权重。<span class="math inline">\(w_1\)</span> 和 <span class="math inline">\(w_2\)</span> 是控制输入信号的重要性的参数，而偏置是调整神经元被激活的容易程度（输出信号为1的程度）的参数。</p></li>
+<li><p>感知机的<strong>局限性</strong>就在于它只能表示由一条直线分割的空间。由曲线分割而成的空间称为非线性空间，由直线分割而成的空间称为线性空间。e.g. 单层感知机无法表示异或门，但可以叠加层后表示，见下图，而与门，或门个与非门皆可以使用单层感知机实现。</p>
+<figure>
+<img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-09-18_16-01-17.png" srcset="/img/loading.gif" alt="利用与门，或门个与非门实现异或逻辑" /><figcaption aria-hidden="true">利用与门，或门个与非门实现异或逻辑</figcaption>
+</figure></li>
+</ul>
+<hr />
+<h2 id="神经网络及其学习方式">神经网络及其学习方式</h2>
+<p>一般由输入层、中间层（隐藏层）、输出层构成，与感知机的主要区别在激活函数。</p>
+<ul>
+<li><p><strong>激活函数</strong></p>
+<p>就是在人工神经网络上运行的函数，负责将神经元的输入映射到输出端。激活函数不可以使用线性函数，线性函数的问题在于，不管如何加深层数，总是存在与之等效的“无隐藏层的神经网络”。</p>
+<p>实际上，用作激活函数的函数最好具有<strong>关于原点对称</strong>的性质。</p>
+<ul>
+<li><strong>阶跃函数：</strong>以阈值为界，一旦输入超过阈值，就切换输出。</li>
+<li><strong>Sigmoid函数：</strong><span class="math inline">\(h(x) = \frac{1}{1+exp(-x)}\)</span> 。</li>
+<li><strong>ReLU函数：</strong><span class="math inline">\(h(x)=\left\{\begin{array}{ll}{x} &amp; {(x&gt;0)} \\ {0} &amp; {(x \leqslant 0)}\end{array}\right.\)</span> ，全称线性整流函数（Rectified Linear Unit）。</li>
+</ul></li>
+<li><p><strong>符号</strong>解释：<span class="math inline">\(w_{12}^{(1)}\)</span> <span class="math inline">\(a_1^{(2)}\)</span> 如下图</p>
+<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-09-19_15-51-22.png" srcset="/img/loading.gif" /></p></li>
+<li><p><strong>输出层函数</strong></p>
+<p>输出层的激活函数，用 <span class="math inline">\(\sigma()\)</span> 表示，一般地，回归问题可以使用恒等函数，二元分类问题可以使用sigmoid函数，多元分类问题可以使用<strong>Softmax函数</strong>（作用于输出层，例子见下图）。</p>
+<ul>
+<li><p><strong>恒等函数：</strong>会将输入原样输出</p></li>
+<li><p><strong>Softmax函数：</strong> <span class="math inline">\(y_k = \frac{exp(a_k)}{\sum_{i=1}^{n} exp(a_i)}\)</span> ，表示假设输出层共有n个神经元，计算第k个神经元的输出 <span class="math inline">\(y_k\)</span> 。</p></li>
+<li><p>使用python实现softmax时需要注意处理指数溢出，改进方法是在分子分母的指数上同时加/减一个常数C，C通常为输入信号最大值。</p></li>
+<li><p>softmax函数的输出范围<span class="math inline">\((0.0, 1.0)\)</span>，输出总和为1，所以可解释为概率。</p></li>
+<li><p>一般而言，神经网络只把输出值最大的神经元所对应的类别作为识别结果。并且，即便使用softmax函数，输出值最大的神经元的位置也不会变。因此，神经网络在进行分类时，输出层的softmax函数可以省略。在实际的问题中，由于指数函数的运算需要一定的计算机运算量，因此输出层的softmax函数一般会被省略。</p>
+<figure>
+<img src="C:\Users\Orion_wyc\AppData\Roaming\Typora\typora-user-images\1569494022849.png" srcset="/img/loading.gif" alt="1569494022849" /><figcaption aria-hidden="true">1569494022849</figcaption>
+</figure>
+<p>注：输入图像通过Affi ne层和ReLU层进行转换，10个输入通过Softmax层进行正规化在这个例子中，“0”的得分是5.3，这个值经过Softmax层转换为0.008（0.8%）；“2”的得分是10.1，被转换为0.991（99.1%）</p></li>
+</ul></li>
+<li><p><strong>输出层神经元数量：</strong>对于分类问题，输出层的神经元数量一般设定为类别的数量。</p></li>
+<li><p><strong>前向传播（forward propagation）与反向传播（back propagation）</strong></p></li>
+<li><p><strong>预处理（pre-processing）与数据的正规化（normalization/Feature scaling ）</strong></p>
+<p>（应该有区别，例如将数据范围转化到[0,1]之间）、数据白化（whitening，将数据整体的分布形状均匀化的方法）、数据批处理（batch）</p></li>
+<li><p><strong>损失函数</strong></p>
+<p>神经网络的“学习”过程就是从训练数据中自动获得最优权重参数的过程。设立训练数据和测试数据是为了评估模型的泛化能力。</p>
+<ul>
+<li><p>训练过程的评价指标为<strong>损失函数</strong>，损失函数可以使用任意函数，一般采用:</p>
+<p>① <strong>均方误差（MSE，mean-square error）</strong> <span class="math inline">\(E = \frac{1}{2}\sum_{k}{(y_k - t_k)^2}\)</span> ；</p>
+<p>② <strong>交叉熵误差（cross entropy error）</strong> <span class="math inline">\(E = - \sum_{k}{t_k\log{(y_k[+delta])}}\)</span></p>
+<p>（其中k表示数据维度，<span class="math inline">\(y_k\)</span> 是神经网络输出，<span class="math inline">\(t_k\)</span> 是标签值，log是以e为底的对数，delta是防止对数出现无穷大。）[P85]</p>
+<ul>
+<li><p><strong>均方损失：</strong> 假设误差是正态分布，适用于线性的输出(如回归问题)，特点是对于与真实结果差别越大，则惩罚力度越大，这并不适用于分类问题</p></li>
+<li><p><strong>交叉熵损失：</strong> 假设误差是二值分布，可以视为预测概率分布和真实概率分布的相似程度。在分类问题中有良好的应用。</p></li>
+<li><p>一般我们用预测值和实际值的平方差或者它们平方差的一半，但是通常在<strong>逻辑回归</strong>中我们不这么做，因为当我们在学习逻辑回归参数的时候，会发现我们的<strong>优化目标不是凸优化</strong>，只能找到多个局部最优值，梯度下降法很可能找不到全局最优值，虽然平方差是一个不错的损失函数，但是我们在逻辑回归模型中会定义另外一个损失函数。</p></li>
+<li><p>我们常看到两个交叉熵损失函数对应不同的最后一层的输出。第一个对应的最后一层是 sigmoid，用于二分类问题，第二个对应的最后一层是 softmax，用于多分类问题。但是它们的本质是一样的。</p>
+<p><span class="math inline">\(\begin{array}{c}{\operatorname{cost}\left(h_{\theta}(x), y\right)=-y_{i} \log \left(h_{\theta}(x)\right)-\left(1-y_{i}\right) \log \left(1-h_{\theta}(x)\right)} \\ {C=-\sum_{i}\left(y_{i} \log a_{i}\right)}\end{array}\)</span></p>
+<p>sigmoid 作为最后一层输出的话，那就不能吧最后一层的输出看作成一个分布了，因为加起来不为 1。现在应该将最后一层的每个神经元看作一个分布。</p></li>
+</ul></li>
+</ul></li>
+</ul>
+<p>​</p>
+<div class="hljs"><pre><code>- [交叉熵的相关推导1](https://blog.csdn.net/tsyccnh/article/details/79163834)    [交叉熵推导2](https://blog.csdn.net/xu_ampl/article/details/95179849) 
+
+- [二项分布、最大似然、交叉熵](https://blog.csdn.net/lanchunhui/article/details/75433608) </code></pre></div>
+<ul>
+<li><p><strong>二分类、多分类与多标签的基本概念</strong></p>
+<p><strong>二分类：</strong>表示分类任务中有两个类别，比如我们想识别一幅图片是不是猫。也就是说，训练一个分类器，输入一幅图片，用特征向量x表示，输出是不是猫，用y=0或1表示。二类分类是假设每个样本都被设置了一个且仅有一个标签 0 或者 1。</p>
+<p><strong>多类分类(Multiclass classification):</strong> 表示分类任务中有多个类别, 比如对一堆水果图片分类, 它们可能是橘子、苹果、梨等. 多类分类是假设每个样本都被设置了一个且仅有一个标签: 一个水果可以是苹果或者梨, 但是同时不可能是两者。</p>
+<p><strong>多标签分类(Multilabel classification):</strong> 给每个样本一系列的目标标签. 可以想象成一个数据点的各属性不是相互排斥的(一个水果既是苹果又是梨就是相互排斥的), 比如一个文档相关的话题. 一个文本可能被同时认为是宗教、政治、金融或者教育相关话题。</p>
+<p><strong>参考交叉熵的相关推导1</strong></p>
+<p>多类分类（单标签）时，每张图片的损失是一个交叉熵，交叉熵针对的是所有类别（所有类别概率和是1，使用softmax）。 多标签分类时，每张图片的损失是N个交叉熵之和（N等于类别数），交叉熵针对的是单个类别（单个类别概率和是1）。</p>
+<p>链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u011734144/article/details/80915559" class="uri">https://blog.csdn.net/u011734144/article/details/80915559</a></p>
+<p>链接：<a target="_blank" rel="noopener" href="https://juejin.im/post/5b38971be51d4558b10aad26" class="uri">https://juejin.im/post/5b38971be51d4558b10aad26</a></p>
+<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-10-21_10-44-33.png" srcset="/img/loading.gif" /></p></li>
+<li><p><strong>端到端</strong></p>
+<p>深度学习有时也称为<strong>端到端机器学习（end-to-end machine learning</strong>）。这里所说的端到端是指从一端到另一端的意思，也就是从原始数据（输入）中获得目标结果（输出）的意思。</p></li>
+<li><p><strong>mini_batch</strong></p>
+<p>通过抽取一部分的训练数据来学习和计算误差函数，减小计算量。编程矩阵运算，程序实现参考。[P91]</p></li>
+<li><p>在进行神经网络的学习时，不能将识别精度作为指标。因为如果以识别精度为指标，则参数的导数在绝大多数地方都会变为0。[P93]</p></li>
+<li><p><strong>梯度下降法</strong></p>
+<p>设有函数 <span class="math inline">\(f(x_0,x_1)\)</span> ,像 <span class="math inline">\(\left(\frac{\partial f}{\partial x_{0}}, \frac{\partial f}{\partial x_{1}}\right)\)</span> 这样的由全部变量的偏导数汇总而成的向量称为梯度 <span class="math inline">\(\operatorname{grad} f\left(x_{0}, x_{1}, \ldots, x_{n}\right)=\left(\frac{\partial f}{\partial x_{0}}, \ldots, \frac{\partial f}{\partial x_{j}}, \ldots, \frac{\partial f}{\partial x_{n}}\right)\)</span> ，<strong>梯度法公式：</strong> <span class="math inline">\(x_{i}=x_{i}-\eta \frac{\partial f}{\partial x_{i}}\)</span> 其中 <span class="math inline">\(\eta\)</span> 称为学习率。</p>
+<p>公式含义是在每个变量轴上减小对应变量值。梯度不一定是指向了最低处,实际上，梯度指示的方向是各点处的函数值减小最多的方向。既然在变量空间的某一点处，函数沿梯度方向具有最大的变化率，那么在优化目标函数的时候，自然是<strong>沿着负梯度方向去减小函数值</strong>，以此达到我们的优化目标。</p>
+<ul>
+<li>求梯度的两种方法：① 基于数值微分的方法（中心差分和前向差分，速度慢，一般不容易出错，用于比对验证结果正确性）② 解析性地求解数学式的方法（反向传播，速度快）。</li>
+<li>导数、偏导数、梯度的定义 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/lingjiajun/p/9895753.html">链接</a></li>
+</ul></li>
+<li><p><strong>学习高原</strong></p>
+<p>函数的<strong>极小值、最小值</strong>以及被称为<strong>鞍点（saddle point）</strong>的地方，梯度为0。极小值是局部最小值，也就是限定在某个范围内的最小值。鞍点是从某个方向上看是极大值，从另一个方向上看则是极小值的点。虽然梯度法是要寻找梯度为0的地方，但是那个地方不一定就是最小值（也有可能是极小值或者鞍点）。此外，当函数很复杂且呈扁平状时，学习可能会进入一个（几乎）平坦的地区，陷入被称为“<strong>学习高原</strong>”的无法前进的停滞期。</p></li>
+<li><p><strong>学习率、超参数</strong></p>
+<p>学习率这样的参数称为超参数。这是一种和神经网络的参数（权重和偏置）性质不同的参数。相对于神经网络的权重参数是通过训练数据和学习算法自动获得的，学习率这样的超参数则是人工设定的。一般来说，超参数需要尝试多个值，以便找到一种可以使学习顺利进行的设定。<strong>常见超参数包括：</strong> 树的数量或树的深度、矩阵分解中潜在因素的数量、学习率（多种模式）、深层神经网络隐藏层数、k均值聚类中的簇数。</p></li>
+<li><p><strong>随机梯度下降法（stochastic gradient descent）</strong></p>
+<p>对随机选择的数据进行的梯度下降法，结合mini_batch计算损失函数并利用梯度下降法求解参数。</p></li>
+<li><p><strong>epoch</strong></p>
+<p>epoch是一个单位。一个epoch表示学习中所有训练数据均被使用过一次时的更新次数。比如，对于10000笔训练数据，用大小为100笔数据的mini-batch进行学习时，重复随机梯度下降法100次，所有的训练数据就都被“看过”了A 。此时，100次就是一个epoch。</p>
+<p>一般做法是事先<strong>将所有训练数据随机打乱</strong>，然后按指定的批次大小，按序生成mini-batch。这样每个mini-batch均有一个索引号，比如可以是0, 1, 2, . . . , 99，然后用索引号可以遍历所有的mini-batch。遍历一次所有数据，就称为一个epoch。</p></li>
+<li><p><strong>过拟合（overfitting）与欠拟合（underfitting）</strong></p>
+<ul>
+<li><p><strong>欠拟合问题</strong>，根本的原因是特征维度过少，导致拟合的函数无法满足训练集，误差较大。</p>
+<p>解决方法</p>
+<div class="hljs"><pre><code class="hljs text">增加新特征，可以考虑加入进特征组合、高次特征，来增大假设空间;
+尝试非线性模型，比如核SVM 、决策树、DNN等模型;
+如果有正则项可以较小正则项参数 $\lambda$;
+Boosting ,Boosting 往往会有较小的 Bias，比如 Gradient Boosting 等.</code></pre></div></li>
+<li><p><strong>过拟合问题</strong>，根本的原因则是特征维度过多，导致拟合的函数完美的经过训练集，但是对新数据的预测结果则较差。</p>
+<p>解决方法</p>
+<div class="hljs"><pre><code class="hljs text">交叉检验，通过交叉检验得到较优的模型参数;
+特征选择，减少特征数或使用较少的特征组合，对于按区间离散化的特征，增大划分的区间;
+正则化，常用的有 L1、L2 正则。而且 L1正则还可以自动进行特征选择;
+如果有正则项则可以考虑增大正则项参数 lambda;
+增加训练数据可以有限的避免过拟合;
+Bagging ,将多个弱学习器Bagging 一下效果会好很多，比如随机森林等.</code></pre></div></li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="误差反向传播法">误差反向传播法</h2>
+<p>一个能够高效计算权重参数的梯度的方法。BP算法是“误差反向传播”的简称，是一种与最优化方法（如梯度下降法）结合使用的，用来训练人工神经网络的常见方法。该方法对网络中所有权重计算损失函数的梯度。反向传播计算导数的原理是<strong>链式法则</strong>。</p>
+<ul>
+<li><p><strong>简单加法层和乘法层</strong></p>
+<p>反向传播时，加法节点直接传递上层导数，乘法节点需要交换输入作为系数与导数相乘。（三个呢？）</p></li>
+<li><p><strong>激活函数层</strong></p>
+<ul>
+<li><p><strong>ReLU层</strong></p>
+<p>对激活函数 <span class="math inline">\(h(x)=\left\{\begin{array}{ll}{x} &amp; {(x&gt;0)} \\ {0} &amp; {(x \leqslant 0)}\end{array}\right.\)</span> <span class="math inline">\({求偏导} \Longrightarrow\)</span> <span class="math inline">\(\frac{\partial y}{\partial x}=\left\{\begin{array}{ll}{1} &amp; {(x&gt;0)} \\ {0} &amp; {(x \leqslant 0)}\end{array}\right.\)</span> ，易知，如果正向传播时的输入x大于0，则反向传播会将上游的值原封不动地传给下游。如果正向传播时的x小于等于0，则反向传播中传给下游的信号将停在此处。（类比开关）</p>
+<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-09-25_15-41-45.png" srcset="/img/loading.gif" /></p></li>
+<li><p><strong>Sigmoid层</strong></p>
+<p>激活函数 <span class="math inline">\(h(x) = \frac{1}{1+exp(-x)}\)</span> 的反向传播如下图</p>
+<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-09-25_16-33-50.png" srcset="/img/loading.gif" /></p>
+<p>相比ReLU，不仅包含加法和乘法层，还需要计算指数exp()和除法“/”，最后反向传播得到的偏导数可以整理如下：<span class="math inline">\(\begin{aligned} \frac{\partial L}{\partial y} y^{2} \exp (-x) &amp;=\frac{\partial L}{\partial y} \frac{1}{(1+\exp (-x))^{2}} \exp (-x) \\ &amp;=\frac{\partial L}{\partial y} \frac{1}{1+\exp (-x)} \frac{\exp (-x)}{1+\exp (-x)} \\ &amp;=\frac{\partial L}{\partial y} y(1-y) \end{aligned}\)</span> .</p>
+<p>易知，正向传播的结果y可以保存，而后用于计算反向传播时的偏导数。</p></li>
+</ul></li>
+<li><p><strong>Affine/Softmax层</strong></p>
+<ul>
+<li><p><strong>Affine层</strong></p>
+<p>$  $ 分别是形状为(2,)、(2, 3)、(3,)的多维数组，所以，神经元的加权和可以用 <span class="math inline">\(Y = np.dot(X, W) + B\)</span> 计算出来。神经网络的正向传播中进行的矩阵的乘积运算在几何学领域被称为“仿射变换”。因此，将进行<strong>仿射变换</strong>的处理实现为“Affine层”。其反向传播（使用批处理，N个一组）的计算图如下：</p>
+<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-09-26_17-34-14.png" srcset="/img/loading.gif" /></p>
+<p>需要注意的是，正向传播时，偏置会被加到每一个数据上。因此，反向传播时，各个数据的反向传播的值需要汇总为偏置的元素，即偏置 <span class="math inline">\(\boldsymbol{B}\)</span> 需要在列方向（axis = 0）上求和。</p></li>
+<li><p><strong>Softmax-with-Loss 层</strong></p>
+<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-09-26_18-33-06.png" srcset="/img/loading.gif" /></p>
+<p>Softmax-with-Loss = Softmax Layer + Multinomial Logistic Loss Layer（交叉熵代价函数） +</p>
+<p>上图是该层的计算图，易知：（这张图有疑问）</p>
+<ol type="1">
+<li>Softmax层将输入 <span class="math inline">\((a_1,a_2,a_3)\)</span> 正规化，输出 <span class="math inline">\((y_1,y_2,y_3)\)</span> .</li>
+<li>Cross Entropy Error层接收Softmax的输出 <span class="math inline">\((y_1,y_2,y_3)\)</span> 和标签<span class="math inline">\((t_1,t_2,t_3)\)</span> ，从这些数据中输出损失L.</li>
+</ol>
+<p>推导过程：<a target="_blank" rel="noopener" href="https://blog.csdn.net/yiranlun3/article/details/78632752">链接</a></p>
+<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-10-19_20-02-01.png" srcset="/img/loading.gif" /></p></li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="神经网络训练技巧">神经网络训练技巧</h2>
+<ul>
+<li><p><strong>参数更新最优化方法</strong></p>
+<p>总结：</p>
+<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-10-18_22-22-17.png" srcset="/img/loading.gif" /></p>
+<p><strong>最优化</strong> 是神经网络学习找到使损失函数的值尽可能小的参数的过程。</p>
+<p>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u010089444/article/details/76725843"><链接></a></p>
+<p>参考论文：<a target="_blank" rel="noopener" href="http://ruder.io/optimizing-gradient-descent/index.html"><链接></a></p>
+<p>参考博客：<a target="_blank" rel="noopener" href="http://zh.d2l.ai/chapter_optimization/rmsprop.html"><链接></a></p>
+<ul>
+<li><p><strong>梯度下降法</strong></p>
+<p><span class="math inline">\(W \leftarrow W - \eta \frac{\partial{L}}{\partial{W}}\)</span> 这是SGD的数学表达，权重W可以用梯度下降的方式求得。SGD简单一如实现，但它的缺点是，如果函数的形状非均向（anisotropic），比如呈延伸状（导致导致梯度并不指向最小值的方向），搜索的路径就会非常低效。</p>
+<p><strong>Batch Gradient Descent</strong> 在每一轮的训练过程中，Batch Gradient Descent算法用整个训练集的数据计算cost fuction的梯度，并用该梯度对模型参数进行更新。</p>
+<p>优点：cost fuction若为凸函数，能够保证收敛到全局最优值；若为非凸函数，能够收敛到局部最优值。 缺点：由于每轮迭代都需要在整个数据集上计算一次，所以批量梯度下降可能非常慢训练数较多时，需要较大内存批量梯度下降不允许在线更新模型，例如新增实例。</p>
+<p><strong>Stochastic Gradient Descent</strong> 和批梯度下降算法相反，Stochastic gradient descent 算法每读入一个数据，便立刻计算cost fuction的梯度来更新参数。</p>
+<p>优点：算法收敛速度快(在Batch Gradient Descent算法中, 每轮会计算很多相似样本的梯度, 这部分是冗余的)可以在线更新有几率跳出一个比较差的局部最优而收敛到一个更好的局部最优甚至是全局最优。 缺点：容易收敛到局部最优，并且容易被困在鞍点。</p>
+<p><strong>Mini-batch Gradient Descent</strong> mini-batch Gradient Descent的方法是在上述两个方法中取折衷, 每次从所有训练数据中取一个子集（mini-batch） 用于计算梯度：Mini-batch Gradient Descent在每轮迭代中仅仅计算一个mini-batch的梯度，不仅计算效率高，而且收敛较为稳定。该方法是目前深度学训练中的主流方法。</p>
+<p><strong>上述三个方法面临的主要挑战</strong></p>
+<p>选择适当的学习率α较为困难。太小的学习率会导致收敛缓慢，而学习速度太块会造成较大波动，妨碍收敛。</p>
+<p>目前可采用的方法是在训练过程中调整学习率大小，例如模拟退火算法：预先定义一个迭代次数m，每执行完m次训练便减小学习率，或者当cost function的值低于一个阈值时减小学习率。然而迭代次数和阈值必须事先定义，因此无法适应数据集的特点。</p>
+<p>上述方法中, 每个参数的 learning rate 都是相同的，这种做法是不合理的：如果训练数据是稀疏的，并且不同特征的出现频率差异较大，那么比较合理的做法是对于出现频率低的特征设置较大的学习速率，对于出现频率较大的特征数据设置较小的学习速率。</p>
+<p>近期的的研究表明，深层神经网络之所以比较难训练，并不是因为容易进入local minimum。相反，由于网络结构非常复杂，在绝大多数情况下即使是 local minimum 也可以得到非常好的结果。而之所以难训练是因为学习过程容易陷入到马鞍面中，即在坡面上，一部分点是上升的，一部分点是下降的。而这种情况比较容易出现在平坦区域，在这种区域中，所有方向的梯度值都几乎是 0。</p></li>
+<li><p><strong>Momentum</strong></p>
+<p>意为“动量”，数学表达为 <span class="math inline">\(\nu \leftarrow \alpha \nu - \eta \frac{\partial{L}}{\partial{W}}\)</span>, <span class="math inline">\(W \leftarrow W + \nu\)</span> .</p>
+<p>和前面的SGD一样，W表示要更新的权重参数，<span class="math inline">\(\frac{\partial{L}}{\partial{W}}\)</span>表示损失函数关于W的梯度，η表示学习率。这里新出现了一个变量<span class="math inline">\(\nu\)</span>，对应物理上的速度，超参数<span class="math inline">\(\alpha\)</span> 一般设定0.9。</p>
+<p>SGD方法的一个缺点是其更新方向完全依赖于当前batch计算出的梯度，因而十分不稳定。Momentum算法借用了物理中的动量概念，它模拟的是物体运动时的惯性，即更新的时候在一定程度上保留之前更新的方向：Momentum算法会观察历史梯度<span class="math inline">\(v_{t-1}\)</span> ，若当前梯度的方向与历史梯度一致（表明当前样本不太可能为异常点），则会增强这个方向的梯度，若当前梯度与历史梯方向不一致，则梯度会衰减。<strong>一种形象的解释是：</strong>我们把一个球推下山，球在下坡时积聚动量，在途中变得越来越快，γ可视为空气阻力，若球的方向发生变化，则动量会衰减。</p></li>
+<li><p><strong>AdaGrad（Adaptive Gradient）</strong></p>
+<p>上述方法中，对于每一个参数的训练都使用了相同的学习率α。AdaGrad算法能够在训练中自动的对learning rate进行调整，对于出现频率较低参数采用较大的α更新；相反，对于出现频率较高的参数采用较小的α更新。因此，AdaGrad非常适合处理稀疏数据。<span class="math inline">\(\epsilon\)</span> 是平滑项，用于避免分母为0，一般取值1e−8。</p>
+<p>数学表示如下：<span class="math inline">\(h \leftarrow h + \frac{\partial{L}}{\partial{W}} \bigodot \frac{\partial{L}}{\partial{W}}\)</span> , <span class="math inline">\(W \leftarrow W - \eta \frac{1}{\sqrt{h + \epsilon}} \frac{\partial {L}}{\partial{W}}\)</span> . （h初值可设为0）</p>
+<p>简单来讲，设置全局学习率之后，每次通过，全局学习率逐参数的除以历史梯度平方和的平方根，使得每个参数的学习率不同，在某些模型上效果不错。效果是：在参数空间更为平缓的方向，会取得更大的进步（因为平缓，所以历史梯度平方和较小，对应学习下降的幅度较小）。<strong>Adagrad的缺点</strong>是在训练的中后期，分母上梯度平方的累加将会越来越大，从而梯度趋近于0，使得训练提前结束。</p></li>
+<li><p><strong>Nesterov Momentum</strong></p>
+<p>[空]</p></li>
+<li><p><strong>RMSprop</strong></p>
+<p>RMSprop是Geoff Hinton提出的一种自适应学习率方法。Adagrad会累加之前所有的梯度平方，而RMSprop仅仅是计算对应的平均值，因此可缓解Adagrad算法学习率下降较快的问题。<strong>可以看出RMSProp优化算法和AdaGrad算法唯一的不同，就在于累积平方梯度的求法不同。</strong></p>
+<p>数学描述如下：</p>
+<p>​ <span class="math inline">\(\boldsymbol{s}_{t} \leftarrow \gamma \boldsymbol{s}_{t-1}+(1-\gamma) \boldsymbol{g}_{t} \odot \boldsymbol{g}_{t}\)</span></p>
+<p>​ <span class="math inline">\(\boldsymbol{x}_{t} \leftarrow \boldsymbol{x}_{t-1}-\frac{\eta}{\sqrt{\boldsymbol{s}_{t}+\epsilon}} \odot \boldsymbol{g}_{t}\)</span></p>
+<p>(Hinton 建议 γ 为 0.9, 学习率 η 为 0.001)</p></li>
+<li><p><strong>Adam</strong></p>
+<p>Adam(Adaptive Moment Estimation)是另一种自适应学习率的方法。它利用梯度的一阶矩估计和二阶矩估计动态调整每个参数的学习率。Adam的优点主要在于经过偏置校正后，每一次迭代学习率都有个确定范围，使得参数比较平稳。</p>
+<p>数学描述如下：(稍复杂，稍后再看)</p>
+<p><span class="math inline">\(\begin{array}{l}{m_{t}=\beta_{1} m_{t-1}+\left(1-\beta_{1}\right) g_{t}} \\ {v_{t}=\beta_{2} v_{t-1}+\left(1-\beta_{2}\right) g_{t}^{2}} \end{array}\)</span> , $</p>
+<span class="math display">\[\begin{array}{l}{\hat{m}_{t}=\frac{m_{t}}{1-\beta_{1}^{t}}} \\ {\hat{v}_{t}=\frac{v_{t}}{1-\beta_{2}^{t}}}\end{array}\]</span>
+<p>$ , $</p>
+<span class="math display">\[\begin{array}{c} {\Theta_{t+1}=\Theta_{t}-\frac{\alpha}{\sqrt{\hat{v}_{t}}+\epsilon} \hat{m}_{t}}\end{array}\]</span>
+<p>$</p>
+<p>建议 <span class="math inline">\(\beta_1 ＝ 0.9，\beta_2 ＝ 0.999，\epsilon ＝ 10e−8\)</span>;</p>
+<p>实践表明，Adam 比其他适应性学习方法效果要好。</p></li>
+</ul></li>
+<li><p><strong>权重初始化(weight initialization)</strong></p>
+<ul>
+<li><p><strong>梯度消失问题和梯度爆炸问题</strong></p>
+<p><strong>梯度消失（gradient vanishing problem）：</strong>在神经网络中，当前面隐藏层的学习速率低于后面隐藏层的学习速率，即随着隐藏层数目的增加，分类准确率反而下降了。这种现象叫做消失的梯度问题。</p>
+<p><strong>梯度爆炸（gradient exploding problem）：</strong>在深层网络或递归神经网络中，误差梯度在更新中累积得到一个非常大的梯度，这样的梯度会大幅度更新网络参数，进而导致网络不稳定。在极端情况下，权重的值变得特别大，以至于结果会溢出（NaN值，无穷与非数值）。当梯度爆炸发生时，网络层之间反复乘以大于1.0的梯度值使得梯度值成倍增长。</p></li>
+<li><p><strong>随机产生权重</strong></p>
+<p>权重不可以设置成一样的值。BP过程会导致所有权重进行相同的更新（值相同，且对称），无论网络训练多少轮，对于每一层中的各个神经元，权重w都是相同的，无法学习（提取）到不同的特征。所以为了防止“权重均一化”，必须随机生成初始值。</p></li>
+<li><p><strong>Xavier初始值</strong>（['zeɪvɪr]）</p>
+<p>论文链接：<a target="_blank" rel="noopener" href="http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf"><链接></a></p>
+<p>Xavier初始值是以激活函数是线性函数为前提而推导出来的（sigmoid 函数和 tanh 函数左右对称，且中央附近可以视作线性函数）。Xavier的论文中，为了使各层的激活值呈现出具有相同广度的分布，推导了合适的权重尺度。推导出的结论是，如果前一层的节点数为n，则初始值使用标准差为 <span class="math inline">\(\frac{1}{\sqrt n}\)</span> 的分布，其中n表示与前一层有n个节点连接 。</p></li>
+<li><p><strong>He初始值</strong></p>
+<p>论文链接：<a target="_blank" rel="noopener" href="https://www.cv-foundation.org/openaccess/content_iccv_2015/papers/He_Delving_Deep_into_ICCV_2015_paper.pdf"><链接></a></p>
+<p>在ReLU网络中，假定每一层有一半的神经元被激活，另一半为0，所以，要保持variance不变，只需要在Xavier的基础上再除以2。</p></li>
+</ul></li>
+<li><p><strong>Batch Normalization</strong></p>
+<p>顾名思义，Batch Normalization（BN）就是“批规范化”。Google在ICML文中描述的非常清晰，即在每次SGD时，通过mini-batch来对相应的activation做规范化操作，使得结果（输出信号各个维度）的均值为0，方差为1. 而最后的“scale and shift”操作则是为了让因训练所需而“刻意”加入的BN能够有可能还原最初的输入（即当 <span class="math inline">\(\gamma^{(k)}=\sqrt{\operatorname{Var}\left[x^{(k)}\right], \beta^{(k)}}=E\left[x^{(k)}\right]\)</span> ），从而保证整个网络的capacity。</p>
+<ul>
+<li><p><strong>优点：</strong> ① 可以使学习快速进行（可以增大学习率）；② 不那么依赖初始值（对于初始值不用那么神经质）；③ 抑制过拟合（降低Dropout等的必要性）。</p></li>
+<li><p>数学表示： $</p>
+<span class="math display">\[\begin{aligned} \mu_{B} &amp; \leftarrow \frac{1}{m} \sum_{i=1}^{m} x_{i} \\ \sigma_{B}^{2} &amp; \leftarrow \frac{1}{m} \sum_{i=1}^{m}\left(x_{i}-\mu_{B}\right)^{2} \\ \hat{x}_{i} &amp; \leftarrow \frac{x_{i}-\mu_{B}}{\sqrt{\sigma_{B}^{2}+\varepsilon}}｛此处转换为新数据B = \{ \hat{x}_{1} , \hat{x}_{2}, ... , \hat{x}_{m} \}｝ \\ y_{i} &amp; \leftarrow \gamma \hat{x}_{i}+\beta  ｛BN层会对正规化后的数据进行缩放和平移的变换｝\end{aligned}\]</span>
+<p>$</p>
+<p>这里对mini-batch的m个输入数据的集合<span class="math inline">\(B = \{ x_1 , x_2 , ... , x_m \}\)</span> 求均值 <span class="math inline">\(\mu_B\)</span>和方差 <span class="math inline">\(\sigma^2_B\)</span> 。然后，对输入数据进行均值为0、方差为1（合适的分布）的正规化。第3式中的 <span class="math inline">\(\epsilon\)</span> 是一个微小值（e.g.取值10e-7 等），它是为了防止出现除以0的情况。计算图如下：</p>
+<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-10-06_23-18-47.png" srcset="/img/loading.gif" /></p>
+<p><a target="_blank" rel="noopener" href="https://kratzert.github.io/2016/02/12/understanding-the-gradient-flow-through-the-batch-normalization-layer.html">Frederik Kratzert的博客</a>“Understanding the backward pass through Batch Normalization Layer”里有详细说明</p></li>
+</ul></li>
+<li><p><strong>正则化（Regularizer）</strong></p>
+<ul>
+<li><p>过拟合主要原因：模型拥有大量参数，表现力强；训练数据少</p></li>
+<li><p><strong>权值衰减（Weight Decay）</strong>:常被使用的一种抑制过拟合的方法。该方法通过在学习的过程中对大的权重进行惩罚，来抑制过拟合。很多过拟合原本就是因为权重参数取值过大才发生的。数学表示如下：</p>
+<p>原始权重更新为 <span class="math inline">\(w_i \leftarrow w_i - \eta \frac{\partial L}{\partial w_i}\)</span> ，现在在损失函数L中增加一项权值衰减项 <span class="math inline">\(\frac{\lambda}{2}W^2\)</span>（这是权重的<strong>L2范数</strong>，<strong>λ是控制正则化强度的超参数</strong>）来抑制权值变大，损失函数变为 $ L(W) = L(W) + W^2$ ，在求权重梯度的计算中，要为之前的误差反向传播法的结果加上正则化项的导数 <span class="math inline">\(\lambda W\)</span> ，权重更新为 <span class="math inline">\(w_i \leftarrow w_i - \eta \frac{\partial L}{\partial w_i} - \eta \lambda W\)</span> 。</p></li>
+<li><p><strong>Dropout</strong></p>
+<p>在深度学习网络的训练过程中，对于神经网络单元，按照一定的概率将其暂时从网络中丢弃。注意是暂时，对于随机梯度下降来说，由于是随机丢弃，故而每一个mini-batch都在训练不同的网络。</p>
+<p>​</p></li>
+</ul></li>
+<li><p><strong>超参数与验证数据</strong></p>
+<p>数据集分成训练数据和测试数据，训练数据用于学习，测试数据用于评估泛化能力。调整超参数时，必须使用超参数专用的确认数据，这类数据称为<strong>验证数据（validation data）</strong>。<strong>不能用测试数据评估超参数的性能。</strong></p>
+<ul>
+<li>超参数最优化的步骤：设定超参数范围；从设定范围中随机采样；使用选出的超参数进行训练并在验证集上测试识别精度；重复上述步骤（100次左右），根据识别进度进一步缩小超参数范围。</li>
+<li>其他：贝叶斯最优化（论文 Practical Bayesian Optimization of Machine Learning Algorithms）</li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="卷积神经网络">卷积神经网络</h2>
+<ul>
+<li><p><strong>全连接层的作用</strong></p>
+<p>全连接层（fully connected layers，FC）在整个卷积神经网络中起到“分类器”的作用。如果说卷积层、池化层和激活函数层等操作是将原始数据映射到隐层特征空间的话，全连接层则起到将学到的“分布式特征表示”映射到样本标记空间的作用。（全连接层可以转化为卷积核为1x1的卷积）</p>
+<p>FC层的冗余的参数可保持较大的模型capacity从而保证模型表示能力的迁移。</p></li>
+<li><p><strong>卷积层（Convolutional Layer）</strong></p>
+<p>卷积层是全连接的一种简化形式:不全连接+参数共享，同时还保留了空间位置信息。</p>
+<p>一般全连接层损失了数据的形状这一特征，而卷积层接受三维的数据。卷积层的输入输出又被称为<strong>输入/输出特征图</strong>。卷积运算符号为“<span class="math inline">\(\bigotimes\)</span>”，卷积运算需要有到卷积核（又称“滤波器”）。</p>
+<ul>
+<li>数学描述： <span class="math inline">\((f * g)(1,1)=\sum_{k=0}^{2} \sum_{h=0}^{2} f(h, k) g(1-h, 1-k)\)</span></li>
+</ul>
+<p><strong>一句话解释什么是卷积</strong>：一个函数（如：单位响应）在另一个函数（如：输入信号）上的<strong>加权叠加。</strong>“信号与响应的卷积”体现的是时间上的“加权求和”；“图像平滑处理的卷积”体现的是空间上的“加权求和”。 <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/22298352">知乎链接</a></p>
+<ul>
+<li><strong>填充</strong>：卷积运算会使得原来的数据形状缩小，在边界四周需要填补若干圈数据（例如0），填补的数据宽度称为<strong>幅度</strong>（padding）</li>
+<li><strong>步幅</strong>：应用滤波器的位置间隔称为<strong>步幅</strong>（stride）</li>
+</ul>
+<p>假设输入大小为(H, W)，滤波器大小为(FH, FW)，输出大小为(OH, OW)，填充为P，步幅为S。此时，输出大小可通过下式进行计算：<span class="math inline">\(\begin{array}{l} OH &amp; = \frac{H + 2P - FH}{S} + 1 \\ OW &amp; = \frac{W + 2P - FW}{S} + 1 \end{array}\)</span></p>
+<p><strong>卷积核为什么是奇数大小</strong>：保证了锚点刚好在中间；填充的像素可以平均分配在图像四周。</p>
+<p>多维卷积：除了考虑长宽方向，还需要处理通道数，并将各通道的结果相加输出。通道数应设定为和输入数据的通道数相同的值。</p>
+<p>把3维数据表示为多维数组时，书写顺序为（channel, height, width）。比如，通道数为C、高度为H、长度为W的数据的形状可以写成（C, H, W），滤波器同。在通道方向上也拥有多个卷积运算，数量FN，得到的特征图传到下一层就是CNN的处理流（含偏置，也使用mini-batch）。运算过程参考下图：</p>
+<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-10-07_19-56-03.png" srcset="/img/loading.gif" /></p>
+<p><strong>卷积层作用</strong>：</p>
+<ol type="1">
+<li>提取图像的特征，并且卷积核的权重是可以学习的，由此可以猜测，在高层神经网络中，卷积操作能突破传统滤波器的限制，根据目标函数提取出想要的特征。</li>
+<li>“局部感知，参数共享”的特点大大降低了网络参数，保证了网络的稀疏性，防止过拟合之所以可以“参数共享”，是因为样本存在局部相关的特性。</li>
+</ol>
+<ul>
+<li><p><strong>主要参数</strong></p>
+<p>CNN网络的主要参数有下面这么几个：</p>
+<ul>
+<li>卷积核Kernal权重（在Tensorflow中称为filter）；</li>
+<li>填充Padding；</li>
+<li>滑动步长Strides；</li>
+<li>池化核Kernal（在Tensorflow中称为filter）；</li>
+<li>通道数Channels。</li>
+</ul></li>
+</ul>
+<p><font color = "red">???卷积层的反向传播</font></p></li>
+<li><p><strong>池化层（Pooling Layer）</strong></p>
+<p>池化是缩小高、长方向上的空间的运算。一般来说，池化的窗口大小会和步幅设定成相同的值。池化有Max池化和Average池化，相对于Max池化是从目标区域中取出最大值，Average池化则是计算目标区域的平均值。在图像识别领域，主要使用Max池化。池化层没有要训练的参数，且运算后不改变通道数。输入数据发生微小偏差时，池化仍会返回相同的结果。因此，池化对输入数据的微小偏差具有鲁棒性。</p>
+<p><strong>池化种类</strong>：一般池化（General Pooling，最大和平均池化）、重叠池化（Overlapping Pooling，相邻池化窗口之间<strong>有重叠区域</strong>，此时一般sizeX &gt; stride）、<a target="_blank" rel="noopener" href="https://blog.csdn.net/g11d111/article/details/80789538">空间金字塔池化</a>（Spatial Pyramid Pooling）</p>
+<p><strong>池化层作用</strong>：特征不变性（feature invariant）、特征降维、在一定程度上能防止过拟合的发生 。</p></li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/dwyane12138/article/details/78449898#commentBox">使用im2col展开优化卷积计算</a> （位置7.4.3）<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/63974249">知乎链接</a></p></li>
+<li><p><strong>常见卷积神经网络</strong></p>
+<ol type="1">
+<li><p>LeNet</p>
+<p>LeNet有几个不同点：第一个不同点在于激活函数。LeNet中使用sigmoid函数，而现在的CNN中主要使用ReLU函数。此外，原始的LeNet中使用子采样（subsampling）缩小中间数据的大小，而现在的CNN中Max池化是主流。AlexNet还使用了进行局部正规化的LRN（Local Response Normalization）层。</p></li>
+<li><p>AlexNet</p></li>
+<li><p>ZF</p></li>
+<li><p>VGG</p></li>
+<li><p>GoogLeNet</p></li>
+<li><p>ResNet</p></li>
+<li><p>DenseNet</p></li>
+</ol></li>
+</ul>
+<p><font color = red>(!!!经典网络的论文没看)</font></p>
+<ul>
+<li><p>迁移学习、集成学习</p></li>
+<li><p>组合图像和自然语言等多种信息进行的处理称为<strong>多模态处理</strong></p></li>
+<li><p>DCGAN（Deep Convolutional Generative Adversarial Network）</p>
+<p>技术要点是使用了Generator（生成者）和Discriminator（识别者）这两个神经网络</p></li>
+</ul>
+<hr />
+<h2 id="总结">总结</h2>
+<ol type="1">
+<li>Python常用数学与图形库的使用</li>
+<li>感知机基本概念和实现</li>
+<li>学习了DL和ANN基本理论（层、权重、激活函数、误差函数等）</li>
+<li>神经网络的基本训练流程、数值微分法</li>
+<li>计算图的概念和反向传播</li>
+<li>寻找最优权重的优化方法（Batch Normalization、SGD、Momentum、Adam等）、参数初始化以及超参数搜索</li>
+<li>CNN卷积层、池化层，了解了LeNet、AlexNet、ResNet、DenseNet（相关论文未看）</li>
+<li>为什么深度学习表现优异、为什么加深层能提高识别精度、为什么隐藏层很重要等问题（见笔记）</li>
+<li>Python实现梯度下降法求最优参数、手写数字识别、超参数搜索</li>
+</ol>
+<hr />
+<h2 id="to-do">TO-DO</h2>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />
+误差反向传播的代码值得研究研究</li>
+<li><input type="checkbox" disabled="" />
+numpy和matplotlib使用方法</li>
+<li><input type="checkbox" disabled="" />
+线性代数和概率论、函数求导</li>
+<li><input type="checkbox" disabled="" />
+实现基于MNIST的神经网络 P73关于pickle的使用以及代码细节还未细看</li>
+<li><input type="checkbox" disabled="" checked="" />
+argmax解析：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_38145317/article/details/79650188">链接</a></li>
+<li><input type="checkbox" disabled="" checked="" />
+python中类的继承、类方法、实例变量与类变量：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/kex1n/p/5979366.html">链接</a></li>
+<li><input type="checkbox" disabled="" checked="" />
+python实现数值微分时，需要注意浮点数舍入误差，使用中间差分代替前向差分。[P95]</li>
+<li><input type="checkbox" disabled="" />
+掌握python的图表绘制基本操作，散点图、三维图、梯度图，多个曲线的合并，图表标签设置、坐标轴设置</li>
+<li><input type="checkbox" disabled="" checked="" />
+python实例变量和类变量辨析：<a target="_blank" rel="noopener" href="http://kuanghy.github.io/2015/12/19/python-variable">链接</a></li>
+<li><input type="checkbox" disabled="" />
+ILSVRC ImageNet Large Scale Visual Recognition Challenge</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/01/26/2019-01-26-VMWare%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/">
+                        <span class="hidden-mobile">VMWARE使用记录</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="" target="_blank" rel="nofollow noopener"><span>tudou</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="" target="_blank" rel="nofollow noopener">
+        <span>digua</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "深度学习入门&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
