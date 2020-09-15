@@ -1,0 +1,2227 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.jpg">
+  <link rel="icon" type="image/png" href="/img/favicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Yuchen">
+  <meta name="keywords" content="">
+  <title>LeetCode专题 BFS DFS - Yuchen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/tomorrow-night-eighties.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Yuchen's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/main4.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-07-26 00:00" pubdate>
+        2020年7月26日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      9.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      155
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">LeetCode专题 BFS DFS</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h1 id="leetcode-bfs-dfs">LeetCode BFS + DFS</h1>
+<p><strong>代码规范</strong></p>
+<p><strong>TIPS：没有看Java的输入输出如何写，晚点补上。不写main函数。</strong></p>
+<hr />
+<h2 id="stl专题">STL专题</h2>
+<ul>
+<li><p>map用法总结（<a target="_blank" rel="noopener" href="https://blog.csdn.net/sevenjoin/article/details/81943864">整理1</a>）（<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tangyikejun/p/4220316.html">整理2</a>）</p></li>
+<li><p>vector用法总结（<a target="_blank" rel="noopener" href="https://www.cnblogs.com/mr-wid/archive/2013/01/22/2871105.html">整理1</a>）</p></li>
+<li><p>string用法大全（length() substring() substr()）</p></li>
+</ul>
+<hr />
+<p>1.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/two-sum/">两数之和</a></p>
+<p>HashMap</p>
+<div class="hljs"><pre><code class="hljs Java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span>[] twoSum(<span class="hljs-keyword">int</span>[] nums, <span class="hljs-keyword">int</span> target) &#123;
+        Map&lt;Integer, Integer&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;nums.length;i++)
+            map.put(nums[i],i);
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;nums.length;i++)&#123;
+            Integer v = map.get(target - nums[i]);
+            <span class="hljs-keyword">if</span>(v!=(Integer)i &amp;&amp; v!=<span class="hljs-keyword">null</span>)
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]&#123;i,v&#125;;<span class="hljs-comment">//也可以采用遍历一次Map的方法</span>
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    &#125;
+&#125;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">twoSum</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums, <span class="hljs-keyword">int</span> target)</span> </span>&#123;
+        <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">ans</span><span class="hljs-params">(<span class="hljs-number">2</span>,<span class="hljs-number">-1</span>)</span></span>;
+        <span class="hljs-built_in">map</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; num_map;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;nums.size();i++)&#123;
+            <span class="hljs-keyword">if</span>(num_map.count(target - nums[i]) == <span class="hljs-number">1</span>)&#123;
+                ans[<span class="hljs-number">0</span>] = num_map[target-nums[i]];
+                ans[<span class="hljs-number">1</span>] = i;
+                <span class="hljs-keyword">break</span>;
+            &#125;
+            num_map.insert(<span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt;(nums[i],i));
+        &#125;
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+&#125;;</code></pre></div>
+<p>7.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/reverse-integer/">整数反转</a></p>
+<p>注意数据的范围，反转之后会超过int_32，使用long不溢出，Java中使用的是 truncate 除法：</p>
+<p>a=b*q +r，其中 |r|&lt;|a|。因此 r 有两个选择，一个为正，一个为负;相应的，q 也有两个选择。如果a、b 都是正数的话，那么一般的编程语言中，r 为正数；或者如果 a、b 都是负数的话，一般 r 为负数。但是如果 a、b 一正一负的话，不同的语言则会根据除法的不同结果而使得 r 的结果也不同，但是一般 r 的计算方法都会满足：r=a-(a/b)*b</p>
+<div class="hljs"><pre><code class="hljs Java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">reverse</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;
+        <span class="hljs-keyword">long</span> ans = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">while</span>(x!=<span class="hljs-number">0</span>)&#123;
+            ans = ans*<span class="hljs-number">10</span> + x%<span class="hljs-number">10</span>; 
+            x /=<span class="hljs-number">10</span>;
+        &#125;
+        <span class="hljs-keyword">int</span> A = (<span class="hljs-keyword">int</span>)Math.pow(<span class="hljs-number">2</span>,<span class="hljs-number">31</span>);
+        <span class="hljs-keyword">if</span>(ans &gt;= -A &amp;&amp; ans &lt;= A-<span class="hljs-number">1</span>)
+            <span class="hljs-keyword">return</span> (<span class="hljs-keyword">int</span>)ans;
+        <span class="hljs-keyword">else</span> 
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    &#125;
+&#125;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">reverse</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;
+        <span class="hljs-comment">//cout&lt;&lt; (-11%3)endl;-2147483648</span>
+        <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MAX_INT = <span class="hljs-number">2147483647</span>;
+        <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MIN_INT = <span class="hljs-number">-2147483648</span>;
+        <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">while</span>(x!=<span class="hljs-number">0</span>)&#123;
+            <span class="hljs-keyword">int</span> p = x%<span class="hljs-number">10</span>; <span class="hljs-comment">//求x最低位数字</span>
+            <span class="hljs-comment">//每次对ans乘以10，当ans位数小于MAX_INT/MIN_INT时，一定不溢出；</span>
+            <span class="hljs-comment">//当ans位数与MAX_INT/MIN_INT相同时，需要考虑最后一位是否大于7或小于-8.</span>
+            <span class="hljs-keyword">if</span>(ans &gt; MAX_INT/<span class="hljs-number">10</span> || (ans == MAX_INT/<span class="hljs-number">10</span> &amp;&amp; p &gt; <span class="hljs-number">7</span>))&#123;
+                <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+            &#125;
+            <span class="hljs-keyword">if</span>(ans &lt; MIN_INT/<span class="hljs-number">10</span> || (ans == MIN_INT/<span class="hljs-number">10</span> &amp; p &lt; <span class="hljs-number">-8</span>))&#123;
+                <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+            &#125;
+            ans = ans*<span class="hljs-number">10</span> + p;
+            x /= <span class="hljs-number">10</span>;
+        &#125;
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+&#125;;</code></pre></div>
+<p>9.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/palindrome-number/">回文数</a></p>
+<div class="hljs"><pre><code class="hljs Java"><span class="hljs-comment">//其实在T7中给出了计算回文串的一种方式，回文串一定不会溢出</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isPalindrome</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(x&lt;<span class="hljs-number">0</span>)
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+        <span class="hljs-keyword">long</span> num = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">long</span> xx = x;
+        <span class="hljs-keyword">while</span>(xx!=<span class="hljs-number">0</span>)&#123;
+            num = num*<span class="hljs-number">10</span> + xx%<span class="hljs-number">10</span>;
+            xx /= <span class="hljs-number">10</span>;
+        &#125;
+        <span class="hljs-keyword">if</span>(x == num)
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+        <span class="hljs-keyword">else</span> 
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    &#125;
+&#125;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isPalindrome</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;
+        <span class="hljs-built_in">string</span> s = to_string(x);
+        <span class="hljs-built_in">string</span> r = to_string(x);
+        reverse(s.begin(),s.end());
+        <span class="hljs-keyword">if</span>(s==r)
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        <span class="hljs-keyword">else</span> 
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//反转一半的情况</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isPalindrome</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;
+        <span class="hljs-comment">/* 判断特殊情况</span>
+<span class="hljs-comment">         * 情况1:负数  情况2:末尾有0的整数,反转后前缀0没了,满足条件的只有0</span>
+<span class="hljs-comment">         */</span>
+        <span class="hljs-keyword">if</span>(x&lt;<span class="hljs-number">0</span> || (x%<span class="hljs-number">10</span>==<span class="hljs-number">0</span> &amp;&amp; x!=<span class="hljs-number">0</span>))&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        &#125;
+        <span class="hljs-comment">//为了防止溢出,反转一半的数字</span>
+        <span class="hljs-comment">//int len = 0;这里不需要求出长度,数字对半分之后可以比较出大小</span>
+        <span class="hljs-keyword">int</span> half = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">while</span>(x &gt; half)&#123;
+            <span class="hljs-keyword">int</span> tmp = x%<span class="hljs-number">10</span>;
+            half = half*<span class="hljs-number">10</span> + tmp;
+            x /= <span class="hljs-number">10</span>;
+        &#125;
+        <span class="hljs-comment">//此处考虑了数字长度为奇数或偶数的情况</span>
+        <span class="hljs-keyword">return</span> x==half || x==(half/<span class="hljs-number">10</span>);
+    &#125;
+&#125;;</code></pre></div>
+<p>13.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/roman-to-integer/">罗马数字转整数</a></p>
+<p>这道题目学习到了Map的优雅的初始化方式和罗马数字的计数规则。</p>
+<p>罗马数字是阿拉伯数字传入之前使用的一种数码。罗马数字采用七个罗马字母作数字、即Ⅰ（1）、X（10）、C（100）、M（1000）、V（5）、L（50）、D（500）。记数的方法：</p>
+<div class="hljs"><pre><code class="hljs angelscript">https:<span class="hljs-comment">//www.douban.com/note/335254352/</span>
+相同的数字连写，所表示的数等于这些数字相加得到的数，如 Ⅲ=<span class="hljs-number">3</span>；
+小的数字在大的数字的右边，所表示的数等于这些数字相加得到的数，如 Ⅷ=<span class="hljs-number">8</span>、Ⅻ=<span class="hljs-number">12</span>；
+小的数字（限于 Ⅰ、X 和 C）在大的数字的左边，所表示的数等于大数减小数得到的数，如 Ⅳ=<span class="hljs-number">4</span>、Ⅸ=<span class="hljs-number">9</span>；
+在一个数的上面画一条横线，表示这个数增值 <span class="hljs-number">1</span>,<span class="hljs-number">000</span> 倍，如V(上面一横) = <span class="hljs-number">5000</span>。</code></pre></div>
+<div class="hljs"><pre><code class="hljs java">Map&lt;String, Object&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;String, Object&gt;() &#123;<span class="hljs-comment">//第二个&quot;&lt;&gt;&quot;内的内容不可以缺少</span>
+    　　&#123;
+        　　put(<span class="hljs-string">&quot;name&quot;</span>, <span class="hljs-string">&quot;June&quot;</span>);  
+       　　 put(<span class="hljs-string">&quot;age&quot;</span>, <span class="hljs-number">12</span>);  
+    　　&#125;
+　　&#125;; 　
+　　<span class="hljs-comment">/*外层的一组“&#123;&#125;”表示的是一个匿名类，内层的一对“&#123;&#125;”表示的是实例初始化块，然后这边还有一点需要明白，实例初始化块的代码在编译器编译过后，是放在类的构造函数里面的，并且是在原构造函数代码的前面。&quot;*/</span></code></pre></div>
+<div class="hljs"><pre><code class="hljs Java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">romanToInt</span><span class="hljs-params">(String s)</span> </span>&#123;
+        Map&lt;Character, Integer&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;Character, Integer&gt;()&#123;
+            &#123;
+                put(<span class="hljs-string">&#x27;I&#x27;</span>,<span class="hljs-number">1</span>); 
+                put(<span class="hljs-string">&#x27;V&#x27;</span>,<span class="hljs-number">5</span>);
+                put(<span class="hljs-string">&#x27;X&#x27;</span>,<span class="hljs-number">10</span>);
+                put(<span class="hljs-string">&#x27;L&#x27;</span>,<span class="hljs-number">50</span>);
+                put(<span class="hljs-string">&#x27;C&#x27;</span>,<span class="hljs-number">100</span>);
+                put(<span class="hljs-string">&#x27;D&#x27;</span>,<span class="hljs-number">500</span>);
+                put(<span class="hljs-string">&#x27;M&#x27;</span>,<span class="hljs-number">1000</span>);
+            &#125;
+        &#125;;<span class="hljs-comment">//一开始这里出错了，没有用Character类而用的String类，指针异常</span>
+        <span class="hljs-keyword">int</span> last = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span> curr = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;s.length();i++)&#123; 
+            curr = map.get(s.charAt(i));
+            <span class="hljs-keyword">if</span>(curr &gt; last)
+                ans = ans - <span class="hljs-number">2</span>*last;
+            ans += curr;
+            last = curr;
+        &#125;
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+&#125;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//C++ version</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">romanToInt</span><span class="hljs-params">(<span class="hljs-built_in">string</span> s)</span> </span>&#123;
+        <span class="hljs-built_in">map</span>&lt;<span class="hljs-keyword">char</span>, <span class="hljs-keyword">int</span>&gt; mp&#123;
+            &#123;<span class="hljs-string">&#x27;I&#x27;</span>,<span class="hljs-number">1</span>&#125;,
+            &#123;<span class="hljs-string">&#x27;V&#x27;</span>,<span class="hljs-number">5</span>&#125;,
+            &#123;<span class="hljs-string">&#x27;X&#x27;</span>,<span class="hljs-number">10</span>&#125;,
+            &#123;<span class="hljs-string">&#x27;L&#x27;</span>,<span class="hljs-number">50</span>&#125;,
+            &#123;<span class="hljs-string">&#x27;C&#x27;</span>,<span class="hljs-number">100</span>&#125;,
+            &#123;<span class="hljs-string">&#x27;D&#x27;</span>,<span class="hljs-number">500</span>&#125;,
+            &#123;<span class="hljs-string">&#x27;M&#x27;</span>,<span class="hljs-number">1000</span>&#125;
+        &#125;;
+        <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span> pre = <span class="hljs-number">0</span>; <span class="hljs-comment">//存储上一位罗马数字</span>
+        <span class="hljs-keyword">int</span> cur = <span class="hljs-number">0</span>; <span class="hljs-comment">//存储当前的罗马数字，与上一位比较大小，若小于直接相加，大于则减去2*pre</span>
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;s.length();i++)&#123;
+            cur = mp[s[i]];
+            <span class="hljs-keyword">if</span>(i &gt; <span class="hljs-number">0</span> &amp;&amp; cur &gt; pre)&#123;
+                ans -= <span class="hljs-number">2</span>*pre;
+            &#125;
+            ans += cur;
+            pre = cur;
+        &#125;
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span> <span class="hljs-comment">//低效</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">romanToInt</span><span class="hljs-params">(<span class="hljs-built_in">string</span> s)</span> </span>&#123;
+        <span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt; num;
+        num.insert(<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;::value_type(<span class="hljs-string">&quot;I&quot;</span>, <span class="hljs-number">1</span>));
+        num.insert(<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;::value_type(<span class="hljs-string">&quot;IV&quot;</span>, <span class="hljs-number">4</span>));
+        num.insert(<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;::value_type(<span class="hljs-string">&quot;V&quot;</span>, <span class="hljs-number">5</span>));
+        num.insert(<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;::value_type(<span class="hljs-string">&quot;IX&quot;</span>, <span class="hljs-number">9</span>));
+        num.insert(<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;::value_type(<span class="hljs-string">&quot;X&quot;</span>, <span class="hljs-number">10</span>));
+        num.insert(<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;::value_type(<span class="hljs-string">&quot;XL&quot;</span>, <span class="hljs-number">40</span>));
+        num.insert(<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;::value_type(<span class="hljs-string">&quot;L&quot;</span>, <span class="hljs-number">50</span>));
+        num.insert(<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;::value_type(<span class="hljs-string">&quot;XC&quot;</span>, <span class="hljs-number">90</span>));
+        num.insert(<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;::value_type(<span class="hljs-string">&quot;C&quot;</span>, <span class="hljs-number">100</span>));
+        num.insert(<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;::value_type(<span class="hljs-string">&quot;CD&quot;</span>, <span class="hljs-number">400</span>));
+        num.insert(<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;::value_type(<span class="hljs-string">&quot;D&quot;</span>, <span class="hljs-number">500</span>));
+        num.insert(<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;::value_type(<span class="hljs-string">&quot;CM&quot;</span>, <span class="hljs-number">900</span>));
+        num.insert(<span class="hljs-built_in">map</span>&lt;<span class="hljs-built_in">string</span>, <span class="hljs-keyword">int</span>&gt;::value_type(<span class="hljs-string">&quot;M&quot;</span>, <span class="hljs-number">1000</span>));
+
+        <span class="hljs-keyword">int</span> len = s.length();
+        <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;len;i++)&#123;
+            <span class="hljs-keyword">if</span>(i&lt;len<span class="hljs-number">-1</span> &amp;&amp; num.count(s.substr(i,<span class="hljs-number">2</span>)) &gt; <span class="hljs-number">0</span>) &#123;
+                ans += num[s.substr(i,<span class="hljs-number">2</span>)];
+                i++;
+            &#125;
+            <span class="hljs-keyword">else</span> &#123;
+                ans += num[s.substr(i,<span class="hljs-number">1</span>)];
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+&#125;;</code></pre></div>
+<p>14.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/longest-common-prefix/">最长公共前缀</a></p>
+<p>大概有这五种思路, 一般都会采用第四种, 但是耗时太多</p>
+<p>1、所求的最长公共前缀子串一定是每个字符串的前缀子串。所以随便选择一个字符串作为标准，把它的前缀串，与其他所有字符串进行判断，看是否是它们所有人的前缀子串。这里的时间性能是O(m<em>n</em>m)。</p>
+<p>2、列出所有的字符串的前缀子串，将它们合并后排序，找出其中个数为n且最长的子串。时间性能为O(n<em>m+m</em>n<em>log(m</em>n))</p>
+<p>3、纵向扫描：从下标0开始，判断每一个字符串的下标0，判断是否全部相同。直到遇到不全部相同的下标。时间性能为O(n*m)。</p>
+<p>4、横向扫描：前两个字符串找公共子串，将其结果和第三个字符串找公共子串……直到最后一个串。时间性能为O(n*m)。</p>
+<p>5、借助trie字典树。将这些字符串存储到trie树中。那么trie树的第一个分叉口之前的单分支树的就是所求。</p>
+<div class="hljs"><pre><code class="hljs Java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">longestCommonPrefix</span><span class="hljs-params">(String[] strs)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> cnt = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">if</span>(strs.length == <span class="hljs-number">0</span>)<span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>;<span class="hljs-comment">//居然有空的string数组</span>
+        <span class="hljs-keyword">int</span> maxlen = strs[<span class="hljs-number">0</span>].length();
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> l=<span class="hljs-number">1</span>;l&lt;=maxlen;l++)&#123;
+            String prefix = strs[<span class="hljs-number">0</span>].substring(<span class="hljs-number">0</span>,l);
+            cnt = <span class="hljs-number">0</span>;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;strs.length;i++)&#123;
+                <span class="hljs-keyword">if</span>(strs[i].startsWith(prefix))&#123;
+                    cnt++;
+                &#125;           
+            &#125;
+            <span class="hljs-keyword">if</span>(cnt!=strs.length-<span class="hljs-number">1</span>)&#123;
+                <span class="hljs-keyword">if</span>(l==<span class="hljs-number">1</span>)
+                    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>;
+                <span class="hljs-keyword">else</span> 
+                    <span class="hljs-keyword">return</span> prefix.substring(<span class="hljs-number">0</span>,l-<span class="hljs-number">1</span>);
+            &#125;
+            <span class="hljs-keyword">else</span>&#123;
+                <span class="hljs-keyword">if</span>(l==strs[<span class="hljs-number">0</span>].length())&#123;
+                    <span class="hljs-keyword">return</span> prefix.substring(<span class="hljs-number">0</span>,l);
+                &#125;     
+            &#125;           
+        &#125;  
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>;
+    &#125;
+&#125;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">longestCommonPrefix</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">string</span>&gt;&amp; strs)</span> </span>&#123;
+        <span class="hljs-built_in">string</span> ans = <span class="hljs-string">&quot;&quot;</span>;
+        <span class="hljs-keyword">if</span>(strs.size()==<span class="hljs-number">0</span>)
+            <span class="hljs-keyword">return</span> ans;
+        sort(strs.begin(),strs.end());
+        <span class="hljs-keyword">int</span> LEN = <span class="hljs-number">0x3f3f3f3f</span>;
+        <span class="hljs-keyword">int</span> CNT = strs.size();
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;CNT;i++)&#123;
+            <span class="hljs-keyword">if</span>(strs[i].length() &lt; LEN)&#123;
+                LEN = strs[i].length();
+            &#125;
+        &#125;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;LEN;i++)&#123;
+            <span class="hljs-keyword">if</span>(strs[<span class="hljs-number">0</span>][i]==strs[CNT<span class="hljs-number">-1</span>][i])&#123;
+                ans += strs[<span class="hljs-number">0</span>][i];
+            &#125;
+            <span class="hljs-keyword">else</span> &#123;
+                <span class="hljs-keyword">break</span>;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+&#125;;</code></pre></div>
+<p>20.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/valid-parentheses/">有效的括号</a></p>
+<div class="hljs"><pre><code class="hljs Java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;<span class="hljs-comment">//简单的堆栈应用</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isValid</span><span class="hljs-params">(String s)</span> </span>&#123;
+        <span class="hljs-comment">//Stack&lt;Character&gt; stk = new Stack&lt;&gt;();</span>
+        Stack stk = <span class="hljs-keyword">new</span> Stack();
+        <span class="hljs-keyword">if</span>(s.length()%<span class="hljs-number">2</span>==<span class="hljs-number">1</span>)
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+        <span class="hljs-keyword">if</span>(s.length()==<span class="hljs-number">0</span>)
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+        <span class="hljs-comment">//stk.push(s.charAt(0));</span>
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;s.length();i++)&#123;
+            <span class="hljs-keyword">if</span>(stk.empty())&#123;
+                stk.push(s.charAt(i));
+                <span class="hljs-keyword">continue</span>;
+            &#125;
+            <span class="hljs-keyword">char</span> c = (<span class="hljs-keyword">char</span>)stk.peek();
+            <span class="hljs-keyword">if</span>(s.charAt(i)==<span class="hljs-string">&#x27;)&#x27;</span> &amp;&amp; c==<span class="hljs-string">&#x27;(&#x27;</span> || s.charAt(i)==<span class="hljs-string">&#x27;]&#x27;</span> &amp;&amp; c==<span class="hljs-string">&#x27;[&#x27;</span> ||s.charAt(i)==<span class="hljs-string">&#x27;&#125;&#x27;</span> &amp;&amp; c==<span class="hljs-string">&#x27;&#123;&#x27;</span>)&#123;
+                stk.pop();
+            &#125;
+            <span class="hljs-keyword">else</span> 
+                stk.push(s.charAt(i));
+        &#125;
+        <span class="hljs-keyword">if</span>(stk.empty())
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    &#125;
+&#125;</code></pre></div>
+<div class="hljs"><pre><code class="hljs Java"><span class="hljs-comment">//巨慢无比124ms 但是短啊</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isValid</span><span class="hljs-params">(String s)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(s.length()%<span class="hljs-number">2</span>==<span class="hljs-number">1</span>)
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+        <span class="hljs-keyword">if</span>(s.length()==<span class="hljs-number">0</span>)
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+        <span class="hljs-keyword">while</span>(s.indexOf(<span class="hljs-string">&quot;()&quot;</span>)!=-<span class="hljs-number">1</span> || s.indexOf(<span class="hljs-string">&quot;[]&quot;</span>)!=-<span class="hljs-number">1</span> || s.indexOf(<span class="hljs-string">&quot;&#123;&#125;&quot;</span>)!=-<span class="hljs-number">1</span>)&#123;
+            s=s.replaceAll(<span class="hljs-string">&quot;\\(\\)&quot;</span>,<span class="hljs-string">&quot;&quot;</span>);
+            s=s.replaceAll(<span class="hljs-string">&quot;\\[\\]&quot;</span>,<span class="hljs-string">&quot;&quot;</span>);
+            s=s.replaceAll(<span class="hljs-string">&quot;\\&#123;\\&#125;&quot;</span>,<span class="hljs-string">&quot;&quot;</span>);
+        &#125;
+        <span class="hljs-keyword">return</span> s.length()==<span class="hljs-number">0</span>;
+    &#125;
+&#125;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//优秀的题解,使用数字来表示括号,判断条件好写</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isValid</span><span class="hljs-params">(<span class="hljs-built_in">string</span> s)</span> </span>&#123;
+        <span class="hljs-built_in">unordered_map</span>&lt;<span class="hljs-keyword">char</span>,<span class="hljs-keyword">int</span>&gt; m&#123;&#123;<span class="hljs-string">&#x27;(&#x27;</span>,<span class="hljs-number">1</span>&#125;,&#123;<span class="hljs-string">&#x27;[&#x27;</span>,<span class="hljs-number">2</span>&#125;,&#123;<span class="hljs-string">&#x27;&#123;&#x27;</span>,<span class="hljs-number">3</span>&#125;,
+                                &#123;<span class="hljs-string">&#x27;)&#x27;</span>,<span class="hljs-number">4</span>&#125;,&#123;<span class="hljs-string">&#x27;]&#x27;</span>,<span class="hljs-number">5</span>&#125;,&#123;<span class="hljs-string">&#x27;&#125;&#x27;</span>,<span class="hljs-number">6</span>&#125;&#125;;
+        <span class="hljs-built_in">stack</span>&lt;<span class="hljs-keyword">char</span>&gt; st;
+        <span class="hljs-keyword">bool</span> istrue=<span class="hljs-literal">true</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">char</span> c:s)&#123;
+            <span class="hljs-keyword">int</span> flag=m[c];
+            <span class="hljs-keyword">if</span>(flag&gt;=<span class="hljs-number">1</span>&amp;&amp;flag&lt;=<span class="hljs-number">3</span>) st.push(c);
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(!st.empty()&amp;&amp;m[st.top()]==flag<span class="hljs-number">-3</span>) st.pop();
+            <span class="hljs-keyword">else</span> &#123;istrue=<span class="hljs-literal">false</span>;<span class="hljs-keyword">break</span>;&#125;
+        &#125;
+        <span class="hljs-keyword">if</span>(!st.empty()) istrue=<span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">return</span> istrue;
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//C++版,默认flag为true,去判断括号不匹配的情况</span>
+<span class="hljs-comment">//情况1:当前括号是右括号但是与栈顶的括号不匹配</span>
+<span class="hljs-comment">//情况2:当前括号是右括号但是栈空</span>
+<span class="hljs-comment">//情况3:括号串扫描结束，但栈中有多余的括号(奇数情况)</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isValid</span><span class="hljs-params">(<span class="hljs-built_in">string</span> s)</span> </span>&#123;
+        <span class="hljs-built_in">stack</span>&lt;<span class="hljs-keyword">char</span>&gt; st;
+        <span class="hljs-keyword">bool</span> flag = <span class="hljs-literal">true</span>;
+        
+        <span class="hljs-keyword">if</span>(s.length()==<span class="hljs-number">0</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        &#125;
+        
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;s.length();i++)&#123;
+            <span class="hljs-keyword">if</span>(s[i]==<span class="hljs-string">&#x27;(&#x27;</span> || s[i]==<span class="hljs-string">&#x27;[&#x27;</span> ||s[i]==<span class="hljs-string">&#x27;&#123;&#x27;</span>)&#123;
+                st.push(s[i]);
+            &#125;
+            <span class="hljs-keyword">else</span> &#123;
+                <span class="hljs-keyword">if</span>(!st.empty())&#123;
+                    <span class="hljs-keyword">char</span> c = st.top();
+                    st.pop();
+                    <span class="hljs-keyword">if</span>((s[i]==<span class="hljs-string">&#x27;)&#x27;</span>&amp;&amp;c==<span class="hljs-string">&#x27;(&#x27;</span>) || (s[i]==<span class="hljs-string">&#x27;]&#x27;</span>&amp;&amp;c==<span class="hljs-string">&#x27;[&#x27;</span>) || (s[i]==<span class="hljs-string">&#x27;&#125;&#x27;</span>&amp;&amp;c==<span class="hljs-string">&#x27;&#123;&#x27;</span>))&#123;
+                        <span class="hljs-keyword">continue</span>;
+                    &#125;
+                    <span class="hljs-keyword">else</span> &#123;
+                        flag = <span class="hljs-literal">false</span>;
+                        <span class="hljs-keyword">break</span>;
+                    &#125;
+                &#125;
+                <span class="hljs-keyword">else</span> &#123;
+                    flag = <span class="hljs-literal">false</span>;
+                    <span class="hljs-keyword">break</span>;
+                &#125;
+            &#125;
+        &#125;
+        
+        <span class="hljs-keyword">if</span>(!st.empty())&#123;
+            flag = <span class="hljs-literal">false</span>;
+        &#125;  
+        
+        <span class="hljs-keyword">return</span> flag;
+    &#125;
+&#125;;</code></pre></div>
+<p>21.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/merge-two-sorted-lists/">合并两个有序表</a></p>
+<div class="hljs"><pre><code class="hljs C++">
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for singly-linked list.</span>
+<span class="hljs-comment"> * struct ListNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     ListNode *next;</span>
+<span class="hljs-comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function">ListNode* <span class="hljs-title">mergeTwoLists</span><span class="hljs-params">(ListNode* l1, ListNode* l2)</span> </span>&#123;
+        <span class="hljs-comment">//合并不需要再申请空间，直接指针连接，返回结果为L-next.</span>
+        ListNode* L = <span class="hljs-keyword">new</span> ListNode(<span class="hljs-number">-1</span>);
+        ListNode* p = L;
+        ListNode* p1 = l1;
+        ListNode* p2 = l2;
+        
+        <span class="hljs-keyword">while</span>(p1!=<span class="hljs-literal">NULL</span> &amp;&amp; p2!=<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">if</span>( p1-&gt;val &lt; p2-&gt;val)&#123;
+                p-&gt;next = p1;
+                p = p-&gt;next;
+                p1 = p1-&gt;next;
+            &#125;
+            <span class="hljs-keyword">else</span> &#123;
+                p-&gt;next = p2;
+                p = p-&gt;next;
+                p2 = p2-&gt;next;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">if</span>(p1!=<span class="hljs-literal">NULL</span>)p-&gt;next = p1;
+        <span class="hljs-keyword">if</span>(p2!=<span class="hljs-literal">NULL</span>)p-&gt;next = p2;
+
+        <span class="hljs-keyword">return</span> L-&gt;next;
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for singly-linked list.</span>
+<span class="hljs-comment"> * struct ListNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     ListNode *next;</span>
+<span class="hljs-comment"> *     ListNode() : val(0), next(nullptr) &#123;&#125;</span>
+<span class="hljs-comment"> *     ListNode(int x) : val(x), next(nullptr) &#123;&#125;</span>
+<span class="hljs-comment"> *     ListNode(int x, ListNode *next) : val(x), next(next) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function">ListNode* <span class="hljs-title">mergeTwoLists</span><span class="hljs-params">(ListNode* l1, ListNode* l2)</span> </span>&#123;
+        ListNode *p1 = l1; <span class="hljs-comment">//链表l1的指针,指向第一个结点</span>
+        ListNode *p2 = l2; <span class="hljs-comment">//链表l2的指针,指向第一个结点</span>
+        ListNode *L = <span class="hljs-keyword">new</span> ListNode(); <span class="hljs-comment">//合并后的链表头结点，分配空间</span>
+        ListNode *p = L; <span class="hljs-comment">//新链表的尾指针</span>
+        <span class="hljs-keyword">while</span>(p1!=<span class="hljs-literal">nullptr</span> &amp;&amp; p2!=<span class="hljs-literal">nullptr</span>)&#123;
+            <span class="hljs-keyword">if</span>(p1-&gt;val &lt; p2-&gt;val)&#123;
+                p-&gt;next = p1;
+                p = p-&gt;next;
+                p1 = p1-&gt;next;
+            &#125;
+            <span class="hljs-keyword">else</span> &#123;
+                p-&gt;next = p2;
+                p = p-&gt;next;
+                p2 = p2-&gt;next;
+            &#125;
+        &#125;
+
+        <span class="hljs-keyword">if</span>(p1!=<span class="hljs-literal">nullptr</span>)&#123;
+            p-&gt;next = p1;
+            <span class="hljs-comment">// p1 = p1-&gt;next;</span>
+        &#125;
+        <span class="hljs-keyword">if</span>(p2!=<span class="hljs-literal">nullptr</span>)&#123;
+            p-&gt;next = p2;
+            <span class="hljs-comment">// p2 = p2-&gt;next;</span>
+        &#125;
+
+        <span class="hljs-keyword">return</span> L-&gt;next;
+    &#125;
+&#125;;</code></pre></div>
+<p>26.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/">删除数组中的重复项</a></p>
+<p>双指针法。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">removeDuplicates</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(nums.size() == <span class="hljs-number">0</span>)
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        <span class="hljs-comment">//双指针(游标)法</span>
+        <span class="hljs-keyword">int</span> end = <span class="hljs-number">0</span>; <span class="hljs-comment">//存储新数组的尾部</span>
+        <span class="hljs-comment">// int cur = 0; //当前遍历到的数字</span>
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> cur=<span class="hljs-number">0</span>;cur&lt;nums.size();cur++)&#123;
+            <span class="hljs-keyword">if</span>(nums[cur]!=nums[end])&#123;
+                end ++;
+                nums[end] = nums[cur];
+            &#125;
+        &#125;
+
+        <span class="hljs-keyword">return</span> end+<span class="hljs-number">1</span>;
+    &#125;
+&#125;;</code></pre></div>
+<p>27.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/remove-element/">移除元素</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">removeElement</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums, <span class="hljs-keyword">int</span> val)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>;j&lt;nums.size();j++)&#123;
+            <span class="hljs-keyword">if</span>(nums[j]!=val)&#123;
+                swap(nums[i],nums[j]);
+                i++;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> i;
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">removeElement</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums, <span class="hljs-keyword">int</span> val)</span> </span>&#123;
+        <span class="hljs-comment">// if(nums.size()==0)&#123;</span>
+        <span class="hljs-comment">//     return 0;</span>
+        <span class="hljs-comment">// &#125;</span>
+        <span class="hljs-keyword">int</span> end = <span class="hljs-number">0</span>; <span class="hljs-comment">//存储新数组的最后一个元素的下标,插入到下一个位置</span>
+        <span class="hljs-keyword">int</span> cur = <span class="hljs-number">0</span>; <span class="hljs-comment">//当前遍历到的元素下标</span>
+        <span class="hljs-keyword">for</span>(cur=<span class="hljs-number">0</span>;cur&lt;nums.size();cur++)&#123;
+            <span class="hljs-keyword">if</span>(nums[cur]!=val)&#123;
+                nums[end] = nums[cur];
+                end ++;
+            &#125;
+        &#125;
+        
+        <span class="hljs-keyword">return</span> end;
+    &#125;
+&#125;;</code></pre></div>
+<p>35.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/search-insert-position/">搜索插入位置</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><span class="hljs-comment">//本质上是一个二分查找的题目</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">searchInsert</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums, <span class="hljs-keyword">int</span> target)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> l = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span> r = nums.size();
+        <span class="hljs-comment">//使用[l,r)的二分写法，最后返回首个大于等于target的值的位置</span>
+        <span class="hljs-keyword">while</span>(l &lt; r)&#123;<span class="hljs-comment">//区间[l,r)非空</span>
+            <span class="hljs-keyword">int</span> mid = l + (r - l)/<span class="hljs-number">2</span>;
+            <span class="hljs-keyword">if</span>(nums[mid] &gt;= target)&#123;
+                r = mid;
+            &#125; <span class="hljs-keyword">else</span> &#123;
+                l = mid + <span class="hljs-number">1</span>;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> l;
+    &#125;
+&#125;;</code></pre></div>
+<p>38.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/count-and-say/submissions/">报数</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">vec2str</span><span class="hljs-params">(<span class="hljs-built_in">string</span> &amp;ans, <span class="hljs-keyword">const</span> <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span></span>&#123;
+        
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;nums.size();i++)&#123;
+            ans += (<span class="hljs-keyword">char</span>)(nums[i] + <span class="hljs-string">&#x27;0&#x27;</span>);
+        &#125;
+    &#125; 
+    <span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">countAndSay</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span> </span>&#123;
+        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; nums[<span class="hljs-number">30</span>];
+        nums[<span class="hljs-number">0</span>].push_back(<span class="hljs-number">1</span>);
+        
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n<span class="hljs-number">-1</span>;i++)&#123;
+            <span class="hljs-keyword">int</span> cnt = <span class="hljs-number">0</span>;
+            <span class="hljs-keyword">int</span> val = nums[i][<span class="hljs-number">0</span>];
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>;j&lt;nums[i].size();j++)&#123;
+                <span class="hljs-keyword">if</span>(nums[i][j]==val)&#123;
+                    cnt++;
+                &#125;<span class="hljs-keyword">else</span>&#123;
+                    nums[i+<span class="hljs-number">1</span>].push_back(cnt);
+                    nums[i+<span class="hljs-number">1</span>].push_back(val);
+                    val = nums[i][j];
+                    cnt = <span class="hljs-number">1</span>;
+                &#125;
+                <span class="hljs-keyword">if</span>(j==nums[i].size()<span class="hljs-number">-1</span>)&#123;
+                    nums[i+<span class="hljs-number">1</span>].push_back(cnt);
+                    nums[i+<span class="hljs-number">1</span>].push_back(val);
+                &#125;
+            &#125;
+        &#125;
+        <span class="hljs-built_in">string</span> ans;
+        vec2str(ans,nums[n<span class="hljs-number">-1</span>]);
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//这个写法还不错</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">countAndSay</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span> </span>&#123;
+        <span class="hljs-built_in">string</span> s = <span class="hljs-string">&quot;1&quot;</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">2</span>;i&lt;=n;i++)&#123;
+            <span class="hljs-built_in">string</span> tmp = <span class="hljs-string">&quot;&quot;</span>;
+            <span class="hljs-keyword">int</span> len = s.length();
+            <span class="hljs-keyword">int</span> cnt = <span class="hljs-number">1</span>;
+            <span class="hljs-comment">/*首个数字已经计数,下面的循环需要比较后一个数字与当前数字是否相同:</span>
+<span class="hljs-comment">              若相同,则计数+1,否则,按照规则将已统计的字符写入字符串,设置cnt为1,</span>
+<span class="hljs-comment">              此处的1表示的就是后一个字符重新开始计数,不设置为0。</span>
+<span class="hljs-comment">            */</span>
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>;j&lt;len;j++)&#123;
+                <span class="hljs-keyword">if</span>(j&lt;len<span class="hljs-number">-1</span> &amp;&amp; s[j]==s[j+<span class="hljs-number">1</span>]) &#123;
+                    cnt ++;
+                &#125; 
+                <span class="hljs-keyword">else</span> &#123;
+                    tmp += to_string(cnt) + s[j];
+                    cnt = <span class="hljs-number">1</span>; <span class="hljs-comment">//这里计算的是后一个数字的数量</span>
+                &#125;
+            &#125;
+            s = tmp;
+        &#125;
+        <span class="hljs-keyword">return</span> s;
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">countAndSay</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span> </span>&#123;
+        <span class="hljs-built_in">string</span> s = <span class="hljs-string">&quot;1&quot;</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;n;i++)&#123;
+            <span class="hljs-built_in">string</span> tmp = <span class="hljs-string">&quot;&quot;</span>;
+            <span class="hljs-keyword">int</span> len = s.length();
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>;j&lt;len;j++)&#123;
+                <span class="hljs-keyword">int</span> cnt = <span class="hljs-number">1</span>;<span class="hljs-comment">//这里注意是1</span>
+                <span class="hljs-keyword">while</span>(j&lt;len<span class="hljs-number">-1</span> &amp;&amp; s[j] == s[j+<span class="hljs-number">1</span>])&#123;
+                    cnt++;
+                    j++;
+                &#125;
+                tmp += to_string(cnt)+s[j];
+            &#125;
+            s = tmp;
+        &#125;
+        <span class="hljs-keyword">return</span> s;
+    &#125;
+&#125;;</code></pre></div>
+<p>53.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/maximum-subarray/">最大子序列和</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span> <span class="hljs-comment">//O(n)的算法</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxSubArray</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(nums.size()==<span class="hljs-number">0</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        &#125;
+        ll cur_sum = <span class="hljs-number">0</span>;
+        ll max_sum = nums[<span class="hljs-number">0</span>];
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;nums.size();i++)&#123;
+            cur_sum += nums[i];
+            <span class="hljs-keyword">if</span>(cur_sum &gt; max_sum)&#123;
+                max_sum = cur_sum;
+            &#125;
+            <span class="hljs-keyword">if</span>(cur_sum &lt; <span class="hljs-number">0</span>)&#123;
+                cur_sum = <span class="hljs-number">0</span>;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> max_sum;
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//O(n)的算法,可返回最大和的区间下标,（未验证）</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span> 
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxSubArray</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(nums.size()==<span class="hljs-number">0</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        &#125;
+        ll cur_sum = <span class="hljs-number">0</span>;
+        ll max_sum = nums[<span class="hljs-number">0</span>];
+        <span class="hljs-keyword">int</span> max_l = <span class="hljs-number">0</span>, max_r = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span> cur_l = <span class="hljs-number">0</span>, cur_r = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;nums.size();i++)&#123;
+            cur_sum += nums[i];
+            cur_r = i;
+            <span class="hljs-keyword">if</span>(cur_sum &gt; max_sum)&#123;
+                max_sum = cur_sum;
+                max_l = cur_l;
+                max_r = cur_r;
+            &#125;
+            <span class="hljs-keyword">if</span>(cur_sum &lt; <span class="hljs-number">0</span>)&#123;
+                cur_sum = <span class="hljs-number">0</span>;
+                cur_l = i+<span class="hljs-number">1</span>;
+                cur_r = i+<span class="hljs-number">1</span>;
+            &#125;
+        &#125;
+        <span class="hljs-built_in">cout</span>&lt;&lt; max_l &lt;&lt;<span class="hljs-string">&quot; &quot;</span>&lt;&lt; max_r &lt;&lt; <span class="hljs-built_in">endl</span>;
+        <span class="hljs-keyword">return</span> max_sum;
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//1896 ms	7 MB</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span> <span class="hljs-comment">//下面使用分治法来求解,精妙的方法</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxPartitionSum</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums, <span class="hljs-keyword">int</span> low, <span class="hljs-keyword">int</span> high)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(low==high)&#123;
+            <span class="hljs-keyword">return</span> nums[low];
+        &#125;
+        <span class="hljs-keyword">int</span> mid = low + (high - low) / <span class="hljs-number">2</span>;
+        <span class="hljs-keyword">int</span> left_sum = maxPartitionSum(nums, low, mid);
+        <span class="hljs-keyword">int</span> right_sum = maxPartitionSum(nums, mid+<span class="hljs-number">1</span>, high);
+        <span class="hljs-comment">//处理跨越中间的区间    </span>
+        <span class="hljs-keyword">int</span> mid_sum = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span> tmp_sum = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span> max_tmp_sum = nums[mid];
+        <span class="hljs-comment">//处理左半区[0,mid]</span>
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=mid;i&gt;=<span class="hljs-number">0</span>;i--)&#123;
+            tmp_sum += nums[i];
+            max_tmp_sum = max(max_tmp_sum, tmp_sum);
+        &#125;
+        mid_sum += max_tmp_sum;
+        <span class="hljs-comment">//处理右半区[mid+1，high]</span>
+        tmp_sum = <span class="hljs-number">0</span>;
+        max_tmp_sum = nums[mid+<span class="hljs-number">1</span>];
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=mid+<span class="hljs-number">1</span>;i&lt;=high;i++)&#123;
+            tmp_sum += nums[i];
+            max_tmp_sum = max(max_tmp_sum, tmp_sum);
+        &#125;
+        mid_sum += max_tmp_sum;
+        <span class="hljs-keyword">return</span> max(mid_sum, max(left_sum,right_sum));
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxSubArray</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(nums.size()==<span class="hljs-number">0</span>)
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        <span class="hljs-comment">//递归 分治 分别求左右子区间的最大和, 跨越中间连接的部分特殊处理.</span>
+        <span class="hljs-keyword">return</span> maxPartitionSum(nums, <span class="hljs-number">0</span>, nums.size()<span class="hljs-number">-1</span>);
+    &#125;
+&#125;;</code></pre></div>
+<p>58.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/length-of-last-word/">最后一个单词的长度</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">lengthOfLastWord</span><span class="hljs-params">(<span class="hljs-built_in">string</span> s)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span> len = s.length()<span class="hljs-number">-1</span>;
+        <span class="hljs-keyword">while</span>(len&gt;=<span class="hljs-number">0</span> &amp;&amp; s[len]==<span class="hljs-string">&#x27; &#x27;</span>)&#123;
+                len --;
+        &#125;
+        <span class="hljs-keyword">if</span>(s.length() == <span class="hljs-number">0</span> || len == <span class="hljs-number">-1</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        &#125;
+        <span class="hljs-keyword">while</span>(len&gt;=<span class="hljs-number">0</span> &amp;&amp; s[len]!=<span class="hljs-string">&#x27; &#x27;</span>)&#123;
+            ans ++;
+            len --;
+        &#125;
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+&#125;;</code></pre></div>
+<p>66.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/plus-one/">加一</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//可以考虑拓展为加减乘除</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">plusOne</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; digits)</span> </span>&#123;
+        digits[digits.size()<span class="hljs-number">-1</span>] += <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=digits.size()<span class="hljs-number">-1</span>;i&gt;=<span class="hljs-number">0</span>;i--)&#123; 
+            <span class="hljs-keyword">int</span> num = digits[i];
+            <span class="hljs-keyword">if</span>(num/<span class="hljs-number">10</span>!=<span class="hljs-number">0</span>)&#123;
+                digits[i] = num % <span class="hljs-number">10</span>;
+                <span class="hljs-keyword">if</span>(i&gt;=<span class="hljs-number">1</span>)&#123;
+                    digits[i<span class="hljs-number">-1</span>] += num/<span class="hljs-number">10</span>; 
+                &#125;
+                <span class="hljs-keyword">else</span> &#123;
+                    digits.insert(digits.begin(), num/<span class="hljs-number">10</span>);
+                &#125;
+            &#125;
+            <span class="hljs-keyword">else</span> &#123;
+                <span class="hljs-keyword">break</span>;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> digits;
+    &#125;
+&#125;;</code></pre></div>
+<p>67.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/add-binary/">二进制求和</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">addBinary</span><span class="hljs-params">(<span class="hljs-built_in">string</span> a, <span class="hljs-built_in">string</span> b)</span> </span>&#123;
+        <span class="hljs-built_in">string</span> ans = <span class="hljs-string">&quot;&quot;</span>; <span class="hljs-comment">//感觉可以直接在a b上操作</span>
+        <span class="hljs-keyword">int</span> len_a = a.length()<span class="hljs-number">-1</span>;
+        <span class="hljs-keyword">int</span> len_b = b.length()<span class="hljs-number">-1</span>;
+        <span class="hljs-keyword">bool</span> carry = <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">while</span>(len_a &gt;=<span class="hljs-number">0</span> &amp;&amp; len_b&gt;=<span class="hljs-number">0</span>)&#123;
+            <span class="hljs-keyword">if</span>(a[len_a]==<span class="hljs-string">&#x27;1&#x27;</span> &amp;&amp; b[len_b]==<span class="hljs-string">&#x27;1&#x27;</span>)&#123;<span class="hljs-comment">//1+1</span>
+                ans = carry ? (<span class="hljs-string">&quot;1&quot;</span> + ans) : (<span class="hljs-string">&quot;0&quot;</span> + ans);
+                carry = <span class="hljs-literal">true</span>;
+            &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(a[len_a]==<span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; b[len_b]==<span class="hljs-string">&#x27;0&#x27;</span>)&#123;<span class="hljs-comment">//0+0</span>
+                ans = carry ? (<span class="hljs-string">&quot;1&quot;</span> + ans) : (<span class="hljs-string">&quot;0&quot;</span> + ans);
+                carry = <span class="hljs-literal">false</span>;
+            &#125;<span class="hljs-keyword">else</span>&#123;<span class="hljs-comment">//1+0的11情况</span>
+                ans = carry ? (<span class="hljs-string">&quot;0&quot;</span> + ans) : (<span class="hljs-string">&quot;1&quot;</span> + ans);
+                <span class="hljs-comment">//carry do not change.</span>
+            &#125;
+            len_a --;
+            len_b --;
+        &#125;
+        <span class="hljs-keyword">while</span>(len_a &gt;=<span class="hljs-number">0</span>)&#123;
+            <span class="hljs-keyword">if</span>(a[len_a]==<span class="hljs-string">&#x27;0&#x27;</span>)&#123;
+                ans = carry ? (<span class="hljs-string">&quot;1&quot;</span> + ans) : (<span class="hljs-string">&quot;0&quot;</span> + ans);
+                carry = <span class="hljs-literal">false</span>;
+            &#125;
+            <span class="hljs-keyword">else</span> &#123;
+                ans = carry ? (<span class="hljs-string">&quot;0&quot;</span> + ans) : (<span class="hljs-string">&quot;1&quot;</span> + ans);
+                <span class="hljs-comment">//carry do not change.</span>
+            &#125;
+            len_a --;
+        &#125;
+        <span class="hljs-keyword">while</span>(len_b &gt;=<span class="hljs-number">0</span>)&#123;
+            <span class="hljs-keyword">if</span>(b[len_b]==<span class="hljs-string">&#x27;0&#x27;</span>)&#123;
+                ans = carry ? (<span class="hljs-string">&quot;1&quot;</span> + ans) : (<span class="hljs-string">&quot;0&quot;</span> + ans);
+                carry = <span class="hljs-literal">false</span>;
+            &#125;
+            <span class="hljs-keyword">else</span> &#123;
+                ans = carry ? (<span class="hljs-string">&quot;0&quot;</span> + ans) : (<span class="hljs-string">&quot;1&quot;</span> + ans);
+                <span class="hljs-comment">//carry do not change.</span>
+            &#125;
+            len_b --;
+        &#125;
+        ans = carry ? (<span class="hljs-string">&quot;1&quot;</span> + ans) : ans ;
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs python">//转化成数字看看就好hhh
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">addBinary</span>(<span class="hljs-params">self, a, b</span>) -&gt; str:</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#123;0:b&#125;&#x27;</span>.format(int(a, <span class="hljs-number">2</span>) + int(b, <span class="hljs-number">2</span>))</code></pre></div>
+<div class="hljs"><pre><code class="hljs Python"><span class="hljs-string">&#x27;&#x27;&#x27;</span>
+<span class="hljs-string">精妙的位运算方法</span>
+<span class="hljs-string">A  B  ^  &amp;  +</span>
+<span class="hljs-string">0  0  0  0  0+0=00</span>
+<span class="hljs-string">0  1  1  0  0+1=01</span>
+<span class="hljs-string">1  0  1  0  1+0=01</span>
+<span class="hljs-string">1  1  0  1  1+1=10</span>
+<span class="hljs-string">统一先计算^这样没有进位，然后统一把进位求出来，加进去。 这样可能还会有进位，所以就继续循环，直到没有进位。</span>
+<span class="hljs-string">&#x27;&#x27;&#x27;</span>
+ <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">addBinary</span>(<span class="hljs-params">self, a, b</span>) -&gt; str:</span>
+        x, y = int(a, <span class="hljs-number">2</span>), int(b, <span class="hljs-number">2</span>)
+        <span class="hljs-keyword">while</span> y:
+            answer = x ^ y
+            carry = (x &amp; y) &lt;&lt; <span class="hljs-number">1</span>
+            x, y = answer, carry
+        <span class="hljs-keyword">return</span> bin(x)[<span class="hljs-number">2</span>:]</code></pre></div>
+<p>69.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/sqrtx/">x 的平方根</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span> <span class="hljs-comment">//lower bound,二分给出的解是首个大于等于根号x的整数</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">mySqrt</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> l = <span class="hljs-number">0</span>, r = x;
+        <span class="hljs-keyword">while</span>(l &lt; r)&#123; 
+            <span class="hljs-keyword">int</span> mid = l + (r - l) / <span class="hljs-number">2</span>;
+            <span class="hljs-keyword">if</span>( (<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>) mid*mid &gt;= x)&#123; <span class="hljs-comment">//这里防止溢出</span>
+                r = mid;
+            &#125;<span class="hljs-keyword">else</span>&#123;
+                l = mid + <span class="hljs-number">1</span>;
+            &#125;
+            <span class="hljs-built_in">cout</span>&lt;&lt; l  &lt;&lt;<span class="hljs-string">&quot; &quot;</span> &lt;&lt; r &lt;&lt;<span class="hljs-built_in">endl</span>;
+        &#125;
+        <span class="hljs-comment">//此处的二分法在[a,b)求得的结果为首个不小于sqrt(x)的整数</span>
+        <span class="hljs-comment">//可能解刚好是a,也可能是大于sqrt(x),所以最后需要判断一下。</span>
+        <span class="hljs-keyword">return</span> ((<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>) l*l &gt; x) ? l<span class="hljs-number">-1</span> : l;
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><span class="hljs-comment">//upper bound 二分给出的解是首个大于根号x的整数</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">mySqrt</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> l = <span class="hljs-number">0</span>, r = x;
+        <span class="hljs-keyword">while</span>(l &lt; r)&#123; 
+            <span class="hljs-keyword">int</span> mid = l + (r - l) / <span class="hljs-number">2</span>;
+            <span class="hljs-keyword">if</span>( (<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>) mid*mid &gt; x)&#123; <span class="hljs-comment">//这里防止溢出</span>
+                r = mid;
+            &#125;<span class="hljs-keyword">else</span>&#123;
+                l = mid + <span class="hljs-number">1</span>;
+            &#125;
+            <span class="hljs-built_in">cout</span>&lt;&lt; l  &lt;&lt;<span class="hljs-string">&quot; &quot;</span> &lt;&lt; r &lt;&lt;<span class="hljs-built_in">endl</span>;
+        &#125;
+        <span class="hljs-comment">//此处的二分法在[a,b)求得的结果为首个大于sqrt(x)的整数</span>
+        <span class="hljs-comment">//可能解a一定大于正确解(0,1除外)sqrt(x),所以最后需要减去1,判特例</span>
+        <span class="hljs-keyword">return</span> (x == <span class="hljs-number">0</span> || x == <span class="hljs-number">1</span>) ? x : l<span class="hljs-number">-1</span>;
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span> 
+<span class="hljs-comment">//试一下牛顿迭代法！！！ x_&#123;n+1&#125; = x_n - f(x_n)/f^&#x27;(x_n) </span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">mySqrt</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(x == <span class="hljs-number">0</span>)<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">double</span> xi = x, C = x; <span class="hljs-comment">//为什么float不行</span>
+        <span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>)&#123;
+            <span class="hljs-keyword">double</span> xj = <span class="hljs-number">0.5</span>*(xi + C/xi);
+            <span class="hljs-keyword">if</span>(<span class="hljs-built_in">fabs</span>(xj - xi) &lt; <span class="hljs-number">1e-6</span>)&#123;
+                <span class="hljs-keyword">break</span>;
+            &#125;
+            xi = xj;
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">int</span>(xi);
+    &#125;
+&#125;;</code></pre></div>
+<p>70.爬楼梯</p>
+<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/climbing-stairs/solution/shu-xue-zuo-fa-jie-bu-ding-fang-cheng-pai-lie-zu-h/">我的傻瓜题解</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span> <span class="hljs-comment">//一开始想到的方法</span>
+<span class="hljs-keyword">public</span>:
+<span class="hljs-comment">//这个方法不是本题最优解，但是学习到了如何求组合数字</span>
+    <span class="hljs-function"><span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> <span class="hljs-title">C</span><span class="hljs-params">(<span class="hljs-keyword">int</span> m, <span class="hljs-keyword">int</span> n)</span></span>&#123; 
+        <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> tmp = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=m;i++)&#123;
+            tmp = tmp*(n-m+i)/i;
+        &#125;
+        <span class="hljs-keyword">return</span> tmp;
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">climbStairs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> cnt = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> x=<span class="hljs-number">0</span>;x&lt;=n;x++)&#123;
+            <span class="hljs-keyword">int</span> y = (n - x) / <span class="hljs-number">2</span>;
+            <span class="hljs-keyword">if</span>(n == x + <span class="hljs-number">2</span>*y)&#123;
+                cnt += C(y,x+y);
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> cnt;
+    &#125;
+&#125;;</code></pre></div>
+<p>动态规划常常适用于有<strong>重叠子问题和最优子结构</strong>性质的问题，动态规划方法所耗时间往往远少于朴素解法。</p>
+<p>动态规划在查找有很多重叠子问题的情况的最优解时有效。它将问题重新组合成子问题。为了避免多次解决这些子问题，它们的结果都逐渐被计算并被保存，从简单的问题直到整个问题都被解决。因此，动态规划保存递归时的结果，因而不会在解决同样的问题时花费时间。</p>
+<p>动态规划只能应用于有最优子结构的问题。最优子结构的意思是局部最优解能决定全局最优解（对有些问题这个要求并不能完全满足，故有时需要引入一定的近似）。简单地说，问题能够分解成子问题来解决。</p>
+<div class="hljs"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><span class="hljs-comment">//动态规划</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">climbStairs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span> </span>&#123;
+        <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">dp</span><span class="hljs-params">(n+<span class="hljs-number">1</span>)</span></span>;
+        dp[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;
+        dp[<span class="hljs-number">1</span>] = dp[<span class="hljs-number">0</span>];
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">2</span>;i&lt;=n;i++)&#123;
+            dp[i] = dp[i<span class="hljs-number">-1</span>] + dp[i<span class="hljs-number">-2</span>];
+        &#125;
+        <span class="hljs-keyword">return</span> dp[n];
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//矩阵快速幂</span>
+以后再说</code></pre></div>
+<p>83.删除排序链表中的重复元素</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for singly-linked list.</span>
+<span class="hljs-comment"> * struct ListNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     ListNode *next;</span>
+<span class="hljs-comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function">ListNode* <span class="hljs-title">deleteDuplicates</span><span class="hljs-params">(ListNode* head)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(head==<span class="hljs-literal">nullptr</span>)&#123;
+            <span class="hljs-keyword">return</span> head;
+        &#125;
+        ListNode* p = head; <span class="hljs-comment">//慢指针</span>
+        ListNode* q = head-&gt;next; <span class="hljs-comment">//快指针</span>
+        <span class="hljs-keyword">while</span>(p!=<span class="hljs-literal">nullptr</span> &amp;&amp; q!=<span class="hljs-literal">nullptr</span>)&#123;
+            <span class="hljs-keyword">if</span>(p-&gt;val == q-&gt;val)&#123;
+                p-&gt;next = q-&gt;next;
+                ListNode* del = q;
+                q = q-&gt;next;
+                <span class="hljs-keyword">delete</span> del;
+            &#125;<span class="hljs-keyword">else</span>&#123;
+                p = p-&gt;next;
+                q = q-&gt;next;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> head;
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for singly-linked list.</span>
+<span class="hljs-comment"> * struct ListNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     ListNode *next;</span>
+<span class="hljs-comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><span class="hljs-comment">//尝试使用直接删除法</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function">ListNode* <span class="hljs-title">deleteDuplicates</span><span class="hljs-params">(ListNode* head)</span> </span>&#123;
+        ListNode* p = head;
+        <span class="hljs-keyword">while</span>(p!=<span class="hljs-literal">nullptr</span> &amp;&amp; p-&gt;next!=<span class="hljs-literal">nullptr</span>)&#123;
+            <span class="hljs-keyword">if</span>(p-&gt;val==p-&gt;next-&gt;val)&#123;
+                ListNode* del = p-&gt;next;
+                p-&gt;next = p-&gt;next-&gt;next;
+                <span class="hljs-keyword">delete</span> del;
+            &#125;<span class="hljs-keyword">else</span>&#123;
+                p = p-&gt;next;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> head;
+    &#125;
+&#125;;</code></pre></div>
+<p>88.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/merge-sorted-array/">合并两个有序数组</a> ★</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-comment">//这题的特殊之处在于可反向考虑减少数组元素的移动</span>
+<span class="hljs-comment">//总数m+n从后往前一定不会覆盖未排序的nums1元素</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">merge</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums1, <span class="hljs-keyword">int</span> m, <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums2, <span class="hljs-keyword">int</span> n)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> tal = m + n - <span class="hljs-number">1</span>;
+        m --;
+        n --;
+        <span class="hljs-keyword">while</span>(m&gt;=<span class="hljs-number">0</span> &amp;&amp; n&gt;=<span class="hljs-number">0</span>)&#123;
+            nums1[tal--] = (nums1[m] &gt;= nums2[n]) ? nums1[m--] : nums2[n--];
+        &#125;
+        <span class="hljs-keyword">while</span>(n&gt;=<span class="hljs-number">0</span>)&#123;
+            nums1[tal--] = nums2[n--];
+        &#125;
+    &#125;
+&#125;;</code></pre></div>
+<p>100.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/same-tree/">相同的树</a> ★</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span> 
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isSameTree</span><span class="hljs-params">(TreeNode* p, TreeNode* q)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(p==<span class="hljs-literal">NULL</span> &amp;&amp; q==<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        &#125;
+        <span class="hljs-keyword">if</span>((p!=<span class="hljs-literal">NULL</span>&amp;&amp;q==<span class="hljs-literal">NULL</span>) || (p==<span class="hljs-literal">NULL</span>&amp;&amp;q!=<span class="hljs-literal">NULL</span>) || (p-&gt;val!=q-&gt;val))&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        &#125;
+        <span class="hljs-comment">//递归地判断左右子树</span>
+        <span class="hljs-keyword">return</span> isSameTree(p-&gt;left, q-&gt;left)&amp;&amp;isSameTree(p-&gt;right, q-&gt;right);
+        
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">checkNode</span><span class="hljs-params">(TreeNode *p, TreeNode* q)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(p==<span class="hljs-literal">NULL</span> &amp;&amp; q==<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+        &#125;
+        <span class="hljs-keyword">if</span>((p!=<span class="hljs-literal">NULL</span>&amp;&amp;q==<span class="hljs-literal">NULL</span>) || (p==<span class="hljs-literal">NULL</span>&amp;&amp;q!=<span class="hljs-literal">NULL</span>) || (p-&gt;val!=q-&gt;val))&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>;
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">3</span>;
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isSameTree</span><span class="hljs-params">(TreeNode* p, TreeNode* q)</span> </span>&#123;
+        <span class="hljs-built_in">queue</span>&lt;TreeNode*&gt; que;
+        que.push(p);
+        que.push(q);<span class="hljs-comment">//可以只用一个队列来存储两个结点</span>
+        <span class="hljs-comment">//BFS</span>
+        <span class="hljs-keyword">while</span>(!que.empty())&#123;
+            TreeNode* r = que.front();<span class="hljs-comment">//由于只使用了一个队列，需要注意存取顺序对应</span>
+            que.pop();
+            TreeNode* s = que.front();
+            que.pop();
+            <span class="hljs-keyword">switch</span>(checkNode(r,s))&#123;
+                <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<span class="hljs-keyword">continue</span>;
+                <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+                <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:
+                    que.push(r-&gt;left);
+                    que.push(s-&gt;left);
+                    que.push(r-&gt;right);
+                    que.push(s-&gt;right);
+                <span class="hljs-keyword">default</span>:<span class="hljs-keyword">break</span>;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    &#125;
+&#125;;</code></pre></div>
+<p>101.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/symmetric-tree/">对称二叉树</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span> <span class="hljs-comment">//本质上与上一题相同</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">check</span><span class="hljs-params">(TreeNode* p, TreeNode* q)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(p==<span class="hljs-literal">NULL</span> &amp;&amp; q==<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        &#125;
+        <span class="hljs-keyword">if</span>(p==<span class="hljs-literal">NULL</span> || q==<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        &#125;
+        <span class="hljs-keyword">if</span>(p-&gt;val!=q-&gt;val)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        &#125;
+        <span class="hljs-keyword">return</span> check(p-&gt;left,q-&gt;right)&amp;&amp;check(p-&gt;right,q-&gt;left);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isSymmetric</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        &#125;
+        <span class="hljs-keyword">return</span> check(root-&gt;left, root-&gt;right);
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">check</span><span class="hljs-params">(TreeNode *p, TreeNode *q)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (!p &amp;&amp; !q) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        <span class="hljs-keyword">if</span> (!p || !q) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">return</span> p-&gt;val == q-&gt;val &amp;&amp; check(p-&gt;left, q-&gt;right) &amp;&amp; check(p-&gt;right, q-&gt;left);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isSymmetric</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> check(root, root);
+    &#125;
+&#125;;</code></pre></div>
+<p>104.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/">二叉树的最大深度</a></p>
+<p>递归形式的DFS</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><span class="hljs-comment">//首先想到的方法是DFS的递归写法</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">calDepth</span><span class="hljs-params">(TreeNode* p, <span class="hljs-keyword">int</span> depth)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(p==<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">return</span> depth;
+        &#125;
+        <span class="hljs-keyword">return</span> max(calDepth(p-&gt;left,depth+<span class="hljs-number">1</span>),calDepth(p-&gt;right,depth+<span class="hljs-number">1</span>));
+        
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxDepth</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> calDepth(root,<span class="hljs-number">0</span>); 
+    &#125;
+&#125;;</code></pre></div>
+<p>非递归DFS</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxDepth</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-built_in">stack</span>&lt; <span class="hljs-built_in">pair</span>&lt;TreeNode*, <span class="hljs-keyword">int</span>&gt; &gt; st;
+        st.push(<span class="hljs-built_in">make_pair</span>(root,<span class="hljs-number">0</span>));
+        <span class="hljs-keyword">int</span> max_depth = <span class="hljs-number">0</span>;<span class="hljs-comment">//默认设置为0,根节点空</span>
+        <span class="hljs-keyword">while</span>(!st.empty())&#123;
+            <span class="hljs-built_in">pair</span>&lt;TreeNode*, <span class="hljs-keyword">int</span>&gt; t = st.top();
+            st.pop();
+            TreeNode* p = t.first;
+            <span class="hljs-keyword">int</span> depth = t.second;
+            <span class="hljs-keyword">if</span>(p!=<span class="hljs-literal">NULL</span>)&#123;
+                max_depth = max(max_depth, depth+<span class="hljs-number">1</span>);
+                st.push(<span class="hljs-built_in">make_pair</span>(p-&gt;right, depth+<span class="hljs-number">1</span>));
+                st.push(<span class="hljs-built_in">make_pair</span>(p-&gt;left, depth+<span class="hljs-number">1</span>));
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> max_depth; 
+    &#125;
+&#125;;</code></pre></div>
+<p>BFS</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxDepth</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span> depth = <span class="hljs-number">0</span>;
+        <span class="hljs-built_in">queue</span>&lt;TreeNode*&gt; que;
+        que.push(root);
+        <span class="hljs-keyword">while</span>(!que.empty())&#123;
+            depth ++; <span class="hljs-comment">//能进入循环说明当前队列中保存了新的一层</span>
+            <span class="hljs-keyword">int</span> size = que.size();
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;size;i++)&#123;
+                TreeNode* p = que.front();
+                que.pop();
+                <span class="hljs-keyword">if</span>(p-&gt;left!=<span class="hljs-literal">NULL</span>)&#123;
+                    que.push(p-&gt;left);
+                &#125;
+                <span class="hljs-keyword">if</span>(p-&gt;right!=<span class="hljs-literal">NULL</span>)&#123;
+                    que.push(p-&gt;right);
+                &#125;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> depth; 
+    &#125;
+&#125;;</code></pre></div>
+<p>107.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/">二叉树的层次遍历 II</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-title">levelOrderBottom</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-built_in">vector</span>&lt; <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; &gt; ans;
+        <span class="hljs-keyword">if</span>(root!=<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-built_in">queue</span>&lt;TreeNode*&gt; que;
+            que.push(root);
+            <span class="hljs-keyword">while</span>(!que.empty())&#123;
+                <span class="hljs-keyword">int</span> size = que.size();
+                <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; tmp;
+                <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;size;i++)&#123;
+                    TreeNode* p = que.front();
+                    que.pop();
+                    tmp.push_back(p-&gt;val);
+                    <span class="hljs-keyword">if</span>(p-&gt;left!=<span class="hljs-literal">NULL</span>)&#123;
+                        que.push(p-&gt;left);
+                    &#125;
+                    <span class="hljs-keyword">if</span>(p-&gt;right!=<span class="hljs-literal">NULL</span>)&#123;
+                        que.push(p-&gt;right);
+                    &#125;
+                &#125;
+                ans.push_back(tmp);
+            &#125;
+            reverse(ans.begin(),ans.end());
+        &#125;     
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+&#125;;</code></pre></div>
+<p>108.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/convert-sorted-array-to-binary-search-tree/">将有序数组转换为二叉搜索树</a> ★</p>
+<p>有意思的题目，首先想到的分治法求解</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><span class="hljs-comment">//分治 递归</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function">TreeNode* <span class="hljs-title">buildBST</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums, <span class="hljs-keyword">int</span> l, <span class="hljs-keyword">int</span> r)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(l==r)&#123;
+            TreeNode* p = <span class="hljs-keyword">new</span> TreeNode(nums[l]);
+            <span class="hljs-keyword">return</span> p;
+        &#125;
+        <span class="hljs-keyword">if</span>(l&gt;r)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;
+        &#125;
+        <span class="hljs-keyword">int</span> mid = l + (r - l) / <span class="hljs-number">2</span>; 
+        TreeNode* parent = <span class="hljs-keyword">new</span> TreeNode(nums[mid]);
+        parent-&gt;left = buildBST(nums,l,mid<span class="hljs-number">-1</span>);
+        parent-&gt;right = buildBST(nums,mid+<span class="hljs-number">1</span>,r);
+        <span class="hljs-keyword">return</span> parent;
+    &#125;
+    <span class="hljs-function">TreeNode* <span class="hljs-title">sortedArrayToBST</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> buildBST(nums,<span class="hljs-number">0</span>,nums.size()<span class="hljs-number">-1</span>);
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//有没有其他写法明天再看</span></code></pre></div>
+<p>110.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/balanced-binary-tree/">平衡二叉树</a> ★</p>
+<p>这个版本写得非常之垃圾，最初的思路留在这里，纪念一下愚蠢的思路。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getHeightandCheck</span><span class="hljs-params">(TreeNode* p, <span class="hljs-keyword">bool</span> &amp;flag)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(p == <span class="hljs-literal">NULL</span>)&#123;
+           <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        &#125;
+        <span class="hljs-keyword">int</span> left_height = getHeightandCheck(p-&gt;left,flag);
+        <span class="hljs-keyword">int</span> right_height = getHeightandCheck(p-&gt;right,flag);
+        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">abs</span>(left_height-right_height)&gt;<span class="hljs-number">1</span>)&#123;
+            flag = <span class="hljs-literal">false</span>;
+        &#125;
+        <span class="hljs-keyword">return</span> max(left_height, right_height) + <span class="hljs-number">1</span>;
+    &#125; 
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isBalanced</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-comment">//if(root == NULL)&#123;</span>
+        <span class="hljs-comment">//    return true;</span>
+        <span class="hljs-comment">//&#125; </span>
+        <span class="hljs-keyword">bool</span> flag = <span class="hljs-literal">true</span>;
+        getHeightandCheck(root,flag);
+        <span class="hljs-keyword">return</span> flag;
+    &#125;
+&#125;;</code></pre></div>
+<p>自顶向下分别判断每个结点的左右子树高度，但是这一方法时间复杂度为<span class="math inline">\(o(nlogn)\)</span></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">height</span><span class="hljs-params">(TreeNode* p)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(p==<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        &#125;
+        <span class="hljs-keyword">return</span> max(height(p-&gt;left),height(p-&gt;right)) + <span class="hljs-number">1</span>;
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isBalanced</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        &#125;
+        <span class="hljs-keyword">return</span> isBalanced(root-&gt;left) &amp;&amp; isBalanced(root-&gt;right) 
+               &amp;&amp; (<span class="hljs-built_in">abs</span>(height(root-&gt;left) - height(root-&gt;right)) &lt;=<span class="hljs-number">1</span> );
+    &#125;
+&#125;;</code></pre></div>
+<p>111.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/">二叉树的最小深度</a></p>
+<p>最先想到的方法是BFS，遇到的首个叶子节点（左右孩子空）的深度。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">minDepth</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        &#125;
+        <span class="hljs-built_in">queue</span>&lt;TreeNode*&gt; que;
+        que.push(root); 
+        <span class="hljs-keyword">int</span> min_depth = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">bool</span> flag_leaf = <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">while</span>(!que.empty())&#123;
+            min_depth ++;
+            <span class="hljs-keyword">int</span> size = que.size();
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;size;i++)&#123;
+                TreeNode* p = que.front();
+                que.pop();
+                <span class="hljs-keyword">if</span>(p-&gt;left==<span class="hljs-literal">NULL</span> &amp;&amp; p-&gt;right==<span class="hljs-literal">NULL</span>)&#123;
+                    flag_leaf = <span class="hljs-literal">true</span>;
+                    <span class="hljs-keyword">break</span>;
+                &#125;<span class="hljs-comment">//这个if特殊判断当前结点是否是根结点，[1,2]的最小深度为2</span>
+                <span class="hljs-keyword">if</span>(p-&gt;left!=<span class="hljs-literal">NULL</span>)&#123;
+                    que.push(p-&gt;left);
+                &#125;
+                <span class="hljs-keyword">if</span>(p-&gt;right!=<span class="hljs-literal">NULL</span>)&#123;
+                    que.push(p-&gt;right);
+                &#125;
+            &#125;
+            <span class="hljs-keyword">if</span>(flag_leaf)&#123;
+                <span class="hljs-keyword">break</span>;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> min_depth;
+    &#125;
+&#125;;</code></pre></div>
+<p>这个题目还可以使用DFS（递归）的方式。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">minDepth</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)&#123;<span class="hljs-comment">//特例，根为空</span>
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        &#125;
+        <span class="hljs-keyword">if</span>(root-&gt;left==<span class="hljs-literal">NULL</span>&amp;&amp;root-&gt;right==<span class="hljs-literal">NULL</span>)&#123;<span class="hljs-comment">//特例，仅根</span>
+            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+        &#125;
+        <span class="hljs-keyword">int</span> min_depth = <span class="hljs-number">0x3f3f3f3f</span>;
+        <span class="hljs-keyword">if</span>(root-&gt;left!=<span class="hljs-literal">NULL</span>)&#123;
+            min_depth = min(min_depth, minDepth(root-&gt;left));
+        &#125;
+        <span class="hljs-keyword">if</span>(root-&gt;right!=<span class="hljs-literal">NULL</span>)&#123;
+            min_depth = min(min_depth, minDepth(root-&gt;right));
+        &#125;
+        <span class="hljs-keyword">return</span> min_depth + <span class="hljs-number">1</span>;
+    &#125;
+&#125;;</code></pre></div>
+<p>比较闲，再写一遍DFS的非递归方式。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">//25号再写</span></code></pre></div>
+<p>112.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/path-sum/">路径总和</a></p>
+<p>递归的DFS。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">hasPathSum</span><span class="hljs-params">(TreeNode* root, <span class="hljs-keyword">int</span> sum)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        &#125;
+        <span class="hljs-keyword">if</span>(root-&gt;left==<span class="hljs-literal">NULL</span> &amp;&amp; root-&gt;right==<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">return</span> sum - root-&gt;val == <span class="hljs-number">0</span>;
+        &#125;
+        <span class="hljs-keyword">return</span> hasPathSum(root-&gt;left, sum - root-&gt;val) 
+                || hasPathSum(root-&gt;right, sum - root-&gt;val);
+    &#125;
+&#125;;</code></pre></div>
+<p>BFS，有正负应该怎么剪枝呢？</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">hasPathSum</span><span class="hljs-params">(TreeNode* root, <span class="hljs-keyword">int</span> sum)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        &#125;
+        <span class="hljs-built_in">queue</span>&lt; <span class="hljs-built_in">pair</span>&lt;TreeNode*, <span class="hljs-keyword">int</span>&gt; &gt; que;
+        que.push(<span class="hljs-built_in">make_pair</span>(root,<span class="hljs-number">0</span>));
+        <span class="hljs-keyword">while</span>(!que.empty())&#123;
+            <span class="hljs-keyword">int</span> size = que.size();
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;size;i++)&#123;
+                <span class="hljs-built_in">pair</span>&lt;TreeNode*, <span class="hljs-keyword">int</span>&gt; hp = que.front();
+                que.pop();
+                TreeNode* p = hp.first;
+                <span class="hljs-keyword">int</span> tmp_sum = hp.second + p-&gt;val;
+                <span class="hljs-keyword">if</span>(tmp_sum==sum &amp;&amp; p-&gt;left==<span class="hljs-literal">NULL</span> &amp;&amp; p-&gt;right==<span class="hljs-literal">NULL</span>)&#123;
+                    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+                &#125;
+                <span class="hljs-keyword">if</span>(p-&gt;left!=<span class="hljs-literal">NULL</span>)&#123;
+                    que.push(<span class="hljs-built_in">make_pair</span>(p-&gt;left, tmp_sum));
+                &#125;
+                <span class="hljs-keyword">if</span>(p-&gt;right!=<span class="hljs-literal">NULL</span>)&#123;
+                    que.push(<span class="hljs-built_in">make_pair</span>(p-&gt;right, tmp_sum));
+                &#125;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    &#125;
+&#125;;</code></pre></div>
+<p>257.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/binary-tree-paths/">二叉树的所有路径</a></p>
+<p>顺其自然DFS递归实现。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">string</span>&gt; ans;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFS</span><span class="hljs-params">(TreeNode* p, <span class="hljs-built_in">string</span> path)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(p-&gt;left==<span class="hljs-literal">NULL</span> &amp;&amp; p-&gt;right==<span class="hljs-literal">NULL</span>)&#123;
+            ans.push_back(path + to_string(p-&gt;val));  
+        &#125;
+        <span class="hljs-keyword">if</span>(p-&gt;left!=<span class="hljs-literal">NULL</span>)&#123;
+            DFS(p-&gt;left,path + to_string(p-&gt;val) + <span class="hljs-string">&quot;-&gt;&quot;</span>);
+        &#125;
+        <span class="hljs-keyword">if</span>(p-&gt;right!=<span class="hljs-literal">NULL</span>)&#123;
+            DFS(p-&gt;right,path + to_string(p-&gt;val) + <span class="hljs-string">&quot;-&gt;&quot;</span>);
+        &#125;
+    &#125;
+    <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">string</span>&gt; <span class="hljs-title">binaryTreePaths</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">return</span> ans;
+        &#125;
+        DFS(root, <span class="hljs-string">&quot;&quot;</span>);
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+&#125;;</code></pre></div>
+<p>559.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/maximum-depth-of-n-ary-tree/">N叉树的最大深度</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/*</span>
+<span class="hljs-comment">// Definition for a Node.</span>
+<span class="hljs-comment">class Node &#123;</span>
+<span class="hljs-comment">public:</span>
+<span class="hljs-comment">    int val;</span>
+<span class="hljs-comment">    vector&lt;Node*&gt; children;</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">    Node() &#123;&#125;</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">    Node(int _val) &#123;</span>
+<span class="hljs-comment">        val = _val;</span>
+<span class="hljs-comment">    &#125;</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">    Node(int _val, vector&lt;Node*&gt; _children) &#123;</span>
+<span class="hljs-comment">        val = _val;</span>
+<span class="hljs-comment">        children = _children;</span>
+<span class="hljs-comment">    &#125;</span>
+<span class="hljs-comment">&#125;;</span>
+<span class="hljs-comment">*/</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxDepth</span><span class="hljs-params">(Node* root)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        &#125;
+        <span class="hljs-keyword">int</span> size = root-&gt;children.size();
+        <span class="hljs-keyword">if</span>(size==<span class="hljs-number">0</span>)&#123; <span class="hljs-comment">//没有孩子结点，说明当前root是叶子结点，返回深度1</span>
+            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+        &#125;
+        <span class="hljs-keyword">int</span> max_depth = <span class="hljs-number">-1</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;size;i++)&#123;
+            max_depth = max(max_depth, maxDepth(root-&gt;children[i]));
+        &#125;
+        <span class="hljs-keyword">return</span> max_depth + <span class="hljs-number">1</span>;
+    &#125;
+&#125;;</code></pre></div>
+<p>690.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/employee-importance/">员工的重要性</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/*</span>
+<span class="hljs-comment">// Definition for Employee.</span>
+<span class="hljs-comment">class Employee &#123;</span>
+<span class="hljs-comment">public:</span>
+<span class="hljs-comment">    int id;</span>
+<span class="hljs-comment">    int importance;</span>
+<span class="hljs-comment">    vector&lt;int&gt; subordinates;</span>
+<span class="hljs-comment">&#125;;</span>
+<span class="hljs-comment">*/</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-built_in">map</span>&lt;<span class="hljs-keyword">int</span>, Employee*&gt; mp;
+    <span class="hljs-comment">// bool cmp(const Employee* a, const ) //不需要排序？</span>
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">DFS</span><span class="hljs-params">(<span class="hljs-keyword">int</span> id)</span></span>&#123;
+        Employee* ee = mp[id];
+        <span class="hljs-keyword">int</span> ans = ee-&gt;importance;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;ee-&gt;subordinates.size();i++)&#123;
+            ans += DFS(ee-&gt;subordinates[i]);
+        &#125;
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getImportance</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;Employee*&gt; employees, <span class="hljs-keyword">int</span> id)</span> </span>&#123;  
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;employees.size();i++)&#123;<span class="hljs-comment">//快速查询员工，原始输入并非有序</span>
+            mp.emplace(employees[i]-&gt;id, employees[i]);
+        &#125;
+        <span class="hljs-keyword">return</span> DFS(id);
+    &#125;
+&#125;;</code></pre></div>
+<p>BFS写一遍。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/*</span>
+<span class="hljs-comment">// Definition for Employee.</span>
+<span class="hljs-comment">class Employee &#123;</span>
+<span class="hljs-comment">public:</span>
+<span class="hljs-comment">    int id;</span>
+<span class="hljs-comment">    int importance;</span>
+<span class="hljs-comment">    vector&lt;int&gt; subordinates;</span>
+<span class="hljs-comment">&#125;;</span>
+<span class="hljs-comment">*/</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getImportance</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;Employee*&gt; employees, <span class="hljs-keyword">int</span> id)</span> </span>&#123; 
+        <span class="hljs-keyword">if</span>(employees.empty())&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        &#125;
+        <span class="hljs-keyword">int</span> size = employees.size();
+        <span class="hljs-built_in">map</span>&lt;<span class="hljs-keyword">int</span>, Employee*&gt; mp;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;size;i++)&#123;
+            mp.emplace(employees[i]-&gt;id, employees[i]);
+        &#125;
+        <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;
+        <span class="hljs-built_in">queue</span>&lt;<span class="hljs-keyword">int</span>&gt; que;
+        que.push(id);
+        <span class="hljs-keyword">while</span>(!que.empty())&#123;
+            <span class="hljs-keyword">int</span> que_size = que.size();
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;que_size;i++)&#123;
+                <span class="hljs-keyword">int</span> e = que.front();
+                que.pop();
+                ans += mp[e]-&gt;importance;
+                <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> ee : mp[e]-&gt;subordinates)&#123;
+                    <span class="hljs-comment">//一个员工最多有一个直系领导，不需要visitedz数组标记</span>
+                    que.push(ee);
+                &#125;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+&#125;;</code></pre></div>
+<p>733.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/flood-fill/">图像渲染</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-keyword">bool</span> visited[<span class="hljs-number">55</span>][<span class="hljs-number">55</span>] = &#123;<span class="hljs-number">0</span>&#125;;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFS</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt;&amp; image, <span class="hljs-keyword">int</span> r, <span class="hljs-keyword">int</span> c, <span class="hljs-keyword">int</span> old_color, <span class="hljs-keyword">int</span> new_color)</span></span>&#123;
+        <span class="hljs-keyword">if</span>((<span class="hljs-number">0</span>&lt;=r &amp;&amp; r&lt;image.size()) &amp;&amp; (<span class="hljs-number">0</span>&lt;=c &amp;&amp; c&lt;image[<span class="hljs-number">0</span>].size()) &amp;&amp; !visited[r][c])&#123;
+            visited[r][c] = <span class="hljs-literal">true</span>;
+            <span class="hljs-keyword">if</span>(image[r][c]==old_color)&#123;
+                image[r][c] = new_color;
+                DFS(image, r+<span class="hljs-number">1</span>,c, old_color, new_color);
+                DFS(image, r<span class="hljs-number">-1</span>,c, old_color, new_color);
+                DFS(image, r,c+<span class="hljs-number">1</span>, old_color, new_color);
+                DFS(image, r,c<span class="hljs-number">-1</span>, old_color, new_color);
+            &#125;
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-title">floodFill</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt;&amp; image, <span class="hljs-keyword">int</span> sr, <span class="hljs-keyword">int</span> sc, <span class="hljs-keyword">int</span> newColor)</span> </span>&#123;
+        <span class="hljs-comment">// DFS(image, sr, sc, image[sr][sc], newColor);</span>
+        <span class="hljs-comment">// BFS</span>
+        <span class="hljs-built_in">queue</span>&lt; <span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt; &gt; que;
+        que.push(<span class="hljs-built_in">make_pair</span>(sr,sc));
+        <span class="hljs-keyword">int</span> scolor = image[sr][sc];
+        <span class="hljs-keyword">while</span>(!que.empty())&#123;
+            <span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt; pos = que.front();
+            <span class="hljs-keyword">int</span> r = pos.first;
+            <span class="hljs-keyword">int</span> c = pos.second;
+            que.pop();
+            <span class="hljs-keyword">if</span>((<span class="hljs-number">0</span>&lt;=r &amp;&amp; r&lt;image.size()) &amp;&amp; (<span class="hljs-number">0</span>&lt;=c &amp;&amp; c&lt;image[<span class="hljs-number">0</span>].size()) &amp;&amp; !visited[r][c])&#123;
+                visited[r][c] = <span class="hljs-literal">true</span>;
+                <span class="hljs-keyword">if</span>(image[r][c]==scolor)&#123;
+                    image[r][c] = newColor;
+                    que.push(<span class="hljs-built_in">make_pair</span>(r+<span class="hljs-number">1</span>,c));
+                    que.push(<span class="hljs-built_in">make_pair</span>(r<span class="hljs-number">-1</span>,c));
+                    que.push(<span class="hljs-built_in">make_pair</span>(r,c+<span class="hljs-number">1</span>));
+                    que.push(<span class="hljs-built_in">make_pair</span>(r,c<span class="hljs-number">-1</span>));
+                &#125;
+            &#125;
+            
+        &#125;
+        <span class="hljs-keyword">return</span> image;
+    &#125;
+&#125;;</code></pre></div>
+<p>872.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/leaf-similar-trees/">叶子相似的树</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFS</span><span class="hljs-params">(TreeNode* p, <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; leafs)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(!p-&gt;left &amp;&amp; !p-&gt;right)&#123;
+             leafs.push_back(p-&gt;val);
+        &#125;
+        <span class="hljs-keyword">if</span>(p-&gt;left)&#123;
+            DFS(p-&gt;left, leafs);
+        &#125;
+        <span class="hljs-keyword">if</span>(p-&gt;right)&#123;
+            DFS(p-&gt;right, leafs);
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">leafSimilar</span><span class="hljs-params">(TreeNode* root1, TreeNode* root2)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(!root1 &amp;&amp; !root2)<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        <span class="hljs-keyword">if</span>(!root1 || !root2)<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; leafs1;
+        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; leafs2;
+        DFS(root1,leafs1);
+        DFS(root2,leafs2);
+        <span class="hljs-comment">// if(leafs1.size()!=leafs2.size())&#123;</span>
+        <span class="hljs-comment">//     return false;</span>
+        <span class="hljs-comment">// &#125;</span>
+        <span class="hljs-comment">// for(int i=0;i&lt;leafs1.size();i++)&#123;</span>
+        <span class="hljs-comment">//     if(leafs1[i]!=leafs2[i])&#123;</span>
+        <span class="hljs-comment">//         return false;</span>
+        <span class="hljs-comment">//     &#125;</span>
+        <span class="hljs-comment">// &#125;</span>
+        <span class="hljs-comment">/*如果vector是内置类型的数据,如int, char等,直接用v1 == v2来判断,</span>
+<span class="hljs-comment">          但是如果用了自定义类型的话,那么首先要实现该类型的operator==函数,</span>
+<span class="hljs-comment">          也就是重载等于判断.</span>
+<span class="hljs-comment">        */</span>
+        <span class="hljs-keyword">return</span> leafs1==leafs2;
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span> <span class="hljs-comment">//官方题解速度更快欸</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFS</span><span class="hljs-params">(TreeNode* p, <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; leaves)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(!p)<span class="hljs-keyword">return</span>;<span class="hljs-comment">//递归的结束条件可以学习一下</span>
+        <span class="hljs-keyword">if</span>(!p-&gt;left &amp;&amp; !p-&gt;right)&#123;
+             leaves.push_back(p-&gt;val);
+        &#125;
+        DFS(p-&gt;left, leaves);
+        DFS(p-&gt;right, leaves);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">leafSimilar</span><span class="hljs-params">(TreeNode* root1, TreeNode* root2)</span> </span>&#123;
+        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; leaves1;
+        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; leaves2;
+        DFS(root1,leaves1);
+        DFS(root2,leaves2);
+        <span class="hljs-keyword">return</span> leaves1==leaves2;
+    &#125;
+&#125;;</code></pre></div>
+<p>897.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/increasing-order-search-tree/">递增顺序查找树</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFS</span><span class="hljs-params">(TreeNode* p, <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nodes)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(p==<span class="hljs-literal">NULL</span>)<span class="hljs-keyword">return</span>;
+        DFS(p-&gt;left,nodes);
+        nodes.push_back(p-&gt;val);
+        DFS(p-&gt;right,nodes);
+    &#125;
+
+    <span class="hljs-function">TreeNode* <span class="hljs-title">buildTree</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nodes)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(nodes.empty())<span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;
+        <span class="hljs-keyword">int</span> size = nodes.size();
+        TreeNode* root = <span class="hljs-keyword">new</span> TreeNode(nodes[<span class="hljs-number">0</span>]);
+        TreeNode* pre = root;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;size;i++)&#123;
+            TreeNode* p = <span class="hljs-keyword">new</span> TreeNode(nodes[i]);
+            pre-&gt;right = p;
+            pre = p;
+        &#125;
+        <span class="hljs-keyword">return</span> root;
+    &#125;
+
+    <span class="hljs-function">TreeNode* <span class="hljs-title">increasingBST</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; nodes;
+        DFS(root,nodes);
+        <span class="hljs-keyword">return</span> buildTree(nodes);
+    &#125;
+&#125;;</code></pre></div>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/07/15/2020-08-01-%E5%8A%9B%E6%89%A3-%E6%A0%91/">
+                        <span class="hidden-mobile">LeetCode专题 树</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="" target="_blank" rel="nofollow noopener"><span>tudou</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="" target="_blank" rel="nofollow noopener">
+        <span>digua</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "LeetCode专题 BFS DFS&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

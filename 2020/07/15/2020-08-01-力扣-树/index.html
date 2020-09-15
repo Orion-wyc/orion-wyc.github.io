@@ -1,0 +1,1622 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.jpg">
+  <link rel="icon" type="image/png" href="/img/favicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Yuchen">
+  <meta name="keywords" content="">
+  <title>LeetCode专题 树 - Yuchen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/tomorrow-night-eighties.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Yuchen's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/main4.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-07-15 00:00" pubdate>
+        2020年7月15日 凌晨
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      104
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">LeetCode专题 树</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h2 id="leetcode专题-树">LeetCode专题 树</h2>
+<p>226.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/invert-binary-tree/">翻转二叉树</a></p>
+<p>只需要遍历到每一个结点即可，然后交换左右两个孩子结点。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function">TreeNode* <span class="hljs-title">invertTree</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;
+        &#125;
+        TreeNode* tmp = invertTree(root-&gt;left);
+        root-&gt;left = invertTree(root-&gt;right);
+        root-&gt;right = tmp;
+        <span class="hljs-keyword">return</span> root;
+    &#125;
+&#125;;</code></pre></div>
+<p>235.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree/">二叉搜索树的最近公共祖先</a> ★★★</p>
+<p>LCA最近公共祖先，有点意思，第一次写的超级垃圾的代码108ms，103.5MB。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;TreeNode*&gt;&gt; helper;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFS</span><span class="hljs-params">(TreeNode* root,<span class="hljs-built_in">vector</span>&lt;TreeNode*&gt; path,TreeNode* target)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">return</span>;
+        &#125;
+        path.push_back(root);
+        <span class="hljs-keyword">if</span>(root==target)&#123;
+            helper.push_back(path);
+            <span class="hljs-keyword">return</span>;
+        &#125;
+        <span class="hljs-keyword">if</span>(root-&gt;left!=<span class="hljs-literal">NULL</span>)&#123;
+            DFS(root-&gt;left,path,target);
+        &#125;
+        <span class="hljs-keyword">if</span>(root-&gt;right!=<span class="hljs-literal">NULL</span>)&#123;
+            DFS(root-&gt;right,path,target);
+        &#125;   
+    &#125;
+    <span class="hljs-function">TreeNode* <span class="hljs-title">lowestCommonAncestor</span><span class="hljs-params">(TreeNode* root, TreeNode* p, TreeNode* q)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;
+        &#125;
+        <span class="hljs-built_in">vector</span>&lt;TreeNode*&gt; path_p;
+        DFS(root,path_p,p);
+        DFS(root,path_p,q);
+        <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">while</span>(i&lt;helper[<span class="hljs-number">0</span>].size()&amp;&amp;j&lt;helper[<span class="hljs-number">1</span>].size())&#123;
+            <span class="hljs-built_in">cout</span>&lt;&lt;helper[<span class="hljs-number">0</span>][i]-&gt;val&lt;&lt; <span class="hljs-string">&quot; &quot;</span> &lt;&lt;helper[<span class="hljs-number">1</span>][j]-&gt;val&lt;&lt;<span class="hljs-built_in">endl</span>;
+            <span class="hljs-keyword">if</span>(helper[<span class="hljs-number">0</span>][i]==helper[<span class="hljs-number">1</span>][j])&#123;
+                i++,j++;
+            &#125;<span class="hljs-keyword">else</span>&#123;
+                <span class="hljs-keyword">break</span>;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> helper[<span class="hljs-number">0</span>][i<span class="hljs-number">-1</span>];
+    &#125;
+&#125;;</code></pre></div>
+<ul>
+<li><p><strong>二叉搜索树BST的性质</strong></p>
+<ol type="a">
+<li>节点 N 左子树上的所有节点的值都小于等于节点 N 的值</li>
+<li>节点 N 右子树上的所有节点的值都大于等于节点 N 的值</li>
+<li>子树和右子树也都是 BST</li>
+</ol></li>
+<li><p><strong>算法</strong></p>
+<ol type="a">
+<li>从根节点开始遍历树</li>
+<li>如果节点 p 和节点 q 都在右子树上，那么以右孩子为根节点继续 (a) 的操作</li>
+<li>如果节点 p 和节点 q 都在左子树上，那么以左孩子为根节点继续 (a) 的操作</li>
+<li>如果条件 2 和条件 3 都不成立，这就意味着我们已经找到节 p 和节点 q 的 LCA 了</li>
+</ol></li>
+<li><p>在左右子树上，则root.val - p.val和root.val - q.val异号</p>
+<p>同在左/右子树，则同号，分别递归地遍历左/右子树</p>
+<p>该算法得到的性能是36ms，23.5MB</p></li>
+</ul>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    TreeNode* lca = <span class="hljs-literal">NULL</span>;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LCA</span><span class="hljs-params">(TreeNode* root, TreeNode*p, TreeNode* q)</span></span>&#123;
+        <span class="hljs-keyword">if</span>((root-&gt;val - p-&gt;val)*(root-&gt;val - q-&gt;val) &lt;= <span class="hljs-number">0</span>)&#123;
+            lca = root;<span class="hljs-comment">//如果p,q分别再左右子树上，则root就是lca</span>
+        &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(root-&gt;val &lt; p-&gt;val &amp;&amp; root-&gt;val &lt; q-&gt;val)&#123;
+            LCA(root-&gt;right, p, q);
+        &#125;<span class="hljs-keyword">else</span>&#123;
+            LCA(root-&gt;left, p, q);
+        &#125;
+    &#125;
+
+    <span class="hljs-function">TreeNode* <span class="hljs-title">lowestCommonAncestor</span><span class="hljs-params">(TreeNode* root, TreeNode* p, TreeNode* q)</span> </span>&#123;
+        <span class="hljs-comment">// 题目的意思是树不空</span>
+        <span class="hljs-comment">// if (!root) return nullptr;</span>
+        LCA(root, p, q);
+        <span class="hljs-keyword">return</span> lca;
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function">TreeNode* <span class="hljs-title">lowestCommonAncestor</span><span class="hljs-params">(TreeNode* root, TreeNode* p, TreeNode* q)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(!root) <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;
+        <span class="hljs-keyword">if</span>(q -&gt; val &gt; root -&gt; val &amp;&amp; p -&gt; val &gt; root -&gt; val)    
+            <span class="hljs-keyword">return</span> lowestCommonAncestor(root -&gt; right, p, q);<span class="hljs-comment">// 都在root的右边</span>
+        <span class="hljs-keyword">if</span>(q -&gt; val &lt; root -&gt; val &amp;&amp; p -&gt; val &lt; root -&gt; val)    
+            <span class="hljs-keyword">return</span> lowestCommonAncestor(root -&gt; left, p, q); <span class="hljs-comment">// 都在root的左边</span>
+        <span class="hljs-keyword">return</span> root; <span class="hljs-comment">// 若分布在root的两侧，说明root为最近公共祖先</span>
+    &#125;
+&#125;;</code></pre></div>
+<ul>
+<li><p><strong>进阶： 二叉树 - 无左小右大的性质，需要全盘搜索</strong></p>
+<ol type="a">
+<li>遇到指定节点，直接返回root，无需往下搜寻。</li>
+<li>向左右子树遍历，返回包含指定节点的子树。</li>
+<li>若左右子树都包含指定节点，则当前root为最近公共祖先。</li>
+</ol>
+<p>自底向上遍历结点，一旦遇到结点等于p或者q，则将其向上传递给它的父结点。父结点会判断它的左右子树是否都包含其中一个结点，如果是，则父结点一定是这两个节点p和q的LCA，传递父结点到root。如果不是，我们向上传递其中的包含结点p或者q的子结点，或者NULL(如果子结点不包含任何一个)。该方法时间复杂度为O(N)。</p></li>
+</ul>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function">TreeNode* <span class="hljs-title">lowestCommonAncestor</span><span class="hljs-params">(TreeNode* root, TreeNode* p, TreeNode* q)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(!root || root == p || root == q ) <span class="hljs-keyword">return</span> root;
+        <span class="hljs-comment">// ↓ l(r)=NULL,左(右)子树不包含p或q;l(r)=p或q,左(右)子树包含有p或q</span>
+        TreeNode* l = lowestCommonAncestor(root -&gt; left, p , q);
+        TreeNode* r = lowestCommonAncestor(root -&gt; right, p, q);
+        <span class="hljs-keyword">if</span>(l &amp;&amp; r) <span class="hljs-keyword">return</span> root; <span class="hljs-comment">// 如果p和q位于不同的子树,根即为LCA</span>
+        <span class="hljs-keyword">return</span> l ? l : r; 
+        <span class="hljs-comment">// ↑ p和q在当前以root为根的相同的子树中(即左右子树)</span>
+    &#125;
+&#125;;</code></pre></div>
+<p>404.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/sum-of-left-leaves/">左叶子之和</a></p>
+<ul>
+<li>算法思路 对任意一个节点，它只需要做两件事； 1、判断它的左孩子是不是左叶子； 2、让它的左孩子和右孩子分别向它汇报，以该孩子为根的sumOfLeftLeaves； 最后简单相加即可，很典型的递归算法。</li>
+</ul>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment">* Definition for a binary tree node.</span>
+<span class="hljs-comment">* struct TreeNode &#123;</span>
+<span class="hljs-comment">*     int val;</span>
+<span class="hljs-comment">*     TreeNode *left;</span>
+<span class="hljs-comment">*     TreeNode *right;</span>
+<span class="hljs-comment">*     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment">* &#125;;</span>
+<span class="hljs-comment">*/</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sumOfLeftLeaves</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span> left_sum = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">if</span>(root-&gt;left!=<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">if</span>(root-&gt;left-&gt;left==<span class="hljs-literal">NULL</span> &amp;&amp; root-&gt;left-&gt;right==<span class="hljs-literal">NULL</span>)&#123;
+                left_sum += root-&gt;left-&gt;val;<span class="hljs-comment">//root-&gt;left是左叶子结点</span>
+            &#125; <span class="hljs-keyword">else</span> &#123;
+                left_sum += sumOfLeftLeaves(root-&gt;left);
+            &#125;
+        &#125;
+        <span class="hljs-keyword">if</span>(root-&gt;right!=<span class="hljs-literal">NULL</span>)&#123;
+            left_sum += sumOfLeftLeaves(root-&gt;right);
+        &#125;
+        <span class="hljs-keyword">return</span> left_sum;
+    &#125;
+&#125;;</code></pre></div>
+<p>我的想法是BFS标记左叶子，但是很慢，开销也大</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sumOfLeftLeaves</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        <span class="hljs-built_in">queue</span>&lt; <span class="hljs-built_in">pair</span>&lt;TreeNode* , <span class="hljs-keyword">int</span>&gt; &gt; que;
+        que.push(<span class="hljs-built_in">make_pair</span>(root,<span class="hljs-number">-1</span>));<span class="hljs-comment">//0左1右，root默认为-1</span>
+        <span class="hljs-keyword">int</span> left_sum = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">while</span>(!que.empty())&#123;
+            <span class="hljs-built_in">pair</span>&lt;TreeNode*, <span class="hljs-keyword">int</span>&gt; hp = que.front();
+            que.pop();
+            TreeNode* p = hp.first;
+            <span class="hljs-keyword">if</span>(p-&gt;left==<span class="hljs-literal">NULL</span> &amp;&amp; p-&gt;right==<span class="hljs-literal">NULL</span> &amp;&amp; hp.second==<span class="hljs-number">0</span>)&#123;
+                left_sum += p-&gt;val;
+            &#125;
+            <span class="hljs-keyword">if</span>(p-&gt;left!=<span class="hljs-literal">NULL</span>)&#123;
+                que.push(<span class="hljs-built_in">make_pair</span>(p-&gt;left,<span class="hljs-number">0</span>));
+            &#125;
+            <span class="hljs-keyword">if</span>(p-&gt;right!=<span class="hljs-literal">NULL</span>)&#123;
+                que.push(<span class="hljs-built_in">make_pair</span>(p-&gt;right,<span class="hljs-number">1</span>));
+            &#125;
+        &#125;
+
+        <span class="hljs-keyword">return</span> left_sum;
+    &#125;
+&#125;;</code></pre></div>
+<p>501.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/find-mode-in-binary-search-tree/">二叉搜索树中的众数</a></p>
+<p>不使用额外空间的方法（递归的隐式栈开销忽略不计），和一开始想的方式很类似，但是用递归的方式实现。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+ <span class="hljs-comment">//前序遍历(Preorder transversal),中序遍历(Inorder transversal)以及后序遍历(Postorder transversal)</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">findMode</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        Inorder(root);
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+	<span class="hljs-comment">// void Inorder(TreeNode* root,TreeNode*&amp; pre)引用传递</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Inorder</span><span class="hljs-params">(TreeNode* root)</span></span>&#123;
+        <span class="hljs-comment">// 这里我犯了一个错误，pre必须是全局的pre，</span>
+        <span class="hljs-comment">// 要按照引用传递或者设置全局变量，否则回溯的时候pre不会更新</span>
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)<span class="hljs-keyword">return</span>;
+        Inorder(root-&gt;left);
+        <span class="hljs-keyword">if</span>(pre!=<span class="hljs-literal">NULL</span> &amp;&amp; root-&gt;val==pre-&gt;val)&#123;
+            cur_cnt ++;
+        &#125;<span class="hljs-keyword">else</span>&#123;
+            cur_cnt = <span class="hljs-number">1</span>;
+        &#125;
+        
+        <span class="hljs-keyword">if</span>(max_cnt &lt; cur_cnt)&#123;   
+            max_cnt = cur_cnt;
+            ans.clear();
+            ans.push_back(root-&gt;val);
+        &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(max_cnt==cur_cnt)&#123;
+            ans.push_back(root-&gt;val);
+        &#125;
+        pre = root;
+        Inorder(root-&gt;right);
+    &#125;
+<span class="hljs-keyword">private</span>:
+    <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; ans;
+    <span class="hljs-keyword">int</span> max_cnt = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">int</span> cur_cnt = <span class="hljs-number">1</span>;
+    TreeNode* pre = <span class="hljs-literal">NULL</span>;<span class="hljs-comment">//记录中序遍历过程中当前结点的前驱结点</span>
+&#125;;</code></pre></div>
+<p>这个开销太大了，是最直接的做法，即原问题等价于求一个单调不减数列的众数。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+ <span class="hljs-comment">//前序遍历(Preorder transversal),中序遍历(Inorder transversal)以及后序遍历(Postorder transversal)</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; inorder;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">DFS</span><span class="hljs-params">(TreeNode* root)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)<span class="hljs-keyword">return</span>;
+        DFS(root-&gt;left);
+        inorder.push_back(root-&gt;val);
+        DFS(root-&gt;right);
+    &#125;
+    <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">findMode</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        DFS(root);
+        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; ans;
+        <span class="hljs-keyword">int</span> max_cnt = <span class="hljs-number">0</span>,cnt = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">int</span> size = inorder.size();
+        <span class="hljs-keyword">if</span>(size==<span class="hljs-number">0</span>)<span class="hljs-keyword">return</span> ans;
+        <span class="hljs-keyword">int</span> pre_val=inorder[<span class="hljs-number">0</span>];
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=size;i++)&#123;
+            <span class="hljs-keyword">if</span>(i&lt;size &amp;&amp; inorder[i]==inorder[i<span class="hljs-number">-1</span>])&#123;
+                cnt ++;
+            &#125;<span class="hljs-keyword">else</span>&#123;
+                <span class="hljs-keyword">if</span>(max_cnt &lt; cnt)&#123;
+                    max_cnt = cnt;
+                    ans.clear();
+                    ans.push_back(inorder[i<span class="hljs-number">-1</span>]);
+                &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(max_cnt==cnt)&#123;
+                    ans.push_back(inorder[i<span class="hljs-number">-1</span>]);
+                &#125;
+                cnt = <span class="hljs-number">1</span>;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+&#125;;</code></pre></div>
+<p>530.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/minimum-absolute-difference-in-bst/">二叉搜索树的最小绝对差</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getMinimumDifference</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        getMin(root);
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">getMin</span><span class="hljs-params">(TreeNode* root)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(!root) <span class="hljs-keyword">return</span>;
+        getMin(root-&gt;left);
+        <span class="hljs-keyword">if</span>(pre!=<span class="hljs-literal">NULL</span> &amp;&amp; root-&gt;val - pre-&gt;val &lt; ans)&#123;
+            ans = root-&gt;val - pre-&gt;val;
+        &#125;
+        pre = root;
+        getMin(root-&gt;right);
+    &#125;
+<span class="hljs-keyword">private</span>:
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> INF = <span class="hljs-number">0x3f3f3f3f</span>;
+    <span class="hljs-keyword">int</span> ans = INF;
+    TreeNode* pre = <span class="hljs-literal">NULL</span>;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(TreeNode* root, <span class="hljs-keyword">int</span>&amp; prev, <span class="hljs-keyword">int</span>&amp; res)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (root == <span class="hljs-literal">NULL</span>) <span class="hljs-keyword">return</span>;
+        dfs(root-&gt;left, prev, res);
+        <span class="hljs-keyword">if</span> (prev &gt;= <span class="hljs-number">0</span>) res = min(res, root-&gt;val - prev);
+        prev = root-&gt;val;
+        dfs(root-&gt;right, prev, res);
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getMinimumDifference</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> prev = <span class="hljs-number">-1</span>;
+        <span class="hljs-keyword">int</span> res = INT_MAX;
+        dfs(root, prev, res);
+        <span class="hljs-keyword">return</span> res;
+    &#125;
+&#125;;</code></pre></div>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/minimum-absolute-difference-in-bst/solution/zhong-xu-bian-li-tuan-mie-xi-lie-er-cha-sou-suo-sh/">二叉搜索树的绝杀方式</a></li>
+</ul>
+<p>538.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/convert-bst-to-greater-tree/">把二叉搜索树转换为累加树</a></p>
+<p>aha，一次AC，核心还是"中序遍历"，只不过该问需要从最右结点开始反向中序遍历，利用BST的特性（见235.LCA）当前结点的值加上大于当前结点"右侧"结点的值（右边的一定大）。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function">TreeNode* <span class="hljs-title">convertBST</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        buildGT(root);
+        <span class="hljs-keyword">return</span> root;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">buildGT</span><span class="hljs-params">(TreeNode* root)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)<span class="hljs-keyword">return</span>;
+        buildGT(root-&gt;right);
+        <span class="hljs-keyword">if</span>(pre!=<span class="hljs-literal">NULL</span>)&#123;
+            root-&gt;val += pre-&gt;val;
+        &#125;
+        pre = root;
+        buildGT(root-&gt;left);
+    &#125;
+
+<span class="hljs-keyword">private</span>:
+    TreeNode* pre = <span class="hljs-literal">NULL</span>;<span class="hljs-comment">//记录反向中序遍历的&quot;前驱&quot;结点</span>
+&#125;;</code></pre></div>
+<p>543.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/diameter-of-binary-tree/">二叉树的直径</a></p>
+<p>数的直径即求两节点间最大距离，即转化可递归解决的问题：</p>
+<p>1、不经过root，最长路径子在左子树上</p>
+<p>2、不经过root，最长路径子在右子树上</p>
+<p>3、经过root，最长路径为左右子树的最大高度之和。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">diameterOfBinaryTree</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        maxDepth(root);
+        <span class="hljs-keyword">return</span> max_diameter;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxDepth</span><span class="hljs-params">(TreeNode* root)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span> dL = maxDepth(root-&gt;left);
+        <span class="hljs-keyword">int</span> dR = maxDepth(root-&gt;right);
+        max_diameter = max(max_diameter, dL+dR);
+        <span class="hljs-keyword">return</span> max(dL,dR) + <span class="hljs-number">1</span>;
+    &#125;
+
+<span class="hljs-keyword">private</span>:
+    <span class="hljs-keyword">int</span> max_diameter = <span class="hljs-number">0</span>;
+&#125;;</code></pre></div>
+<p>563.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/binary-tree-tilt/">二叉树的坡度</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">findTilt</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        getSum(root);
+        <span class="hljs-keyword">return</span> tilt;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getSum</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span> L = getSum(root-&gt;left);
+        <span class="hljs-keyword">int</span> R = getSum(root-&gt;right);
+        tilt += <span class="hljs-built_in">abs</span>(L - R);
+        <span class="hljs-keyword">return</span> L + R + root-&gt;val;
+    &#125;
+
+<span class="hljs-keyword">private</span>:
+    <span class="hljs-keyword">int</span> tilt = <span class="hljs-number">0</span>;
+&#125;;</code></pre></div>
+<p>572.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/subtree-of-another-tree/">另一个树的子树</a> ★★★★</p>
+<p>Donald Trump： Nobody knows SIMPLICITY better than me, noboday.</p>
+<p>官方题解，从暴力搜索匹配到字符串匹配KMP，再到树的hash，着实厉害。</p>
+<p>最简单的匹配方法</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125;</span>
+<span class="hljs-comment"> *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isSubtree</span><span class="hljs-params">(TreeNode* s, TreeNode* t)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(s==<span class="hljs-literal">NULL</span>)<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>; <span class="hljs-comment">//主树为空时，返回false，避免使用空指针</span>
+        <span class="hljs-keyword">return</span> isSame(s,t) || isSubtree(s-&gt;left,t) || isSubtree(s-&gt;right,t);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isSame</span><span class="hljs-params">(TreeNode* s, TreeNode* t)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(s==<span class="hljs-literal">NULL</span> &amp;&amp; t==<span class="hljs-literal">NULL</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        <span class="hljs-keyword">if</span>(s==<span class="hljs-literal">NULL</span> || t==<span class="hljs-literal">NULL</span> || s-&gt;val!=t-&gt;val) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">return</span> isSame(s-&gt;left,t-&gt;left) &amp;&amp; isSame(s-&gt;right,t-&gt;right);
+    &#125;
+
+&#125;;</code></pre></div>
+<p>589.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/n-ary-tree-preorder-traversal/">N叉树的前序遍历</a></p>
+<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/n-ary-tree-preorder-traversal/solution/yi-tao-quan-fa-shua-diao-nge-bian-li-shu-de-wen--3/">树的遍历合集</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/*</span>
+<span class="hljs-comment">// Definition for a Node.</span>
+<span class="hljs-comment">class Node &#123;</span>
+<span class="hljs-comment">public:</span>
+<span class="hljs-comment">    int val;</span>
+<span class="hljs-comment">    vector&lt;Node*&gt; children;</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">    Node() &#123;&#125;</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">    Node(int _val) &#123;</span>
+<span class="hljs-comment">        val = _val;</span>
+<span class="hljs-comment">    &#125;</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">    Node(int _val, vector&lt;Node*&gt; _children) &#123;</span>
+<span class="hljs-comment">        val = _val;</span>
+<span class="hljs-comment">        children = _children;</span>
+<span class="hljs-comment">    &#125;</span>
+<span class="hljs-comment">&#125;;</span>
+<span class="hljs-comment">*/</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; ans;
+    <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">preorder</span><span class="hljs-params">(Node* root)</span> </span>&#123;
+        traverse(root);
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">traverse</span><span class="hljs-params">(Node* root)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)<span class="hljs-keyword">return</span>;
+        ans.push_back(root-&gt;val);
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> e : root-&gt;children)&#123;
+            traverse(e);
+        &#125;
+    &#125;
+&#125;;</code></pre></div>
+<p>迭代法</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/*</span>
+<span class="hljs-comment">// Definition for a Node.</span>
+<span class="hljs-comment">class Node &#123;</span>
+<span class="hljs-comment">public:</span>
+<span class="hljs-comment">    int val;</span>
+<span class="hljs-comment">    vector&lt;Node*&gt; children;</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">    Node() &#123;&#125;</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">    Node(int _val) &#123;</span>
+<span class="hljs-comment">        val = _val;</span>
+<span class="hljs-comment">    &#125;</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">    Node(int _val, vector&lt;Node*&gt; _children) &#123;</span>
+<span class="hljs-comment">        val = _val;</span>
+<span class="hljs-comment">        children = _children;</span>
+<span class="hljs-comment">    &#125;</span>
+<span class="hljs-comment">&#125;;</span>
+<span class="hljs-comment">*/</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">preorder</span><span class="hljs-params">(Node* root)</span> </span>&#123;
+        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; ans;
+        <span class="hljs-built_in">stack</span>&lt;Node*&gt; st;
+        <span class="hljs-comment">// if(root==NULL)return ans;</span>
+        st.push(root);
+        <span class="hljs-keyword">while</span>(!st.empty())&#123;
+            Node* p = st.top();
+            st.pop();
+            <span class="hljs-keyword">if</span>(p!=<span class="hljs-literal">NULL</span>)&#123;
+                ans.push_back(p-&gt;val);
+                <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=p-&gt;children.size()<span class="hljs-number">-1</span>;i&gt;=<span class="hljs-number">0</span>;i--)&#123;
+                    st.push(p-&gt;children[i]);
+                &#125;
+            &#125;  
+        &#125;
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+&#125;;</code></pre></div>
+<p>590.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/">N叉树的后序遍历</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/*</span>
+<span class="hljs-comment">// Definition for a Node.</span>
+<span class="hljs-comment">class Node &#123;</span>
+<span class="hljs-comment">public:</span>
+<span class="hljs-comment">    int val;</span>
+<span class="hljs-comment">    vector&lt;Node*&gt; children;</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">    Node() &#123;&#125;</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">    Node(int _val) &#123;</span>
+<span class="hljs-comment">        val = _val;</span>
+<span class="hljs-comment">    &#125;</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">    Node(int _val, vector&lt;Node*&gt; _children) &#123;</span>
+<span class="hljs-comment">        val = _val;</span>
+<span class="hljs-comment">        children = _children;</span>
+<span class="hljs-comment">    &#125;</span>
+<span class="hljs-comment">&#125;;</span>
+<span class="hljs-comment">*/</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; ans;
+    <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">postorder</span><span class="hljs-params">(Node* root)</span> </span>&#123;
+        traverse(root);
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">traverse</span><span class="hljs-params">(Node* root)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>) <span class="hljs-keyword">return</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> e:root-&gt;children)&#123;
+            traverse(e);
+        &#125;
+        ans.push_back(root-&gt;val);
+    &#125;
+&#125;;</code></pre></div>
+<p>606.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/construct-string-from-binary-tree/">根据二叉树创建字符串</a></p>
+<p>题目的意思是子节点需要用<code>()</code>来包裹。举例来说，二叉树<code>[root,left,right]</code>，则转换为<code>root(left)(right)</code>。如果只有<code>left</code>为空节点，则输出<code>root()(right)</code>；如果只有<code>right</code>为空节点则可以忽略右节点的<code>()</code>，输出为<code>root(left)</code>。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-built_in">string</span> <span class="hljs-title">tree2str</span><span class="hljs-params">(TreeNode* t)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(t==<span class="hljs-literal">NULL</span>) <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>;
+        <span class="hljs-built_in">string</span> ans = <span class="hljs-string">&quot;&quot;</span>;
+        <span class="hljs-built_in">string</span> L = tree2str(t-&gt;left);
+        <span class="hljs-built_in">string</span> R = tree2str(t-&gt;right);
+        <span class="hljs-keyword">if</span>(t-&gt;left==<span class="hljs-literal">NULL</span> &amp;&amp; t-&gt;right==<span class="hljs-literal">NULL</span>) &#123;
+            ans = to_string(t-&gt;val);
+        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(t-&gt;left!=<span class="hljs-literal">NULL</span> &amp;&amp; t-&gt;right==<span class="hljs-literal">NULL</span>) &#123;
+            ans = to_string(t-&gt;val) + <span class="hljs-string">&quot;(&quot;</span> + L + <span class="hljs-string">&quot;)&quot;</span>;
+        &#125;<span class="hljs-keyword">else</span> &#123;
+            ans = to_string(t-&gt;val) + <span class="hljs-string">&quot;(&quot;</span> + L + <span class="hljs-string">&quot;)&quot;</span> + <span class="hljs-string">&quot;(&quot;</span> + R + <span class="hljs-string">&quot;)&quot;</span>;
+        &#125; 
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+&#125;;</code></pre></div>
+<p>617.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/merge-two-binary-trees/">合并二叉树</a> ★★</p>
+<p><strong>一开始没想到的是孩子为空的时候啥也不用做，直接连接即可。</strong></p>
+<p>我们可以对这两棵树同时进行前序遍历，并将对应的节点进行合并。在遍历时，如果两棵树的当前节点均不为空，我们就将它们的值进行相加，并对它们的左孩子和右孩子进行递归合并；如果其中有一棵树为空，那么我们返回另一颗树作为结果；如果两棵树均为空，此时返回任意一棵树均可（因为都是空）。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function">TreeNode* <span class="hljs-title">mergeTrees</span><span class="hljs-params">(TreeNode* t1, TreeNode* t2)</span> </span>&#123;
+        TreeNode* root = t1 ? t1 : t2;
+        <span class="hljs-keyword">if</span>(t1&amp;&amp;t2)&#123;
+            t1-&gt;val += t2-&gt;val;
+            t1-&gt;left = mergeTrees(t1-&gt;left,t2-&gt;left);
+            t1-&gt;right = mergeTrees(t1-&gt;right,t2-&gt;right);
+        &#125;
+        <span class="hljs-keyword">return</span> root;
+    &#125;
+&#125;;</code></pre></div>
+<p>非递归的实现：如果t1和t2非空，则将其val求和并赋值给t1，然后考虑左右孩子，（以左孩为例）如果t1左孩子为空，则将t2的左孩子作为t1的左孩子，如果t1左孩子非空，则将结点入栈/队，两者皆空则无操作（上述，右孩子同理）；如果t1为空，则返回t2（无论t2是否为空，不影响结果），否则返回t1。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function">TreeNode* <span class="hljs-title">mergeTrees</span><span class="hljs-params">(TreeNode* t1, TreeNode* t2)</span> </span>&#123;
+        <span class="hljs-comment">//判断t1空的情况，while循环仅执行一次</span>
+        TreeNode* root = t1 ? t1 : t2;
+        
+        <span class="hljs-built_in">queue</span>&lt; <span class="hljs-built_in">pair</span>&lt;TreeNode*,TreeNode*&gt; &gt; que;
+        que.push(<span class="hljs-built_in">make_pair</span>(t1,t2));
+        <span class="hljs-keyword">while</span>(!que.empty()) &#123;
+            <span class="hljs-built_in">pair</span>&lt;TreeNode*,TreeNode*&gt; hp = que.front();
+            que.pop();
+            TreeNode* p = hp.first;
+            TreeNode* q = hp.second;
+            <span class="hljs-comment">//若t1为空，循环结束；或者p非空而q空，</span>
+            <span class="hljs-comment">//该情况出现在树t1的左或右孩子非空而树t2与之对应的孩子为空</span>
+            <span class="hljs-keyword">if</span>(p==<span class="hljs-literal">NULL</span> || q==<span class="hljs-literal">NULL</span>) <span class="hljs-keyword">continue</span>;
+            p-&gt;val += q-&gt;val;
+            <span class="hljs-comment">//分别判断左右孩子</span>
+            <span class="hljs-keyword">if</span>(p-&gt;left==<span class="hljs-literal">NULL</span>) &#123;
+                p-&gt;left = q-&gt;left;
+            &#125; <span class="hljs-keyword">else</span> &#123;
+                que.push(<span class="hljs-built_in">make_pair</span>(p-&gt;left,q-&gt;left));
+            &#125;
+            <span class="hljs-keyword">if</span>(p-&gt;right==<span class="hljs-literal">NULL</span>) &#123;
+                p-&gt;right = q-&gt;right;
+            &#125; <span class="hljs-keyword">else</span> &#123;
+                que.push(<span class="hljs-built_in">make_pair</span>(p-&gt;right,q-&gt;right));
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> root;
+    &#125;
+&#125;;</code></pre></div>
+<p>637.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/average-of-levels-in-binary-tree/">二叉树的层平均值</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; <span class="hljs-title">averageOfLevels</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">double</span>&gt; ans;
+        <span class="hljs-built_in">queue</span>&lt;TreeNode*&gt; que;
+        que.push(root);
+        <span class="hljs-keyword">while</span>(!que.empty())&#123;
+            <span class="hljs-keyword">int</span> SIZE = que.size();
+            <span class="hljs-keyword">double</span> avg = <span class="hljs-number">0</span>;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;SIZE;i++)&#123;
+                TreeNode* p = que.front();
+                que.pop();
+                <span class="hljs-comment">// if(p==NULL) continue; //非空二叉树</span>
+                avg += p-&gt;val;
+                <span class="hljs-keyword">if</span>(p-&gt;left!=<span class="hljs-literal">NULL</span>)&#123;
+                    que.push(p-&gt;left);
+                &#125;
+                <span class="hljs-keyword">if</span>(p-&gt;right!=<span class="hljs-literal">NULL</span>)&#123;
+                    que.push(p-&gt;right);
+                &#125;
+            &#125;
+            ans.push_back(avg/SIZE);
+        &#125;
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+&#125;;</code></pre></div>
+<p>653.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/two-sum-iv-input-is-a-bst/">两数之和 IV - 输入 BST</a></p>
+<p>最初的想法是直接返回中序遍历结果，然后问题就转化为1.两数之和。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">traverse</span><span class="hljs-params">(TreeNode* root, <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; in)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>) <span class="hljs-keyword">return</span> ;
+        traverse(root-&gt;left,in);
+        in.push_back(root-&gt;val);
+        traverse(root-&gt;right,in);
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">findTarget</span><span class="hljs-params">(TreeNode* root, <span class="hljs-keyword">int</span> k)</span> </span>&#123;
+        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; inorder;
+        traverse(root,inorder);
+        <span class="hljs-keyword">int</span> SIZE = inorder.size();
+        <span class="hljs-built_in">map</span>&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt; mp;
+        <span class="hljs-keyword">bool</span> flag = <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;SIZE;i++)&#123;
+            <span class="hljs-keyword">if</span>(mp.count(k - inorder[i])==<span class="hljs-number">1</span>)&#123;
+                flag = <span class="hljs-literal">true</span>;
+                <span class="hljs-keyword">break</span>;
+            &#125;
+            mp.emplace(inorder[i],i);
+        &#125;
+        <span class="hljs-keyword">return</span> flag;
+    &#125;
+&#125;;</code></pre></div>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">findTarget</span><span class="hljs-params">(TreeNode* root, <span class="hljs-keyword">int</span> k)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">not</span> root) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        inorder(root);
+        <span class="hljs-keyword">int</span> lo = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span> hi = vec.size() - <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">while</span>(lo &lt; hi)&#123;
+            <span class="hljs-keyword">if</span>(vec[lo] + vec[hi] == k) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(vec[lo] + vec[hi] &lt; k) lo++;
+            <span class="hljs-keyword">else</span> hi--;
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    &#125;
+<span class="hljs-keyword">private</span>:
+    <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; vec;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">inorder</span><span class="hljs-params">(TreeNode* root)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">not</span> root) <span class="hljs-keyword">return</span>;
+        inorder(root-&gt;left);
+        vec.emplace_back(root-&gt;val);
+        inorder(root-&gt;right);
+    &#125;
+&#125;;</code></pre></div>
+<p>递归，效率不高欸？？？</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-built_in">map</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; mp;
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">findTarget</span><span class="hljs-params">(TreeNode* root, <span class="hljs-keyword">int</span> k)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>)&#123; 
+              <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        &#125;
+        <span class="hljs-keyword">if</span>(mp.count(k - root-&gt;val)==<span class="hljs-number">1</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        &#125;
+        mp.emplace(root-&gt;val, <span class="hljs-number">1</span>);  
+        <span class="hljs-keyword">return</span> findTarget(root-&gt;right, k) || findTarget(root-&gt;left, k);
+    &#125;
+&#125;;</code></pre></div>
+<p>669.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/trim-a-binary-search-tree/">修剪二叉搜索树</a></p>
+<p>递归做法，设当前结点为root：</p>
+<p>如果root-&gt;val小于L，则剪掉左子树和自身，递归处理右子树；如果root-&gt;val大于R，则剪掉右子树和自身，递归处理左子树；若root-&gt;val处在区间之间，则分别递归地处理左右子树。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function">TreeNode* <span class="hljs-title">trimBST</span><span class="hljs-params">(TreeNode* root, <span class="hljs-keyword">int</span> L, <span class="hljs-keyword">int</span> R)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(root!=<span class="hljs-literal">NULL</span>) &#123;
+            <span class="hljs-keyword">if</span>(root-&gt;val &lt; L) &#123;
+                root = trimBST(root-&gt;right, L, R);
+            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(root-&gt;val &gt; R) &#123;
+                root = trimBST(root-&gt;left, L, R);
+            &#125; <span class="hljs-keyword">else</span> &#123;
+                root-&gt;left = trimBST(root-&gt;left, L, R);
+                root-&gt;right = trimBST(root-&gt;right, L, R);
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> root;
+    &#125;
+&#125;;</code></pre></div>
+<p>671.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/second-minimum-node-in-a-binary-tree/">二叉树中第二小的节点</a></p>
+<p>最最直接的做法就是遍历一遍，使用map存储遍历结果，然后遍历一遍map寻找最小值。</p>
+<p>上述过程也可以使用额外的一个变量记录，遍历树寻找比root（由题意，root的值一定是最小的）值大的数中最小的一个。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">findSecondMinimumValue</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span> || (root-&gt;left==<span class="hljs-literal">NULL</span> &amp;&amp; root-&gt;right==<span class="hljs-literal">NULL</span>)) <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+        mins = root-&gt;val;
+        getMin2(root);
+        <span class="hljs-keyword">return</span> ans ;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">getMin2</span><span class="hljs-params">(TreeNode* root)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(root!=<span class="hljs-literal">NULL</span>)&#123;  
+            <span class="hljs-keyword">if</span>(root-&gt;val &gt; mins)&#123;
+                <span class="hljs-keyword">if</span>(ans==<span class="hljs-number">-1</span>)
+                    ans = root-&gt;val;
+                <span class="hljs-keyword">else</span> 
+                    ans = min(ans,root-&gt;val);
+            &#125;
+            getMin2(root-&gt;left);
+            getMin2(root-&gt;right);
+        &#125;    
+    &#125;
+<span class="hljs-keyword">private</span>:
+    <span class="hljs-keyword">int</span> mins;
+    <span class="hljs-keyword">int</span> ans = <span class="hljs-number">-1</span>;
+&#125;;</code></pre></div>
+<p>也可以这样做：分别求左右子树的最小值， 如果左右子树最小值都大于根节点的值取较小的值。其他情况取左右子树较大的值。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">findSecondMinimumValue</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> ans = <span class="hljs-number">-1</span>;
+        <span class="hljs-keyword">if</span>(root!=<span class="hljs-literal">NULL</span> &amp;&amp; root-&gt;left!=<span class="hljs-literal">NULL</span> &amp;&amp; root-&gt;right!=<span class="hljs-literal">NULL</span>) &#123;
+            <span class="hljs-comment">// 如果当前结点的孩子的值大于当前结点的值，则无需递归遍历，</span>
+            <span class="hljs-comment">// 因为以该孩子为根的子树最小值即为这个根</span>
+            <span class="hljs-keyword">int</span> l = root-&gt;left-&gt;val, r = root-&gt;right-&gt;val;
+            <span class="hljs-keyword">if</span>(root-&gt;val==root-&gt;left-&gt;val)&#123;<span class="hljs-comment">// 只有当孩子值与根相等时，才递归遍历</span>
+                l = findSecondMinimumValue(root-&gt;left);
+            &#125;
+            <span class="hljs-keyword">if</span>(root-&gt;val==root-&gt;right-&gt;val)&#123;
+                r = findSecondMinimumValue(root-&gt;right);
+            &#125;
+            <span class="hljs-comment">// 问题可以转化为求左右子树的最小值</span>
+            <span class="hljs-keyword">if</span>(l&gt;root-&gt;val &amp;&amp; r&gt;root-&gt;val) &#123;
+                ans = min(l,r); <span class="hljs-comment">// 如果左右子树最小值都大于根节点的值,取较小的值</span>
+            &#125;<span class="hljs-keyword">else</span>&#123;
+                ans = max(l,r); <span class="hljs-comment">// 其他情况取左右子树较大的值</span>
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+&#125;;</code></pre></div>
+<p>687.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/longest-univalue-path/">最长同值路径</a> ★★★</p>
+<p>思路：递归的思想，对于某个根节点root，在左子树中，与左子树根节点（root-&gt;left-&gt;val）同值的最大路径长度为L（如果root-&gt;left值与其的左右孩子值都不同，则L=0），同理，右子树记作R。</p>
+<p>类似地，如果root的值与左孩子相同，则路径长度应当为L+1，否则左孩子到root的的路径不符合要求，记作0；右子树同理，记作R+1或0。返回左右子树中的较长路径。</p>
+<p>函数getPath返回的是单侧的最长路径，若该路径穿越根结点，则需要加上左右两条分支路径的长度，所以在递归的过程中使用单独的变量ans记录最大路径的长度（这个长度可能是不经过根结点的单侧路径，也有可能是经过根节点的双分支路径）。</p>
+<p><strong>对于任意一个节点, 如果最长同值路径包含该节点, 那么只可能是两种情况：</strong></p>
+<ol type="i">
+<li><p>其左右子树中加上该节点后所构成的同值路径中较长的那个继续向父节点回溯构成最长同值路径</p></li>
+<li><p>左右子树加上该节点都在最长同值路径中, 构成了最终的最长同值路径 需要注意因为要求同值, 所以在判断左右子树能构成的同值路径时要加入当前节点的值作为判断依据</p></li>
+</ol>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">longestUnivaluePath</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        getPath(root);
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getPath</span><span class="hljs-params">(TreeNode* root)</span></span>&#123;
+        <span class="hljs-keyword">int</span> path_len = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">if</span>(root!=<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">int</span> L = getPath(root-&gt;left); <span class="hljs-comment">// 以左孩为根节点的最大路径长度</span>
+            <span class="hljs-keyword">int</span> R = getPath(root-&gt;right);
+            <span class="hljs-keyword">int</span> tmp_L = <span class="hljs-number">0</span>, tmp_R = <span class="hljs-number">0</span>; <span class="hljs-comment">// 过当前节点的路径长度，假设与孩子值不等，初始设为0</span>
+            <span class="hljs-keyword">if</span>(root-&gt;left!=<span class="hljs-literal">NULL</span> &amp;&amp; root-&gt;left-&gt;val == root-&gt;val)&#123;
+                tmp_L = L + <span class="hljs-number">1</span>;
+            &#125; <span class="hljs-comment">// 如果与左孩子值相同，path值为L+1</span>
+            <span class="hljs-keyword">if</span>(root-&gt;right!=<span class="hljs-literal">NULL</span> &amp;&amp; root-&gt;right-&gt;val == root-&gt;val)&#123;
+                tmp_R += R + <span class="hljs-number">1</span>;
+            &#125; <span class="hljs-comment">// 如果与右孩子值相同，path值为R+1</span>
+            ans = max(ans, tmp_L + tmp_R); <span class="hljs-comment">// 递归过程中记录最大路径长度</span>
+            path_len = max(tmp_L,tmp_R);
+            <span class="hljs-comment">// 若同时和左右孩子值相同，返回较长的路径，继续向上遍历</span>
+            <span class="hljs-comment">// 如果和左（右）孩子值不等，则路径长度设置为0</span>
+        &#125;
+        <span class="hljs-keyword">return</span> path_len;
+    &#125;
+<span class="hljs-keyword">private</span>:
+    <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;
+&#125;;</code></pre></div>
+<p>700.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/search-in-a-binary-search-tree/">二叉搜索树中的搜索</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function">TreeNode* <span class="hljs-title">searchBST</span><span class="hljs-params">(TreeNode* root, <span class="hljs-keyword">int</span> val)</span> </span>&#123;
+        TreeNode* ans = <span class="hljs-literal">NULL</span>;
+        <span class="hljs-keyword">if</span>(root!=<span class="hljs-literal">NULL</span>)&#123;
+            <span class="hljs-keyword">if</span>(root-&gt;val &gt; val) &#123;
+                ans = searchBST(root-&gt;left, val);
+            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(root-&gt;val &lt; val) &#123;
+                ans = searchBST(root-&gt;right, val);
+            &#125; <span class="hljs-keyword">else</span> &#123;
+                ans = root;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+&#125;;</code></pre></div>
+<p>783.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/minimum-distance-between-bst-nodes/">二叉搜索树节点最小距离</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">minDiffInBST</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        traverse(root);
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;nums.size()<span class="hljs-number">-1</span>;i++)&#123;
+            ans = min(ans, nums[i+<span class="hljs-number">1</span>] - nums[i]);
+        &#125;
+        <span class="hljs-keyword">return</span> ans;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">traverse</span><span class="hljs-params">(TreeNode* root)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(root!=<span class="hljs-literal">NULL</span>)&#123;
+            traverse(root-&gt;left);
+            nums.push_back(root-&gt;val);
+            traverse(root-&gt;right);
+        &#125;
+    &#125;
+<span class="hljs-keyword">private</span>:
+    <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; nums;
+    <span class="hljs-keyword">int</span> ans = INT_MAX;
+&#125;;</code></pre></div>
+<p>938.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/range-sum-of-bst/">二叉搜索树的范围和</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">rangeSumBST</span><span class="hljs-params">(TreeNode* root, <span class="hljs-keyword">int</span> L, <span class="hljs-keyword">int</span> R)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> sum = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">if</span>(root!=<span class="hljs-literal">NULL</span>) &#123;
+            <span class="hljs-keyword">if</span>(root-&gt;val &lt; L) &#123;
+                sum = rangeSumBST(root-&gt;right, L, R);
+            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(root-&gt;val &gt; R) &#123;
+                sum = rangeSumBST(root-&gt;left, L, R);
+            &#125; <span class="hljs-keyword">else</span> &#123;
+                sum = root-&gt;val + rangeSumBST(root-&gt;left, L, R) 
+                        + rangeSumBST(root-&gt;right, L, R);
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> sum;
+    &#125;
+&#125;;</code></pre></div>
+<p>965.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/univalued-binary-tree/">单值二叉树</a></p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isUnivalTree</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        val = root-&gt;val; <span class="hljs-comment">//无需验空</span>
+        <span class="hljs-keyword">return</span> dfs(root);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">dfs</span><span class="hljs-params">(TreeNode* root)</span></span>&#123;
+        <span class="hljs-keyword">if</span>(!root)<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+        <span class="hljs-keyword">return</span> (root-&gt;val==val) &amp;&amp; dfs(root-&gt;left) &amp;&amp; dfs(root-&gt;right);
+        
+    &#125;
+<span class="hljs-keyword">private</span>:
+    <span class="hljs-keyword">int</span> val;
+&#125;;</code></pre></div>
+<p>993.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/cousins-in-binary-tree/">二叉树的堂兄弟节点</a></p>
+<p>遍历二叉树，分别记录 x、y 结点的深度和父亲结点。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125;</span>
+<span class="hljs-comment"> *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isCousins</span><span class="hljs-params">(TreeNode* root, <span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y)</span> </span>&#123;
+        dfs(root, x, y, <span class="hljs-number">0</span>, <span class="hljs-literal">nullptr</span>);
+        <span class="hljs-keyword">return</span> (parx!=pary &amp;&amp; dx==dy);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(TreeNode* root, <span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y, <span class="hljs-keyword">int</span> d,TreeNode* par)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(root==<span class="hljs-literal">NULL</span>) <span class="hljs-keyword">return</span>;
+        <span class="hljs-keyword">if</span>(root-&gt;val == x)&#123;
+            parx = par;
+            dx = d;
+        &#125;
+        <span class="hljs-keyword">if</span>(root-&gt;val == y) &#123;
+            pary = par;
+            dy = d;
+        &#125;
+        dfs(root-&gt;left, x, y, d+<span class="hljs-number">1</span>, root);
+        dfs(root-&gt;right, x, y, d+<span class="hljs-number">1</span>, root);
+    &#125;
+<span class="hljs-keyword">private</span>:
+    TreeNode* parx = <span class="hljs-literal">nullptr</span>;
+    TreeNode* pary = <span class="hljs-literal">nullptr</span>;
+    <span class="hljs-keyword">int</span> dx=<span class="hljs-number">0</span>, dy = <span class="hljs-number">0</span>;
+&#125;;</code></pre></div>
+<p>1022.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/sum-of-root-to-leaf-binary-numbers/">从根到叶的二进制数之和</a> ★★☆</p>
+<p>自上而下地遍历二叉树，遇到叶子结点则表示一个"二进制"序列的值已被计算完整，加到ans上；由于自上而下不知道序列的最高位位数，所以上层的结果递归到下一级时需要×2。类似秦九韶算法。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Definition for a binary tree node.</span>
+<span class="hljs-comment"> * struct TreeNode &#123;</span>
+<span class="hljs-comment"> *     int val;</span>
+<span class="hljs-comment"> *     TreeNode *left;</span>
+<span class="hljs-comment"> *     TreeNode *right;</span>
+<span class="hljs-comment"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span>
+<span class="hljs-comment"> * &#125;;</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+<span class="hljs-keyword">public</span>:
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sumRootToLeaf</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;
+        calculateSum(root, <span class="hljs-number">0</span>);
+        <span class="hljs-keyword">return</span> ans % M;
+    &#125;
+    <span class="hljs-comment">//由于不知道一个序列的高位位数，所以自顶向下计算数值，上一层结果×2后加上当前结点数字</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">calculateSum</span><span class="hljs-params">(TreeNode* root, <span class="hljs-keyword">int</span> num)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(root!=<span class="hljs-literal">NULL</span>)&#123;
+            num = (num &lt;&lt; <span class="hljs-number">1</span>) + root-&gt;val;
+            <span class="hljs-keyword">if</span>(root-&gt;left==<span class="hljs-literal">NULL</span> &amp;&amp; root-&gt;right==<span class="hljs-literal">NULL</span>)&#123;
+                ans += num; <span class="hljs-comment">//叶子节点，当前路径计算结束，加上这个数字</span>
+            &#125;<span class="hljs-keyword">else</span>&#123;<span class="hljs-comment">//非叶子结点继续递归，对上一层的结果×2再加上当前的数字</span>
+                calculateSum(root-&gt;left, num % M);
+                calculateSum(root-&gt;right, num % M);
+            &#125;    
+        &#125;
+    &#125;
+<span class="hljs-keyword">private</span>:
+    <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> M = <span class="hljs-number">1e9</span> + <span class="hljs-number">7</span>;
+&#125;;</code></pre></div>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/07/26/2020-07-01-%E5%8A%9B%E6%89%A3-DFS+BFS/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">LeetCode专题 BFS DFS</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/10/26/2019-10-26-NumPy%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/">
+                        <span class="hidden-mobile">NumPy入门笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="" target="_blank" rel="nofollow noopener"><span>tudou</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="" target="_blank" rel="nofollow noopener">
+        <span>digua</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "LeetCode专题 树&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
