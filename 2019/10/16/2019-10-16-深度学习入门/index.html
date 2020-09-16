@@ -401,9 +401,11 @@ Bagging ,将多个弱学习器Bagging 一下效果会好很多，比如随机森
 <li><p><strong>Adam</strong></p>
 <p>Adam(Adaptive Moment Estimation)是另一种自适应学习率的方法。它利用梯度的一阶矩估计和二阶矩估计动态调整每个参数的学习率。Adam的优点主要在于经过偏置校正后，每一次迭代学习率都有个确定范围，使得参数比较平稳。</p>
 <p>数学描述如下：(稍复杂，稍后再看)</p>
-<p><span class="math inline">\(\begin{array}{l}{m_{t}=\beta_{1} m_{t-1}+\left(1-\beta_{1}\right) g_{t}} \\ {v_{t}=\beta_{2} v_{t-1}+\left(1-\beta_{2}\right) g_{t}^{2}} \end{array}\)</span> , $</p>
+<p><span class="math inline">\(\begin{array}{l}{m_{t}=\beta_{1} m_{t-1}+\left(1-\beta_{1}\right) g_{t}} \\ {v_{t}=\beta_{2} v_{t-1}+\left(1-\beta_{2}\right) g_{t}^{2}} \end{array}\)</span></p>
+<p>$</p>
 <span class="math display">\[\begin{array}{l}{\hat{m}_{t}=\frac{m_{t}}{1-\beta_{1}^{t}}} \\ {\hat{v}_{t}=\frac{v_{t}}{1-\beta_{2}^{t}}}\end{array}\]</span>
-<p>$ , $</p>
+<p>$</p>
+<p>$</p>
 <span class="math display">\[\begin{array}{c} {\Theta_{t+1}=\Theta_{t}-\frac{\alpha}{\sqrt{\hat{v}_{t}}+\epsilon} \hat{m}_{t}}\end{array}\]</span>
 <p>$</p>
 <p>建议 <span class="math inline">\(\beta_1 ＝ 0.9，\beta_2 ＝ 0.999，\epsilon ＝ 10e−8\)</span>;</p>
