@@ -221,7 +221,7 @@
 <li><p><span class="math inline">\(y=\left\{\begin{array}{ll}{0} &amp; {\left(b+w_{1} x_{1}+w_{2} x_{2} \leqslant 0\right)} \\ {1} &amp; {\left(b+w_{1} x_{1}+w_{2} x_{2}&gt;0\right)}\end{array}\right.\)</span> ，此处，<span class="math inline">\(b\)</span> 称为偏置，<span class="math inline">\(w_1\)</span> 和 <span class="math inline">\(w_2\)</span> 称为权重。<span class="math inline">\(w_1\)</span> 和 <span class="math inline">\(w_2\)</span> 是控制输入信号的重要性的参数，而偏置是调整神经元被激活的容易程度（输出信号为1的程度）的参数。</p></li>
 <li><p>感知机的<strong>局限性</strong>就在于它只能表示由一条直线分割的空间。由曲线分割而成的空间称为非线性空间，由直线分割而成的空间称为线性空间。e.g. 单层感知机无法表示异或门，但可以叠加层后表示，见下图，而与门，或门个与非门皆可以使用单层感知机实现。</p>
 <figure>
-<img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-09-18_16-01-17.png" srcset="/img/loading.gif" alt="利用与门，或门个与非门实现异或逻辑" /><figcaption aria-hidden="true">利用与门，或门个与非门实现异或逻辑</figcaption>
+<img src="https://github.com/Orion-wyc/My_Code/blob/master/image/Snipaste_2019-09-18_16-01-17.png" srcset="/img/loading.gif" alt="利用与门，或门个与非门实现异或逻辑" /><figcaption aria-hidden="true">利用与门，或门个与非门实现异或逻辑</figcaption>
 </figure></li>
 </ul>
 <hr />
@@ -237,7 +237,7 @@
 <li><strong>ReLU函数：</strong><span class="math inline">\(h(x)=\left\{\begin{array}{ll}{x} &amp; {(x&gt;0)} \\ {0} &amp; {(x \leqslant 0)}\end{array}\right.\)</span> ，全称线性整流函数（Rectified Linear Unit）。</li>
 </ul></li>
 <li><p><strong>符号</strong>解释：<span class="math inline">\(w_{12}^{(1)}\)</span> <span class="math inline">\(a_1^{(2)}\)</span> 如下图</p>
-<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-09-19_15-51-22.png" srcset="/img/loading.gif" /></p></li>
+<p><img src="https://github.com/Orion-wyc/My_Code/blob/master/image/Snipaste_2019-09-19_15-51-22.png" srcset="/img/loading.gif" /></p></li>
 <li><p><strong>输出层函数</strong></p>
 <p>输出层的激活函数，用 <span class="math inline">\(\sigma()\)</span> 表示，一般地，回归问题可以使用恒等函数，二元分类问题可以使用sigmoid函数，多元分类问题可以使用<strong>Softmax函数</strong>（作用于输出层，例子见下图）。</p>
 <ul>
@@ -247,7 +247,7 @@
 <li><p>softmax函数的输出范围<span class="math inline">\((0.0, 1.0)\)</span>，输出总和为1，所以可解释为概率。</p></li>
 <li><p>一般而言，神经网络只把输出值最大的神经元所对应的类别作为识别结果。并且，即便使用softmax函数，输出值最大的神经元的位置也不会变。因此，神经网络在进行分类时，输出层的softmax函数可以省略。在实际的问题中，由于指数函数的运算需要一定的计算机运算量，因此输出层的softmax函数一般会被省略。</p>
 <figure>
-<img src="C:\Users\Orion_wyc\AppData\Roaming\Typora\typora-user-images\1569494022849.png" srcset="/img/loading.gif" alt="1569494022849" /><figcaption aria-hidden="true">1569494022849</figcaption>
+<img src="https://github.com/Orion-wyc/My_Code/blob/master/image/1569494022849.png" srcset="/img/loading.gif" alt="1569494022849" /><figcaption aria-hidden="true">1569494022849</figcaption>
 </figure>
 <p>注：输入图像通过Affi ne层和ReLU层进行转换，10个输入通过Softmax层进行正规化在这个例子中，“0”的得分是5.3，这个值经过Softmax层转换为0.008（0.8%）；“2”的得分是10.1，被转换为0.991（99.1%）</p></li>
 </ul></li>
@@ -284,7 +284,7 @@
 <p>多类分类（单标签）时，每张图片的损失是一个交叉熵，交叉熵针对的是所有类别（所有类别概率和是1，使用softmax）。 多标签分类时，每张图片的损失是N个交叉熵之和（N等于类别数），交叉熵针对的是单个类别（单个类别概率和是1）。</p>
 <p>链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u011734144/article/details/80915559" class="uri">https://blog.csdn.net/u011734144/article/details/80915559</a></p>
 <p>链接：<a target="_blank" rel="noopener" href="https://juejin.im/post/5b38971be51d4558b10aad26" class="uri">https://juejin.im/post/5b38971be51d4558b10aad26</a></p>
-<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-10-21_10-44-33.png" srcset="/img/loading.gif" /></p></li>
+<p><img src="https://github.com/Orion-wyc/My_Code/blob/master/image/Snipaste_2019-10-21_10-44-33.png" srcset="/img/loading.gif" /></p></li>
 <li><p><strong>端到端</strong></p>
 <p>深度学习有时也称为<strong>端到端机器学习（end-to-end machine learning</strong>）。这里所说的端到端是指从一端到另一端的意思，也就是从原始数据（输入）中获得目标结果（输出）的意思。</p></li>
 <li><p><strong>mini_batch</strong></p>
@@ -334,10 +334,10 @@ Bagging ,将多个弱学习器Bagging 一下效果会好很多，比如随机森
 <ul>
 <li><p><strong>ReLU层</strong></p>
 <p>对激活函数 <span class="math inline">\(h(x)=\left\{\begin{array}{ll}{x} &amp; {(x&gt;0)} \\ {0} &amp; {(x \leqslant 0)}\end{array}\right.\)</span> <span class="math inline">\({求偏导} \Longrightarrow\)</span> <span class="math inline">\(\frac{\partial y}{\partial x}=\left\{\begin{array}{ll}{1} &amp; {(x&gt;0)} \\ {0} &amp; {(x \leqslant 0)}\end{array}\right.\)</span> ，易知，如果正向传播时的输入x大于0，则反向传播会将上游的值原封不动地传给下游。如果正向传播时的x小于等于0，则反向传播中传给下游的信号将停在此处。（类比开关）</p>
-<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-09-25_15-41-45.png" srcset="/img/loading.gif" /></p></li>
+<p><img src="https://github.com/Orion-wyc/My_Code/blob/master/image/Snipaste_2019-09-25_15-41-45.png" srcset="/img/loading.gif" /></p></li>
 <li><p><strong>Sigmoid层</strong></p>
 <p>激活函数 <span class="math inline">\(h(x) = \frac{1}{1+exp(-x)}\)</span> 的反向传播如下图</p>
-<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-09-25_16-33-50.png" srcset="/img/loading.gif" /></p>
+<p><img src="https://github.com/Orion-wyc/My_Code/blob/master/image/Snipaste_2019-09-25_16-33-50.png" srcset="/img/loading.gif" /></p>
 <p>相比ReLU，不仅包含加法和乘法层，还需要计算指数exp()和除法“/”，最后反向传播得到的偏导数可以整理如下：<span class="math inline">\(\begin{aligned} \frac{\partial L}{\partial y} y^{2} \exp (-x) &amp;=\frac{\partial L}{\partial y} \frac{1}{(1+\exp (-x))^{2}} \exp (-x) \\ &amp;=\frac{\partial L}{\partial y} \frac{1}{1+\exp (-x)} \frac{\exp (-x)}{1+\exp (-x)} \\ &amp;=\frac{\partial L}{\partial y} y(1-y) \end{aligned}\)</span> .</p>
 <p>易知，正向传播的结果y可以保存，而后用于计算反向传播时的偏导数。</p></li>
 </ul></li>
@@ -345,10 +345,10 @@ Bagging ,将多个弱学习器Bagging 一下效果会好很多，比如随机森
 <ul>
 <li><p><strong>Affine层</strong></p>
 <p>$  $ 分别是形状为(2,)、(2, 3)、(3,)的多维数组，所以，神经元的加权和可以用 <span class="math inline">\(Y = np.dot(X, W) + B\)</span> 计算出来。神经网络的正向传播中进行的矩阵的乘积运算在几何学领域被称为“仿射变换”。因此，将进行<strong>仿射变换</strong>的处理实现为“Affine层”。其反向传播（使用批处理，N个一组）的计算图如下：</p>
-<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-09-26_17-34-14.png" srcset="/img/loading.gif" /></p>
+<p><img src="https://github.com/Orion-wyc/My_Code/blob/master/image/Snipaste_2019-09-26_17-34-14.png" srcset="/img/loading.gif" /></p>
 <p>需要注意的是，正向传播时，偏置会被加到每一个数据上。因此，反向传播时，各个数据的反向传播的值需要汇总为偏置的元素，即偏置 <span class="math inline">\(\boldsymbol{B}\)</span> 需要在列方向（axis = 0）上求和。</p></li>
 <li><p><strong>Softmax-with-Loss 层</strong></p>
-<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-09-26_18-33-06.png" srcset="/img/loading.gif" /></p>
+<p><img src="https://github.com/Orion-wyc/My_Code/blob/master/image/Snipaste_2019-09-26_18-33-06.png" srcset="/img/loading.gif" /></p>
 <p>Softmax-with-Loss = Softmax Layer + Multinomial Logistic Loss Layer（交叉熵代价函数） +</p>
 <p>上图是该层的计算图，易知：（这张图有疑问）</p>
 <ol type="1">
@@ -356,7 +356,7 @@ Bagging ,将多个弱学习器Bagging 一下效果会好很多，比如随机森
 <li>Cross Entropy Error层接收Softmax的输出 <span class="math inline">\((y_1,y_2,y_3)\)</span> 和标签<span class="math inline">\((t_1,t_2,t_3)\)</span> ，从这些数据中输出损失L.</li>
 </ol>
 <p>推导过程：<a target="_blank" rel="noopener" href="https://blog.csdn.net/yiranlun3/article/details/78632752">链接</a></p>
-<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-10-19_20-02-01.png" srcset="/img/loading.gif" /></p></li>
+<p><img src="https://github.com/Orion-wyc/My_Code/blob/master/image/Snipaste_2019-10-19_20-02-01.png" srcset="/img/loading.gif" /></p></li>
 </ul></li>
 </ul>
 <hr />
@@ -364,7 +364,7 @@ Bagging ,将多个弱学习器Bagging 一下效果会好很多，比如随机森
 <ul>
 <li><p><strong>参数更新最优化方法</strong></p>
 <p>总结：</p>
-<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-10-18_22-22-17.png" srcset="/img/loading.gif" /></p>
+<p><img src="https://github.com/Orion-wyc/My_Code/blob/master/image/Snipaste_2019-10-18_22-22-17.png" srcset="/img/loading.gif" /></p>
 <p><strong>最优化</strong> 是神经网络学习找到使损失函数的值尽可能小的参数的过程。</p>
 <p>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u010089444/article/details/76725843"><链接></a></p>
 <p>参考论文：<a target="_blank" rel="noopener" href="http://ruder.io/optimizing-gradient-descent/index.html"><链接></a></p>
@@ -401,13 +401,7 @@ Bagging ,将多个弱学习器Bagging 一下效果会好很多，比如随机森
 <li><p><strong>Adam</strong></p>
 <p>Adam(Adaptive Moment Estimation)是另一种自适应学习率的方法。它利用梯度的一阶矩估计和二阶矩估计动态调整每个参数的学习率。Adam的优点主要在于经过偏置校正后，每一次迭代学习率都有个确定范围，使得参数比较平稳。</p>
 <p>数学描述如下：(稍复杂，稍后再看)</p>
-<p><span class="math inline">\(\begin{array}{l}{m_{t}=\beta_{1} m_{t-1}+\left(1-\beta_{1}\right) g_{t}} \\ {v_{t}=\beta_{2} v_{t-1}+\left(1-\beta_{2}\right) g_{t}^{2}} \end{array}\)</span></p>
-<p>$</p>
-<span class="math display">\[\begin{array}{l}{\hat{m}_{t}=\frac{m_{t}}{1-\beta_{1}^{t}}} \\ {\hat{v}_{t}=\frac{v_{t}}{1-\beta_{2}^{t}}}\end{array}\]</span>
-<p>$</p>
-<p>$</p>
-<span class="math display">\[\begin{array}{c} {\Theta_{t+1}=\Theta_{t}-\frac{\alpha}{\sqrt{\hat{v}_{t}}+\epsilon} \hat{m}_{t}}\end{array}\]</span>
-<p>$</p>
+<p><span class="math inline">\(\begin{array}{l}{m_{t}=\beta_{1} m_{t-1}+\left(1-\beta_{1}\right) g_{t}} \\ {v_{t}=\beta_{2} v_{t-1}+\left(1-\beta_{2}\right) g_{t}^{2}} \end{array} \;\;; \begin{array}{l}{\hat{m}_{t}=\frac{m_{t}}{1-\beta_{1}^{t}}} \\ {\hat{v}_{t}=\frac{v_{t}}{1-\beta_{2}^{t}}}\end{array} \\\;\;; \begin{array}{c} {\Theta_{t+1}=\Theta_{t}-\frac{\alpha}{\sqrt{\hat{v}_{t}}+\epsilon} \hat{m}_{t}}\end{array}\)</span></p>
 <p>建议 <span class="math inline">\(\beta_1 ＝ 0.9，\beta_2 ＝ 0.999，\epsilon ＝ 10e−8\)</span>;</p>
 <p>实践表明，Adam 比其他适应性学习方法效果要好。</p></li>
 </ul></li>
@@ -433,7 +427,7 @@ Bagging ,将多个弱学习器Bagging 一下效果会好很多，比如随机森
 <span class="math display">\[\begin{aligned} \mu_{B} &amp; \leftarrow \frac{1}{m} \sum_{i=1}^{m} x_{i} \\ \sigma_{B}^{2} &amp; \leftarrow \frac{1}{m} \sum_{i=1}^{m}\left(x_{i}-\mu_{B}\right)^{2} \\ \hat{x}_{i} &amp; \leftarrow \frac{x_{i}-\mu_{B}}{\sqrt{\sigma_{B}^{2}+\varepsilon}}｛此处转换为新数据B = \{ \hat{x}_{1} , \hat{x}_{2}, ... , \hat{x}_{m} \}｝ \\ y_{i} &amp; \leftarrow \gamma \hat{x}_{i}+\beta  ｛BN层会对正规化后的数据进行缩放和平移的变换｝\end{aligned}\]</span>
 <p>$</p>
 <p>这里对mini-batch的m个输入数据的集合<span class="math inline">\(B = \{ x_1 , x_2 , ... , x_m \}\)</span> 求均值 <span class="math inline">\(\mu_B\)</span>和方差 <span class="math inline">\(\sigma^2_B\)</span> 。然后，对输入数据进行均值为0、方差为1（合适的分布）的正规化。第3式中的 <span class="math inline">\(\epsilon\)</span> 是一个微小值（e.g.取值10e-7 等），它是为了防止出现除以0的情况。计算图如下：</p>
-<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-10-06_23-18-47.png" srcset="/img/loading.gif" /></p>
+<p><img src="https://github.com/Orion-wyc/My_Code/blob/master/image/Snipaste_2019-10-06_23-18-47.png" srcset="/img/loading.gif" /></p>
 <p><a target="_blank" rel="noopener" href="https://kratzert.github.io/2016/02/12/understanding-the-gradient-flow-through-the-batch-normalization-layer.html">Frederik Kratzert的博客</a>“Understanding the backward pass through Batch Normalization Layer”里有详细说明</p></li>
 </ul></li>
 <li><p><strong>正则化（Regularizer）</strong></p>
@@ -473,7 +467,7 @@ Bagging ,将多个弱学习器Bagging 一下效果会好很多，比如随机森
 <p><strong>卷积核为什么是奇数大小</strong>：保证了锚点刚好在中间；填充的像素可以平均分配在图像四周。</p>
 <p>多维卷积：除了考虑长宽方向，还需要处理通道数，并将各通道的结果相加输出。通道数应设定为和输入数据的通道数相同的值。</p>
 <p>把3维数据表示为多维数组时，书写顺序为（channel, height, width）。比如，通道数为C、高度为H、长度为W的数据的形状可以写成（C, H, W），滤波器同。在通道方向上也拥有多个卷积运算，数量FN，得到的特征图传到下一层就是CNN的处理流（含偏置，也使用mini-batch）。运算过程参考下图：</p>
-<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2019-10-07_19-56-03.png" srcset="/img/loading.gif" /></p>
+<p><img src="https://github.com/Orion-wyc/My_Code/blob/master/image/Snipaste_2019-10-07_19-56-03.png" srcset="/img/loading.gif" /></p>
 <p><strong>卷积层作用</strong>：</p>
 <ol type="1">
 <li>提取图像的特征，并且卷积核的权重是可以学习的，由此可以猜测，在高层神经网络中，卷积操作能突破传统滤波器的限制，根据目标函数提取出想要的特征。</li>
