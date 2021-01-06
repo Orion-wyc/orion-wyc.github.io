@@ -169,7 +169,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.8k 字
+      4.1k 字
     </span>
   
 
@@ -179,7 +179,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      38
+      52
        分钟
     </span>
   
@@ -308,7 +308,6 @@
 <li>中国剩余定理：把每个数分解到一些互素的模上，然后每个同余方程对应乘起来就行；</li>
 <li>Furer's algorithm：在渐进意义上FNTT还快的算法。不过好像不太实用，本文就不作介绍了。大家可以参考维基百科<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/F%C3%BCrer%27s_algorithm">Fürer's algorithm</a>。</li>
 </ol>
-<p><div class="hljs"><pre><code class="hljs plain"></code></pre></div></p>
 <p>参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/u010983881/article/details/77503519">博客</a></p></li>
 <li><p>矩阵乘法</p></li>
 <li><p>求第k小元素问题</p></li>
@@ -430,6 +429,82 @@
         &#125;
     &#125;
 &#125;;</code></pre></div>
+<h3 id="np完全性">NP完全性</h3>
+<ol type="1">
+<li><p>P与NP</p>
+<ul>
+<li><p>P类问题可以用多项式时间的确定性算法进行判定或求解。（多项式时间可解）</p>
+<p>Polynomial</p></li>
+<li><p>NP类问题可用多项式时间的非确定性算法进行判定或求解。（多项式时间可验证）</p>
+<p>Non-deterministic Polynomial</p></li>
+<li><p>判定问题：仅要求回答"yes"与"no"(证比求易) <span class="math inline">\(P \subseteq NP\)</span></p></li>
+</ul>
+<p><font color='#FF0000'>所有NP 问题都是判定问题，回答 yes 或 no</font></p></li>
+<li><p>经典问题 (NP-completeness )</p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/List_of_NP-complete_problems">List of NP-complete problems</a></p>
+<p>SAT 问题 (Boolean Satisfiability) - 第一个NP-C</p>
+<p>最大团问题 (Maximum Clique)</p>
+<p>图着色问题 (Graph Coloring)</p>
+<p>哈密顿回路问题 (Hamiltonian Cycle)</p>
+<p>TSP 问题 (Traveling Salesman)</p>
+<p>顶点覆盖问题 (Vertex Cover)</p>
+<p>最长路径问题 (Longest Path)</p>
+<p>子集和问题 (Sum of Subset)</p>
+<p><img src="Snipaste_2020-12-24_14-25-21.png" srcset="/img/loading.gif" /></p>
+<p>若某个NP完全问题多项式时间可解，则所有NP问题均可多项式时间求解，从而有P=NP。</p>
+<p><img src="Snipaste_2020-12-24_14-31-07.png" srcset="/img/loading.gif" /></p></li>
+<li><p>规约 Reduction</p>
+<p>一个问题A可以归约为问题B的含义是，可用问题B的解法解决问题A，或者说，问题A可以“变成”问题B；举个例子，一元一次方程求解可以归约化为一元二次方程求解。（B的复杂度大于等于A的复杂度）</p></li>
+</ol>
+<h3 id="近似算法">近似算法</h3>
+<p>经典问题：顶点覆盖，集合覆盖，旅行商问题，子集和问题，随机和线性规划。</p>
+<p>定义：能够给出一个优化问题的近似优化解的算法，主要解决优化问题（最大化和最小化）</p>
+<p>评价指标（近似度）：Ratio Bound，相对误差。</p>
+<p><img src="Snipaste_2020-12-24_15-55-46.png" srcset="/img/loading.gif" /></p>
+<p><img src="Snipaste_2020-12-24_15-56-16.png" srcset="/img/loading.gif" /></p>
+<p>满足 <span class="math inline">\(\epsilon(n) \le B(n)-1\)</span> (最小化问题时<span class="math inline">\(\epsilon(n) = B(n)-1\)</span>)，只要求出了RB就可以得出相对误差。</p>
+<p>参考资料 <a target="_blank" rel="noopener" href="https://zhpmatrix.github.io/2016/10/28/np-problem/">[1]</a></p>
+<ol type="1">
+<li><p>顶点覆盖</p>
+<p>选取若干个点组成集合A，其所连接的边可以把改图的所有点都囊括，希望|A|尽可能地小。</p>
+<p>近似的方法是随机选取一条边<span class="math inline">\((u,v)\)</span>，删除与u或v相连的边，将每一条边的两个端点加入A，重复直到无边可删，由于每次都会加入两个点加入A，所以近似比为2。</p>
+<p>可以用线性规划来做，原问题可以转化为0-1整数规划问题，但是可以适当放宽条件，是的<span class="math inline">\(x(v)\)</span>取值为浮点数。（整数规划是NP完全的，线性规划是多项式可解的）</p></li>
+<li><p>集合覆盖问题</p>
+<p>有限集合<span class="math inline">\(U=\{1,2,...,n\}\)</span>，子集和的集合<span class="math inline">\(S=\{ s_1, s_2, ...,s_m\}\)</span> , <span class="math inline">\(s_i \subseteq U\)</span> ，求集合<span class="math inline">\(A\subseteq S\)</span> ,满足元素完全覆盖U.</p>
+<p>近似的方法是每次迭代选择能覆盖最多未被覆盖元素的子集。</p>
+<p><img src="Snipaste_2020-12-24_16-58-50.png" srcset="/img/loading.gif" /></p></li>
+<li><p>旅行商问题</p>
+<p>给定一个完全无向图G=(V,E)，其每一边(u,v)∈E有一非负整数费用c(u,v)，要找出G的最小费用哈密顿回路。</p>
+<p>近似算法需利用一个性质（三角不等式）：费用函数<span class="math inline">\(c\)</span>通常意义下具有三角不等式性质，即对任意的3个顶点<span class="math inline">\(u,v,w∈V\)</span>，有：<span class="math inline">\(c(u,w)≤c(u,v)+c(v,w)\)</span>。</p>
+<p><img src="Snipaste_2020-12-24_17-32-36.png" srcset="/img/loading.gif" /></p></li>
+<li><p>子集和问题</p>
+<p><span class="math inline">\(S=\{x_1,x_2,...,x_n\}\)</span>是一个正整数的集合，t是一个正整数。子集和问题判定是否存在S的一个子集<span class="math inline">\(S_1\)</span>，使得<span class="math inline">\(S_1\)</span>中的元素和等于t。</p></li>
+<li><p>Max-3CNF</p>
+<p><img src="Snipaste_2020-12-24_17-39-42.png" srcset="/img/loading.gif" /></p></li>
+</ol>
+<h3 id="随机算法">随机算法</h3>
+<p>随机算法是一种使用概率和统计方法在其执行过程中对于下一步计算做出随机选择的算法。</p>
+<ol type="1">
+<li><p>随机算法分类</p>
+<p>随机数值算法、Monte Carlo算法、Las Vegas算法、Sherwood算法</p>
+<ul>
+<li><p>随机数值算法</p>
+<p>主要用于数值问题求解，往往输出近似解，且精确度与执行时间成正比。</p>
+<p>e.g. 计算<span class="math inline">\(\pi\)</span>（正方形与四分之一圆、投针实验计算）、计算积分（强大数定律）</p></li>
+<li><p>Mente Carlo算法</p>
+<p>主要用于需要准确解的问题，<font color='#FF0000'>算法可能给出错误的解</font>，且获得精确解的概率与算法执行时间成正比。</p>
+<p>e.g. 求主元素（一半以上的元素都是<span class="math inline">\(x\)</span>）MC算法执行<span class="math inline">\(k\)</span>次，算法发生错误的概率为<span class="math inline">\(2^{(-k)}\)</span> 参考资料 <a target="_blank" rel="noopener" href="https://blog.csdn.net/chensanwa/article/details/78657163">非随机算法</a> （传统算法就是对每一个数字都去从头到尾遍历一遍，很傻，所以复杂度是<span class="math inline">\(\Omicron(n^2)\)</span>）、判断字符串是否相等（去指纹，错判率）、字符串匹配、素数测试（Fermat小定理）</p>
+<p><img src="Snipaste_2020-12-24_20-39-30.png" srcset="/img/loading.gif" /></p>
+<p><img src="Snipaste_2020-12-24_20-56-54.png" srcset="/img/loading.gif" /></p></li>
+<li><p>Sherwood算法</p>
+<p>一定可求一个正确解，确定算法的最坏与平均复杂性差别很大，加入随机性即得到Sherwood算法。作用是消除最坏行为和特定实例的联系。</p>
+<p>e.g. 快速排序，每次随机选取一个基准数字。</p></li>
+<li><p>Las Vegas算法</p>
+<p>一旦找到一个解，该解一定是正确的，且找到解的概率与执行时间成正比，增加对问题反复求解次数，可使求解无效的概率任意小。</p>
+<p>e.g. 求第<span class="math inline">\(k\)</span>小元素2（若以等概率方法从<span class="math inline">\(n\)</span>个数中随机取数，则该算法比较次数的期望不超过<span class="math inline">\(4n\)</span>）</p>
+<p><img src="Snipaste_2020-12-24_20-23-32.png" srcset="/img/loading.gif" /></p></li>
+</ul></li>
+</ol>
 
             </div>
             <hr>
@@ -528,7 +603,7 @@
   <footer class="mt-5">
   <div class="text-center py-3">
     <div>
-      <a href="" target="_blank" rel="nofollow noopener"><span>tudou</span></a>
+      <a href="" target="_blank" rel="nofollow noopener"><span>_____</span></a>
       <i class="iconfont icon-love"></i>
       <a href="" target="_blank" rel="nofollow noopener">
         <span>digua</span></a>
