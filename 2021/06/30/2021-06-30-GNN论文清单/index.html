@@ -1,0 +1,849 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.jpg">
+  <link rel="icon" type="image/png" href="/img/favicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Yuchen">
+  <meta name="keywords" content="">
+  <title>图神经网络论文清单 - Yuchen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/tomorrow-night-eighties.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Yuchen's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/main4.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-06-30 16:59" pubdate>
+        2021年6月30日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      60
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">图神经网络论文清单</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h1 id="论文清单gnn的分布式加速">论文清单：GNN的分布式加速</h1>
+<hr />
+<h2 id="gnn的分布式训练">GNN的分布式训练</h2>
+<ol type="1">
+<li><p>[USENIX ATC 19， <a target="_blank" rel="noopener" href="https://xysmlx.github.io/#intro">Linxiao Ma</a>] <strong>Neugraph: Parallel Deep Neural Network Computation on Large Graphs</strong></p>
+<ul>
+<li><p>概述：设计了一个支持muti-GPUs的分布式GNN训练框架，提出SAGA-NN的抽象模型，对于符合SAGA-NN的GNN都可以得到支持。</p></li>
+<li><p>核心技术：图转换引擎（图划分，chunk粒度，类似缩点），流调度器（edge/vertex chunk的调度策略，overlap），图传播引擎（自己优化的kernel，减少数据移动的策略，可惜不开源），基于dataflow的运行时</p></li>
+<li><p>总结：具有较为完整的系统设计，考虑到了GNN训练中的关键问题，并且具有较为完备的实验评估与分析。其划分图，SAGA-NN的抽象模型值得学习。但是无可供参考的开源代码，图划分的细节没有给出（3.2举例 Kernighan-Lin算法），vertex chunk的内部的传播计算如何实现（sub-chunk?），chain-based的调度方法首次看到（可能以前没发现），并且实验结果的准确性有待商榷。实验部分有关于多GPU加速效果的实验，结果可以参考一下。</p></li>
+</ul></li>
+<li><p>[IPDPS 20] <strong>PCGCN: Partition-Centric Processing for Accelerating Graph Convolutional Network</strong></p>
+<ul>
+<li><p>概述：这是NeuGraph的“小弟”，投到CCF B类会议。论文的总体内容与NeuGraph相近，但是在System Design的一些细节表述上存在区别。本文的实验重点落在单GPU上加速GCN单一类型。（是否是一条思路）</p></li>
+<li><p>优点：系统的设计还是比较完整的，针对GCN在<strong>单GPU</strong>上的性能进行优化，亮点在于实验部分涵盖了文中提及的技术要点。特别是对于数据集的特征的研究，是其它论文所欠缺的。此外，对于GCN网络的hidden size以及层数对执行性能的影响分别做了实验。</p></li>
+<li><p>结论：相比较于NeuGraph，这一篇的重点在于dual-mode的执行模式，简言之，就是依据稀疏程度来选择使用CSR的压缩方式还是邻接矩阵的形式存储图。</p></li>
+</ul></li>
+<li><p>[ IEEE Computer Architecture Letters 20] <strong>Characterizing and Understanding GCNs on GPU</strong></p>
+<ul>
+<li><p>概述：分析GCN类负载在GPU上的特征，给出了一些软件优化和硬件设计的思路。</p></li>
+<li><p>要点</p>
+<p>GCN的两个执行模式Aggregation与Combination，两者的执行先后顺序会影响执行性能。</p>
+<p>与传统graph processing和神经网络的区别：更长且多变的feature length；NN的参数由所有结点共享；交替执行的训练模式。</p></li>
+<li><p>结论：软件设计要提高"高度"结点的重复利用率；原子操作向量化（GPU的访存与计算特性）；基于数据流的优化。</p></li>
+</ul></li>
+<li><p>[HPCA 20] <strong>HyGCN: A GCN accelerator with hybrid architecture</strong></p></li>
+<li><p>[ICCAD 20] <strong>fuseGNN : Accelerating Graph Convolutional Neural Network Training on GPGPU</strong></p></li>
+<li><p>[SoCC20, <a target="_blank" rel="noopener" href="http://staff.ustc.edu.cn/~chengli7/#pub">Cheng Li</a>] <strong>PaGraph: Scaling GNN Training on Large Graphs via Computation-aware Caching</strong></p></li>
+<li><p>[MICRO 20] <strong>AWB-GCN: A Graph Convolutional Network Accelerator with Runtime Workload Rebalancing</strong></p></li>
+</ol>
+<p><b><font color=darkcyan>这块需要补充几篇论文</font></b></p>
+<ol start="8" type="1">
+<li><p>[MLSys21 - <a target="_blank" rel="noopener" href="https://gnnsys.github.io/">GNNSys</a>, ] <strong>Analyzing the Performance of Graph Neural Networks with Pipe Parallelism</strong></p>
+<p><a target="_blank" rel="noopener" href="https://gnnsys.github.io/papers/GNNSys21_paper_12.pdf">paper</a></p>
+<p>我去。。原来还能这样玩~去年两级流水做出来慢了25%左右，然后就没关注。没想到有人用GPipe的思路也试了一下，结论是慢了，最终发了个Workshop，可以follow一下。</p></li>
+</ol>
+<h3 id="arxiv">ArXiv</h3>
+<ol type="1">
+<li><p>[] DistGNN: Scalable Distributed Training for Large-Scale Graph Neural Networks</p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2104.06700.pdf">paper</a></p></li>
+</ol>
+<hr />
+<h2 id="图神经网络采样算法概述">图神经网络采样算法概述</h2>
+<p>NeuGraph中详细介绍了GNN的计算模式，其中一个关键步骤是邻居结点特征的聚合。由于大图中邻居结点数量众多，聚合过程所需占用的资源可能超过单机所能提供的最大值。一种解决方案是划分大图并采用分布式的训练方式，这种方式维持了原有GNN的算法形式，且可以保证收敛性与准确性；另一中解决方案则从算法层面做出改进，对邻居结点进行采样来降低邻居数目，从而减少计算和内存资源占用。</p>
+<p>邻居采样算法（Neighbor Sampling Algorithm, 下文简称NS）从采样的层次来看可以分为三类：</p>
+<ol type="1">
+<li>Node-level</li>
+<li>Layer-level</li>
+<li>subgraph-level</li>
+</ol>
+<p>下面提到的NS算法都是基于GCN进行设计的，所以对<strong>其它类型GNN的支持</strong>（通用性）是否可以算一个贡献呢。（ 最近涌现很多关于GNN的新文章，感觉这是个趋势，可以考虑Versatility of Our Future Programming Model）</p>
+<p><img src="Snipaste_2021-04-28_20-15-10.png" srcset="/img/loading.gif" /></p>
+<hr />
+<h3 id="采样算法">采样算法</h3>
+<ol type="1">
+<li><p>[NIPS 17 , <a target="_blank" rel="noopener" href="https://williamleif.github.io/#panel3">William L. Hamilton</a>] <strong>Inductive Representation Learning in Large Attributed Graphs</strong> (GraphSAGE)</p>
+<p>不同于transductive的学习方式，本文提出了基于“节点-邻居”信息聚合的Inductive学习方法：任意一点 <span class="math inline">\(v_i\)</span>，对其邻居采样（<span class="math inline">\(k\)</span> 跳采样数为 <span class="math inline">\(n_k\)</span>）；从第 <span class="math inline">\((k-1)\)</span> 跳开始聚合信息，聚合函数为 <span class="math inline">\(aggr_k\)</span>，直到点 <span class="math inline">\(v_i\)</span> 拥有所有邻居信息，生成的嵌入为 <span class="math inline">\(E_i\)</span>；将生成的嵌入作为MLP的输入，进行节点标签分类。</p>
+<p>文中定义的聚合函数有三种：Mean Aggregator，LSTM Aggregator，Pooling Aggregator。（还有一个归纳聚合，与Mean的区别在于，目标节点的特征也会一起求平均，而非拼接）</p>
+<p>PS：支持无监督和有监督的学习，需要使用不同的损失函数。</p>
+<ul>
+<li>无监督学习希望目标节点的特征与邻居相似，得到的嵌入可以供下游任务使用。</li>
+<li>有监督学习，结合具体任务设置损失函数，比如节点分类，可以使用交叉熵。</li>
+</ul>
+<p>实验部分和Random Walk、GCN等方法进行对比，且给出了不同聚合函数的表现。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/williamleif/GraphSAGE">代码链接</a></p></li>
+<li><p>[ICML 18, <a target="_blank" rel="noopener" href="http://ml.cs.tsinghua.edu.cn/~jianfei/">Jianfei Chen</a>] <strong>Stochastic Training of Graph Convolutional Networks with Variance Reduction</strong> (VR-GCN) 数学</p>
+<p>GCN的计算模式需要聚合所有邻居结点的信息，在此之前的方法的主要贡献是降低采样数量，并提升在“深”层网络中的训练效果。但是，诸如GraphSAGE的采样方法并没有理论证明保障收敛性，并且（<span class="math inline">\(D^1 \times D^2 = 250\)</span>） 的采样数量还是过大。所以，本文的亮点（亦部分reviewer是槽点）是大段理论证明：证明能收敛。</p>
+<p>实验选取了六个数据集，结果显示本文的方法能够减小NS在相同感受野的梯度的bias和variance（GraphSAGE是存在bias的，这个可以理解为用mini-batch来估计full-batch的梯度）。特别的，仅采样<span class="math inline">\(D^l=2\)</span>的邻居，其算法可获得与精确（Exact）算法一样 <u><b>预测</b></u> 精度。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/thu-ml/stochastic_gcn">代码链接</a></p></li>
+<li><p>[ICLR 18, <a target="_blank" rel="noopener" href="https://jiechenjiechen.github.io/">Jie Chen</a>] <strong>FastGCN: Fast Learning with Graph Convolutional Networks via Importance Sampling</strong></p></li>
+<li><p>[SIGKDD 18, <a target="_blank" rel="noopener" href="https://faculty.sites.iastate.edu/hygao/">Hongyang Gao</a>] <strong>Large-Scale Learnable Graph Convolutional Networks</strong></p>
+<p><span class="math inline">\(LGCN_{sub}\)</span>结构融合了邻居节点的特征采样以及图像上的卷积运算，感觉并这种结构不适用于大规模的图以及特征较长的图（实验中用的是三个小图）。</p>
+<p>也是基于采样的学习方式，支持<strong>Transductive和Inductive Learning</strong>：</p>
+<ul>
+<li>对于一张完整的图，LGCN会<strong>采样</strong>出若干张子图作为一个batch，以此解决大图上的训练问题，降低计算和内存开销。</li>
+<li>依据特征各个维度排序大小关系，仅选取 <span class="math inline">\(k\)</span> 个最大的特征构建为grid-like的输入（CNN中的image），然后利用<strong>1-D卷积</strong>提取特征。</li>
+<li>LGCN的设计还使用了类似DenseNet的连接结构，这点在深层网络中有好的效果。（DeepGCN用的ResNet形式的结构解决多层GCN层叠加后训练效果下降的问题）</li>
+</ul>
+<p>实验部分的表述方式值得学习，但是所用数据集都比较小，方法在大数据集上的表现有待验证。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/divelab/lgcn">代码链接</a> <a target="_blank" rel="noopener" href="https://blog.csdn.net/yyl424525/article/details/100057863">博客</a></p></li>
+<li><p>[SIGKDD 19, <a target="_blank" rel="noopener" href="https://infwinston.github.io/">Wei-Lin Chiang</a>, <a target="_blank" rel="noopener" href="https://xuanqing94.github.io/">Xuanqing Liu</a>] <strong>Cluster-GCN: An Efficient Algorithm for Training Deep and Large Graph Convolutional Networks</strong></p>
+<p>这篇的想法和之前讨论的求SCC的很相似，应用图聚类算法得到若干个点的聚簇（子图），目的是让聚簇中的边尽量的多，让聚簇间的边尽量少（SCC也可以有这种功效）。而且实验部分表述很详细，实验的设施可以学习，有必要复现以下。</p>
+<p>划分图的方式：Metis聚类得到 <span class="math inline">\(p\)</span> 个独立子图，子图间的边暂时忽略（应该是 <span class="math inline">\(p\)</span> 等分）</p>
+<p>问题：依赖于cluster的结果、去掉了一些边所以需考虑收敛性。</p>
+<p>训练：每个batch <span class="math inline">\(B\)</span> 都会随机选取 <span class="math inline">\(c\)</span> 个子图参与训练，此时子图间被去除的边需要再连接起来，同样的，特征和标签也需要对应重新编号和分割。</p>
+<p>深层次的网络：不同于大多数人选择的类似ResNet中“short-cut”的方法，Cluster-GCN使用“diagonal enhancement”来解决深层网络训练问题。</p>
+<p>内存开销：相比VRGCN和GraphSAGE，内存占用有显著下降。（和GraphSAGE类似，可以只保存当前batch的中间数据用于计算梯度--这玩意儿可以用冲计算嘛？是个可以探究以下的点，目前没有看到有人把DNN分布式训练的一些技巧用于GNN）</p>
+<p>求出SCC之后需要解决的问题有三个：SCC的大小不一致；去掉一些边之后可能对训练精度有影响；SCC分割之后标签的分布可能出现偏斜。<font color="#4169E1">(需要确认一下这种标签分布的不平衡是不是FL中数据non-iid这么一回事儿，如果是的话可以尝试把一些解决方法拿来用：比如分成300个cluster然后分别训练，或者共享一部分数据训练)</font></p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=5gUkNOEIy5k">视频</a> Github <a target="_blank" rel="noopener" href="https://github.com/benedekrozemberczki/ClusterGCN">[1-pt]</a> <a target="_blank" rel="noopener" href="https://github.com/NIRVANALAN/ClusterGCN_google-reseach">[2-tf]</a> <a target="_blank" rel="noopener" href="https://github.com/yiyang-wang/Cluster-GCN">[3-3090]</a></p></li>
+<li><p>[ICLR 20, ] <strong>GraphSAINT: Graph Sampling Based Inductive Learning Method</strong></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/GraphSAINT/GraphSAINT">代码链接</a></p>
+<p>[IPDPS 19, ] <strong>Accurate, Efficient and Scalable Graph Embedding</strong></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ZimpleX/gcn-ipdps19">代码链接</a></p>
+<p>这篇工作既有理论又有系统，很棒。</p>
+<p>本文核心为子图采样，在全图上采样出多个子图，然后在子图上训练一个完整的GCN。与前面采样方法的区别在于，采样是在图这一层次的，而非对边或点的采样，所以对于子图来说，局部连接是几乎（完整）保留的。</p>
+<p>对于相较原图损失的边，作者设计了无偏的采样方法并且降低方差（variance reduction），也有人质疑子图采样的有效性以及无偏相关理论的推导。这一点也是本文中比较难的。</p>
+<p>从实际实验复现的效果来说，超出预期的好。</p></li>
+<li><p>采样算法的偏差 <a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/minimal-variance-sampling-with-provable/review/">paper</a></p></li>
+</ol>
+<hr />
+<h2 id="mixed-nn-training">Mixed NN Training</h2>
+<ol type="1">
+<li>Sun J, Zhang J, Li Q, et al. Predicting citywide crowd flows in irregular regions using multi-view graph convolutional networks[J]. IEEE Transactions on Knowledge and Data Engineering, 2020.</li>
+<li>Arindam Paul, Dipendra Jha, Reda Al-Bahrani, Wei-keng Liao, Alok Choudhary, and Ankit Agrawal. CheMixNet: Mixed DNN Architectures for Predicting Chemical Properties using Multiple Molecular Representations. In <em>NeurIPS Workshop on Machine Learning for Molecules and Materials</em>, December 2018.</li>
+</ol>
+<hr />
+<h2 id="federated-graph-learning">Federated Graph Learning</h2>
+<h3 id="概述">概述</h3>
+<p>目前收集了2019年以来和FGL（Fedrated Graph Learning）相关的论文。其中[1.]指出联邦环境下的图学习任务可分为四类：</p>
+<ul>
+<li><p>Graph Level，即对每一张完整的全图进行分类（这一类与联邦环境下的CV任务相似，目前见得最多的就是该类应用，例如，药物分子分类）</p></li>
+<li><p>Sub-graph Level，由于数据间保密的需要，不同部门之间的KG被分为多个子图（有点牵强）</p></li>
+<li><p>Node Level，比如分类任务接下游推荐任务，针对结点（例如，物品或用户）的嵌入，目前还看到了关于交通流的预测任务[25.]</p></li>
+<li><p>Link Level，尚不明朗</p></li>
+</ul>
+<p>难点：不同场景的数据集怎么搞，选哪个场景；故事怎么讲。</p>
+<h3 id="federated-learning-on-graphs">Federated Learning on Graphs</h3>
+<ol type="1">
+<li><p>[ICLR'2021 - DPML &amp; MLSys'21 - GNNSys, ] <strong>FedGraphNN: A Federated Learning System and Benchmark for Graph Neural Networks</strong></p>
+<p>从训练机制上来说，未见明显创新与亮点，只是讲GNN和FL结合，使用的还是FedAvg。</p>
+<p>文中提到暂时只是实现了Graph Level的训练任务，其它三种在计划中。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/FedML-AI/FedGraphNN">代码</a></p></li>
+<li><p>[NeurIPS20, <a target="_blank" rel="noopener" href="https://chaoyanghe.com/publications/">Chaoyang He</a>] <strong>FedML: A Research Library and Benchmark for Federated Machine Learning</strong></p></li>
+<li><p>[non-iid, 浙大 吴飞] <strong>Federated Graph Learning - A Position Paper</strong></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2105.11099.pdf">arxiv</a></p>
+<p>相当于给FGL的概念一个定位，且将FGL分为四个类型：</p>
+<ul>
+<li>Inter-graph，类似Graph Level，是FL向FGL过渡的最自然形态。</li>
+<li>Intra-graph，每个终端拥有一张完整的图的一部分（子图，但严格来讲可以又重叠的部分，也就是不同终端间子图存在部分相同的点和边）。
+<ul>
+<li>horuzontal intra-graph 图是水平分割的（在同一张图中，割开部分边）。</li>
+<li>Vertical intra-graph 图是垂直分割的 （多张图，部分结点存在跨图的连接关系，即Vertical Connection，例如第一层为KG，第二层为Socail Graph，第三层位Financial Graph）</li>
+</ul></li>
+<li>Graph-structured，即clients之间的连接可以视作一种关系</li>
+</ul>
+<p>文中提及的挑战：</p>
+<ul>
+<li>non-iid, communicaiton efficiency, memory consumption and robustness</li>
+</ul></li>
+<li><p>[non-iid, arxiv, <a target="_blank" rel="noopener" href="https://www.cse.msu.edu/~wangy206/publications.html">Yiqi Wang</a>] <strong>Non-IID Graph Neural Networks</strong></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2005.12386">arxiv</a> <b><font color=darkcyan>已经投出去了，关注一下</font></b></p>
+<p>解决的问题：在non-iid的图数据集训练Graph-level分类模型。</p>
+<p>主要有三个挑战：不同图的分布不知、单独训练每个分布的模型可能导致部分分布下的可训练数据稀少、测试阶段多模型选择问题</p>
+<p>提出的方法：基于adaptor network，利用图结构信息来估计分布；为每一个图训练一个联合模型。</p></li>
+<li><p>[ICML'21, <a target="_blank" rel="noopener" href="https://www.cse.msu.edu/~wangy206/publications.html">Yiqi Wang</a> <a target="_blank" rel="noopener" href="https://www.cse.msu.edu/~tangjili/">Jiliang Tan</a>] <strong>Elastic Graph Neural Networks</strong></p>
+<p>汤继良等人的书《图深度学习》有中文版</p></li>
+<li><p>[imbalance, IJCAI'20 ] <strong>Multi-Class Imbalanced Graph Convolutional Network Learning</strong></p>
+<p>在真实（图）数据集中，类别分布存在多数与少数，这种多类别样本不均衡现象会导致训练出的模型向多数一方倾斜：点-点之间拓扑联系、不清晰的类别界限（多数一方在特征传播过程中会占据主导地位）</p></li>
+<li><p>[NeurIPS Workshop 2019] <strong>Towards Federated Graph Learning for Collaborative Financial Crimes Detection.</strong></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1909.12946">paper</a></p></li>
+<li><p>[Arxiv 2021] <strong>A Graph Federated Architecture with Privacy Preserving Learning.</strong></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2104.13215">paper</a></p></li>
+<li><p>[Arxiv 2020] <strong>Federated Dynamic GNN with Secure Aggregation.</strong> <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2009.07351">paper</a></p></li>
+<li><p>[Arxiv 2020] <strong>Privacy-Preserving Graph Neural Network for Node Classification.</strong> <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2005.11903">paper</a></p></li>
+<li><p>[SIGKDD21, <a target="_blank" rel="noopener" href="http://wangbinghui.net/">Binghui (Alan) Wang</a>] <strong>Privacy-Preserving Representation Learning on Graphs: A Mutual Information Perspective</strong></p></li>
+<li><p>[Arxiv 2020] <strong>ASFGNN: Automated Separated-Federated Graph Neural Network.</strong></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2011.03248">paper</a></p></li>
+<li><p>[Arxiv 2020, <a target="_blank" rel="noopener" href="http://wangbinghui.net/">Binghui (Alan) Wang</a>] <strong>GraphFL: A Federated Learning Framework for Semi-Supervised Node Classification on Graphs.</strong></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2012.04187">paper</a></p>
+<p>两个挑战：1）FL在non-iid数据上表现不佳，而Graph是non-iid的；2）FL过去侧重于训练同label-domain的数据，但是图数据是会增长的。3）现有FL解决的是有监督学习，不能利用无标签的数据。</p>
+<p>解决方法：1）使用MAML+FL的方式，数据不要求为iid：先使用MAML训练一个global-model解决non-iid的Graph数据问题，然后利用现有FL方法优化global-model；2）重新制定MAML并设计新的objective function；3）self-training模型，即利用训练的本地模型来预测无标签的数据，选取the most confident predictions作为标签，把这些数据加入到训练集中去。</p>
+<p>实验采用的两个模型GCN和SGC<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="Simplifying graph convolutional networks. ICML. 2019.
+">[1]</span></a></sup>还是没有足够的说服力，我觉得可以<strong>试试采样方法或者GAT</strong>等模型。数据集cora、citeseer、Coauthor CS、Amazon2M。</p>
+<p>可学习的部分：GCN的self-training，MAML处理non-iid</p>
+<blockquote>
+<p>all clients have the complete graph.”这一块简直不是联邦学习。</p>
+<p>PS：在大数据集上也遇到问题，使用基于采样的GCN变体ClusterGCN。</p>
+</blockquote>
+<p>MAML非官方参考代码 <a target="_blank" rel="noopener" href="https://github.com/dragen1860/MAML-Pytorch">[1]</a> <a target="_blank" rel="noopener" href="https://github.com/cbfinn/maml">[2]</a></p></li>
+</ol>
+<p>​</p>
+<ol start="15" type="1">
+<li><p>[Arxiv 2021, <a target="_blank" rel="noopener" href="https://wuch15.github.io/">Chuhan Wu</a> , Xin Xie] <strong>FedGNN: Federated Graph Neural Network for Privacy-Preserving Recommendation.</strong></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2102.04925">paper</a></p></li>
+<li><p>[Arxiv 2021] <strong>FL-AGCNS: Federated Learning Framework for Automatic Graph Convolutional Network Search.</strong></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2104.04141">paper</a></p></li>
+<li><p>[Arxiv 2021] <strong>Cluster-driven Graph Federated Learning over Multiple Domains.</strong></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2104.14628">paper</a></p></li>
+<li><p>[Arxiv 2021] <strong>FedGL: Federated Graph Learning Framework with Global Self-Supervision.</strong></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2105.03170">paper</a></p></li>
+<li><p>[Arxiv 2021] <strong>Federated Graph Learning -- A Position Paper.</strong></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2105.11099">paper</a></p></li>
+<li><p>[Arxiv 2020] <strong>FedE: Embedding Knowledge Graphs in Federated Setting.</strong></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2010.12882">paper</a> <a target="_blank" rel="noopener" href="https://github.com/AnselCmy/FedE">GitHub</a></p></li>
+<li><p>[Arxiv 2021] <strong>Federated Knowledge Graphs Embedding.</strong></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2105.07615">paper</a></p></li>
+<li><p>[IEEE Big Data 2019] <strong>A Graph Neural Network Based Federated Learning Approach by Hiding Structure.</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.researchgate.net/profile/Shijun_Liu3/publication/339482514_SGNN_A_Graph_Neural_Network_Based_Federated_Learning_Approach_by_Hiding_Structure/links/5f48365d458515a88b790595/SGNN-A-Graph-Neural-Network-Based-Federated-Learning-Approach-by-Hiding-Structure.pdf">paper</a></p></li>
+<li><p>[Arxiv 2020] <strong>Locally Private Graph Neural Networks.</strong></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2006.05535">paper</a></p></li>
+<li><p>[Arxiv 2020, <a target="_blank" rel="noopener" href="https://woaiwodib107.github.io/">Dongming Han</a>] <strong>GraphFederator: Federated Visual Analysis for Multi-party Graphs</strong></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2008.11989">paper</a></p></li>
+<li><p>[ICLR21被拒, ] CNFGNN <strong>Cross-Node Federated Graph Neural Network for Spatio-Temporal Data Modeling</strong> <a target="_blank" rel="noopener" href="https://openreview.net/forum?id=HWX5j6Bv_ih">paper</a> <a target="_blank" rel="noopener" href="https://openreview.net/attachment?id=HWX5j6Bv_ih&amp;name=supplementary_material">Code</a></p></li>
+<li><p>[Arxiv 2019] Peer-to-peer federated learning on graphs.</p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1901.11173">paper</a> 这篇不是很相关</p></li>
+</ol>
+<h3 id="long-tail-graph">Long-tail Graph</h3>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/365686784">zhihu-papers</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/361416969">小样本学习与图神经网络</a></p>
+<hr />
+<h2 id="深度gnn">深度GNN</h2>
+<ol type="1">
+<li><p>[KDD20, <a target="_blank" rel="noopener" href="https://mengliu1998.github.io/index.html#publications">Liu Meng</a>] <strong>Towards Deeper Graph Neural Networks</strong></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/mengliu1998/DeeperGNN">Github</a></p></li>
+</ol>
+<hr />
+<h2 id="非消息传递">非消息传递</h2>
+<ol type="1">
+<li>[UESTC 电子科大 Yi Luo，<a target="_blank" rel="noopener" href="https://cf020031308.github.io/papers/">有意思</a>]<strong>Distilling Self-Knowledge From Contrastive Links to Classify Graph Nodes Without Passing Messages</strong></li>
+</ol>
+<hr />
+<h2 id="transformer">Transformer</h2>
+<ol type="1">
+<li><p>[ICML 21] <strong>PipeTransformer: Automated Elastic Pipelining for Distributed Training of Transformers</strong></p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2102.03161.pdf">paper</a></p></li>
+<li><p>[NeurIPS19] <strong>Graph Transformer Networks</strong></p>
+<p><a target="_blank" rel="noopener" href="https://papers.nips.cc/paper/2019/file/9d63484abb477c97640154d40595a3bb-Paper.pdf">paper</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://graphdeeplearning.github.io/post/transformers-are-gnns/">Transformers are GNNs</a></p></li>
+</ol>
+<hr />
+<h2 id="其他会议">其他会议</h2>
+<p><a target="_blank" rel="noopener" href="https://openreview.net/pdf?id=4zr9e5xwZ9Y">DISTRIBUTED TRAINING OF GRAPH CONVOLUTIONAL NETWORKS USING SUBGRAPH APPROXIMATION</a> submit to ICLR21 (reject)</p>
+<p>[KDD 20] Policy-GNN: Aggregation Optimization for Graph Neural Networks</p>
+<p>Scalable Graph Neural Network Training: The Case for Sampling</p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2104.10569">GraphTheta: A Distributed Graph Neural Network Learning System With Flexible Training Strategy</a> <a target="_blank" rel="noopener" href="https://yongchao-liu.github.io/index.html">Yongchao Liu</a> submitted to VLDB 2022</p>
+<h3 id="mlsys21---gnnsys21-workshop">MLSys21 - GNNSys21 Workshop</h3>
+<p>https://gnnsys.github.io/</p>
+<h3 id="eurosys21上关于gnn的研究">EuroSys21上关于GNN的研究</h3>
+<ol type="1">
+<li><p>[EuroSys 21, ] Accelerating Graph Sampling for Graph Machine Learning using GPUs</p>
+<p>这篇有点意思，特别优化采样算法在GPU上的并行。</p>
+<p>代码链接 <a target="_blank" rel="noopener" href="https://github.com/plasma-umass/NextDoor">[1]</a> <a target="_blank" rel="noopener" href="https://github.com/abhijangda/nextdoor-experiments/">[2]</a></p></li>
+<li><p>[EuroSys 21, ] DGCL: An Efficient Communication Library for Distributed GNN Training</p>
+<p>代码链接 <a target="_blank" rel="noopener" href="https://github.com/czkkkkkk/gccl">[1]</a> <a target="_blank" rel="noopener" href="https://github.com/czkkkkkk/ragdoll">[2]</a></p></li>
+<li><p>[EuroSys 21, ] Seastar: Vertex-Centric Programming for Graph Neural Networks</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ydwu4/seastar-paper-version">代码链接</a></p></li>
+<li><p>[EuroSys 21, ] FlexGraph: A flexible and efficient distributed framework for GNN training</p></li>
+</ol>
+<h3 id="iwqos21">IWQoS21</h3>
+<ol type="1">
+<li>[] <strong>Drag-JDEC: A Deep Reinforcement Learning and Graph Neural Network-based Job Dispatching Model in Edge Computing</strong></li>
+<li>[<a target="_blank" rel="noopener" href="http://ci.hfut.edu.cn/2020/1208/c11504a245599/page.htm">Yu Gu</a>] <strong>Glint: Decentralized Federated Graph Learning with Traffic Throttling and Flow Scheduling</strong></li>
+</ol>
+<h4 id="kdd21">KDD21</h4>
+<ol type="1">
+<li>[] <strong>Global Neighbor Sampling for Mixed CPU-GPU Training on Giant Graphs</strong></li>
+<li>[] <strong>Performance-Adaptive Sampling Strategy Towards Fast and Accurate Graph Neural Networks</strong></li>
+<li>[] <strong>Scaling Up Graph Neural Networks Via Graph Coarsening</strong></li>
+<li>[] <strong>mGAGN:Imbalanced Network Embedding via Generative Adversarial Graph Networks</strong></li>
+<li>[] <strong>Learning How to Propagate Messages in Graph Neural Networks</strong></li>
+<li>[] <strong>Multi-graph Multi-label Learning with Dual-granularity Labeling</strong></li>
+<li>[] <strong>NRGNN: Learning a Label Noise Resistant Graph Neural Network on Sparsely and Noisily Labeled Graphs</strong></li>
+<li>[] <strong>Pre-training on Large-Scale Heterogeneous Graph</strong></li>
+<li>[] <strong>Representation Learning on Knowledge Graphs for Node Importance Estimation</strong></li>
+<li>[] <strong>Tail-GNN: Tail-Node Graph Neural Networks</strong></li>
+</ol>
+<hr />
+<h2 id="相关学者">相关学者</h2>
+<p>清华大学 刘知远</p>
+<p>中科大 唐建 李诚</p>
+<p>USC</p>
+<p>密歇根 汤继良</p>
+<p>北邮 石川</p>
+<p>IBM(东京大学毕业) 马腾飞</p>
+<hr />
+<h2 id="参考资料">参考资料</h2>
+<p><strong>End to End learning</strong> in the context of AI and ML is a technique where the model learns all the steps between the initial input phase and the final output result. This is a deep learning process where all of the different parts are simultaneously trained instead of sequentially.</p>
+<h3 id="federated-learning-survey">Federated Learning: Survey</h3>
+<ol type="1">
+<li>[IEEE Signal Processing Magazine 2019] <strong>Federated Learning：Challenges, Methods, and Future Directions.</strong> <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1908.07873">paper</a></li>
+<li>[ACM TIST 2019] <strong>Federated Machine Learning Concept and Applications.</strong> <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1902.04885">paper</a></li>
+<li>[IEEE Communications Surveys &amp; Tutorials 2020] <strong>Federated Learning in Mobile Edge Networks A Comprehensive Survey.</strong> <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1909.11875">paper</a></li>
+</ol>
+<p><b><font color=darkcyan>这块需要补充几篇论文</font></b></p>
+<h3 id="gnn-survey">GNN: Survey</h3>
+<ol type="1">
+<li>[IEEE TNNLS 2020] <strong>A Comprehensive Survey on Graph Neural Networks.</strong> <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1901.00596">paper</a></li>
+<li>[Arxiv 2018] <strong>Graph Neural Networks-A Review of Methods and Applications.</strong> <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1812.08434">paper</a></li>
+<li>[IEEE TKDE 2020] <strong>Deep Learning on Graphs-A Survey.</strong> <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1812.04202.pdf%E3%80%82">paper</a></li>
+<li>[Arxiv 2017] <strong>Representation learning on graphs - Methods and applications.</strong> <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1709.05584">paper</a></li>
+<li>[软件学报, 张岩峰] <strong>大规模图神经网络系统综述</strong></li>
+</ol>
+<p><b><font color=darkcyan>这块需要补充几篇论文</font></b></p>
+<h3 id="mathematics">Mathematics</h3>
+<p>矩阵<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/30485749">范数</a></p>
+<p>Pytorch多标签分类任务</p>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/F-score">F-measure</a> <a target="_blank" rel="noopener" href="https://zjmmf.com/2019/08/13/F1-Score%E8%AE%A1%E7%AE%97/">解释</a></p>
+<p><a target="_blank" rel="noopener" href="https://towardsdatascience.com/over-smoothing-issue-in-graph-neural-network-bddc8fbc2472">over-smoothing in GNN</a></p>
+<h3 id="miscellaneous-and-tools">Miscellaneous and Tools</h3>
+<p>图的聚类或分割算法：<strong>Metis，LK，Graclus</strong></p>
+<p><a target="_blank" rel="noopener" href="http://adl.stanford.edu/cme342/Home.html">CME342</a> <strong>Parallel Methods in Numerical Analysis</strong></p>
+<p><a target="_blank" rel="noopener" href="http://yifanhu.net/PROJECT/pdcp_siam/">PDCP_SIAM</a> <strong>Load Balancing for Unstructured Mesh Applications</strong></p>
+<p><a target="_blank" rel="noopener" href="https://paperswithcode.com/paper/graph-attention-networks">性能排行榜网站 Paperswithcode</a></p>
+<p><a target="_blank" rel="noopener" href="https://becominghuman.ai/7-open-source-libraries-for-deep-learning-graphs-7ae294f249d4">框架汇总</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/dglai/WWW20-Hands-on-Tutorial">DGL</a> <a target="_blank" rel="noopener" href="https://docs.dgl.ai/">官方教程</a> <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=r5aLtP_Ger0">ACM-Hands-on-Part1</a> <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Nd2BbbviOdk">ACM-Hands-on-Part2</a> （DMLC）</p>
+<p><a target="_blank" rel="noopener" href="https://antoniolonga.github.io/Pytorch_geometric_tutorials/index.html">Pytorch Geometric Tutorial</a> <a target="_blank" rel="noopener" href="https://pytorch-geometric.readthedocs.io/en/latest/notes/introduction.html#data-handling-of-graphs">Pytorch Geometric Doc</a> <a target="_blank" rel="noopener" href="https://rusty1s.github.io/#/">PyG主要贡献者MATTHIAS FEY</a></p>
+<p><a target="_blank" rel="noopener" href="https://graphneural.network/">Spektral</a> （TF+Keras）</p>
+<p><a target="_blank" rel="noopener" href="https://pgl.readthedocs.io/en/latest/index.html">Paddle Graph Learning (PGL)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cs.mcgill.ca/~ksinha4/practices_for_reproducibility/">ML Reproducibility Tools and Best Practices</a></p>
+<ul>
+<li><p>数据集集合</p>
+<p><a target="_blank" rel="noopener" href="https://dango.rocks/datasets/">Yishi Lin</a></p></li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">项目名称</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><a target="_blank" rel="noopener" href="https://augf.github.io/">PASA</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><a target="_blank" rel="noopener" href="https://github.com/IsuruMaduranga/federated-gcn">Fedrated GCN</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><a target="_blank" rel="noopener" href="https://blog.csdn.net/yyl424525/article/details/100058264">GCN的理解</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><a target="_blank" rel="noopener" href="https://blog.csdn.net/yyl424525/article/details/100920134">GAT</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><a target="_blank" rel="noopener" href="http://people.cs.pitt.edu/~hasanzadeh/pages/research.html">一个有趣的人的工作</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><a target="_blank" rel="noopener" href="https://cloud-atlas.readthedocs.io/zh_CN/latest/index.html">云计算学习Cloud Atlas</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><a target="_blank" rel="noopener" href="https://cf020031308.github.io/papers/">GNN论文笔记</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<center>
+<font color='#FF0000'>彩虹</font> <font color='#FF7D00'>彩虹</font> <font color='#FFFF00'>彩虹</font> <font color='#00FF00'>彩虹</font> <font color='#0000FF'>彩虹</font> <font color='#00FFFF'>彩虹</font> <font color='#FF00FF'>彩虹</font>
+</center>
+<hr />
+<section class="footnotes">
+<div class="footnote-list">
+<ol>
+<li>
+<span id="fn:1" class="footnote-text"><span>Simplifying graph convolutional networks. ICML. 2019. <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩︎</a></span></span>
+</li>
+</ol>
+</div>
+</section>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/11/19/%E9%87%91%E6%80%BB%E7%9A%84%E7%AE%97%E6%B3%95%E8%AF%BE/">
+                        <span class="hidden-mobile">金总的算法课</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="" target="_blank" rel="nofollow noopener"><span>_____</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="" target="_blank" rel="nofollow noopener">
+        <span>digua</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "图神经网络论文清单&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
