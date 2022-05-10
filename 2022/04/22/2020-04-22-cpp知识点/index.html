@@ -169,7 +169,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      5.2k 字
+      6.3k 字
     </span>
   
 
@@ -179,7 +179,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      66
+      80
        分钟
     </span>
   
@@ -220,12 +220,18 @@
 <p><strong>指向常量的指针常量</strong>就是一个常量，且它指向的对象也是一个常量。</p>
 <hr /></li>
 <li><p>函数指针与指针函数</p>
-<p><code>int *pfun(int, int);</code></p>
+<ul>
+<li>定义方式</li>
+</ul>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">// 函数原型 int func(int a, int b);</span>
+<span class="hljs-keyword">int</span> (*pfun)(<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>);
+<span class="hljs-function"><span class="hljs-keyword">typedef</span> <span class="hljs-title">int</span> <span class="hljs-params">(*pf)</span> <span class="hljs-params">(<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>)</span></span>;
+<span class="hljs-keyword">using</span> PF = <span class="hljs-keyword">int</span> (*)(<span class="hljs-keyword">int</span>)(<span class="hljs-keyword">int</span>);</code></pre></div>
 <p>指针函数即返回指针的函数，首先它是一个函数，只不过这个函数的返回值是一个地址值。函数返回值必须用同类型的指针变量来接受，也就是说，指针函数一定有函数返回值，而且，在主调函数中，函数返回值必须赋给同类型的指针变量 。</p>
 <p><code>　int (*f) (int x); /* 声明一个函数指针 */</code> <code>f=func; /* 将func函数的首地址赋给指针f*/</code></p>
-<p>函数指针本质是一个指针，只不过这个指针指向一个函数。 函数指针变量也是一个变量，那么作为变量当然也可以当做参数来使用。</p>
-<p><strong>回调函数</strong>，回调函数就是一个通过函数指针调用的函数。如果你把函数的指针（地址）作为参数传递给另一个函数，当这个指针被用为调用它所指向的函数时，我们就说这是回调函数。</p>
 <ul>
+<li><p>C/C++规定函数名就表示函数入口地址，函数名赋值时函数名前面加不加取地址符<code>&amp;</code>均可，也就是说<code>PF f = func</code>等价于<code>PF f = &amp;func</code>。</p></li>
+<li><p><strong>回调函数（Callback function）</strong>：函数指针本质是一个指针，只不过这个指针指向一个函数。 函数指针变量也是一个变量，那么作为变量当然也可以当做参数来使用。 回调函数就是一个通过函数指针调用的函数。如果你把函数的指针（地址）作为参数传递给另一个函数，当这个指针被用为调用它所指向的函数时，我们就说这是回调函数。 (对比之下，在函数过程中调用别的函数，可以称作调用)</p></li>
 <li><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3706704/whats-the-meaning-of-this-piece-of-code-void-signalint-sig-void-funcin">经典例子</a></p>
 <div class="hljs"><pre><code class="hljs C++"><span class="hljs-keyword">void</span> (*signal(<span class="hljs-keyword">int</span> sig, <span class="hljs-keyword">void</span> (*func)(<span class="hljs-keyword">int</span>)))(<span class="hljs-keyword">int</span>);
 <span class="hljs-comment">// 等价于</span>
@@ -294,7 +300,7 @@
   <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 &#125;</code></pre></div>
 <hr /></li>
-<li><p>extern作用：<strong>声明</strong> 全局变量和全局函数。</p>
+<li><p>extern作用：<strong>声明</strong> 全局变量和全局函数 [ <a target="_blank" rel="noopener" href="https://www.cnblogs.com/honernan/p/13431431.html">参考</a> ]</p>
 <p>函数的声明extern关键词是可有可无的，因为函数本身不加修饰的话就是extern的。但是引用的时候一样是需要声明的。</p>
 <p>而全局变量在外部使用声明时（注意只有全局变量才能在外部使用），extern关键词是必须的，如果变量无extern修饰且没有显式的初始化，同样成为变量的定义，因此此时必须加extern，而编译器在此标记存储空间在执行时加载如内存并初始化为0。而局部变量的声明不能有extern的修饰，且局部变量在运行时才在堆栈部分分配内存。</p>
 <p>使用全局变量或函数的两种方式：</p>
@@ -313,7 +319,7 @@
 <p>常左值引用 {右值}</p>
 </blockquote>
 <p>C++11 中为了引入强大的右值引用，将右值的概念进行了进一步的划分，分为：纯右值（pvalue）、将亡值（xvalue，expiring value，即将被销毁、却能够被移动的值）。</p>
-<div class="hljs"><pre><code class="hljs c++"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> str = <span class="hljs-string">&quot;Hello&quot;</span>;
+<p><div class="hljs"><pre><code class="hljs c++"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> str = <span class="hljs-string">&quot;Hello&quot;</span>;
 <span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt; v;
 
 v.push_back(str);
@@ -322,7 +328,7 @@ v.push_back(str);
 
 v.push_back(<span class="hljs-built_in">std</span>::move(str));
 <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;After move, str is &quot;</span> &lt;&lt; str &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;
-<span class="hljs-comment">//输出结果为 After move, str is &quot;&quot;</span></code></pre></div>
+<span class="hljs-comment">//输出结果为 After move, str is &quot;&quot;</span></code></pre></div></p>
 <hr /></li>
 <li><p>全局变量、局部变量、形式参数</p>
 <p>局部变量和全局变量的名称可以相同，但是在函数内，局部变量的值会覆盖全局变量的值。</p>
@@ -456,17 +462,17 @@ void myFunction(int param[])；</code></pre></div></p>
 <p>==所以，less表现为大顶堆而greater表现为小顶堆。==</p>
 <p>可以通过自定义一个比较类（<strong>仿函数类</strong>）并重载函数调用运算符<code>()</code>，例子如下：</p>
 <div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">CMP</span> &#123;</span>
-  <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">operator</span><span class="hljs-params">()</span> <span class="hljs-params">(<span class="hljs-keyword">const</span> Type&amp; lhs, <span class="hljs-keyword">const</span> Type&amp; rhs)</span> <span class="hljs-keyword">const</span> </span>&#123;<span class="hljs-keyword">return</span> lhs &lt; rhs;&#125; <span class="hljs-comment">// pq元素降序，小的向下交换</span>
+  <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">operator</span><span class="hljs-params">()</span> <span class="hljs-params">(<span class="hljs-keyword">const</span> Type&amp; lhs, <span class="hljs-keyword">const</span> Type&amp; rhs)</span> <span class="hljs-keyword">const</span> </span>&#123;<span class="hljs-keyword">return</span> lhs &lt; rhs;&#125; <span class="hljs-comment">// pq大顶堆，小的向下交换</span>
 &#125;;
 <span class="hljs-built_in">priority_queue</span>&lt;Type, <span class="hljs-built_in">vector</span>&lt;Type&gt;, CMP&lt;Type&gt;&gt; pq;</code></pre></div>
 <p>第二种方式是重载关系运算符<code>&lt;</code>实现对象的比较，例子如下：</p>
 <div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Node</span> &#123;</span>
   <span class="hljs-keyword">int</span> val;
-  <span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span>&lt;(<span class="hljs-keyword">const</span> Node a) <span class="hljs-keyword">const</span> &#123;<span class="hljs-keyword">return</span> val &gt; a.val;&#125; <span class="hljs-comment">// pq元素升序，大的向下交换</span>
+  <span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span>&lt;(<span class="hljs-keyword">const</span> Node a) <span class="hljs-keyword">const</span> &#123;<span class="hljs-keyword">return</span> val &gt; a.val;&#125; <span class="hljs-comment">// pq小顶堆，大的向下交换</span>
 &#125;;
 <span class="hljs-built_in">priority_queue</span>&lt;Node&gt; pq;</code></pre></div>
 <p>而对于<code>&lt;algorithm&gt;</code>中的<code>sort</code>函数，则还可以自定义比较函数，例子如下：</p>
-<div class="hljs"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">cmp</span> <span class="hljs-params">(<span class="hljs-keyword">const</span> Node a, <span class="hljs-keyword">const</span> node b)</span> </span>&#123; <span class="hljs-keyword">return</span> (a.val &lt; b.val);&#125; <span class="hljs-comment">//升序</span>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">cmp</span> <span class="hljs-params">(<span class="hljs-keyword">const</span> Node a, <span class="hljs-keyword">const</span> node b)</span> </span>&#123; <span class="hljs-keyword">return</span> (a.val &lt; b.val);&#125; <span class="hljs-comment">// 数组元素升序排列</span>
 sort(nodes.begin(), nodes.end(), cmp);</code></pre></div>
 <p>最后一种我用得比较少，使用lambda函数，例子如下：</p>
 <div class="hljs"><pre><code class="hljs C++"><span class="hljs-keyword">auto</span> cmp = [](<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; &amp;l, <span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; &amp;r) &#123;
@@ -523,7 +529,8 @@ Point <span class="hljs-keyword">operator</span>--(<span class="hljs-keyword">in
 <hr /></li>
 <li><p>C/C++的<a target="_blank" rel="noopener" href="https://blog.csdn.net/gongjianbo1992/article/details/102834556">可变长参数</a></p>
 <blockquote>
-<p>C语言通过三个宏（va_start、va_end、va_arg）和一个类型（va_list）实现，<code>__VA_ARGS__</code>(C99?)在调用时替换成可变参数。由于无类型检查，存在安全问题。C++可以使用<code>std::initializer_list参数列表</code>、<code>模板参数包（变长模板variadic templates）</code>。</p>
+<p>C语言通过三个宏（va_start、va_end、va_arg）和一个类型（va_list）实现，<code>__VA_ARGS__</code>(C99?)在调用时替换成可变参数。由于无类型检查，存在安全问题，并且<a target="_blank" rel="noopener" href="https://blog.csdn.net/Erice_s/article/details/101811535">不能自动识别可变参数的数量</a>。</p>
+<p>C++可以使用<code>std::initializer_list参数列表</code>、<code>模板参数包（变长模板variadic templates）</code>。</p>
 <p>可变长参数最需要关注的是如何展开可变参数，一种是通过<code>递归函数</code>来展开参数包，另外一种是通过<code>逗号表达式</code>来展开参数包。</p>
 </blockquote>
 <ul>
@@ -655,7 +662,7 @@ Point <span class="hljs-keyword">operator</span>--(<span class="hljs-keyword">in
     apply(&amp;foo1, &amp;foo2, &amp;Foo::g);
 &#125;</code></pre></div></p>
 <ul>
-<li><p>成员函数指针的定义：void (Foo::*fun)()，调用是传递的实参: &amp;Foo::f；</p></li>
+<li><p>成员函数指针的定义：void (Foo::*fun)()，调用是传递的实参: &amp;Foo::f；注意此时复制不可省略<code>&amp;</code>符号。</p></li>
 <li><p>fun为类成员函数指针，所以调用是要通过解引用的方式获取成员函数*fun,即<code>(foo1-&gt;*fun)();</code></p></li>
 </ul>
 <hr /></li>
@@ -678,11 +685,10 @@ Point <span class="hljs-keyword">operator</span>--(<span class="hljs-keyword">in
 &#125;;</code></pre></div></li>
 </ul>
 <hr /></li>
-<li><p>虚函数的是实现原理</p>
-<p>123</p></li>
 <li><p>逻辑<code>&amp;&amp;</code>、<code>||</code></p>
 <p>写代码的时候，递归中返回布尔值的时候，需要注意“逻辑短路”问题。</p>
-<div class="hljs"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt; &amp;grid, <span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y, <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n, <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> m)</span> </span>&#123;
+<p><div class="hljs"><pre><code class="hljs C++">
+<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt; &amp;grid, <span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y, <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n, <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> m)</span> </span>&#123;
   <span class="hljs-keyword">if</span> (x &lt; <span class="hljs-number">0</span> || x &gt;= n || y &lt; <span class="hljs-number">0</span> || y &gt;= m) &#123;
     <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
   &#125;
@@ -699,7 +705,92 @@ Point <span class="hljs-keyword">operator</span>--(<span class="hljs-keyword">in
   <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-built_in">endl</span>;
 
   <span class="hljs-keyword">return</span> flag;
+&#125;</code></pre></div></p>
+<hr /></li>
+<li><p>C++中内存管理</p>
+<blockquote>
+<p>（结构）在C++中，内存分成5个区，他们分别是堆、栈、自由存储区、全局/静态存储区和常量存储区。 （问，堆(malloc/free)和自由存储(new/delete)的区别吗，自由存储区可以借堆实现）</p>
+<p>（管理）指针（申请释放过程）、构造函数与析构函数、智能指针</p>
+</blockquote>
+<p>在C++中有两种创建对象的方式：栈上或自由存储区（堆）上。</p>
+<hr /></li>
+<li><p>智能指针（管理堆内存）</p>
+<p>C++11中的智能指针：<code>unique_ptr</code>，<code>shared_ptr</code>，<code>weak_ptr</code>。方便管理==<strong>堆内存</strong>==，避免内存泄漏。其原理是，在智能指针对象析构时，会自动释放堆内存，若其指向的堆内存存在特殊的回收机制，可以自定义析构函数。</p>
+<ul>
+<li><p>unique_ptr</p>
+<p>独占型指针，不允许拷贝和赋值。禁止拷贝语义也存在特例，即可以通过一个函数返回一个 std::unique_ptr。如果需要转移内存的持有权，可以使用std::move移动构造。</p>
+<p>C++14才支持<code>std::make_unique</code>初始化方式</p>
+<div class="hljs"><pre><code class="hljs c++"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; uptr = <span class="hljs-built_in">std</span>::make_unique&lt;<span class="hljs-keyword">int</span>&gt;(<span class="hljs-number">123</span>);
+<span class="hljs-comment">// C++11标准库中未提供，可采用如下实现</span>
+<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T, <span class="hljs-keyword">typename</span>... Ts&gt; <span class="hljs-comment">// T为对象类型，Ts为对象初始化参数</span>
+<span class="hljs-function"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;T&gt; <span class="hljs-title">make_unique</span><span class="hljs-params">(Ts&amp;&amp; ...params)</span> </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;T&gt;(<span class="hljs-keyword">new</span> T(<span class="hljs-built_in">std</span>::forward&lt;Ts&gt;(params)...));
+&#125;
+<span class="hljs-comment">// 用法</span>
+<span class="hljs-built_in">unique_ptr</span>&lt;Node&gt; up = MakeUnique&lt;Node&gt;(<span class="hljs-number">99</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);</code></pre></div></li>
+<li><p>shared_ptr</p>
+<p>堆内存资源可以在多个shared_ptr之间共享，该智能指针包含了一个资源引用计数器（多线程安全），并提供use_count()来获取引用计数。</p>
+<p><code>std::make_shared</code></p></li>
+<li><p>weak_ptr</p>
+<p>std::weak_ptr是一个不控制资源生命周期的智能指针，是对对象的一种<strong>弱引用</strong>，只是提供了对其管理的资源的一个访问手段，引入它的目的为协助std::shared_ptr工作（例如，可用来解决两个std::shared_ptr相互引用时的死锁问题）。[ <a target="_blank" rel="noopener" href="https://blog.csdn.net/Xiejingfa/article/details/50772571">参考博客</a> ]</p>
+<p>std::weak_ptr不控制资源生命周期，但提供了`<code>expired()</code>方法来检测引用的资源是否存在。也可以通过<code>lock()</code>方法的返回值判断，若对象存在则返回一个shared_ptr，若不存在则返回nullptr。另外，std::weak_ptr并没有重载<code>operator-&gt;</code>，<code>operator*</code>和<code>operator!</code>，因此无法直接通过引用对象来判断是否存在。</p>
+<p>典型例子：订阅者模式或者观察者模式</p></li>
+</ul>
+<p>若类继承自<code>std::enable_shared_from_this</code>，则可以通过<code>return_from_this()</code>返回当前对象指针this（但是<strong>不应该共享栈对象的 this 给智能指针对象</strong>；应当避免<strong>循环引用</strong>，即一个资源A的生命周期可以交给一个智能指针对象，但是该智能指针的生命周期不可以再交给整个资源A来管理）。</p>
+<hr /></li>
+<li><p><code>::</code>作用域符</p>
+<ol type="1">
+<li><p>global scope(全局作用域符），用法（::name)</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-keyword">char</span> c = <span class="hljs-string">&#x27;1&#x27;</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">demo</span><span class="hljs-params">()</span> </span>&#123;
+  <span class="hljs-keyword">char</span> c = <span class="hljs-string">&#x27;2&#x27;</span>;
+  <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">char</span>&gt;(c + <span class="hljs-number">1</span>) &lt;&lt; <span class="hljs-built_in">endl</span>;
+  <span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">char</span>&gt;(::c + <span class="hljs-number">1</span>) &lt;&lt; <span class="hljs-built_in">endl</span>;
 &#125;</code></pre></div></li>
+<li><p>class scope(类作用域符），用法(class::name)</p></li>
+<li><p>namespace scope(命名空间作用域符），用法(namespace::name)</p></li>
+</ol>
+<p>PS：<code>&#123;&#125;</code>可以用于在函数中限定局部变量或对象和的作用域，出了作用域则无法访问或析构。</p>
+<hr /></li>
+<li><p><code>using</code>的<a target="_blank" rel="noopener" href="http://bitdewy.github.io/blog/2013/05/21/cpp11-keywords-using/">其它用法</a> （函数别名与模板别名）</p>
+<hr /></li>
+<li><p>结构体的四种初始化方法</p>
+<p><div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">InitMember</span> &#123;</span>
+    <span class="hljs-keyword">int</span> first；
+    <span class="hljs-keyword">double</span> second；
+    <span class="hljs-keyword">char</span>* third；
+    <span class="hljs-keyword">float</span> four;
+&#125;;</code></pre></div></p>
+<ul>
+<li><p>定义时赋值</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">InitMember</span> <span class="hljs-title">test</span> = &#123;</span><span class="hljs-number">-10</span>,<span class="hljs-number">3.141590</span>，<span class="hljs-string">&quot;method one&quot;</span>，<span class="hljs-number">0.25</span>&#125;；</code></pre></div></li>
+<li><p>定义后逐个赋值</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">InitMember</span> <span class="hljs-title">test</span>；</span>
+<span class="hljs-class"></span>
+<span class="hljs-class"><span class="hljs-title">test</span>.<span class="hljs-title">first</span> = -10;</span>
+test.second = <span class="hljs-number">3.141590</span>;
+test.third = <span class="hljs-string">&quot;method two&quot;</span>;
+test.four = <span class="hljs-number">0.25</span>;</code></pre></div></li>
+<li><p>C风格乱序赋值</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">InitMember</span> <span class="hljs-title">test</span> = &#123;</span>
+    .second = <span class="hljs-number">3.141590</span>,
+    .third = <span class="hljs-string">&quot;method three&quot;</span>,
+    .first = <span class="hljs-number">-10</span>,
+    .four = <span class="hljs-number">0.25</span>
+&#125;;</code></pre></div></li>
+<li><p>C++风格乱序赋值</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">InitMember</span> <span class="hljs-title">test</span> = &#123;</span>
+    second：<span class="hljs-number">3.141590</span>,
+    third：<span class="hljs-string">&quot;method three&quot;</span>,
+    first：<span class="hljs-number">-10</span>,
+    four：<span class="hljs-number">0.25</span>
+&#125;;</code></pre></div></li>
+</ul>
+<hr /></li>
+<li><p>非类型类模板参数(Nontype Class Template Parameters)</p></li>
+<li><p>Pimpl惯用法解析（pointer to implementation, <a target="_blank" rel="noopener" href="https://blog.csdn.net/lihao21/article/details/47610309">指向实现的指针</a>）</p></li>
+<li></li>
 </ol>
 <hr />
 <h2 id="stl标准模板库">STL标准模板库</h2>
@@ -710,7 +801,7 @@ Point <span class="hljs-keyword">operator</span>--(<span class="hljs-keyword">in
 <li></li>
 </ol>
 <hr />
-<h2 id="c11-新特性">C++11 新特性</h2>
+<h2 id="c11141720-新特性">C++11/14/17/20 新特性</h2>
 <ul>
 <li>[ <a target="_blank" rel="noopener" href="https://harttle.land/2015/10/08/cpp11.html">新特性总结</a> ]</li>
 <li>[ <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/65209863">当面试官问我C++ 11新特性的时候，应该怎样回答？</a> ]</li>
@@ -719,6 +810,7 @@ Point <span class="hljs-keyword">operator</span>--(<span class="hljs-keyword">in
 <li>改善初始化方式的一致性（列表初始化）</li>
 <li>类型推导</li>
 <li>右值引用</li>
+<li>（C++17）结构化绑定（Structured Binding）</li>
 </ol>
 <hr />
 <h2 id="资料">资料</h2>
