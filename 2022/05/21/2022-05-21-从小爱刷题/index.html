@@ -1,0 +1,699 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Yuchen">
+  <meta name="keywords" content="">
+  <title>从小爱刷题！ - Yuchen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/tomorrow-night-eighties.min.css" />
+    
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_pf9vaxs7x7b.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.1.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Yuchen's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/main4.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container page-header text-center fade-in-up">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-05-21 10:39" pubdate>
+        2022年5月21日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      24
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto" id="post">
+            <!-- SEO header -->
+            <h1 style="display: none">从小爱刷题！</h1>
+            
+            <div class="markdown-body" id="post-body">
+              <h1 id="从小爱刷题">从小爱刷题！</h1>
+<p>✅ 完成</p>
+<p>❌ 未完成，置于标题前，补卡后变成🔺</p>
+<p>⭐ 收藏 🟢 简单 🟠 中等 🟣 困难 🔵 其它</p>
+<hr />
+<h2 id="剑指offer-第二版">剑指Offer 第二版</h2>
+<ul>
+<li>本章参考《剑指Offer》第二版。</li>
+</ul>
+<hr />
+<h3 id="年03月">2022年03月</h3>
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">题目编号</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">🟠[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/add-two-numbers/">2. 两数相加</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/swap-nodes-in-pairs/">24. 两两交换链表中的节点</a>]；🟢[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/merge-two-sorted-lists/">21. 合并两个有序链表</a> ]；🟣[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/regular-expression-matching/">10. 正则表达式匹配</a> ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">🟠[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/powx-n/">50. Pow(x, n)</a> ]；🟢[ ]；🟣[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/reverse-nodes-in-k-group/">⭐25. K 个一组翻转链表</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/permutation-sequence/">60. 排列序列</a> ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">🟠[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/reorder-list/">143. 重排链表</a>、 ]；🟢[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/remove-linked-list-elements/">203. 移除链表元素</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/reverse-linked-list/">206. 反转链表</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/power-of-two/">231. 2 的幂</a> ]；🟣[ ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">🟠[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/er-wei-shu-zu-zhong-de-cha-zhao-lcof/">剑指 Offer 04. 二维数组中的查找</a>、 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/">剑指 Offer 07. 重建二叉树</a>]；🟢[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/palindrome-linked-list/">234. 回文链表</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/">剑指 Offer 03. 数组中重复的数字</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/">剑指 Offer 05. 替换空格</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/">剑指 Offer 06. 从尾到头打印链表</a> ]；🟣[ ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">🟠[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/ju-zhen-zhong-de-lu-jing-lcof/">⭐剑指 Offer 12. 矩阵中的路径</a> ]；🟢[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/binary-tree-preorder-traversal/">144. 二叉树的前序遍历</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/binary-tree-inorder-traversal/">94. 二叉树的中序遍历</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/binary-tree-postorder-traversal/">145. 二叉树的后序遍历</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/binary-tree-level-order-traversal/">102. 二叉树的层序遍历</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/yong-liang-ge-zhan-shi-xian-dui-lie-lcof/">剑指 Offer 09. 用两个栈实现队列</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/">剑指 Offer 10- I. 斐波那契数列</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/qing-wa-tiao-tai-jie-wen-ti-lcof/">剑指 Offer 10- II. 青蛙跳台阶问题</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof/">⭐剑指 Offer 11. 旋转数组的最小数字</a> ]；🟣[ ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">🟠[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/">剑指 Offer 13. 机器人的运动范围</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/jian-sheng-zi-lcof/">剑指 Offer 14- I. 剪绳子</a> ]；🟢[ ]；🟣[ ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">共计28题。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="年04月">2022年04月</h3>
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">题目编号</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">🟠[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/jian-sheng-zi-ii-lcof/">剑指 Offer 14- II. 剪绳子 II</a> ]；🟢[ ]；🟣[ ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">🟠[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/shu-zhi-de-zheng-shu-ci-fang-lcof/">剑指 Offer 16. 数值的整数次方</a>（整型取反溢出）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/shu-de-zi-jie-gou-lcof/">⭐剑指 Offer 26. 树的子结构</a> ]；🟢[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof/">剑指 Offer 15. 二进制中1的个数</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/da-yin-cong-1dao-zui-da-de-nwei-shu-lcof/">剑指 Offer 17. 打印从1到最大的n位数</a>（全排列或大数模拟解法）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/shan-chu-lian-biao-de-jie-dian-lcof/">剑指 Offer 18. 删除链表的节点</a>（力扣无法使用delete?）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof/">剑指 Offer 21. 调整数组顺序使奇数位于偶数前面</a>（快排交换思想）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/">剑指 Offer 22. 链表中倒数第k个节点</a>（快慢指针或顺序遍历）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/">剑指 Offer 24. 反转链表</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/">剑指 Offer 25. 合并两个排序的链表</a>、 ]；🟣[ ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">🟠[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/zhan-de-ya-ru-dan-chu-xu-lie-lcof/">⭐剑指 Offer 31. 栈的压入、弹出序列</a>（这题完成得不好）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-lcof/">剑指 Offer 32 - I. 从上到下打印二叉树</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/er-cha-shu-zhong-he-wei-mou-yi-zhi-de-lu-jing-lcof/">剑指 Offer 34. 二叉树中和为某一值的路径</a>（递归） ]；🟢[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/er-cha-shu-de-jing-xiang-lcof/">剑指 Offer 27. 二叉树的镜像</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/dui-cheng-de-er-cha-shu-lcof/">剑指 Offer 28. 对称的二叉树</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/shun-shi-zhen-da-yin-ju-zhen-lcof/">⭐剑指 Offer 29. 顺时针打印矩阵</a>（简单模拟仍需多练）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/bao-han-minhan-shu-de-zhan-lcof/">剑指 Offer 30. 包含min函数的栈</a>（链表实现栈，头插法）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-ii-lcof/">剑指 Offer 32 - II. 从上到下打印二叉树 II</a> ]；🟣[ ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">🟠[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/fu-za-lian-biao-de-fu-zhi-lcof/">剑指 Offer 35. 复杂链表的复制</a>（有点意思，哈希表遍历两边，或者回溯）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/">⭐剑指 Offer 36. 二叉搜索树与双向链表</a>（递归，非常值得学习的题目） ]；🟢[ ]；🟣[ ]；🔵 [华为两道面试题，主要考察数据结构]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">🟠[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/">⭐剑指 Offer 33. 二叉搜索树的后序遍历序列</a>（递归分治、辅助单调栈）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/zi-fu-chuan-de-pai-lie-lcof/">⭐剑指 Offer 38. 字符串的排列</a>（回溯、下一个排列） ]；🟢[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/shu-zu-zhong-chu-xian-ci-shu-chao-guo-yi-ban-de-shu-zi-lcof/">剑指 Offer 39. 数组中出现次数超过一半的数字</a>（排序、哈希、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/shu-zu-zhong-chu-xian-ci-shu-chao-guo-yi-ban-de-shu-zi-lcof/comments/280917">摩尔投票法</a>）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/">⭐剑指 Offer 40. 最小的k个数</a>（快排思想、堆） ]；🟣[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/shu-ju-liu-zhong-de-zhong-wei-shu-lcof/">⭐剑指 Offer 41. 数据流中的中位数</a>（双堆求中位数、技巧） ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">🟠[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/next-permutation/">⭐31. 下一个排列</a>（next_permunation）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/shu-zi-xu-lie-zhong-mou-yi-wei-de-shu-zi-lcof/">剑指 Offer 44. 数字序列中某一位的数字</a>（找规律不是很有趣，溢出）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/ba-shu-zi-fan-yi-cheng-zi-fu-chuan-lcof/">⭐剑指 Offer 46. 把数字翻译成字符串</a>（记忆化搜索（自顶向下）、动态规划（自底向上））、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/li-wu-de-zui-da-jie-zhi-lcof/">剑指 Offer 47. 礼物的最大价值</a>（动态规划） ]；🟢[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/lian-xu-zi-shu-zu-de-zui-da-he-lcof/">⭐剑指 Offer 42. 连续子数组的最大和</a> ]；🟣[ ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">🟠[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/zui-chang-bu-han-zhong-fu-zi-fu-de-zi-zi-fu-chuan-lcof/">剑指 Offer 48. 最长不含重复字符的子字符串</a>（滑动窗口、哈希） ]；🟢[ ]；🟣[ ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">🟠[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/permutations/">46. 全排列</a>（回溯）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/course-schedule/">207. 课程表</a>（拓扑排序判环）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/jump-game-ii/">45. 跳跃游戏 II</a>（记忆化搜索、动态规划）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/jump-game/">55. 跳跃游戏</a>（贪心）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/video-stitching/">1024. 视频拼接</a>（贪心）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/interval-list-intersections/">986. 区间列表的交集</a>（贪心）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/merge-intervals/">56. 合并区间</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/remove-covered-intervals/">1288. 删除被覆盖区间</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/minimum-number-of-arrows-to-burst-balloons/">452 用最少数量的箭引爆气球</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/non-overlapping-intervals/">435 无重叠区间</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/minimum-path-sum/">64 最小路径和</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/target-sum/">494 目标和</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/coin-change-2/">518 零钱兑换 II</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/coin-change/">322 零钱兑换</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/partition-equal-subset-sum/">416 分割等和子集</a>（动态规划）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/minimum-ascii-delete-sum-for-two-strings/">712 两个字符串的最小ASCII删除和</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/delete-operation-for-two-strings/">583 两个字符串的删除操作</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/longest-common-subsequence/">1143 最长公共子序列</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/number-of-longest-increasing-subsequence/">673 最长递增子序列的个数</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/minimum-falling-path-sum/">931 下降路径最小和</a> 、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/longest-increasing-subsequence/">300 最长递增子序列</a>]；🟢[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/longest-continuous-increasing-subsequence/">674 最长连续递增序列</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/fibonacci-number/">509 斐波那契数</a> ]；🟣[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/trapping-rain-water/">42. 接雨水</a>（单调栈、动态规划）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/edit-distance/">72 编辑距离</a>（动态规划） ]；🔵 [最短路径（Dijkstra、Bellman-Ford、SPFA、Floyd）和最小生成树（Kruskal、Prim）、强连通分量（Tarjan）]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">🟠[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/partition-to-k-equal-sum-subsets/">698. 划分为k个相等的子集</a>（记忆化搜索、状压dp）、]；🟢[ ]；🟣[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/n-queens/">51. N 皇后</a>(回溯) ]；🔵 [华为时习之 <a target="_blank" rel="noopener" href="https://ilearningx.huawei.com/portal/oj/problems/23/details">23. 代码缩进</a>]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">🟠[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/number-of-islands/">200. 岛屿数量</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/number-of-closed-islands/">1254. 统计封闭岛屿的数目</a>（总数减去连通边缘的岛屿数，即问题200）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/number-of-enclaves/">1020. 飞地的数量</a>（计算封闭岛屿格子数）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/max-area-of-island/">695. 岛屿的最大面积</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/count-sub-islands/">1905. 统计子岛屿</a>（这类题目注意dfs的完整性、先过滤不符合的岛屿） ]；🟢[ ]；🟣[ ]；🔵[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/number-of-distinct-islands/">694. 不同岛屿的数量</a>（plus题目） ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">🟠[ ]；🟢[ ]；🟣[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/sudoku-solver/">37. 解数独</a> ]；🔵[ 集合划分问题、排列组合问题、“岛屿”问题、数独问题 ]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">子集/组合/排列（无重复不复选）：🟠[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/subsets/">78. 子集</a>（回溯、位运算共 <span class="math inline">\(2^n\)</span> 个子集）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/combinations/">77. 组合</a>（转化为78.子集，第k层返回）| ]；🟢[ ]；🟣[ ]</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">共计68题。</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="年05月">2022年05月</h3>
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>题目编号</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>子集/组合/排列（重复元素不复选）：🟠[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/subsets-ii/">90. 子集 II</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/combination-sum-ii/">40. 组合总和 II</a>（记得排序）、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/permutations-ii/">47. 全排列 II</a>（组合总数，上面还有个<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/permutations/">全排列</a>） ]；🟢[ ]；🟣[ ]</td>
+</tr>
+<tr class="even">
+<td>🟠[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/chou-shu-lcof/">剑指 Offer 49. 丑数</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/combination-sum-iii/">216. 组合总和 III</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/combination-sum/">39. 组合总和</a>]；🟢[ ]；🟣[ ]</td>
+</tr>
+<tr class="odd">
+<td>🟠[ ]；🟢[ <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/di-yi-ge-zhi-chu-xian-yi-ci-de-zi-fu-lcof/">剑指 Offer 50. 第一个只出现一次的字符</a>、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/liang-ge-lian-biao-de-di-yi-ge-gong-gong-jie-dian-lcof/">⭐剑指 Offer 52. 两个链表的第一个公共节点</a>（哈希表或双指针）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/">剑指 Offer 53 - I. 在排序数组中查找数字 I</a>（二分）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/que-shi-de-shu-zi-lcof/">剑指 Offer 53 - II. 0～n-1中缺失的数字</a>（二分）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/">剑指 Offer 54. 二叉搜索树的第k大节点</a>（反向中序遍历）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/er-cha-shu-de-shen-du-lcof/">剑指 Offer 55 - I. 二叉树的深度</a>、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/ping-heng-er-cha-shu-lcof/">剑指 Offer 55 - II. 平衡二叉树</a>（求高度，自底向上） ]；🟣[ <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/shu-zu-zhong-de-ni-xu-dui-lcof/">剑指 Offer 51. 数组中的逆序对</a>（归并排序） ]</td>
+</tr>
+<tr class="even">
+<td>🟠[ <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-lcof/">剑指 Offer 56 - I. 数组中数字出现的次数</a>（位运算）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/shu-zu-zhong-shu-zi-chu-xian-de-ci-shu-ii-lcof/">剑指 Offer 56 - II. 数组中数字出现的次数 II</a>（位运算计数）、 ]；🟢[ <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/he-wei-sde-liang-ge-shu-zi-lcof/">剑指 Offer 57. 和为s的两个数字</a>（哈希或双指针）]；🟣[ ]</td>
+</tr>
+<tr class="odd">
+<td>🟠[ <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/dui-lie-de-zui-da-zhi-lcof/">⭐剑指 Offer 59 - II. 队列的最大值</a>（滑动窗口最大值，单调队列） ]；🟢[ <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/he-wei-sde-lian-xu-zheng-shu-xu-lie-lcof/">⭐剑指 Offer 57 - II. 和为s的连续正数序列</a>（枚举或双指针）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/fan-zhuan-dan-ci-shun-xu-lcof/">剑指 Offer 58 - I. 翻转单词顺序</a>、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/zuo-xuan-zhuan-zi-fu-chuan-lcof/">⭐l剑指 Offer 58 - II. 左旋转字符串</a>（类似冒泡，原地翻转）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/bu-ke-pai-zhong-de-shun-zi-lcof/">剑指 Offer 61. 扑克牌中的顺子</a>]；🟣[ <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/hua-dong-chuang-kou-de-zui-da-zhi-lcof/">⭐剑指 Offer 59 - I. 滑动窗口的最大值</a>（堆、单调队列）、 ]</td>
+</tr>
+<tr class="even">
+<td>🟠[ <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/gu-piao-de-zui-da-li-run-lcof/">⭐剑指 Offer 63. 股票的最大利润</a> （维护最小值）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/qiu-12n-lcof/">剑指 Offer 64. 求1+2+…+n</a>（有趣的递归，好玩的<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/qiu-12n-lcof/comments/258086">语言特性</a>）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/gou-jian-cheng-ji-shu-zu-lcof/">剑指 Offer 66. 构建乘积数组</a>（正反向遍历各一次）]；🟢[ <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/bu-yong-jia-jian-cheng-chu-zuo-jia-fa-lcof/">⭐剑指 Offer 65. 不用加减乘除做加法</a>（位运算技巧）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/er-cha-sou-suo-shu-de-zui-jin-gong-gong-zu-xian-lcof/">⭐剑指 Offer 68 - I. 二叉搜索树的最近公共祖先</a>、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/er-cha-shu-de-zui-jin-gong-gong-zu-xian-lcof/">⭐剑指 Offer 68 - II. 二叉树的最近公共祖先</a> ]；🟣[ ]；🔵[ ]</td>
+</tr>
+<tr class="odd">
+<td>共计29题。</td>
+</tr>
+</tbody>
+</table>
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>未完成题目列表 ❌</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof/">剑指 Offer 19. 正则表达式匹配</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/biao-shi-shu-zhi-de-zi-fu-chuan-lcof/">剑指 Offer 20. 表示数值的字符串</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/xu-lie-hua-er-cha-shu-lcof/">剑指 Offer 37. 序列化二叉树</a>、<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/1nzheng-shu-zhong-1chu-xian-de-ci-shu-lcof/">剑指 Offer 43. 1～n 整数中 1 出现的次数</a>、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/ba-zi-fu-chuan-zhuan-huan-cheng-zheng-shu-lcof/">剑指 Offer 67. 把字符串转换成整数</a>（自动机）</td>
+</tr>
+</tbody>
+</table>
+<center>
+<font color='purple'>==========剑指offer完结==========</font>
+</center>
+<hr />
+<h2 id="专题练习">专题练习</h2>
+<ul>
+<li><p>本章参考《<a target="_blank" rel="noopener" href="https://labuladong.github.io/algo/">labuladong的算法笔记</a>》《<a target="_blank" rel="noopener" href="https://programmercarl.com/">代码随想录</a>》。</p></li>
+<li><p>可能存在与《剑指Offer》重复的题目链接。</p></li>
+</ul>
+<hr />
+<h3 id="数组专题">数组专题</h3>
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>数组</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>（代码随想录）：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/binary-search/">704. 二分查找</a>（参考lower_bound实现）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/remove-element/">27. 移除元素</a>（模拟std::remove()函数，last指向当前可覆盖的位置）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/remove-duplicates-from-sorted-array/">⭐26. 删除有序数组中的重复项</a>（last指向“去重数组”的最后一个元素）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/backspace-string-compare/">⭐844. 比较含退格的字符串</a>（重构字符串或双指针）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/squares-of-a-sorted-array/">977. 有序数组的平方</a>、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/minimum-size-subarray-sum/">⭐209. 长度最小的子数组</a>（双指针滑动窗口，前缀和+二分）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/fruit-into-baskets/">904. 水果成篮</a>（双指针滑动窗口，最大窗口）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/minimum-window-substring/">⭐76. 最小覆盖子串</a>（滑动窗口，最小窗口<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/fruit-into-baskets/solution/shen-du-jie-xi-zhe-dao-ti-he-by-linzeyin-6crr/">总结</a>）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/shun-shi-zhen-da-yin-ju-zhen-lcof/">⭐剑指 Offer 29. 顺时针打印矩阵</a>（第二次做，边界还是没处理好，<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/shun-shi-zhen-da-yin-ju-zhen-lcof/solution/mian-shi-ti-29-shun-shi-zhen-da-yin-ju-zhen-she-di/">参考</a>）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/spiral-matrix/">54. 螺旋矩阵</a>（同剑指 Offer 29）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/spiral-matrix-ii/">59. 螺旋矩阵 II</a></td>
+</tr>
+<tr class="even">
+<td>🔺没做的：</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="链表专题">链表专题</h3>
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>链表</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>（代码随想录）：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/remove-linked-list-elements/">203. 移除链表元素</a>（迭代或递归）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/design-linked-list/">⭐707. 设计链表</a>、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-linked-list/">206. 反转链表</a>（递归+迭代）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/swap-nodes-in-pairs/">24. 两两交换链表中的节点</a>（递归+迭代）、<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/remove-nth-node-from-end-of-list/">19. 删除链表的倒数第 N 个结点</a>（快慢指针）、</td>
+</tr>
+<tr class="even">
+<td>🔺没做的：</td>
+</tr>
+</tbody>
+</table>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/18/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">
+                        <span class="hidden-mobile">排序算法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="" target="_blank" rel="nofollow noopener"><span>_____</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="" target="_blank" rel="nofollow noopener">
+        <span>digua</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '#post-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "从小爱刷题！&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
