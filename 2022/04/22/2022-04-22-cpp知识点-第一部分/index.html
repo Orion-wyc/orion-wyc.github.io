@@ -169,7 +169,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      8.1k 字
+      10.1k 字
     </span>
   
 
@@ -179,7 +179,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      101
+      125
        分钟
     </span>
   
@@ -218,6 +218,43 @@
 <p>常量指针，又叫常指针，可以理解为常量的指针，也即这个是指针，但指向的是个常量，这个常量是指针的值（地址），而不是地址指向的值。</p>
 <p>指针常量，本质是一个常量，而用指针修饰它。指针常量的值是指针，这个值因为是常量，所以是只读的，指向的地址不可以变化，但是指向的地址所对应的内容可以变化 。</p>
 <p><strong>指向常量的指针常量</strong>就是一个常量，且它指向的对象也是一个常量。</p>
+<ul>
+<li><p>如何使用cout打印<code>char *</code>指针所指向的地址</p>
+<blockquote>
+<p>如果给cout提供一个指针，它将打印指针所指向的地址单元的地址，但如果指针类型为char <em>，则cout将打印char </em>指针所指向的字符串。如果要显示char <em>指针所指向的地址单元的地址，需要将char </em>类型的指针强制转化为另一种类型的指针，我将char <em>类型的指针强制转化为int </em>类型指针。</p>
+</blockquote></li>
+<li><p>一个递归中使用指针出现的错误</p>
+<p>下面代码的基本逻辑是在递归中序遍历过程中判断序列是否为升序。代码中并没有使用全局变量pre，而是将pre作为函数的参数，此时本质上相当于按照“值”传递参数，即传递的是一个地址。本来，预期的结果是，在递归遍历到第一个叶子节点后会返回，然后pre被赋值为这个叶子节点。但是，当递归调用返回上一层父节点时，pre的值仍然为nullptr，并没有被修改为左叶子的地址。</p>
+<p>实际上递归调用的时候会生成"栈帧"保存当前调用的pre、curr指针的值，所以后续递归中改变pre的值并不会对之前的“栈帧“中的pre造成影响。今后遇到这类递归，应当改写成非递归形式，或者使用全局变量。（指针是按值传参）</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span>
+ <span class="hljs-keyword">public</span>:
+  <span class="hljs-keyword">bool</span> res = <span class="hljs-literal">true</span>;
+  <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isValidBST</span><span class="hljs-params">(TreeNode *root)</span> </span>&#123;
+    inorderTraversal(root, <span class="hljs-literal">nullptr</span>);
+    <span class="hljs-keyword">return</span> res;
+  &#125;
+
+  <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">inorderTraversal</span><span class="hljs-params">(TreeNode *curr, TreeNode *pre)</span> </span>&#123;
+    <span class="hljs-keyword">if</span> (curr == <span class="hljs-literal">nullptr</span>) <span class="hljs-keyword">return</span>;
+    inorderTraversal(curr-&gt;left, pre);
+    <span class="hljs-keyword">if</span> (pre != <span class="hljs-literal">nullptr</span> &amp;&amp; pre-&gt;val &gt;= curr-&gt;val) &#123;
+      res = <span class="hljs-literal">false</span>;
+    &#125;
+    <span class="hljs-built_in">cout</span> &lt;&lt; curr-&gt;val &lt;&lt; <span class="hljs-string">&quot; &quot;</span> &lt;&lt; (pre ? pre-&gt;val : <span class="hljs-number">0</span>) &lt;&lt; <span class="hljs-built_in">endl</span>;
+    pre = curr;
+    inorderTraversal(curr-&gt;right, pre);
+  &#125;
+&#125;;</code></pre></div></li>
+</ul>
+<hr /></li>
+<li><p>C语言中各种类型的全局变量默认值</p>
+<p>[ <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36553031/article/details/85321513">C语言中各种类型的全局变量默认值</a> ]</p>
+<p>int: 0、char: '\0'也就是字符结束的标记、float: 0、double：0、string：默认是空字符串也就是""或者NULL、bool: 0、int* 0、float* 0 double* 0、string* 0、char*：针类型除了char*默认是空字符串''或者NULL，其他就默认都是0。</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-keyword">char</span> *a = “abc”;
+<span class="hljs-keyword">char</span> b[<span class="hljs-number">3</span>] = &#123; ‘a’,’b’ &#125;;
+b[<span class="hljs-number">0</span>] = ‘b’;
+a[<span class="hljs-number">0</span>] = ‘b’;</code></pre></div>
+<p>char*a = ”abc“ 的 ”abc“ 是常量所以被分配在常量存储区。a为字符指针类型是存放在栈区可以被更改，而常量存储区是不能更改的，是只读区域。所以当你试图去写入数据的时候，会报错。而char b[3] = {‘a’，‘b’}的字符a和b是存放在栈区的所以可以进行写操作。</p>
 <hr /></li>
 <li><p>函数指针与指针函数</p>
 <ul>
@@ -231,8 +268,12 @@
 <p><code>　int (*f) (int x); /* 声明一个函数指针 */</code> <code>f=func; /* 将func函数的首地址赋给指针f*/</code></p>
 <ul>
 <li><p>C/C++规定函数名就表示函数入口地址，函数名赋值时函数名前面加不加取地址符<code>&amp;</code>均可，也就是说<code>PF f = func</code>等价于<code>PF f = &amp;func</code>。</p></li>
-<li><p><strong>回调函数（Callback function）</strong>：函数指针本质是一个指针，只不过这个指针指向一个函数。 函数指针变量也是一个变量，那么作为变量当然也可以当做参数来使用。 回调函数就是一个通过函数指针调用的函数。如果你把函数的指针（地址）作为参数传递给另一个函数，当这个指针被用为调用它所指向的函数时，我们就说这是回调函数。 (对比之下，在函数过程中调用别的函数，可以称作调用)</p></li>
+<li><p><strong>回调函数（Callback function）</strong>：函数指针本质是一个指针，只不过这个指针指向一个函数。 函数指针变量也是一个变量，那么作为变量当然也可以当做参数来使用。 回调函数就是一个通过函数指针调用的函数。如果你把函数的指针（地址）作为参数传递给另一个函数，当这个指针被用为调用它所指向的函数时，我们就说这是回调函数。 (对比之下，在函数过程中调用别的函数，可以称作调用)。在C语言中提供了快速排序的函数：<code>void qsort( void *base, size_t num, size_t width, int (__cdecl *compare )(const void *elem1, const void *elem2 )</code>，qsort函数中包含一个函数指针compare，用于比较两个元素，该函数由用户传入，即回调函数。关于回调函数，也可以从调用方的角度考虑，平时写代码我们会<em>调用</em>系统提供的API，如果我们将自行实现的函数作为参数传递给系统去调用，那么可以被称作“<em>回调</em>”。</p>
+<blockquote>
+<p>A "callback" is any function that is called by another function which takes the first function as a parameter. （From StackOverflow）</p>
+</blockquote></li>
 <li><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3706704/whats-the-meaning-of-this-piece-of-code-void-signalint-sig-void-funcin">经典例子</a></p>
+<p>[ <a target="_blank" rel="noopener" href="https://blog.csdn.net/nirendao/article/details/118004231">易于理解的解释</a> ]：先看核心部分： <code>signal(int, void (*)(int))</code>，这就是signal函数名 加上 参数部分，而第二个参数是一个函数指针；将这一部分设为x，代入原型之后，其实就是返回值类型了：<code>void (*x)(int);</code>。</p>
 <div class="hljs"><pre><code class="hljs C++"><span class="hljs-keyword">void</span> (*signal(<span class="hljs-keyword">int</span> sig, <span class="hljs-keyword">void</span> (*func)(<span class="hljs-keyword">int</span>)))(<span class="hljs-keyword">int</span>);
 <span class="hljs-comment">// 等价于</span>
 <span class="hljs-function"><span class="hljs-keyword">typedef</span> <span class="hljs-title">void</span> <span class="hljs-params">(*<span class="hljs-keyword">sighandler_t</span>)</span><span class="hljs-params">(<span class="hljs-keyword">int</span>)</span></span>;
@@ -240,6 +281,7 @@
 </ul>
 <hr /></li>
 <li><p>C++面向对象三大特征</p>
+<p>[ <a target="_blank" rel="noopener" href="https://blog.csdn.net/lixungogogo/article/details/51118524">c++继承详解之一——继承的三种方式、派生类的对象模型</a> ]</p>
 <p>封装、继承、多态。</p>
 <p>其中，继承分为：</p>
 <ul>
@@ -316,8 +358,10 @@
     <span class="hljs-function"><span class="hljs-keyword">char</span> <span class="hljs-title">ShowChar</span><span class="hljs-params">(<span class="hljs-keyword">char</span> ch)</span></span>;
     <span class="hljs-function"><span class="hljs-keyword">char</span> <span class="hljs-title">GetChar</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>;
 &#125;</code></pre></div></li>
-</ul>
-<hr /></li>
+</ul></li>
+</ol>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-meta">---</span></code></pre></div>
+<ol start="6" type="1">
 <li><p>左值与右值 [ <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/138210501">参考</a> ]</p>
 <p>左值：指向内存位置的表达式被称为左值（lvalue）表达式，。左值可以出现在赋值号的左边或右边。</p>
 <p>右值：术语右值（rvalue）指的是存储在内存中某些地址的数值。右值是不能对其进行赋值的表达式，也就是说，右值可以出现在赋值号的右边，但不能出现在赋值号的左边。</p>
@@ -416,7 +460,7 @@ void myFunction(int param[])；</code></pre></div></p>
 <hr /></li>
 <li><p><code>swap</code>的注意点</p>
 <p>在标准库中，swap的实现是基于引用的，可用于交换两个同类型变量的值。</p>
-<div class="hljs"><pre><code class="hljs C++"><span class="hljs-keyword">template</span> &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">T</span>&gt;</span>
+<p><div class="hljs"><pre><code class="hljs C++"><span class="hljs-keyword">template</span> &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">T</span>&gt;</span>
 <span class="hljs-class"><span class="hljs-title">void</span> <span class="hljs-title">swap</span>(<span class="hljs-title">T</span>&amp; <span class="hljs-title">a</span>, <span class="hljs-title">T</span>&amp; <span class="hljs-title">b</span>) &#123;</span>
   <span class="hljs-function">T <span class="hljs-title">c</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::move(a))</span></span>;
   a = <span class="hljs-built_in">std</span>::move(b);
@@ -425,7 +469,7 @@ void myFunction(int param[])；</code></pre></div></p>
 <span class="hljs-keyword">template</span> &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">T</span>, <span class="hljs-title">size_t</span> <span class="hljs-title">N</span>&gt;</span>
 <span class="hljs-class"><span class="hljs-title">void</span> <span class="hljs-title">swap</span>(<span class="hljs-title">T</span> (&amp;<span class="hljs-title">a</span>)[<span class="hljs-title">N</span>], <span class="hljs-title">T</span> (&amp;<span class="hljs-title">b</span>)[<span class="hljs-title">N</span>]) &#123;</span>
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; N; ++i) swap(a[i], b[i]);
-&#125;</code></pre></div>
+&#125;</code></pre></div></p>
 <ul>
 <li>需要注意，交换迭代器指向的内容，应当使用<code>iter_swap</code>，等价于<code>swap(*it1, *it2)</code>。</li>
 <li>亦可以使用<code>swap</code>或<code>std::vector::swap</code>交换两个vector的所有内容，容器长度可以不同。</li>
@@ -484,29 +528,29 @@ void myFunction(int param[])；</code></pre></div></p>
 </table></li>
 </ul>
 <hr /></li>
-<li><p><code>map</code>、<code>set</code>、<code>priority_queue</code>的自定义顺序</p>
+<li><p><code>map</code>、<code>set</code>、<code>priority_queue</code>的自定义排序顺序</p>
 <p>上述三类容器中的元素在STL中默认升序排列，需要注意此时<code>priority_queue</code>是大顶堆。优先队列默认是大根堆，即最大元素在数组开头，而使用的默认less比较方式是因为，在堆进行上浮或者下沉的操作中会使用less比较，判断若根节点元素小于其子节点，则返回true，进行调整，较大元素上浮。</p>
 <p>==所以，less表现为大顶堆而greater表现为小顶堆。==</p>
 <p>可以通过自定义一个比较类（<strong>仿函数类</strong>）并重载函数调用运算符<code>()</code>，例子如下：</p>
-<div class="hljs"><pre><code class="hljs C++"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> Type&gt;
+<p><div class="hljs"><pre><code class="hljs C++"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> Type&gt;
 <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">CMP</span> &#123;</span>
   <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">operator</span><span class="hljs-params">()</span> <span class="hljs-params">(<span class="hljs-keyword">const</span> Type&amp; lhs, <span class="hljs-keyword">const</span> Type&amp; rhs)</span> <span class="hljs-keyword">const</span> </span>&#123;<span class="hljs-keyword">return</span> lhs &lt; rhs;&#125; <span class="hljs-comment">// pq大顶堆，小的向下交换</span>
 &#125;;
-<span class="hljs-built_in">priority_queue</span>&lt;Type, <span class="hljs-built_in">vector</span>&lt;Type&gt;, CMP&lt;Type&gt;&gt; pq;</code></pre></div>
+<span class="hljs-built_in">priority_queue</span>&lt;Type, <span class="hljs-built_in">vector</span>&lt;Type&gt;, CMP&lt;Type&gt;&gt; pq;</code></pre></div></p>
 <p>第二种方式是重载关系运算符<code>&lt;</code>实现对象的比较，例子如下：</p>
-<div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Node</span> &#123;</span>
+<p><div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Node</span> &#123;</span>
   <span class="hljs-keyword">int</span> val;
   <span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span>&lt;(<span class="hljs-keyword">const</span> Node a) <span class="hljs-keyword">const</span> &#123;<span class="hljs-keyword">return</span> val &gt; a.val;&#125; <span class="hljs-comment">// pq小顶堆，大的向下交换</span>
 &#125;;
-<span class="hljs-built_in">priority_queue</span>&lt;Node&gt; pq;</code></pre></div>
+<span class="hljs-built_in">priority_queue</span>&lt;Node&gt; pq;</code></pre></div></p>
 <p>而对于<code>&lt;algorithm&gt;</code>中的<code>sort</code>函数，则还可以自定义比较函数，例子如下：</p>
-<div class="hljs"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">cmp</span> <span class="hljs-params">(<span class="hljs-keyword">const</span> Node a, <span class="hljs-keyword">const</span> node b)</span> </span>&#123; <span class="hljs-keyword">return</span> (a.val &lt; b.val);&#125; <span class="hljs-comment">// 数组元素升序排列</span>
-sort(nodes.begin(), nodes.end(), cmp);</code></pre></div>
+<p><div class="hljs"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">cmp</span> <span class="hljs-params">(<span class="hljs-keyword">const</span> Node a, <span class="hljs-keyword">const</span> node b)</span> </span>&#123; <span class="hljs-keyword">return</span> (a.val &lt; b.val);&#125; <span class="hljs-comment">// 数组元素升序排列</span>
+sort(nodes.begin(), nodes.end(), cmp);</code></pre></div></p>
 <p>最后一种我用得比较少，使用lambda函数，例子如下：</p>
-<div class="hljs"><pre><code class="hljs C++"><span class="hljs-keyword">auto</span> cmp = [](<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; &amp;l, <span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; &amp;r) &#123;
+<p><div class="hljs"><pre><code class="hljs C++"><span class="hljs-keyword">auto</span> cmp = [](<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; &amp;l, <span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; &amp;r) &#123;
   <span class="hljs-keyword">return</span> l.second &lt; r.second;
 &#125;;
-std::priority_queue&lt;std::pair&lt;int, int&gt;, std::vector&lt;std::pair&lt;int, int&gt;&gt;, decltype(cmp)&gt; pq(cmp);</code></pre></div>
+std::priority_queue&lt;std::pair&lt;int, int&gt;, std::vector&lt;std::pair&lt;int, int&gt;&gt;, decltype(cmp)&gt; pq(cmp);</code></pre></div></p>
 <blockquote>
 <p><strong>The type of the <em>lambda-expression</em> (which is also the type of the closure object) </strong> is a unique, unnamed non-union class type -- called the <code>closure type</code> ...</p>
 </blockquote>
@@ -550,8 +594,12 @@ Point <span class="hljs-keyword">operator</span>--(<span class="hljs-keyword">in
 </ul>
 <hr /></li>
 <li><p>匿名函数Lambda</p>
-<p><div class="hljs"><pre><code class="hljs C++">[capture <span class="hljs-built_in">list</span>] (params <span class="hljs-built_in">list</span>) <span class="hljs-keyword">mutable</span> exception-&gt; <span class="hljs-keyword">return</span> type &#123; function body &#125;</code></pre></div></p>
-<p>基本形式如上，<code>capture list</code>：捕获外部变量列表，<code>params list</code>：形参列表，<code>mutable</code>指示符：用来说用是否可以修改捕获的变量，<code>exception</code>：异常设定，<code>return type</code>：返回类型，<code>function body</code>：函数体。</p>
+<div class="hljs"><pre><code><pre><code class="hljs C++">[capture <span class="hljs-built_in">list</span>] (params <span class="hljs-built_in">list</span>) <span class="hljs-keyword">mutable</span> exception-&gt; <span class="hljs-keyword">return</span> type &#123; function body &#125;</code></pre></div>
+
+基本形式如上，`capture list`：捕获外部变量列表，`params list`：形参列表，`mutable`指示符：用来说用是否可以修改捕获的变量，`exception`：异常设定，`return type`：返回类型，`function body`：函数体。</code></pre>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yajiu/p/15693724.html">lambda表达式如何捕获成员变量 - 亚九 - 博客园 (cnblogs.com)</a></li>
+</ul>
 <hr /></li>
 <li><p>C/C++的<a target="_blank" rel="noopener" href="https://blog.csdn.net/gongjianbo1992/article/details/102834556">可变长参数</a></p>
 <blockquote>
@@ -771,27 +819,23 @@ Point <span class="hljs-keyword">operator</span>--(<span class="hljs-keyword">in
 <p>若类继承自<code>std::enable_shared_from_this</code>，则可以通过<code>return_from_this()</code>返回当前对象指针this（但是<strong>不应该共享栈对象的 this 给智能指针对象</strong>；应当避免<strong>循环引用</strong>，即一个资源A的生命周期可以交给一个智能指针对象，但是该智能指针的生命周期不可以再交给整个资源A来管理）。</p>
 <ul>
 <li><p>使用智能指针管理数组</p>
-<p>[ <a target="_blank" rel="noopener" href="https://blog.csdn.net/DumpDoctorWang/article/details/88600780">如何使用智能指针管理数组</a>、<a target="_blank" rel="noopener" href="https://www.cnblogs.com/apocelipes/p/10346928.html">shared_ptr和动态数组 - apocelipes - 博客园</a>、<a target="_blank" rel="noopener" href="https://wangjunstf.github.io/2021/09/12/c-dong-tai-nei-cun-yu-zhi-neng-zhi-zhen/">不支持下标运算和指针算数时如何获取数组元素</a> ]</p>
+<p>[ <a target="_blank" rel="noopener" href="https://blog.csdn.net/DumpDoctorWang/article/details/88600780">如何使用智能指针管理数组</a>、<a target="_blank" rel="noopener" href="https://blog.csdn.net/wks19891215/article/details/50992171">管理动态数组</a>、<a target="_blank" rel="noopener" href="https://www.cnblogs.com/apocelipes/p/10346928.html">shared_ptr和动态数组 - apocelipes - 博客园</a>、<a target="_blank" rel="noopener" href="https://wangjunstf.github.io/2021/09/12/c-dong-tai-nei-cun-yu-zhi-neng-zhi-zhen/">不支持下标运算和指针算数时如何获取数组元素</a> ]</p>
 <p>shared_ptr和unique_ptr均可以通过自定义deleter（删除器）的方式实现。</p>
 <div class="hljs"><pre><code class="hljs C++"><span class="hljs-comment">// 方式1</span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;
-  <span class="hljs-keyword">auto</span> Deleter = [](Connection *connection) &#123; <span class="hljs-keyword">delete</span>[] connection; &#125;;
-  Connection *c1 = <span class="hljs-keyword">new</span> Connection[<span class="hljs-number">2</span>]&#123;<span class="hljs-built_in">string</span>(<span class="hljs-string">&quot;c1&quot;</span>), <span class="hljs-built_in">string</span>(<span class="hljs-string">&quot;c2&quot;</span>)&#125;;
-  <span class="hljs-comment">// 新建管理连接Connection的智能指针</span>
-  unique_ptr&lt;Connection, decltype(Deleter)&gt; up(c1, Deleter);
-&#125;
+<span class="hljs-keyword">auto</span> Deleter = [](Connection *connection) &#123; <span class="hljs-keyword">delete</span>[] connection; &#125;;
+Connection *c1 = <span class="hljs-keyword">new</span> Connection[<span class="hljs-number">2</span>]&#123;<span class="hljs-built_in">string</span>(<span class="hljs-string">&quot;c1&quot;</span>), <span class="hljs-built_in">string</span>(<span class="hljs-string">&quot;c2&quot;</span>)&#125;;
+<span class="hljs-comment">// 新建管理连接Connection的智能指针</span>
+unique_ptr&lt;Connection, decltype(Deleter)&gt; up(c1, Deleter);
 
 <span class="hljs-comment">// 方式2</span>
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;
-  Connection *c1 = <span class="hljs-keyword">new</span> Connection[<span class="hljs-number">2</span>]&#123;<span class="hljs-built_in">string</span>(<span class="hljs-string">&quot;c1&quot;</span>), <span class="hljs-built_in">string</span>(<span class="hljs-string">&quot;c2&quot;</span>)&#125;;
-  <span class="hljs-comment">// 新建管理连接Connection的智能指针</span>
-  unique_ptr&lt;Connection[]&gt; up(c1);
-&#125;
+Connection *c1 = <span class="hljs-keyword">new</span> Connection[<span class="hljs-number">2</span>]&#123;<span class="hljs-built_in">string</span>(<span class="hljs-string">&quot;c1&quot;</span>), <span class="hljs-built_in">string</span>(<span class="hljs-string">&quot;c2&quot;</span>)&#125;;
+<span class="hljs-comment">// 新建管理连接Connection的智能指针</span>
+unique_ptr&lt;Connection[]&gt; up(c1);
+
+
 <span class="hljs-comment">// 方式1的局限在于不支持[]和ptr运算</span>
 <span class="hljs-function"><span class="hljs-built_in">shared_ptr</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">sp</span><span class="hljs-params">(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">10</span>], [](<span class="hljs-keyword">int</span> *p)&#123;delet[] p&#125;)</span></span>
-<span class="hljs-function"><span class="hljs-title">for</span> <span class="hljs-params">(<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i != <span class="hljs-number">10</span>; i++)</span> </span>&#123;
-  *(sp.get() + i) = i;  <span class="hljs-comment">//使用get获取动态数组的第一个元素的指针</span>
-&#125;</code></pre></div></li>
+<span class="hljs-function"><span class="hljs-title">for</span> <span class="hljs-params">(<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i != <span class="hljs-number">10</span>; i++)</span> *<span class="hljs-params">(sp.get() + i)</span> </span>= i;  <span class="hljs-comment">//使用get获取动态数组的第一个元素的指针</span></code></pre></div></li>
 <li><p>unique_ptr和shared_ptr模板参数上的区别</p>
 <p>[ <a target="_blank" rel="noopener" href="https://fuzhe1989.github.io/2017/05/19/cpp-different-role-of-deleter-in-unique-ptr-and-shared-ptr/">为什么unique_ptr的Deleter是模板类型参数，而shared_ptr的Deleter不是？</a>、<a target="_blank" rel="noopener" href="https://blog.csdn.net/DumpDoctorWang/article/details/88598015">C++ 智能指针自定义删除器 - CSDN博客</a> ]</p>
 <div class="hljs"><pre><code class="hljs C++">A *pA = <span class="hljs-keyword">new</span> A[<span class="hljs-number">3</span>]&#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>&#125;;
@@ -835,7 +879,12 @@ unique_ptr&lt;A, decltype(arr_deleter)&gt; uptr(pA, arr_deleter);
   <span class="hljs-comment">//关于基类各构造函数的继承一句话搞定</span>
   <span class="hljs-comment">//......</span>
 &#125;;</code></pre></div></li>
-</ul>
+</ul></li>
+</ol>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-meta">---</span></code></pre></div>
+<ol start="37" type="1">
+<li><p>namespace命名空间</p>
+<p>[ <a target="_blank" rel="noopener" href="https://blog.csdn.net/PecoHe/article/details/112505385">C++命名空间：默认命名空间与匿名命名空间 - CSDN</a> ]</p>
 <hr /></li>
 <li><p>结构体的四种初始化方法</p>
 <p><div class="hljs"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">InitMember</span> &#123;</span>
@@ -891,8 +940,8 @@ test.four = <span class="hljs-number">0.25</span>;</code></pre></div></li>
 <p>封装是编译期的概念，是针对类型而非对象的，在类的成员函数中可以访问同类型实例对象的私有成员变量</p>
 </blockquote>
 <hr /></li>
-<li><p>虚函数</p>
-<p>[ <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/148290103">C++基类的析构函数为何要声明为虚函数 - 知乎</a> ]</p>
+<li><p>⭐虚函数</p>
+<p>[ <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/148290103">C++基类的析构函数为何要声明为虚函数 - 知乎</a> 、<a target="_blank" rel="noopener" href="https://blog.twofei.com/496/">⭐C++中的虚函数表实现机制与内存布局解析</a> ]</p>
 <ul>
 <li><strong>析构函数</strong>可定义为虚函数。基类指针可以指向派生类的对象（多态性），如果删除该指针，就会调用该指针指向的派生类析构函数，而派生类的析构函数又自动调用基类的析构函数，这样整个派生类的对象完全被释放。析构函数不定义为虚函数时，编译器实施静态绑定，在删除基类指针时只会调用基类析构函数，导致析构不完全。</li>
 <li><strong>构造函数</strong>不能是虚函数。构造函数是在创建对象时自己主动调用的，不可能通过父类的指针或者引用去调用。构造函数调用完成后才会形成虚函数表指针。</li>
@@ -900,13 +949,80 @@ test.four = <span class="hljs-number">0.25</span>;</code></pre></div></li>
 </ul>
 <hr /></li>
 <li><p>纯虚函数与抽象基类</p>
-<p>纯虚函数是一种特殊的虚函数，在许多情况下，在基类中不能对虚函数给出有意义的实现，而把它声明为纯虚函数，它的实现留给该基类的派生类去做。（作用是提供接口）</p></li>
-<li></li>
-</ol>
-<hr />
-<h2 id="c常识">C++常识</h2>
-<ol type="1">
+<p>纯虚函数是一种特殊的虚函数，在许多情况下，在基类中不能对虚函数给出有意义的实现，而把它声明为纯虚函数，它的实现留给该基类的派生类去做。（作用是提供接口）</p>
+<hr /></li>
+<li><p>强制类型转换运算符</p>
+<ul>
+<li><p>static_cast</p>
+<p>用于非多态类型的转换，例如数值类型转换，转换时不执行运行时类型检查。父类向派子类转化不安全，子类向父类转化安全。</p></li>
+<li><p>dynamic_cast</p>
+<p>用于多态类型转换，仅用于指针和引用，转换时执行运行时类型检查。可在父类与子类间转换。</p></li>
+<li><p>const_cast</p>
+<p>用于删除 const、volatile 和 __unaligned 特性（如将 const int 类型转换为 int 类型 ）</p></li>
+<li><p>reinterpret_cast</p></li>
+<li><p>bad_cast</p>
+<p>由于强制转换为引用类型失败，dynamic_cast 运算符引发 bad_cast 异常</p></li>
+<li><p>RTTI查看运行时类型信息</p>
+<p>使用头文件typeinfo。</p>
+<p>typeid 运算符允许在运行时确定对象的<strong>实际类型</strong>，可返回一个 type_info 对象的引用。</p></li>
+</ul>
+<hr /></li>
+<li><p>C/C++ 函数调用约定</p>
+<p>[ <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/181467546">C/C++ 函数调用规范 - 知乎</a> ]</p>
+<hr /></li>
+<li><p>静态成员不能在类内初始化</p>
+<p>[ <a target="_blank" rel="noopener" href="https://blog.csdn.net/digitalkee/article/details/105301444">为什么类中静态(static)成员不能在类的定义内初始化</a>、<a target="_blank" rel="noopener" href="https://www.runoob.com/cplusplus/cpp-static-members.html">C++ 类的静态成员</a>、<a target="_blank" rel="noopener" href="https://www.runoob.com/w3cnote/cpp-static-const.html">static、const 和 static const成员变量声明以及初始化</a>（类内初始化是C++11的新特性）、<a target="_blank" rel="noopener" href="https://blog.csdn.net/lanchunhui/article/details/50772363">C++ 类中特殊成员变量（常量、静态、引用）的初始化方法</a>]</p>
+<div class="hljs"><pre><code class="hljs C++">  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span> &#123;</span>
+ <span class="hljs-keyword">public</span>:
+  Test() : a(<span class="hljs-number">0</span>) &#123;&#125;
+  <span class="hljs-keyword">enum</span> &#123; size1 = <span class="hljs-number">100</span>, size2 = <span class="hljs-number">200</span> &#125;;
+
+ <span class="hljs-keyword">private</span>:
+  <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> a;        <span class="hljs-comment">//只能在构造函数初始化列表中初始化</span>
+  <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> b;       <span class="hljs-comment">//在类的实现文件中定义并初始化</span>
+  <span class="hljs-keyword">const</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> c;  <span class="hljs-comment">//与 static const int c;相同</span>
+&#125;;
+
+<span class="hljs-keyword">int</span> Test::b=<span class="hljs-number">0</span>;  <span class="hljs-comment">//static成员变量不能在构造函数初始化列表中初始化，因为它不属于某个对象</span>
+cosnt intTest::c=<span class="hljs-number">0</span>;  <span class="hljs-comment">//注意：给静态成员常量赋值时，不需要加static修饰符，但要加cosnt</span></code></pre></div>
+<p>静态成员在类的所有对象中是共享的。如果不存在其他的初始化语句，在创建第一个对象时，所有的静态数据都会被初始化为零。我们不能把静态成员的初始化放置在类的定义中，但是可以在类的外部通过使用范围解析运算符 <strong>::</strong> 来重新声明静态变量从而对它进行初始化。注意 static 关键字只能用于类定义体内部的声明中，定义时不能标示为 static。</p>
+<hr /></li>
+<li><p>C++异常处理</p>
+<p>[ <a target="_blank" rel="noopener" href="https://blog.csdn.net/jiemashizhen/article/details/123907897">C++析构函数默认是noexcept</a> ]</p>
+<hr /></li>
+<li><p>#与##用途</p>
+<p><code>#</code>的功能是将其后面的宏参数进行字符串化操作（Stringfication），简单说就是在对它所引用的宏变量通过替换后在其左右各加上一个双引号。</p>
+<p><code>##</code>连接符号由两个井号组成，其功能是在带参数的宏定义中将两个子串(token)联接起来，从而形成一个新的子串。但它不可以是第一个或者最后一个子串。所谓的子串(token)就是指编译器能够识别的最小语法单元。</p>
+<hr /></li>
+<li><p>vector的内存结构</p>
+<p>[ <a target="_blank" rel="noopener" href="https://www.codeleading.com/article/16195448865/">关于vector变量名的地址和元素地址不相同的问题</a> ]</p>
+<p>在C++中，vector的<strong>对象存放在栈区，元素存放在堆区</strong>，且变量名地址中存放的是堆区元素的首地址。</p>
+<hr /></li>
+<li><p>右值返回值</p>
+<p>[ <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/443571654/answer/1723219351">c++17具名返回值优化NRVO</a> ]</p>
+<hr /></li>
+<li><p>std::bind的返回类型</p>
+<ul>
+<li><p>std::bind返回的function类型，一要看被绑定函数的参数列表，二要看bind有没有指定参数。如下所示：</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> </span>&#123; <span class="hljs-keyword">return</span> a + b; &#125;
+<span class="hljs-built_in">std</span>::function&lt;<span class="hljs-keyword">int</span>(<span class="hljs-keyword">int</span>)&gt; f1 = <span class="hljs-built_in">std</span>::bind(&amp;func, <span class="hljs-built_in">std</span>::placeholders::_1, <span class="hljs-number">10</span>);
+<span class="hljs-built_in">std</span>::function&lt;<span class="hljs-keyword">int</span>()&gt; f0 = <span class="hljs-built_in">std</span>::bind(&amp;func, <span class="hljs-number">90</span>, <span class="hljs-number">10</span>);</code></pre></div></li>
+<li><p>std::bind按值拷贝以及std::ref的用处</p>
+<div class="hljs"><pre><code class="hljs C++"><span class="hljs-keyword">int</span> x = <span class="hljs-number">1</span>;
+<span class="hljs-comment">// 显示利用std::ref来进行引用绑定，可以发现x的值变化了</span>
+<span class="hljs-keyword">auto</span> f = <span class="hljs-built_in">std</span>::bind([](<span class="hljs-keyword">int</span> &amp;y) &#123; y = <span class="hljs-number">99</span>; &#125;, <span class="hljs-built_in">std</span>::ref(x));
+<span class="hljs-comment">// 此处是按值拷贝，所以并不会修改x的值</span>
+<span class="hljs-comment">// auto f = std::bind([](int &amp;y) &#123; y = 99; &#125;, x);</span>
+f(); 
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; x &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;</code></pre></div></li>
+</ul>
+<hr /></li>
+<li><p>std::future</p>
+<p>[ <a target="_blank" rel="noopener" href="https://www.cnblogs.com/haippy/p/3280643.html">C++11 并发指南四( 详解三 std::future &amp; std::shared_future)</a> ]</p>
+<p>std::future可以用来获取异步任务的结果，因此可以把它当成一种简单的线程间同步的手段。std::future 通常由某个 Provider 创建，此处Provider相当于一个异步任务的提供者。Provider 在某个线程中设置共享状态的值，与该共享状态相关联的 std::future 对象调用 get（通常在另外一个线程中） 获取该值，如果共享状态的标志不为 ready，则调用 std::future::get 会<strong>阻塞</strong>当前的调用者，直到 Provider 设置了共享状态的值（此时共享状态的标志变为 ready），std::future::get 返回异步任务的值或异常（如果发生了异常）。</p>
+<hr /></li>
 <li><p>如何理解面向对象（C++）中的封装、继承、多态？</p>
+<p>[<a target="_blank" rel="noopener" href="https://www.stroustrup.com/bsfaqcn.html">Bjarne Stroustrup's FAQ（中文版）</a> ]</p>
 <p>[ <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/52767718/answer/143989505">这样理解面向对象的封装，继承，多态是否正确？ - DarkZero的回答 - 知乎</a> ]</p>
 <blockquote>
 <p><strong>封装：</strong>封装的意义，在于明确标识出允许外部使用的所有成员函数和数据项，或者叫接口，同时实现了信息隐藏。</p>
@@ -921,85 +1037,9 @@ test.four = <span class="hljs-number">0.25</span>;</code></pre></div></li>
 </ol>
 </blockquote>
 <hr /></li>
-<li></li>
-</ol>
-<hr />
-<h2 id="stl标准模板库">STL标准模板库</h2>
-<p>[ <a target="_blank" rel="noopener" href="https://oi-wiki.org/lang/csl/">OI-wiki参考</a> ]</p>
-<ol type="1">
-<li><p>容器（Container）包括序列式容器、关联式容器、无序关联式容器、容器适配器。</p>
-<p>构造、增删改查、拷贝的平均复杂度与最坏复杂度。</p>
-<ul>
-<li>array、vector、list的<a target="_blank" rel="noopener" href="http://qisens.win/2017/%E2%80%94%E2%80%94vector-list.html">实现原理</a></li>
-</ul></li>
-<li><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/20806796">Hash时取模一定要模质数？</a></p></li>
-</ol>
-<hr />
-<h2 id="c11141720-新特性">C++11/14/17/20 新特性</h2>
-<ul>
-<li>[ <a target="_blank" rel="noopener" href="https://harttle.land/2015/10/08/cpp11.html">新特性总结</a> ]</li>
-<li>[ <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/65209863">当面试官问我C++ 11新特性的时候，应该怎样回答？</a> ]</li>
-</ul>
-<h3 id="新特性分类">新特性分类</h3>
-<table>
-<thead>
-<tr class="header">
-<th>全新特性（革新）</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>decltype关键字，可变参数模板</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr class="header">
-<th>标准库</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>散列容器unordered_map、unordered_set，元组容器tuple、线程库</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr class="header">
-<th>语法糖</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>函数模板的默认模板参数，using与模板的别名，auto关键字，lambda表达式，统一的列表初始化方法</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr class="header">
-<th>安全</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>智能指针、原子操作</td>
-</tr>
-</tbody>
-</table>
-<ol type="1">
-<li>改善初始化方式的一致性（列表初始化）</li>
-<li>类型推导</li>
-<li>右值引用</li>
-<li>（C++17）结构化绑定（Structured Binding）</li>
-</ol>
-<hr />
-<h2 id="资料">资料</h2>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="https://github.com/fengbingchun/Messy_Test">C++ Code Test Demos</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/haippy/p/3284540.html">C++11并发指南</a></li>
+<li><p>泛型编程</p>
+<p>泛型程序设计（generic programming）是程序设计语言的一种风格或范式。泛型允许程序员在强类型程序设计语言中编写代码时使用一些以后才指定的类型，在实例化时作为参数指明这些类型。泛型编程的好处是在算法与参数类型无关的情况下，可以避免重复的代码（参数多态）。在C++中的体现时函数模板和类模板，并且C++中提供了更加完备的标准模板库STL。</p>
+<hr /></li>
 </ol>
 
             </div>
