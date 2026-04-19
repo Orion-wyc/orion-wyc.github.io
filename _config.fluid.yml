@@ -123,11 +123,11 @@ scroll_top_arrow:
 # 页脚
 #---------------------------
 footer:
-  content: '
-    <a href="" target="_blank" rel="nofollow noopener"><span>Yuchen</span></a>
-    <i class="iconfont icon-love"></i>
-    <a href="" target="_blank" rel="nofollow noopener"><span>NoCookEatMcDonald's</span></a>
-  '
+  content: "
+    <a href=\"\" target=\"_blank\" rel=\"nofollow noopener\"><span>Yuchen</span></a>
+    <i class=\"iconfont icon-love\"></i>
+    <a href=\"\" target=\"_blank\" rel=\"nofollow noopener\"><span>NoCookEatMcDonald's</span></a>
+  "
   statistics:
     enable: false
 
