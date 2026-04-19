@@ -124,9 +124,9 @@ scroll_top_arrow:
 #---------------------------
 footer:
   content: '
-    <a href="" target="_blank" rel="nofollow noopener"><span>_____</span></a>
+    <a href="" target="_blank" rel="nofollow noopener"><span>Yuchen</span></a>
     <i class="iconfont icon-love"></i>
-    <a href="" target="_blank" rel="nofollow noopener"><span>digua</span></a>
+    <a href="" target="_blank" rel="nofollow noopener"><span>NoCookEatMcDonald's</span></a>
   '
   statistics:
     enable: false

@@ -7,14 +7,9 @@ layout: about
 
 **所在地**：江苏南京
 
-### 教育经历
-
-- 汐止中学 爱吃
-- 东南大学附属福建"大三本" 继续吃
-
 ### 联系方式
 
-邮箱：$$\mathbf{yuchen\_seu@seu.edu.cn}$$
+邮箱：yuchenseu@gmail.com
 
 ---
 
