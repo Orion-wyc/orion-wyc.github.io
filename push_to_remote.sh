@@ -7,7 +7,7 @@
 set -e
 
 PROJECT_DIR="/home/yuchen/Works/blog-recovery"
-REMOTE_URL="https://github.com/Orion-wyc/orion-wyc.github.io.git"
+REMOTE_URL="git@github.com:Orion-wyc/orion-wyc.github.io.git"
 
 echo "========================================"
 echo "  Hexo 博客恢复项目 - 推送脚本"

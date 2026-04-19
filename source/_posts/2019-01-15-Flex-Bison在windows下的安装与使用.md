@@ -2,7 +2,7 @@
 title: Flex-Bison在windows下的安装与使用
 date: 2019-01-15 00:00
 categories:
-  - 分类
+  - 编译原理
 ---
 **Linux下安装：**
     

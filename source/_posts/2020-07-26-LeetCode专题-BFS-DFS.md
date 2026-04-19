@@ -2,7 +2,7 @@
 title: LeetCode专题 BFS DFS
 date: 2020-07-26 00:00
 categories:
-  - 分类
+  - 学习笔记
 ---
 # LeetCode BFS + DFS
 

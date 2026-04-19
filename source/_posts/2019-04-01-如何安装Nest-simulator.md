@@ -2,7 +2,7 @@
 title: 如何安装Nest-simulator
 date: 2019-04-01 00:00
 categories:
-  - 分类
+  - 教程
 ---
 ## 如何安装nest simulator
 
