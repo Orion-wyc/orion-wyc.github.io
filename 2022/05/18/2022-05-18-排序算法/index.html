@@ -1,0 +1,1258 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Yuchen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="排序算法稳定性常用排序稳定性我暂时还没具体分析锦标赛排序为什么是不稳定的。  Stable Sorting Algorithms:  Insertion Sort、Merge Sort、Bubble Sort、Tim Sort、Counting Sort、Block Sort、Quadsort、Library Sort、Cocktail shaker Sort、Gnome Sort、Odd–ev">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排序算法">
+<meta property="og:url" content="https://orion-wyc.github.io/2022/05/18/2022-05-18-%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="Yuchen&#39;s Blog">
+<meta property="og:description" content="排序算法稳定性常用排序稳定性我暂时还没具体分析锦标赛排序为什么是不稳定的。  Stable Sorting Algorithms:  Insertion Sort、Merge Sort、Bubble Sort、Tim Sort、Counting Sort、Block Sort、Quadsort、Library Sort、Cocktail shaker Sort、Gnome Sort、Odd–ev">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-18T02:41:00.000Z">
+<meta property="article:modified_time" content="2026-04-22T15:03:26.191Z">
+<meta property="article:author" content="Yuchen">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>排序算法 - Yuchen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"orion-wyc.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="/css/custom.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Yuchen&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="排序算法"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-05-18 10:41" pubdate>
+          2022年5月18日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          69 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">排序算法</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <hr>
+<h2 id="排序算法稳定性"><a href="#排序算法稳定性" class="headerlink" title="排序算法稳定性"></a>排序算法稳定性</h2><h3 id="常用排序稳定性"><a href="#常用排序稳定性" class="headerlink" title="常用排序稳定性"></a>常用排序稳定性</h3><p>我暂时还没具体分析锦标赛排序为什么是不稳定的。</p>
+<blockquote>
+<p>Stable Sorting Algorithms:</p>
+<ul>
+<li>Insertion Sort、Merge Sort、Bubble Sort、Tim Sort、Counting Sort、Block Sort、Quadsort、Library Sort、Cocktail shaker Sort、Gnome Sort、Odd–even Sort</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>Unstable Sorting Algorithms:</p>
+<ul>
+<li>Heap sort、Selection sort、Shell sort、Quick sort、Introsort (subject to Quicksort)、Tree sort、Cycle sort、Smoothsort、Tournament sort(subject to Heapsort)</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th><strong>排序算法</strong></th>
+<th><strong>平均时间复杂度</strong></th>
+<th><strong>最坏时间复杂度</strong></th>
+<th><strong>最好时间复杂度</strong></th>
+<th><strong>空间复杂度</strong></th>
+<th><strong>稳定性</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>冒泡排序</strong></td>
+<td>O(n²)</td>
+<td>O(n²)</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td><strong>直接选择排序</strong></td>
+<td>O(n²)</td>
+<td>O(n²)</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>不稳定</td>
+</tr>
+<tr>
+<td><strong>直接插入排序</strong></td>
+<td>O(n²)</td>
+<td>O(n²)</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td><strong>快速排序</strong></td>
+<td>O(nlogn)</td>
+<td>O(n²)</td>
+<td>O(nlogn)</td>
+<td>O(nlogn)</td>
+<td>不稳定</td>
+</tr>
+<tr>
+<td><strong>堆排序</strong></td>
+<td>O(nlogn)</td>
+<td>O(nlogn)</td>
+<td>O(nlogn)</td>
+<td>O(1)</td>
+<td>不稳定</td>
+</tr>
+<tr>
+<td><strong>希尔排序</strong></td>
+<td>O(nlogn)</td>
+<td>O(ns)</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>不稳定</td>
+</tr>
+<tr>
+<td><strong>归并排序</strong></td>
+<td>O(nlogn)</td>
+<td>O(nlogn)</td>
+<td>O(nlogn)</td>
+<td>O(n)</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td><strong>计数排序</strong></td>
+<td>O(n+k)</td>
+<td>O(n+k)</td>
+<td>O(n+k)</td>
+<td>O(n+k)</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td><strong>基数排序</strong></td>
+<td>O(N*M)</td>
+<td>O(N*M)</td>
+<td>O(N*M)</td>
+<td>O(M)</td>
+<td>稳定</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="交换的实现"><a href="#交换的实现" class="headerlink" title="交换的实现"></a>交换的实现</h2><pre><code class="hljs">template &lt;typename T&gt;
+void Swap(T &amp;a, T &amp;b) &#123;
+  T temp = a;
+  a = b;
+  b = temp;
+&#125;
+</code></pre>
+<hr>
+<h2 id="简单选择排序"><a href="#简单选择排序" class="headerlink" title="简单选择排序"></a>简单选择排序</h2><p>它的工作原理是每次找出第 \(i\) 小的元素（也就是 \(A_{i\dots n}\) 中最小的元素），然后将这个元素与数组第 \(i\) 个位置上的元素交换。</p>
+<pre><code class="hljs">template &lt;typename T&gt;
+void selection_sort(std::vector&lt;T&gt; &amp;arr) &#123;
+  int len = arr.size();
+  for (int i = 0; i &lt; len; ++i) &#123;
+    int idx = i;
+    for (int j = i + 1; j &lt; len; ++j) &#123;
+      if (arr[j] &lt; arr[idx]) idx = j;  // 此处需要类型T重载&quot;&lt;&quot;运算符
+    &#125;
+    std::swap(arr[i], arr[idx]);
+  &#125;
+&#125;
+</code></pre>
+<hr>
+<h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><p>它的工作原理是<strong>每次检查相邻两个元素</strong> ，如果前面的元素与后面的元素满足给定的排序条件，就将相邻两个元素交换。经过 \(i\) 次扫描后，数列的末尾 \(i\) 项必然是最大的 \(i\) 项，因此冒泡排序最多需要扫描 \((n-1)\) 遍数组就能完成排序。 [ <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Bubble_sort">冒泡排序的两点优化</a> ]</p>
+<pre><code class="hljs">template &lt;typename T&gt;
+void bubble_sort_opt(std::vector&lt;T&gt; &amp;arr) &#123;
+  int len = arr.size();
+  bool swapped = true;
+  while (swapped) &#123;
+    swapped = false;
+    for (int i = 1; i &lt; len; ++i) &#123;
+      if (arr[i] &lt; arr[i - 1]) &#123;
+        swapped = true;
+        std::swap(arr[i - 1], arr[i]);
+      &#125;
+    &#125;
+    // --len; // 可优化，第i轮扫描可以确定前i大的数字
+  &#125;
+&#125;
+</code></pre>
+<hr>
+<h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><p>它的工作原理为将待排列元素划分为“已排序”和“未排序”两部分，每次从“未排序的”元素中选择一个插入到“已排序的”元素中的正确位置。</p>
+<pre><code class="hljs">template &lt;typename T&gt;
+void insertion_sort(std::vector&lt;T&gt; &amp;arr) &#123;
+  int len = arr.size();
+  for (int i = 1; i &lt; len; ++i) &#123;
+    T key = arr[i];
+    int idx = i - 1;
+    while (idx &gt;= 0 &amp;&amp; key &lt; arr[idx]) &#123;
+      arr[idx + 1] = arr[idx];
+      --idx;
+    &#125;
+    arr[idx + 1] = key;  //可知arr[idx] &lt;= key, 插入位置为idx + 1
+  &#125;
+&#125;
+
+
+template &lt;typename T&gt;
+void insertion_sort(std::vector&lt;T&gt; &amp;arr) &#123;
+  int len = arr.size();
+  if (len &lt;= 1) return;
+  for (int i = 1; i &lt; len; ++i) &#123;
+    for (int j = i; j &gt;= 1 &amp;&amp; arr[j] &lt; arr[j-1]; --j) &#123;
+      std::swap(arr[j], arr[j-1]);
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<hr>
+<h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p>快排，又被称作分区交换排序（partition-exchange sort），基本思想是分治，步骤如下：</p>
+<ol>
+<li>将数列划分为两部分（要求保证相对大小关系）；</li>
+<li>递归到两个子序列中分别进行快速排序；</li>
+<li>不用合并，因为此时数列已经完全有序。</li>
+</ol>
+<pre><code class="hljs">template &lt;typename T&gt;
+int partition(std::vector&lt;T&gt; &amp;arr, int low, int high) &#123;
+  T key = arr[low];
+  while (low &lt; high) &#123;
+    // 先处理右侧
+    while (low &lt; high &amp;&amp; arr[high] &gt;= key) --high;
+    arr[low] = arr[high];
+    // 处理左侧
+    while (low &lt; high &amp;&amp; arr[low] &lt;= key) ++low;
+    arr[high] = arr[low];
+  &#125;
+  arr[low] = key;
+
+  return low;
+&#125;
+
+template &lt;typename T&gt;
+void quick_sort(std::vector&lt;T&gt; &amp;arr, int low, int high) &#123;
+  if (low &lt; high) &#123;
+    int idx = partition(arr, low, high);
+    quick_sort(arr, low, idx - 1);
+    quick_sort(arr, idx + 1, high);
+  &#125;
+&#125;
+</code></pre>
+<p>快排的优化技巧：随机化选取key，取三个key的中间数，待排序序列规模较小时使用插入排序</p>
+<hr>
+<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p>归并排序分为三个步骤：</p>
+<ol>
+<li>将数列划分为两部分；</li>
+<li>递归地分别对两个子序列进行归并排序；</li>
+<li>合并两个子序列。</li>
+</ol>
+<pre><code class="hljs">// 递归写法
+template &lt;typename T&gt;
+void merge(std::vector&lt;T&gt; &amp;arr, int low, int mid, int high) &#123;
+  std::vector&lt;T&gt; tmp_arr;
+  tmp_arr.reserve(high - low + 1); // 其实这里还不是很完美
+  int left_idx = low;
+  int right_idx = mid + 1;
+  while (left_idx &lt;= mid &amp;&amp; right_idx &lt;= high) &#123;
+    if (arr[left_idx] &lt; arr[right_idx]) &#123;
+      tmp_arr.push_back(arr[left_idx]);
+      ++left_idx;
+    &#125; else &#123;
+      tmp_arr.push_back(arr[right_idx]);
+      ++right_idx;
+    &#125;
+  &#125;
+  while (left_idx &lt;= mid) &#123;
+    tmp_arr.push_back(arr[left_idx]);
+    ++left_idx;
+  &#125;
+  while (right_idx &lt;= high) &#123;
+    tmp_arr.push_back(arr[right_idx]);
+    ++right_idx;
+  &#125;
+  std::cout &lt;&lt; tmp_arr.size() &lt;&lt; &quot; &quot; &lt;&lt; tmp_arr.capacity() &lt;&lt; std::endl;
+  for (int i = 0; i &lt; high - low + 1; ++i) arr[low + i] = tmp_arr[i];
+&#125;
+
+template &lt;typename T&gt;
+void merge_sort(std::vector&lt;T&gt; &amp;arr, int low, int high) &#123;
+  if (low &lt; high) &#123;
+    int mid = low + (high - low) / 2;
+    merge_sort(arr, low, mid);
+    merge_sort(arr, mid + 1, high);
+    merge(arr, low, mid, high);
+  &#125;
+&#125;
+
+
+// 迭代写法
+template &lt;typename T&gt;
+void merge_sort2(std::vector&lt;T&gt; &amp;arr, int low, int high) &#123;
+  int len = high - low + 1;
+  std::vector&lt;T&gt; tmp_arr;
+  tmp_arr.reserve(len);
+  for (int seg = 1; seg &lt; len; seg += seg) &#123;
+    for (int idx = 0; idx &lt; len; idx += seg * 2) &#123;
+      int left = idx;
+      int mid = std::min(idx + seg, len);
+      int right = std::min(idx + seg * 2, len);
+      int tmp_idx = left;
+      int idx1 = left;
+      int idx2 = mid;
+      // 归并
+      while (idx1 &lt; mid &amp;&amp; idx2 &lt; right) &#123;
+        tmp_arr[tmp_idx++] =
+            (arr[idx1] &lt; arr[idx2]) ? arr[idx1++] : arr[idx2++];
+      &#125;
+      while (idx1 &lt; mid) tmp_arr[tmp_idx++] = arr[idx1++];
+      while (idx2 &lt; high) tmp_arr[tmp_idx++] = arr[idx2++];
+    &#125;
+    std::swap(arr, tmp_arr);
+  &#125;
+&#125;
+</code></pre>
+<p>[ <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F">归并排序 - 维基百科</a> ]</p>
+<hr>
+<h2 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h2><p>数组从小到大排序应当建立大顶堆：将堆顶的元素取出，作为最大值，与数组尾部的元素交换，并维持残余堆的性质；之后将堆顶的元素取出，作为次大值，与数组倒数第二位元素交换，并维持残余堆的性质；以此类推，在第 \(n-1\) 次操作后，整个数组就完成了排序。</p>
+<p><strong>在STL中，优先队列<code>priority_queue</code>默认是小顶堆，所以输出序列是从大到小排序。</strong></p>
+<pre><code class="hljs">template &lt;typename T&gt;
+void sift_down(std::vector&lt;T&gt; &amp;arr, int low, int high) &#123;
+  int parent = low;
+  int child = parent * 2 + 1;
+  while (child &lt;= high) &#123;
+    if (child + 1 &lt;= high &amp;&amp; arr[child] &lt; arr[child + 1]) &#123;  // 小顶堆改成arr[child] &gt; arr[child + 1]
+      ++child;
+    &#125;
+    if (arr[parent] &gt;= arr[child]) &#123;  //  小顶堆改成arr[parent] &lt;= arr[child]
+      break;
+    &#125; else &#123;
+      std::swap(arr[parent], arr[child]);
+      parent = child;
+      child = parent * 2 + 1;
+    &#125;
+  &#125;
+&#125;
+
+template &lt;typename T&gt;
+void heap_sort(std::vector&lt;T&gt; &amp;arr) &#123;
+  int len = arr.size();
+  // 建堆
+  for (int i = len / 2 - 1; i &gt;= 0; --i) sift_down(arr, i, len - 1);
+  // 排序, 将堆顶元素与第i个元素 (当前堆的最后一个) 交换位置
+  for (int i = len - 1; i &gt; 0; --i) &#123;
+    std::swap(arr[0], arr[i]);
+    sift_down(arr, 0, i - 1);
+  &#125;
+&#125;
+</code></pre>
+<hr>
+<h2 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h2><p>希尔排序又称<strong>递减增量排序算法</strong> ，具体介绍见 [ <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F">希尔排序 - 维基百科</a> ]</p>
+<pre><code class="hljs">template &lt;typename T&gt;
+void shell_sort(std::vector&lt;T&gt; &amp;arr, int low, int high) &#123;
+  int len = high - low + 1;
+  for (int step_size = len &gt;&gt; 1; step_size &gt; 0; step_size &gt;&gt;= 1) &#123;
+    for (int i = step_size; i &lt; len; ++i) &#123;
+      for (int j = i; j &gt;= step_size &amp;&amp; arr[j] &lt; arr[j - step_size];
+           j -= step_size) &#123;
+        std::swap(arr[j], arr[j - step_size]);
+      &#125;
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<hr>
+<p>分割线 </p>
+<hr>
+<p>下面几种排序的重要性较弱。</p>
+<ul>
+<li>计数排序适合数据范围不大的一组数进行排序。</li>
+<li>基数排序要求数据之间明显存在可进行关键字比较的特征。</li>
+<li>桶排序同样适用于数据范围不大的情况，它可以视作对计数排序的改进，减少了空间浪费。</li>
+</ul>
+<hr>
+<h2 id="计数排序"><a href="#计数排序" class="headerlink" title="计数排序"></a>计数排序</h2><p>它的工作过程分为三个步骤：</p>
+<ol>
+<li>计算每个数出现了几次；</li>
+<li>求出每个数出现次数的 <a target="_blank" rel="noopener" href="https://oi-wiki.org/basic/prefix-sum/">前缀和</a>；</li>
+<li>利用出现次数的前缀和，从右至左计算每个数的排名（保证排序算法的稳定性，即相同大小的数字，原先在右侧的仍然在右侧）。</li>
+</ol>
+<pre><code class="hljs">// C++ Version
+const int N = 100010;
+const int W = 100010;
+
+int n, w, a[N], cnt[W], b[N];
+
+void counting_sort() &#123;
+  memset(cnt, 0, sizeof(cnt));
+  for (int i = 1; i &lt;= n; ++i) ++cnt[a[i]];
+  for (int i = 1; i &lt;= w; ++i) cnt[i] += cnt[i - 1];
+  for (int i = n; i &gt;= 1; --i) b[cnt[a[i]]--] = a[i];
+&#125;
+</code></pre>
+<hr>
+<h2 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h2><p>它的工作原理是将待排序的元素拆分为 \(k\) 个关键字（比较两个元素时，先比较第一关键字，如果相同再比较第二关键字……），然后先对第 \(k\) 关键字进行稳定排序，再对第 \((k-1)\) 关键字进行稳定排序，再对第 \((k-2)\) 关键字进行稳定排序……最后对第一关键字进行稳定排序，这样就完成了对整个待排序序列的稳定排序。</p>
+<p>&#x3D;&#x3D;基数排序需要借助一种 <strong>稳定算法</strong> 完成内层对关键字的排序。&#x3D;&#x3D;</p>
+<pre><code class="hljs">/* 基数排序
+ * 假设所有数都是非负的整数, 关键字的排序使用计数排序
+ */
+
+#include &lt;algorithm&gt;
+#include &lt;iostream&gt;
+#include &lt;iterator&gt;
+#include &lt;vector&gt;
+
+void counting_sort(std::vector&lt;unsigned int&gt; &amp;arr, unsigned int mod) &#123;
+  int len = arr.size();
+  std::vector&lt;unsigned int&gt; cnt(10, 0);
+  std::vector&lt;unsigned int&gt; tmp_arr(len, 0);
+  // 计数
+  for (auto n : arr) &#123;
+    ++cnt[(n / mod) % 10];
+  &#125;
+  // 求cnt前缀和
+  for (int i = 1; i &lt; cnt.size(); ++i) &#123;
+    cnt[i] += cnt[i - 1];
+  &#125;
+  // 自右向左排序
+  for (int i = len - 1; i &gt;= 0; --i) &#123;
+    int key = (arr[i] / mod) % 10;
+    tmp_arr[cnt[key] - 1] = arr[i];
+    --cnt[key];
+  &#125;
+  arr = tmp_arr;
+&#125;
+
+void radix_sort(std::vector&lt;unsigned int&gt; &amp;arr) &#123;
+  unsigned int max_num = *std::max_element(arr.begin(), arr.end());
+  // 取出最大的数用于判断关键字数量，按关键字(0-9)排序，其余较短数字缺位补0
+  // 此处关键字比较顺序是从个位开始，向高位比较
+  for (unsigned int mod = 1; max_num / mod &gt; 0; mod *= 10) &#123;
+    counting_sort(arr, mod);
+  &#125;
+&#125;
+
+int main() &#123;
+  std::vector&lt;unsigned int&gt; arr = &#123;53,  3,  542, 748, 14, 214,
+                                   154, 14, 63,  616, 589&#125;;
+  radix_sort(arr);
+  std::copy(arr.begin(), arr.end(),
+            std::ostream_iterator&lt;unsigned int&gt;(std::cout, &quot; &quot;));
+  return 0;
+&#125;
+</code></pre>
+<hr>
+<h2 id="桶排序"><a href="#桶排序" class="headerlink" title="桶排序"></a>桶排序</h2><p>工作的原理是将数组分到有限数量的桶里，每个桶再各自排序（配合其它排序算法），步骤如下：</p>
+<ol>
+<li>设置一个定量的数组当作空桶。</li>
+<li>寻访序列，并且把项目逐个放到对应的桶内。</li>
+<li>对每个非空桶进行排序。</li>
+<li>合并所有非空桶内数据，还原成有序序列。</li>
+</ol>
+<p>[ <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%A1%B6%E6%8E%92%E5%BA%8F">桶排序 - 维基百科</a> ] 这里有基于链表的桶排序实现。</p>
+<pre><code class="hljs">// 假设只有10个桶，数字范围是[0, 99]
+const int NUM_BUCKETS = 10;
+
+template &lt;typename T = int&gt;
+void _insertion_sort(std::vector&lt;T&gt; &amp;arr) &#123;
+  int len = arr.size();
+  if (len &lt;= 1) return;
+  for (int i = 1; i &lt; len; ++i) &#123;
+    for (int j = i; j &gt;= 1 &amp;&amp; arr[j] &lt; arr[j - 1]; --j) &#123;
+      std::swap(arr[j], arr[j - 1]);
+    &#125;
+  &#125;
+&#125;
+
+template &lt;typename T = int&gt;
+void bucket_sort(std::vector&lt;T&gt; &amp;arr, int low, int high) &#123;
+  // 元素分桶
+  std::vector&lt;std::vector&lt;T&gt;&gt; buckets(NUM_BUCKETS, std::vector&lt;T&gt;&#123;&#125;);
+  for (auto n : arr) &#123;
+    int idx = n / NUM_BUCKETS;
+    buckets.at(idx).push_back(n);
+  &#125;
+  // 桶内排序, 同时合并结果
+  int k = 0;
+  for (int i = 0; i &lt; NUM_BUCKETS; ++i) &#123;
+    _insertion_sort(buckets.at(i));
+    for (auto n : buckets.at(i)) &#123;
+      arr[k++] = n;
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-chain-item">学习笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%AE%97%E6%B3%95/" class="print-no-link">#算法</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>排序算法</div>
+      <div>https://orion-wyc.github.io/2022/05/18/2022-05-18-排序算法/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Yuchen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年5月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/05/21/2022-05-21-%E4%BB%8E%E5%B0%8F%E7%88%B1%E5%88%B7%E9%A2%98/" title="从小爱刷题！">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">从小爱刷题！</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/22/2022-04-22-C%E7%9F%A5%E8%AF%86%E7%82%B9%E5%B0%8F%E7%BB%93/" title="C++知识点小结">
+                        <span class="hidden-mobile">C++知识点小结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="" target="_blank" rel="nofollow noopener"><span>Yuchen</span></a> <i class="iconfont icon-love"></i> <a href="" target="_blank" rel="nofollow noopener"><span>NoCookEatMcDonald's</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
