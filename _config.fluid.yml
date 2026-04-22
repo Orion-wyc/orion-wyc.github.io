@@ -211,7 +211,7 @@ post:
     specific: false
     engine: katex
   mermaid:
-    enable: false
+    enable: true
     specific: false
   comments:
     enable: false
