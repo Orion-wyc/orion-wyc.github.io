@@ -311,3 +311,8 @@ static_prefix:
   busuanzi: https://busuanzi.ibruce.info/busuanzi/2.3/
   clipboard: https://cdn.staticfile.org/clipboard.js/2.0.6/
   mermaid: https://cdn.staticfile.org/mermaid/8.14.0/
+
+#---------------------------
+# 自定义样式
+# 通过 scripts/injector.js 注入 /css/custom.css
+#---------------------------

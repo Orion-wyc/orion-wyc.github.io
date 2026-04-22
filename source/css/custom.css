@@ -1,0 +1,50 @@
+/* 文章页正文加宽，保留单侧目录栏 */
+
+@media (min-width: 992px) {
+  main > .container-fluid.nopadding-x > .row.nomargin-x {
+    max-width: min(96vw, 1680px);
+    margin-left: auto !important;
+    margin-right: auto !important;
+    justify-content: center;
+  }
+
+  main > .container-fluid.nopadding-x > .row.nomargin-x > .side-col:not(:has(.sidebar)) {
+    display: none !important;
+  }
+
+  main > .container-fluid.nopadding-x > .row.nomargin-x > .side-col:has(.sidebar) {
+    flex: 0 0 280px;
+    max-width: 280px;
+  }
+
+  main > .container-fluid.nopadding-x > .row.nomargin-x:has(> .side-col .sidebar) > .col-lg-8.nopadding-x-md {
+    flex: 0 1 min(1180px, calc(100% - 280px));
+    max-width: min(1180px, calc(100% - 280px));
+  }
+
+  main > .container-fluid.nopadding-x > .row.nomargin-x:not(:has(> .side-col .sidebar)) > .col-lg-8.nopadding-x-md {
+    flex: 0 1 min(1240px, 100%);
+    max-width: min(1240px, 100%);
+  }
+
+  main #board-ctn.container {
+    max-width: 100% !important;
+  }
+
+  main .post-content.mx-auto {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+.post-content {
+  padding-left: clamp(1.25rem, 3vw, 2.5rem) !important;
+  padding-right: clamp(1.25rem, 3vw, 2.5rem) !important;
+}
+
+@media (max-width: 767px) {
+  .post-content {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
