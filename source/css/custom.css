@@ -49,14 +49,17 @@
   }
 }
 
-/* Mermaid 图表优化：减少空白，允许横向滚动 */
+/* Mermaid 图表优化：支持横向和纵向滚动 */
 
 .markdown-body pre:has(.mermaid) {
   padding: 0.75rem 0.5rem !important;
   margin: 0.5rem 0 !important;
   overflow-x: auto;
-  overflow-y: hidden;
+  overflow-y: auto;
   background-color: var(--board-bg-color) !important;
+  max-height: 800px;
+  border: 1px solid var(--post-text-color);
+  border-radius: 4px;
 }
 
 .markdown-body pre .mermaid {
@@ -70,16 +73,17 @@
   width: auto;
   max-width: none;
   height: auto;
-  max-height: 600px;
+  max-height: none;
   display: inline-block;
 }
 
 @media (max-width: 767px) {
   .markdown-body pre:has(.mermaid) {
     padding: 0.5rem 0.25rem !important;
+    max-height: 500px;
   }
   
   .markdown-body pre .mermaid > svg {
-    max-height: 400px;
+    max-height: none;
   }
 }
