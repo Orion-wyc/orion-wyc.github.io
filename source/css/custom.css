@@ -87,3 +87,43 @@
     max-height: none;
   }
 }
+
+/* TOC 标题显示优化：支持长标题换行，避免折叠问题 */
+
+.toc-list-item {
+  padding: 0.1rem 0;
+  display: block;
+  overflow: visible;
+  text-overflow: unset;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.tocbot-link {
+  display: inline;
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* 确保 TOC 容器有足够宽度显示长标题 */
+#toc-body {
+  min-width: 200px;
+  max-width: 100%;
+}
+
+/* TOC 折叠状态优化：确保展开状态正确显示 */
+.tocbot-is-collapsed {
+  max-height: 0;
+  overflow: hidden;
+}
+
+.tocbot-is-collapsible {
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+
+/* TOC 非折叠状态：确保有足够高度 */
+.tocbot-is-collapsible:not(.tocbot-is-collapsed) {
+  max-height: none;
+  overflow: visible;
+}
