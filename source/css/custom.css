@@ -61,8 +61,8 @@
   align-items: center;
   gap: 4px;
   padding: 6px 10px;
-  background: var(--board-bg-color);
-  border: 1px solid var(--line-color);
+  background: var(--board-bg-color, #fff);
+  border: 1px solid var(--line-color, #e1e4e8);
   border-bottom: none;
   border-radius: 4px 4px 0 0;
   flex-wrap: wrap;
@@ -75,10 +75,10 @@
   min-width: 28px;
   height: 28px;
   padding: 0 8px;
-  border: 1px solid var(--line-color);
+  border: 1px solid var(--line-color, #e1e4e8);
   border-radius: 4px;
-  background: var(--board-bg-color);
-  color: var(--text-color);
+  background: var(--board-bg-color, #fff);
+  color: var(--text-color, #24292e);
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 12px;
@@ -88,9 +88,9 @@
 }
 
 .mermaid-toolbar-btn:hover {
-  background: var(--post-link-color);
+  background: var(--post-link-color, #0366d6);
   color: #fff;
-  border-color: var(--post-link-color);
+  border-color: var(--post-link-color, #0366d6);
 }
 
 .mermaid-toolbar-btn:active {
@@ -102,7 +102,7 @@
   min-width: 52px;
   padding: 4px 8px;
   font-size: 12px;
-  color: var(--sec-text-color);
+  color: var(--sec-text-color, #6a737d);
   background: rgba(0, 0, 0, 0.05);
   border-radius: 4px;
   text-align: center;
@@ -114,9 +114,9 @@
   margin: 0 !important;
   overflow-x: auto;
   overflow-y: auto;
-  background-color: var(--board-bg-color) !important;
+  background-color: var(--board-bg-color, #fff) !important;
   max-height: 600px;
-  border: 1px solid var(--line-color);
+  border: 1px solid var(--line-color, #e1e4e8);
   border-radius: 0 0 4px 4px;
   cursor: grab;
   position: relative;
