@@ -7,3 +7,9 @@ hexo.extend.injector.register(
   '<link rel="stylesheet" href="/css/custom.css">',
   'default'
 );
+
+hexo.extend.injector.register(
+  'body_end',
+  '<script src="/js/mermaid-viewer.js"></script>',
+  'default'
+);

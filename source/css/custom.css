@@ -49,17 +49,81 @@
   }
 }
 
-/* Mermaid 图表优化：支持横向和纵向滚动 */
+/* Mermaid 图表查看器：工具栏 + 交互功能 */
+
+.mermaid-viewer-wrapper {
+  position: relative;
+  margin: 0.5rem 0;
+}
+
+.mermaid-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  background: var(--board-bg-color);
+  border: 1px solid var(--line-color);
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  flex-wrap: wrap;
+}
+
+.mermaid-toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid var(--line-color);
+  border-radius: 4px;
+  background: var(--board-bg-color);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 12px;
+  font-family: inherit;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.mermaid-toolbar-btn:hover {
+  background: var(--post-link-color);
+  color: #fff;
+  border-color: var(--post-link-color);
+}
+
+.mermaid-toolbar-btn:active {
+  transform: scale(0.95);
+}
+
+.mermaid-scale-display {
+  margin-left: auto;
+  min-width: 52px;
+  padding: 4px 8px;
+  font-size: 12px;
+  color: var(--sec-text-color);
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  text-align: center;
+  white-space: nowrap;
+}
 
 .markdown-body pre:has(.mermaid) {
   padding: 0.75rem 0.5rem !important;
-  margin: 0.5rem 0 !important;
+  margin: 0 !important;
   overflow-x: auto;
   overflow-y: auto;
   background-color: var(--board-bg-color) !important;
-  max-height: 800px;
-  border: 1px solid var(--post-text-color);
-  border-radius: 4px;
+  max-height: 600px;
+  border: 1px solid var(--line-color);
+  border-radius: 0 0 4px 4px;
+  cursor: grab;
+  position: relative;
+}
+
+.markdown-body pre.mermaid-dragging {
+  cursor: grabbing;
 }
 
 .markdown-body pre .mermaid {
@@ -75,16 +139,48 @@
   height: auto;
   max-height: none;
   display: inline-block;
+  transition: transform 0.15s ease;
 }
 
+/* 复制成功提示 */
+.mermaid-copy-toast {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.mermaid-copy-toast.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* 响应式 */
 @media (max-width: 767px) {
-  .markdown-body pre:has(.mermaid) {
-    padding: 0.5rem 0.25rem !important;
-    max-height: 500px;
+  .mermaid-toolbar {
+    padding: 4px 6px;
+    gap: 2px;
   }
   
-  .markdown-body pre .mermaid > svg {
-    max-height: none;
+  .mermaid-toolbar-btn {
+    min-width: 24px;
+    height: 24px;
+    font-size: 12px;
+    padding: 0 6px;
+  }
+  
+  .markdown-body pre:has(.mermaid) {
+    padding: 0.5rem 0.25rem !important;
+    max-height: 400px;
   }
 }
 
