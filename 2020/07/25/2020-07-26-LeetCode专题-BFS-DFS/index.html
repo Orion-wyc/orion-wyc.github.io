@@ -1,0 +1,2668 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Yuchen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="LeetCode BFS + DFS代码规范 TIPS：没有看Java的输入输出如何写，晚点补上。不写main函数。  STL专题 map用法总结（整理1）（整理2）  vector用法总结（整理1）  string用法大全（length() substring() substr()）    1.两数之和 HashMap class Solution &amp;#123;     public int[]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode专题 BFS DFS">
+<meta property="og:url" content="https://orion-wyc.github.io/2020/07/25/2020-07-26-LeetCode%E4%B8%93%E9%A2%98-BFS-DFS/index.html">
+<meta property="og:site_name" content="Yuchen&#39;s Blog">
+<meta property="og:description" content="LeetCode BFS + DFS代码规范 TIPS：没有看Java的输入输出如何写，晚点补上。不写main函数。  STL专题 map用法总结（整理1）（整理2）  vector用法总结（整理1）  string用法大全（length() substring() substr()）    1.两数之和 HashMap class Solution &amp;#123;     public int[]">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-25T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-05-10T15:47:14.088Z">
+<meta property="article:author" content="Yuchen">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>LeetCode专题 BFS DFS - Yuchen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"orion-wyc.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="/css/custom.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Yuchen&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="LeetCode专题 BFS DFS"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-07-26 00:00" pubdate>
+          2020年7月26日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          35k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          292 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">LeetCode专题 BFS DFS</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="LeetCode-BFS-DFS"><a href="#LeetCode-BFS-DFS" class="headerlink" title="LeetCode BFS + DFS"></a>LeetCode BFS + DFS</h1><p><strong>代码规范</strong></p>
+<p><strong>TIPS：没有看Java的输入输出如何写，晚点补上。不写main函数。</strong></p>
+<hr>
+<h2 id="STL专题"><a href="#STL专题" class="headerlink" title="STL专题"></a>STL专题</h2><ul>
+<li><p>map用法总结（<a target="_blank" rel="noopener" href="https://blog.csdn.net/sevenjoin/article/details/81943864">整理1</a>）（<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tangyikejun/p/4220316.html">整理2</a>）</p>
+</li>
+<li><p>vector用法总结（<a target="_blank" rel="noopener" href="https://www.cnblogs.com/mr-wid/archive/2013/01/22/2871105.html">整理1</a>）</p>
+</li>
+<li><p>string用法大全（length() substring() substr()）</p>
+</li>
+</ul>
+<hr>
+<p>1.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/two-sum/">两数之和</a></p>
+<p>HashMap</p>
+<pre><code class="hljs">class Solution &#123;
+    public int[] twoSum(int[] nums, int target) &#123;
+        Map&lt;Integer, Integer&gt; map = new HashMap&lt;&gt;();
+        for(int i=0;i&lt;nums.length;i++)
+            map.put(nums[i],i);
+        for(int i=0;i&lt;nums.length;i++)&#123;
+            Integer v = map.get(target - nums[i]);
+            if(v!=(Integer)i &amp;&amp; v!=null)
+                return new int[]&#123;i,v&#125;;//也可以采用遍历一次Map的方法
+        &#125;
+        return null;
+    &#125;
+&#125;
+
+
+class Solution &#123;
+public:
+    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) &#123;
+        vector&lt;int&gt; ans(2,-1);
+        map&lt;int, int&gt; num_map;
+        for(int i=0;i&lt;nums.size();i++)&#123;
+            if(num_map.count(target - nums[i]) == 1)&#123;
+                ans[0] = num_map[target-nums[i]];
+                ans[1] = i;
+                break;
+            &#125;
+            num_map.insert(pair&lt;int, int&gt;(nums[i],i));
+        &#125;
+        return ans;
+    &#125;
+&#125;;
+</code></pre>
+<p>7.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/reverse-integer/">整数反转</a></p>
+<p>注意数据的范围，反转之后会超过int_32，使用long不溢出，Java中使用的是 truncate 除法：</p>
+<p>a&#x3D;b*q +r，其中 |r|&lt;|a|。因此 r 有两个选择，一个为正，一个为负;相应的，q 也有两个选择。如果a、b 都是正数的话，那么一般的编程语言中，r 为正数；或者如果 a、b 都是负数的话，一般 r 为负数。但是如果 a、b 一正一负的话，不同的语言则会根据除法的不同结果而使得 r 的结果也不同，但是一般 r 的计算方法都会满足：r&#x3D;a-(a&#x2F;b)*b</p>
+<pre><code class="hljs">class Solution &#123;
+    public int reverse(int x) &#123;
+        long ans = 0;
+        while(x!=0)&#123;
+            ans = ans*10 + x%10; 
+            x /=10;
+        &#125;
+        int A = (int)Math.pow(2,31);
+        if(ans &gt;= -A &amp;&amp; ans &lt;= A-1)
+            return (int)ans;
+        else 
+            return 0;
+    &#125;
+&#125;
+
+
+class Solution &#123;
+public:
+    int reverse(int x) &#123;
+        //cout&lt;&lt; (-11%3)endl;-2147483648
+        const int MAX_INT = 2147483647;
+        const int MIN_INT = -2147483648;
+        int ans = 0;
+        while(x!=0)&#123;
+            int p = x%10; //求x最低位数字
+            //每次对ans乘以10，当ans位数小于MAX_INT/MIN_INT时，一定不溢出；
+            //当ans位数与MAX_INT/MIN_INT相同时，需要考虑最后一位是否大于7或小于-8.
+            if(ans &gt; MAX_INT/10 || (ans == MAX_INT/10 &amp;&amp; p &gt; 7))&#123;
+                return 0;
+            &#125;
+            if(ans &lt; MIN_INT/10 || (ans == MIN_INT/10 &amp; p &lt; -8))&#123;
+                return 0;
+            &#125;
+            ans = ans*10 + p;
+            x /= 10;
+        &#125;
+        return ans;
+    &#125;
+&#125;;
+</code></pre>
+<p>9.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/palindrome-number/">回文数</a></p>
+<pre><code class="hljs">//其实在T7中给出了计算回文串的一种方式，回文串一定不会溢出
+class Solution &#123;
+    public boolean isPalindrome(int x) &#123;
+        if(x&lt;0)
+            return false;
+        long num = 0;
+        long xx = x;
+        while(xx!=0)&#123;
+            num = num*10 + xx%10;
+            xx /= 10;
+        &#125;
+        if(x == num)
+            return true;
+        else 
+            return false;
+    &#125;
+&#125;
+
+
+class Solution &#123;
+public:
+    bool isPalindrome(int x) &#123;
+        string s = to_string(x);
+        string r = to_string(x);
+        reverse(s.begin(),s.end());
+        if(s==r)
+            return true;
+        else 
+            return false;
+    &#125;
+&#125;;
+
+
+//反转一半的情况
+class Solution &#123;
+public:
+    bool isPalindrome(int x) &#123;
+        /* 判断特殊情况
+         * 情况1:负数  情况2:末尾有0的整数,反转后前缀0没了,满足条件的只有0
+         */
+        if(x&lt;0 || (x%10==0 &amp;&amp; x!=0))&#123;
+            return false;
+        &#125;
+        //为了防止溢出,反转一半的数字
+        //int len = 0;这里不需要求出长度,数字对半分之后可以比较出大小
+        int half = 0;
+        while(x &gt; half)&#123;
+            int tmp = x%10;
+            half = half*10 + tmp;
+            x /= 10;
+        &#125;
+        //此处考虑了数字长度为奇数或偶数的情况
+        return x==half || x==(half/10);
+    &#125;
+&#125;;
+</code></pre>
+<p>13.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/roman-to-integer/">罗马数字转整数</a></p>
+<p>这道题目学习到了Map的优雅的初始化方式和罗马数字的计数规则。</p>
+<p>罗马数字是阿拉伯数字传入之前使用的一种数码。罗马数字采用七个罗马字母作数字、即Ⅰ（1）、X（10）、C（100）、M（1000）、V（5）、L（50）、D（500）。记数的方法：</p>
+<pre><code class="hljs">https://www.douban.com/note/335254352/
+相同的数字连写，所表示的数等于这些数字相加得到的数，如 Ⅲ=3；
+小的数字在大的数字的右边，所表示的数等于这些数字相加得到的数，如 Ⅷ=8、Ⅻ=12；
+小的数字（限于 Ⅰ、X 和 C）在大的数字的左边，所表示的数等于大数减小数得到的数，如 Ⅳ=4、Ⅸ=9；
+在一个数的上面画一条横线，表示这个数增值 1,000 倍，如V(上面一横) = 5000。
+
+
+Map&lt;String, Object&gt; map = new HashMap&lt;String, Object&gt;() &#123;//第二个&quot;&lt;&gt;&quot;内的内容不可以缺少
+    　　&#123;
+        　　put(&quot;name&quot;, &quot;June&quot;);  
+       　　 put(&quot;age&quot;, 12);  
+    　　&#125;
+　　&#125;; 　
+　　/*外层的一组“&#123;&#125;”表示的是一个匿名类，内层的一对“&#123;&#125;”表示的是实例初始化块，然后这边还有一点需要明白，实例初始化块的代码在编译器编译过后，是放在类的构造函数里面的，并且是在原构造函数代码的前面。&quot;*/
+
+
+class Solution &#123;
+    public int romanToInt(String s) &#123;
+        Map&lt;Character, Integer&gt; map = new HashMap&lt;Character, Integer&gt;()&#123;
+            &#123;
+                put(&#39;I&#39;,1); 
+                put(&#39;V&#39;,5);
+                put(&#39;X&#39;,10);
+                put(&#39;L&#39;,50);
+                put(&#39;C&#39;,100);
+                put(&#39;D&#39;,500);
+                put(&#39;M&#39;,1000);
+            &#125;
+        &#125;;//一开始这里出错了，没有用Character类而用的String类，指针异常
+        int last = 0;
+        int curr = 0;
+        int ans = 0;
+        for(int i=0;i&lt;s.length();i++)&#123; 
+            curr = map.get(s.charAt(i));
+            if(curr &gt; last)
+                ans = ans - 2*last;
+            ans += curr;
+            last = curr;
+        &#125;
+        return ans;
+    &#125;
+&#125;
+
+
+//C++ version
+class Solution &#123;
+public:
+    int romanToInt(string s) &#123;
+        map&lt;char, int&gt; mp&#123;
+            &#123;&#39;I&#39;,1&#125;,
+            &#123;&#39;V&#39;,5&#125;,
+            &#123;&#39;X&#39;,10&#125;,
+            &#123;&#39;L&#39;,50&#125;,
+            &#123;&#39;C&#39;,100&#125;,
+            &#123;&#39;D&#39;,500&#125;,
+            &#123;&#39;M&#39;,1000&#125;
+        &#125;;
+        int ans = 0;
+        int pre = 0; //存储上一位罗马数字
+        int cur = 0; //存储当前的罗马数字，与上一位比较大小，若小于直接相加，大于则减去2*pre
+        for(int i=0;i&lt;s.length();i++)&#123;
+            cur = mp[s[i]];
+            if(i &gt; 0 &amp;&amp; cur &gt; pre)&#123;
+                ans -= 2*pre;
+            &#125;
+            ans += cur;
+            pre = cur;
+        &#125;
+        return ans;
+    &#125;
+&#125;;
+
+
+class Solution &#123; //低效
+public:
+    int romanToInt(string s) &#123;
+        map&lt;string, int&gt; num;
+        num.insert(map&lt;string, int&gt;::value_type(&quot;I&quot;, 1));
+        num.insert(map&lt;string, int&gt;::value_type(&quot;IV&quot;, 4));
+        num.insert(map&lt;string, int&gt;::value_type(&quot;V&quot;, 5));
+        num.insert(map&lt;string, int&gt;::value_type(&quot;IX&quot;, 9));
+        num.insert(map&lt;string, int&gt;::value_type(&quot;X&quot;, 10));
+        num.insert(map&lt;string, int&gt;::value_type(&quot;XL&quot;, 40));
+        num.insert(map&lt;string, int&gt;::value_type(&quot;L&quot;, 50));
+        num.insert(map&lt;string, int&gt;::value_type(&quot;XC&quot;, 90));
+        num.insert(map&lt;string, int&gt;::value_type(&quot;C&quot;, 100));
+        num.insert(map&lt;string, int&gt;::value_type(&quot;CD&quot;, 400));
+        num.insert(map&lt;string, int&gt;::value_type(&quot;D&quot;, 500));
+        num.insert(map&lt;string, int&gt;::value_type(&quot;CM&quot;, 900));
+        num.insert(map&lt;string, int&gt;::value_type(&quot;M&quot;, 1000));
+
+        int len = s.length();
+        int ans = 0;
+        for(int i=0;i&lt;len;i++)&#123;
+            if(i&lt;len-1 &amp;&amp; num.count(s.substr(i,2)) &gt; 0) &#123;
+                ans += num[s.substr(i,2)];
+                i++;
+            &#125;
+            else &#123;
+                ans += num[s.substr(i,1)];
+            &#125;
+        &#125;
+        return ans;
+    &#125;
+&#125;;
+</code></pre>
+<p>14.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/longest-common-prefix/">最长公共前缀</a></p>
+<p>大概有这五种思路, 一般都会采用第四种, 但是耗时太多</p>
+<p>1、所求的最长公共前缀子串一定是每个字符串的前缀子串。所以随便选择一个字符串作为标准，把它的前缀串，与其他所有字符串进行判断，看是否是它们所有人的前缀子串。这里的时间性能是O(m <em>n</em> m)。</p>
+<p>2、列出所有的字符串的前缀子串，将它们合并后排序，找出其中个数为n且最长的子串。时间性能为O(n <em>m+m</em> n <em>log(m</em> n))</p>
+<p>3、纵向扫描：从下标0开始，判断每一个字符串的下标0，判断是否全部相同。直到遇到不全部相同的下标。时间性能为O(n*m)。</p>
+<p>4、横向扫描：前两个字符串找公共子串，将其结果和第三个字符串找公共子串……直到最后一个串。时间性能为O(n*m)。</p>
+<p>5、借助trie字典树。将这些字符串存储到trie树中。那么trie树的第一个分叉口之前的单分支树的就是所求。</p>
+<pre><code class="hljs">class Solution &#123;
+    public String longestCommonPrefix(String[] strs) &#123;
+        int cnt = 0;
+        if(strs.length == 0)return &quot;&quot;;//居然有空的string数组
+        int maxlen = strs[0].length();
+        for(int l=1;l&lt;=maxlen;l++)&#123;
+            String prefix = strs[0].substring(0,l);
+            cnt = 0;
+            for(int i=1;i&lt;strs.length;i++)&#123;
+                if(strs[i].startsWith(prefix))&#123;
+                    cnt++;
+                &#125;           
+            &#125;
+            if(cnt!=strs.length-1)&#123;
+                if(l==1)
+                    return &quot;&quot;;
+                else 
+                    return prefix.substring(0,l-1);
+            &#125;
+            else&#123;
+                if(l==strs[0].length())&#123;
+                    return prefix.substring(0,l);
+                &#125;     
+            &#125;           
+        &#125;  
+        return &quot;&quot;;
+    &#125;
+&#125;
+
+
+class Solution &#123;
+public:
+    string longestCommonPrefix(vector&lt;string&gt;&amp; strs) &#123;
+        string ans = &quot;&quot;;
+        if(strs.size()==0)
+            return ans;
+        sort(strs.begin(),strs.end());
+        int LEN = 0x3f3f3f3f;
+        int CNT = strs.size();
+        for(int i=0;i&lt;CNT;i++)&#123;
+            if(strs[i].length() &lt; LEN)&#123;
+                LEN = strs[i].length();
+            &#125;
+        &#125;
+        for(int i=0;i&lt;LEN;i++)&#123;
+            if(strs[0][i]==strs[CNT-1][i])&#123;
+                ans += strs[0][i];
+            &#125;
+            else &#123;
+                break;
+            &#125;
+        &#125;
+        return ans;
+    &#125;
+&#125;;
+</code></pre>
+<p>20.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/valid-parentheses/">有效的括号</a></p>
+<pre><code class="hljs">class Solution &#123;//简单的堆栈应用
+    public boolean isValid(String s) &#123;
+        //Stack&lt;Character&gt; stk = new Stack&lt;&gt;();
+        Stack stk = new Stack();
+        if(s.length()%2==1)
+            return false;
+        if(s.length()==0)
+            return true;
+        //stk.push(s.charAt(0));
+        for(int i=0;i&lt;s.length();i++)&#123;
+            if(stk.empty())&#123;
+                stk.push(s.charAt(i));
+                continue;
+            &#125;
+            char c = (char)stk.peek();
+            if(s.charAt(i)==&#39;)&#39; &amp;&amp; c==&#39;(&#39; || s.charAt(i)==&#39;]&#39; &amp;&amp; c==&#39;[&#39; ||s.charAt(i)==&#39;&#125;&#39; &amp;&amp; c==&#39;&#123;&#39;)&#123;
+                stk.pop();
+            &#125;
+            else 
+                stk.push(s.charAt(i));
+        &#125;
+        if(stk.empty())
+            return true;
+        return false;
+    &#125;
+&#125;
+
+
+//巨慢无比124ms 但是短啊
+class Solution &#123;
+    public boolean isValid(String s) &#123;
+        if(s.length()%2==1)
+            return false;
+        if(s.length()==0)
+            return true;
+        while(s.indexOf(&quot;()&quot;)!=-1 || s.indexOf(&quot;[]&quot;)!=-1 || s.indexOf(&quot;&#123;&#125;&quot;)!=-1)&#123;
+            s=s.replaceAll(&quot;\\(\\)&quot;,&quot;&quot;);
+            s=s.replaceAll(&quot;\\[\\]&quot;,&quot;&quot;);
+            s=s.replaceAll(&quot;\\&#123;\\&#125;&quot;,&quot;&quot;);
+        &#125;
+        return s.length()==0;
+    &#125;
+&#125;
+
+
+//优秀的题解,使用数字来表示括号,判断条件好写
+class Solution &#123;
+public:
+    bool isValid(string s) &#123;
+        unordered_map&lt;char,int&gt; m&#123;&#123;'(',1&#125;,&#123;'[',2&#125;,&#123;'&#123;',3&#125;,
+                                    &#123;')',4&#125;,&#123;']',5&#125;,&#123;'&#125;',6&#125;&#125;;
+        stack&lt;char&gt; st;
+        bool istrue=true;
+        for(char c:s)&#123;
+            int flag=m[c];
+            if(flag&gt;=1&amp;&amp;flag&lt;=3) st.push(c);
+            else if(!st.empty()&amp;&amp;m[st.top()]==flag-3) st.pop();
+            else &#123;istrue=false;break;&#125;
+        &#125;
+        if(!st.empty()) istrue=false;
+        return istrue;
+    &#125;
+&#125;;
+
+
+//C++版,默认flag为true,去判断括号不匹配的情况
+//情况1:当前括号是右括号但是与栈顶的括号不匹配
+//情况2:当前括号是右括号但是栈空
+//情况3:括号串扫描结束，但栈中有多余的括号(奇数情况)
+class Solution &#123;
+public:
+    bool isValid(string s) &#123;
+        stack&lt;char&gt; st;
+        bool flag = true;
+        
+        if(s.length()==0)&#123;
+            return true;
+        &#125;
+        
+        for(int i=0;i&lt;s.length();i++)&#123;
+            if(s[i]==&#39;(&#39; || s[i]==&#39;[&#39; ||s[i]==&#39;&#123;&#39;)&#123;
+                st.push(s[i]);
+            &#125;
+            else &#123;
+                if(!st.empty())&#123;
+                    char c = st.top();
+                    st.pop();
+                    if((s[i]==&#39;)&#39;&amp;&amp;c==&#39;(&#39;) || (s[i]==&#39;]&#39;&amp;&amp;c==&#39;[&#39;) || (s[i]==&#39;&#125;&#39;&amp;&amp;c==&#39;&#123;&#39;))&#123;
+                        continue;
+                    &#125;
+                    else &#123;
+                        flag = false;
+                        break;
+                    &#125;
+                &#125;
+                else &#123;
+                    flag = false;
+                    break;
+                &#125;
+            &#125;
+        &#125;
+        
+        if(!st.empty())&#123;
+            flag = false;
+        &#125;  
+        
+        return flag;
+    &#125;
+&#125;;
+</code></pre>
+<p>21.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/merge-two-sorted-lists/">合并两个有序表</a></p>
+<pre><code class="hljs">/**
+ * Definition for singly-linked list.
+ * struct ListNode &#123;
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) &#123;
+        //合并不需要再申请空间，直接指针连接，返回结果为L-next.
+        ListNode* L = new ListNode(-1);
+        ListNode* p = L;
+        ListNode* p1 = l1;
+        ListNode* p2 = l2;
+        
+        while(p1!=NULL &amp;&amp; p2!=NULL)&#123;
+            if( p1-&gt;val &lt; p2-&gt;val)&#123;
+                p-&gt;next = p1;
+                p = p-&gt;next;
+                p1 = p1-&gt;next;
+            &#125;
+            else &#123;
+                p-&gt;next = p2;
+                p = p-&gt;next;
+                p2 = p2-&gt;next;
+            &#125;
+        &#125;
+        if(p1!=NULL)p-&gt;next = p1;
+        if(p2!=NULL)p-&gt;next = p2;
+
+        return L-&gt;next;
+    &#125;
+&#125;;
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode &#123;
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) &#123;&#125;
+ *     ListNode(int x) : val(x), next(nullptr) &#123;&#125;
+ *     ListNode(int x, ListNode *next) : val(x), next(next) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) &#123;
+        ListNode *p1 = l1; //链表l1的指针,指向第一个结点
+        ListNode *p2 = l2; //链表l2的指针,指向第一个结点
+        ListNode *L = new ListNode(); //合并后的链表头结点，分配空间
+        ListNode *p = L; //新链表的尾指针
+        while(p1!=nullptr &amp;&amp; p2!=nullptr)&#123;
+            if(p1-&gt;val &lt; p2-&gt;val)&#123;
+                p-&gt;next = p1;
+                p = p-&gt;next;
+                p1 = p1-&gt;next;
+            &#125;
+            else &#123;
+                p-&gt;next = p2;
+                p = p-&gt;next;
+                p2 = p2-&gt;next;
+            &#125;
+        &#125;
+
+        if(p1!=nullptr)&#123;
+            p-&gt;next = p1;
+            // p1 = p1-&gt;next;
+        &#125;
+        if(p2!=nullptr)&#123;
+            p-&gt;next = p2;
+            // p2 = p2-&gt;next;
+        &#125;
+
+        return L-&gt;next;
+    &#125;
+&#125;;
+</code></pre>
+<p>26.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/">删除数组中的重复项</a></p>
+<p>双指针法。</p>
+<pre><code class="hljs">class Solution &#123;
+public:
+    int removeDuplicates(vector&lt;int&gt;&amp; nums) &#123;
+        if(nums.size() == 0)
+            return 0;
+        //双指针(游标)法
+        int end = 0; //存储新数组的尾部
+        // int cur = 0; //当前遍历到的数字
+        for(int cur=0;cur&lt;nums.size();cur++)&#123;
+            if(nums[cur]!=nums[end])&#123;
+                end ++;
+                nums[end] = nums[cur];
+            &#125;
+        &#125;
+
+        return end+1;
+    &#125;
+&#125;;
+</code></pre>
+<p>27.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/remove-element/">移除元素</a></p>
+<pre><code class="hljs">class Solution &#123;
+public:
+    int removeElement(vector&lt;int&gt;&amp; nums, int val) &#123;
+        int i = 0;
+        for(int j=0;j&lt;nums.size();j++)&#123;
+            if(nums[j]!=val)&#123;
+                swap(nums[i],nums[j]);
+                i++;
+            &#125;
+        &#125;
+        return i;
+    &#125;
+&#125;;
+
+
+class Solution &#123;
+public:
+    int removeElement(vector&lt;int&gt;&amp; nums, int val) &#123;
+        // if(nums.size()==0)&#123;
+        //     return 0;
+        // &#125;
+        int end = 0; //存储新数组的最后一个元素的下标,插入到下一个位置
+        int cur = 0; //当前遍历到的元素下标
+        for(cur=0;cur&lt;nums.size();cur++)&#123;
+            if(nums[cur]!=val)&#123;
+                nums[end] = nums[cur];
+                end ++;
+            &#125;
+        &#125;
+        
+        return end;
+    &#125;
+&#125;;
+</code></pre>
+<p>35.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/search-insert-position/">搜索插入位置</a></p>
+<pre><code class="hljs">class Solution &#123;//本质上是一个二分查找的题目
+public:
+    int searchInsert(vector&lt;int&gt;&amp; nums, int target) &#123;
+        int l = 0;
+        int r = nums.size();
+        //使用[l,r)的二分写法，最后返回首个大于等于target的值的位置
+        while(l &lt; r)&#123;//区间[l,r)非空
+            int mid = l + (r - l)/2;
+            if(nums[mid] &gt;= target)&#123;
+                r = mid;
+            &#125; else &#123;
+                l = mid + 1;
+            &#125;
+        &#125;
+        return l;
+    &#125;
+&#125;;
+</code></pre>
+<p>38.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/count-and-say/submissions/">报数</a></p>
+<pre><code class="hljs">class Solution &#123;
+public:
+    void vec2str(string &amp;ans, const vector&lt;int&gt;&amp; nums)&#123;
+        
+        for(int i=0;i&lt;nums.size();i++)&#123;
+            ans += (char)(nums[i] + &#39;0&#39;);
+        &#125;
+    &#125; 
+    string countAndSay(int n) &#123;
+        vector&lt;int&gt; nums[30];
+        nums[0].push_back(1);
+        
+        for(int i=0;i&lt;n-1;i++)&#123;
+            int cnt = 0;
+            int val = nums[i][0];
+            for(int j=0;j&lt;nums[i].size();j++)&#123;
+                if(nums[i][j]==val)&#123;
+                    cnt++;
+                &#125;else&#123;
+                    nums[i+1].push_back(cnt);
+                    nums[i+1].push_back(val);
+                    val = nums[i][j];
+                    cnt = 1;
+                &#125;
+                if(j==nums[i].size()-1)&#123;
+                    nums[i+1].push_back(cnt);
+                    nums[i+1].push_back(val);
+                &#125;
+            &#125;
+        &#125;
+        string ans;
+        vec2str(ans,nums[n-1]);
+        return ans;
+    &#125;
+&#125;;
+
+
+//这个写法还不错
+class Solution &#123;
+public:
+    string countAndSay(int n) &#123;
+        string s = &quot;1&quot;;
+        for(int i=2;i&lt;=n;i++)&#123;
+            string tmp = &quot;&quot;;
+            int len = s.length();
+            int cnt = 1;
+            /*首个数字已经计数,下面的循环需要比较后一个数字与当前数字是否相同:
+              若相同,则计数+1,否则,按照规则将已统计的字符写入字符串,设置cnt为1,
+              此处的1表示的就是后一个字符重新开始计数,不设置为0。
+            */
+            for(int j=0;j&lt;len;j++)&#123;
+                if(j&lt;len-1 &amp;&amp; s[j]==s[j+1]) &#123;
+                    cnt ++;
+                &#125; 
+                else &#123;
+                    tmp += to_string(cnt) + s[j];
+                    cnt = 1; //这里计算的是后一个数字的数量
+                &#125;
+            &#125;
+            s = tmp;
+        &#125;
+        return s;
+    &#125;
+&#125;;
+
+
+class Solution &#123;
+public:
+    string countAndSay(int n) &#123;
+        string s = &quot;1&quot;;
+        for(int i=1;i&lt;n;i++)&#123;
+            string tmp = &quot;&quot;;
+            int len = s.length();
+            for(int j=0;j&lt;len;j++)&#123;
+                int cnt = 1;//这里注意是1
+                while(j&lt;len-1 &amp;&amp; s[j] == s[j+1])&#123;
+                    cnt++;
+                    j++;
+                &#125;
+                tmp += to_string(cnt)+s[j];
+            &#125;
+            s = tmp;
+        &#125;
+        return s;
+    &#125;
+&#125;;
+</code></pre>
+<p>53.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/maximum-subarray/">最大子序列和</a></p>
+<pre><code class="hljs">class Solution &#123; //O(n)的算法
+public:
+    typedef long long ll;
+    int maxSubArray(vector&lt;int&gt;&amp; nums) &#123;
+        if(nums.size()==0)&#123;
+            return 0;
+        &#125;
+        ll cur_sum = 0;
+        ll max_sum = nums[0];
+        for(int i=0;i&lt;nums.size();i++)&#123;
+            cur_sum += nums[i];
+            if(cur_sum &gt; max_sum)&#123;
+                max_sum = cur_sum;
+            &#125;
+            if(cur_sum &lt; 0)&#123;
+                cur_sum = 0;
+            &#125;
+        &#125;
+        return max_sum;
+    &#125;
+&#125;;
+
+
+//O(n)的算法,可返回最大和的区间下标,（未验证）
+class Solution &#123; 
+public:
+    typedef long long ll;
+    int maxSubArray(vector&lt;int&gt;&amp; nums) &#123;
+        if(nums.size()==0)&#123;
+            return 0;
+        &#125;
+        ll cur_sum = 0;
+        ll max_sum = nums[0];
+        int max_l = 0, max_r = 0;
+        int cur_l = 0, cur_r = 0;
+        for(int i=0;i&lt;nums.size();i++)&#123;
+            cur_sum += nums[i];
+            cur_r = i;
+            if(cur_sum &gt; max_sum)&#123;
+                max_sum = cur_sum;
+                max_l = cur_l;
+                max_r = cur_r;
+            &#125;
+            if(cur_sum &lt; 0)&#123;
+                cur_sum = 0;
+                cur_l = i+1;
+                cur_r = i+1;
+            &#125;
+        &#125;
+        cout&lt;&lt; max_l &lt;&lt;&quot; &quot;&lt;&lt; max_r &lt;&lt; endl;
+        return max_sum;
+    &#125;
+&#125;;
+
+
+//1896 ms	7 MB
+class Solution &#123; //下面使用分治法来求解,精妙的方法
+public:
+    int maxPartitionSum(const vector&lt;int&gt;&amp; nums, int low, int high)&#123;
+        if(low==high)&#123;
+            return nums[low];
+        &#125;
+        int mid = low + (high - low) / 2;
+        int left_sum = maxPartitionSum(nums, low, mid);
+        int right_sum = maxPartitionSum(nums, mid+1, high);
+        //处理跨越中间的区间    
+        int mid_sum = 0;
+        int tmp_sum = 0;
+        int max_tmp_sum = nums[mid];
+        //处理左半区[0,mid]
+        for(int i=mid;i&gt;=0;i--)&#123;
+            tmp_sum += nums[i];
+            max_tmp_sum = max(max_tmp_sum, tmp_sum);
+        &#125;
+        mid_sum += max_tmp_sum;
+        //处理右半区[mid+1，high]
+        tmp_sum = 0;
+        max_tmp_sum = nums[mid+1];
+        for(int i=mid+1;i&lt;=high;i++)&#123;
+            tmp_sum += nums[i];
+            max_tmp_sum = max(max_tmp_sum, tmp_sum);
+        &#125;
+        mid_sum += max_tmp_sum;
+        return max(mid_sum, max(left_sum,right_sum));
+    &#125;
+
+    int maxSubArray(vector&lt;int&gt;&amp; nums) &#123;
+        if(nums.size()==0)
+            return 0;
+        //递归 分治 分别求左右子区间的最大和, 跨越中间连接的部分特殊处理.
+        return maxPartitionSum(nums, 0, nums.size()-1);
+    &#125;
+&#125;;
+</code></pre>
+<p>58.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/length-of-last-word/">最后一个单词的长度</a></p>
+<pre><code class="hljs">class Solution &#123;
+public:
+    int lengthOfLastWord(string s) &#123;
+        int ans = 0;
+        int len = s.length()-1;
+        while(len&gt;=0 &amp;&amp; s[len]==&#39; &#39;)&#123;
+                len --;
+        &#125;
+        if(s.length() == 0 || len == -1)&#123;
+            return 0;
+        &#125;
+        while(len&gt;=0 &amp;&amp; s[len]!=&#39; &#39;)&#123;
+            ans ++;
+            len --;
+        &#125;
+        return ans;
+    &#125;
+&#125;;
+</code></pre>
+<p>66.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/plus-one/">加一</a></p>
+<pre><code class="hljs">//可以考虑拓展为加减乘除
+class Solution &#123;
+public:
+    vector&lt;int&gt; plusOne(vector&lt;int&gt;&amp; digits) &#123;
+        digits[digits.size()-1] += 1;
+        for(int i=digits.size()-1;i&gt;=0;i--)&#123; 
+            int num = digits[i];
+            if(num/10!=0)&#123;
+                digits[i] = num % 10;
+                if(i&gt;=1)&#123;
+                    digits[i-1] += num/10; 
+                &#125;
+                else &#123;
+                    digits.insert(digits.begin(), num/10);
+                &#125;
+            &#125;
+            else &#123;
+                break;
+            &#125;
+        &#125;
+        return digits;
+    &#125;
+&#125;;
+</code></pre>
+<p>67.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/add-binary/">二进制求和</a></p>
+<pre><code class="hljs">class Solution &#123;
+public:
+    string addBinary(string a, string b) &#123;
+        string ans = &quot;&quot;; //感觉可以直接在a b上操作
+        int len_a = a.length()-1;
+        int len_b = b.length()-1;
+        bool carry = false;
+        while(len_a &gt;=0 &amp;&amp; len_b&gt;=0)&#123;
+            if(a[len_a]==&#39;1&#39; &amp;&amp; b[len_b]==&#39;1&#39;)&#123;//1+1
+                ans = carry ? (&quot;1&quot; + ans) : (&quot;0&quot; + ans);
+                carry = true;
+            &#125;else if(a[len_a]==&#39;0&#39; &amp;&amp; b[len_b]==&#39;0&#39;)&#123;//0+0
+                ans = carry ? (&quot;1&quot; + ans) : (&quot;0&quot; + ans);
+                carry = false;
+            &#125;else&#123;//1+0的11情况
+                ans = carry ? (&quot;0&quot; + ans) : (&quot;1&quot; + ans);
+                //carry do not change.
+            &#125;
+            len_a --;
+            len_b --;
+        &#125;
+        while(len_a &gt;=0)&#123;
+            if(a[len_a]==&#39;0&#39;)&#123;
+                ans = carry ? (&quot;1&quot; + ans) : (&quot;0&quot; + ans);
+                carry = false;
+            &#125;
+            else &#123;
+                ans = carry ? (&quot;0&quot; + ans) : (&quot;1&quot; + ans);
+                //carry do not change.
+            &#125;
+            len_a --;
+        &#125;
+        while(len_b &gt;=0)&#123;
+            if(b[len_b]==&#39;0&#39;)&#123;
+                ans = carry ? (&quot;1&quot; + ans) : (&quot;0&quot; + ans);
+                carry = false;
+            &#125;
+            else &#123;
+                ans = carry ? (&quot;0&quot; + ans) : (&quot;1&quot; + ans);
+                //carry do not change.
+            &#125;
+            len_b --;
+        &#125;
+        ans = carry ? (&quot;1&quot; + ans) : ans ;
+        return ans;
+    &#125;
+&#125;;
+
+
+//转化成数字看看就好hhh
+class Solution:
+    def addBinary(self, a, b) -&gt; str:
+        return &#39;&#123;0:b&#125;&#39;.format(int(a, 2) + int(b, 2))
+
+
+&#39;&#39;&#39;
+精妙的位运算方法
+A  B  ^  &amp;  +
+0  0  0  0  0+0=00
+0  1  1  0  0+1=01
+1  0  1  0  1+0=01
+1  1  0  1  1+1=10
+统一先计算^这样没有进位，然后统一把进位求出来，加进去。 这样可能还会有进位，所以就继续循环，直到没有进位。
+&#39;&#39;&#39;
+ class Solution:
+    def addBinary(self, a, b) -&gt; str:
+        x, y = int(a, 2), int(b, 2)
+        while y:
+            answer = x ^ y
+            carry = (x &amp; y) &lt;&lt; 1
+            x, y = answer, carry
+        return bin(x)[2:]
+</code></pre>
+<p>69.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/sqrtx/">x 的平方根</a></p>
+<pre><code class="hljs">class Solution &#123; //lower bound,二分给出的解是首个大于等于根号x的整数
+public:
+    int mySqrt(int x) &#123;
+        int l = 0, r = x;
+        while(l &lt; r)&#123; 
+            int mid = l + (r - l) / 2;
+            if( (long long) mid*mid &gt;= x)&#123; //这里防止溢出
+                r = mid;
+            &#125;else&#123;
+                l = mid + 1;
+            &#125;
+            cout&lt;&lt; l  &lt;&lt;&quot; &quot; &lt;&lt; r &lt;&lt;endl;
+        &#125;
+        //此处的二分法在[a,b)求得的结果为首个不小于sqrt(x)的整数
+        //可能解刚好是a,也可能是大于sqrt(x),所以最后需要判断一下。
+        return ((long long) l*l &gt; x) ? l-1 : l;
+    &#125;
+&#125;;
+
+
+class Solution &#123;//upper bound 二分给出的解是首个大于根号x的整数
+public:
+    int mySqrt(int x) &#123;
+        int l = 0, r = x;
+        while(l &lt; r)&#123; 
+            int mid = l + (r - l) / 2;
+            if( (long long) mid*mid &gt; x)&#123; //这里防止溢出
+                r = mid;
+            &#125;else&#123;
+                l = mid + 1;
+            &#125;
+            cout&lt;&lt; l  &lt;&lt;&quot; &quot; &lt;&lt; r &lt;&lt;endl;
+        &#125;
+        //此处的二分法在[a,b)求得的结果为首个大于sqrt(x)的整数
+        //可能解a一定大于正确解(0,1除外)sqrt(x),所以最后需要减去1,判特例
+        return (x == 0 || x == 1) ? x : l-1;
+    &#125;
+&#125;;
+
+
+class Solution &#123; 
+//试一下牛顿迭代法！！！ x_&#123;n+1&#125; = x_n - f(x_n)/f^&#39;(x_n) 
+public:
+    int mySqrt(int x) &#123;
+        if(x == 0)return 0;
+        double xi = x, C = x; //为什么float不行
+        while(true)&#123;
+            double xj = 0.5*(xi + C/xi);
+            if(fabs(xj - xi) &lt; 1e-6)&#123;
+                break;
+            &#125;
+            xi = xj;
+        &#125;
+        return int(xi);
+    &#125;
+&#125;;
+</code></pre>
+<p>70.爬楼梯</p>
+<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/climbing-stairs/solution/shu-xue-zuo-fa-jie-bu-ding-fang-cheng-pai-lie-zu-h/">我的傻瓜题解</a></p>
+<pre><code class="hljs">class Solution &#123; //一开始想到的方法
+public:
+//这个方法不是本题最优解，但是学习到了如何求组合数字
+    long long C(int m, int n)&#123; 
+        long long tmp = 1;
+        for(int i=1;i&lt;=m;i++)&#123;
+            tmp = tmp*(n-m+i)/i;
+        &#125;
+        return tmp;
+    &#125;
+    int climbStairs(int n) &#123;
+        int cnt = 0;
+        for(int x=0;x&lt;=n;x++)&#123;
+            int y = (n - x) / 2;
+            if(n == x + 2*y)&#123;
+                cnt += C(y,x+y);
+            &#125;
+        &#125;
+        return cnt;
+    &#125;
+&#125;;
+</code></pre>
+<p>动态规划常常适用于有<strong>重叠子问题和最优子结构</strong> 性质的问题，动态规划方法所耗时间往往远少于朴素解法。</p>
+<p>动态规划在查找有很多重叠子问题的情况的最优解时有效。它将问题重新组合成子问题。为了避免多次解决这些子问题，它们的结果都逐渐被计算并被保存，从简单的问题直到整个问题都被解决。因此，动态规划保存递归时的结果，因而不会在解决同样的问题时花费时间。</p>
+<p>动态规划只能应用于有最优子结构的问题。最优子结构的意思是局部最优解能决定全局最优解（对有些问题这个要求并不能完全满足，故有时需要引入一定的近似）。简单地说，问题能够分解成子问题来解决。</p>
+<pre><code class="hljs">class Solution &#123;//动态规划
+public:
+    int climbStairs(int n) &#123;
+        vector&lt;int&gt; dp(n+1);
+        dp[0] = 1;
+        dp[1] = dp[0];
+        for(int i=2;i&lt;=n;i++)&#123;
+            dp[i] = dp[i-1] + dp[i-2];
+        &#125;
+        return dp[n];
+    &#125;
+&#125;;
+
+
+//矩阵快速幂
+以后再说
+</code></pre>
+<p>83.删除排序链表中的重复元素</p>
+<pre><code class="hljs">/**
+ * Definition for singly-linked list.
+ * struct ListNode &#123;
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    ListNode* deleteDuplicates(ListNode* head) &#123;
+        if(head==nullptr)&#123;
+            return head;
+        &#125;
+        ListNode* p = head; //慢指针
+        ListNode* q = head-&gt;next; //快指针
+        while(p!=nullptr &amp;&amp; q!=nullptr)&#123;
+            if(p-&gt;val == q-&gt;val)&#123;
+                p-&gt;next = q-&gt;next;
+                ListNode* del = q;
+                q = q-&gt;next;
+                delete del;
+            &#125;else&#123;
+                p = p-&gt;next;
+                q = q-&gt;next;
+            &#125;
+        &#125;
+        return head;
+    &#125;
+&#125;;
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode &#123;
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;//尝试使用直接删除法
+public:
+    ListNode* deleteDuplicates(ListNode* head) &#123;
+        ListNode* p = head;
+        while(p!=nullptr &amp;&amp; p-&gt;next!=nullptr)&#123;
+            if(p-&gt;val==p-&gt;next-&gt;val)&#123;
+                ListNode* del = p-&gt;next;
+                p-&gt;next = p-&gt;next-&gt;next;
+                delete del;
+            &#125;else&#123;
+                p = p-&gt;next;
+            &#125;
+        &#125;
+        return head;
+    &#125;
+&#125;;
+</code></pre>
+<p>88.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/merge-sorted-array/">合并两个有序数组</a> ★</p>
+<pre><code class="hljs">class Solution &#123;
+//这题的特殊之处在于可反向考虑减少数组元素的移动
+//总数m+n从后往前一定不会覆盖未排序的nums1元素
+public:
+    void merge(vector&lt;int&gt;&amp; nums1, int m, vector&lt;int&gt;&amp; nums2, int n) &#123;
+        int tal = m + n - 1;
+        m --;
+        n --;
+        while(m&gt;=0 &amp;&amp; n&gt;=0)&#123;
+            nums1[tal--] = (nums1[m] &gt;= nums2[n]) ? nums1[m--] : nums2[n--];
+        &#125;
+        while(n&gt;=0)&#123;
+            nums1[tal--] = nums2[n--];
+        &#125;
+    &#125;
+&#125;;
+</code></pre>
+<p>100.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/same-tree/">相同的树</a> ★</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123; 
+public:
+    bool isSameTree(TreeNode* p, TreeNode* q) &#123;
+        if(p==NULL &amp;&amp; q==NULL)&#123;
+            return true;
+        &#125;
+        if((p!=NULL&amp;&amp;q==NULL) || (p==NULL&amp;&amp;q!=NULL) || (p-&gt;val!=q-&gt;val))&#123;
+            return false;
+        &#125;
+        //递归地判断左右子树
+        return isSameTree(p-&gt;left, q-&gt;left)&amp;&amp;isSameTree(p-&gt;right, q-&gt;right);
+        
+    &#125;
+&#125;;
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    int checkNode(TreeNode *p, TreeNode* q)&#123;
+        if(p==NULL &amp;&amp; q==NULL)&#123;
+            return 1;
+        &#125;
+        if((p!=NULL&amp;&amp;q==NULL) || (p==NULL&amp;&amp;q!=NULL) || (p-&gt;val!=q-&gt;val))&#123;
+            return 2;
+        &#125;
+        return 3;
+    &#125;
+    bool isSameTree(TreeNode* p, TreeNode* q) &#123;
+        queue&lt;TreeNode*&gt; que;
+        que.push(p);
+        que.push(q);//可以只用一个队列来存储两个结点
+        //BFS
+        while(!que.empty())&#123;
+            TreeNode* r = que.front();//由于只使用了一个队列，需要注意存取顺序对应
+            que.pop();
+            TreeNode* s = que.front();
+            que.pop();
+            switch(checkNode(r,s))&#123;
+                case 1:continue;
+                case 2:return false;
+                case 3:
+                    que.push(r-&gt;left);
+                    que.push(s-&gt;left);
+                    que.push(r-&gt;right);
+                    que.push(s-&gt;right);
+                default:break;
+            &#125;
+        &#125;
+        return true;
+    &#125;
+&#125;;
+</code></pre>
+<p>101.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/symmetric-tree/">对称二叉树</a></p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123; //本质上与上一题相同
+public:
+    bool check(TreeNode* p, TreeNode* q)&#123;
+        if(p==NULL &amp;&amp; q==NULL)&#123;
+            return true;
+        &#125;
+        if(p==NULL || q==NULL)&#123;
+            return false;
+        &#125;
+        if(p-&gt;val!=q-&gt;val)&#123;
+            return false;
+        &#125;
+        return check(p-&gt;left,q-&gt;right)&amp;&amp;check(p-&gt;right,q-&gt;left);
+    &#125;
+
+    bool isSymmetric(TreeNode* root) &#123;
+        if(root==NULL)&#123;
+            return true;
+        &#125;
+        return check(root-&gt;left, root-&gt;right);
+    &#125;
+&#125;;
+
+
+class Solution &#123;
+public:
+    bool check(TreeNode *p, TreeNode *q) &#123;
+        if (!p &amp;&amp; !q) return true;
+        if (!p || !q) return false;
+        return p-&gt;val == q-&gt;val &amp;&amp; check(p-&gt;left, q-&gt;right) &amp;&amp; check(p-&gt;right, q-&gt;left);
+    &#125;
+
+    bool isSymmetric(TreeNode* root) &#123;
+        return check(root, root);
+    &#125;
+&#125;;
+</code></pre>
+<p>104.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/">二叉树的最大深度</a></p>
+<p>递归形式的DFS</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;//首先想到的方法是DFS的递归写法
+public:
+    int calDepth(TreeNode* p, int depth)&#123;
+        if(p==NULL)&#123;
+            return depth;
+        &#125;
+        return max(calDepth(p-&gt;left,depth+1),calDepth(p-&gt;right,depth+1));
+        
+    &#125;
+
+    int maxDepth(TreeNode* root) &#123;
+        return calDepth(root,0); 
+    &#125;
+&#125;;
+</code></pre>
+<p>非递归DFS</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    int maxDepth(TreeNode* root) &#123;
+        stack&lt; pair&lt;TreeNode*, int&gt; &gt; st;
+        st.push(make_pair(root,0));
+        int max_depth = 0;//默认设置为0,根节点空
+        while(!st.empty())&#123;
+            pair&lt;TreeNode*, int&gt; t = st.top();
+            st.pop();
+            TreeNode* p = t.first;
+            int depth = t.second;
+            if(p!=NULL)&#123;
+                max_depth = max(max_depth, depth+1);
+                st.push(make_pair(p-&gt;right, depth+1));
+                st.push(make_pair(p-&gt;left, depth+1));
+            &#125;
+        &#125;
+        return max_depth; 
+    &#125;
+&#125;;
+</code></pre>
+<p>BFS</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    int maxDepth(TreeNode* root) &#123;
+        if(root==NULL)
+            return 0;
+        int depth = 0;
+        queue&lt;TreeNode*&gt; que;
+        que.push(root);
+        while(!que.empty())&#123;
+            depth ++; //能进入循环说明当前队列中保存了新的一层
+            int size = que.size();
+            for(int i=0;i&lt;size;i++)&#123;
+                TreeNode* p = que.front();
+                que.pop();
+                if(p-&gt;left!=NULL)&#123;
+                    que.push(p-&gt;left);
+                &#125;
+                if(p-&gt;right!=NULL)&#123;
+                    que.push(p-&gt;right);
+                &#125;
+            &#125;
+        &#125;
+        return depth; 
+    &#125;
+&#125;;
+</code></pre>
+<p>107.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/">二叉树的层次遍历 II</a></p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    vector&lt;vector&lt;int&gt;&gt; levelOrderBottom(TreeNode* root) &#123;
+        vector&lt; vector&lt;int&gt; &gt; ans;
+        if(root!=NULL)&#123;
+            queue&lt;TreeNode*&gt; que;
+            que.push(root);
+            while(!que.empty())&#123;
+                int size = que.size();
+                vector&lt;int&gt; tmp;
+                for(int i=0;i&lt;size;i++)&#123;
+                    TreeNode* p = que.front();
+                    que.pop();
+                    tmp.push_back(p-&gt;val);
+                    if(p-&gt;left!=NULL)&#123;
+                        que.push(p-&gt;left);
+                    &#125;
+                    if(p-&gt;right!=NULL)&#123;
+                        que.push(p-&gt;right);
+                    &#125;
+                &#125;
+                ans.push_back(tmp);
+            &#125;
+            reverse(ans.begin(),ans.end());
+        &#125;     
+        return ans;
+    &#125;
+&#125;;
+</code></pre>
+<p>108.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/convert-sorted-array-to-binary-search-tree/">将有序数组转换为二叉搜索树</a> ★</p>
+<p>有意思的题目，首先想到的分治法求解</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;//分治 递归
+public:
+    TreeNode* buildBST(const vector&lt;int&gt;&amp; nums, int l, int r)&#123;
+        if(l==r)&#123;
+            TreeNode* p = new TreeNode(nums[l]);
+            return p;
+        &#125;
+        if(l&gt;r)&#123;
+            return NULL;
+        &#125;
+        int mid = l + (r - l) / 2; 
+        TreeNode* parent = new TreeNode(nums[mid]);
+        parent-&gt;left = buildBST(nums,l,mid-1);
+        parent-&gt;right = buildBST(nums,mid+1,r);
+        return parent;
+    &#125;
+    TreeNode* sortedArrayToBST(vector&lt;int&gt;&amp; nums) &#123;
+        return buildBST(nums,0,nums.size()-1);
+    &#125;
+&#125;;
+
+
+//有没有其他写法明天再看
+</code></pre>
+<p>110.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/balanced-binary-tree/">平衡二叉树</a> ★</p>
+<p>这个版本写得非常之垃圾，最初的思路留在这里，纪念一下愚蠢的思路。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    int getHeightandCheck(TreeNode* p, bool &amp;flag)&#123;
+        if(p == NULL)&#123;
+           return 0;
+        &#125;
+        int left_height = getHeightandCheck(p-&gt;left,flag);
+        int right_height = getHeightandCheck(p-&gt;right,flag);
+        if(abs(left_height-right_height)&gt;1)&#123;
+            flag = false;
+        &#125;
+        return max(left_height, right_height) + 1;
+    &#125; 
+    bool isBalanced(TreeNode* root) &#123;
+        //if(root == NULL)&#123;
+        //    return true;
+        //&#125; 
+        bool flag = true;
+        getHeightandCheck(root,flag);
+        return flag;
+    &#125;
+&#125;;
+</code></pre>
+<p>自顶向下分别判断每个结点的左右子树高度，但是这一方法时间复杂度为\(o(nlogn)\)</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    int height(TreeNode* p)&#123;
+        if(p==NULL)&#123;
+            return 0;
+        &#125;
+        return max(height(p-&gt;left),height(p-&gt;right)) + 1;
+    &#125;
+    bool isBalanced(TreeNode* root) &#123;
+        if(root==NULL)&#123;
+            return true;
+        &#125;
+        return isBalanced(root-&gt;left) &amp;&amp; isBalanced(root-&gt;right) 
+               &amp;&amp; (abs(height(root-&gt;left) - height(root-&gt;right)) &lt;=1 );
+    &#125;
+&#125;;
+</code></pre>
+<p>111.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/">二叉树的最小深度</a></p>
+<p>最先想到的方法是BFS，遇到的首个叶子节点（左右孩子空）的深度。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    int minDepth(TreeNode* root) &#123;
+        if(root==NULL)&#123;
+            return 0;
+        &#125;
+        queue&lt;TreeNode*&gt; que;
+        que.push(root); 
+        int min_depth = 0;
+        bool flag_leaf = false;
+        while(!que.empty())&#123;
+            min_depth ++;
+            int size = que.size();
+            for(int i=0;i&lt;size;i++)&#123;
+                TreeNode* p = que.front();
+                que.pop();
+                if(p-&gt;left==NULL &amp;&amp; p-&gt;right==NULL)&#123;
+                    flag_leaf = true;
+                    break;
+                &#125;//这个if特殊判断当前结点是否是根结点，[1,2]的最小深度为2
+                if(p-&gt;left!=NULL)&#123;
+                    que.push(p-&gt;left);
+                &#125;
+                if(p-&gt;right!=NULL)&#123;
+                    que.push(p-&gt;right);
+                &#125;
+            &#125;
+            if(flag_leaf)&#123;
+                break;
+            &#125;
+        &#125;
+        return min_depth;
+    &#125;
+&#125;;
+</code></pre>
+<p>这个题目还可以使用DFS（递归）的方式。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    int minDepth(TreeNode* root) &#123;
+        if(root==NULL)&#123;//特例，根为空
+            return 0;
+        &#125;
+        if(root-&gt;left==NULL&amp;&amp;root-&gt;right==NULL)&#123;//特例，仅根
+            return 1;
+        &#125;
+        int min_depth = 0x3f3f3f3f;
+        if(root-&gt;left!=NULL)&#123;
+            min_depth = min(min_depth, minDepth(root-&gt;left));
+        &#125;
+        if(root-&gt;right!=NULL)&#123;
+            min_depth = min(min_depth, minDepth(root-&gt;right));
+        &#125;
+        return min_depth + 1;
+    &#125;
+&#125;;
+</code></pre>
+<p>比较闲，再写一遍DFS的非递归方式。</p>
+<pre><code class="hljs">//25号再写
+</code></pre>
+<p>112.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/path-sum/">路径总和</a></p>
+<p>递归的DFS。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    bool hasPathSum(TreeNode* root, int sum) &#123;
+        if(root==NULL)&#123;
+            return false;
+        &#125;
+        if(root-&gt;left==NULL &amp;&amp; root-&gt;right==NULL)&#123;
+            return sum - root-&gt;val == 0;
+        &#125;
+        return hasPathSum(root-&gt;left, sum - root-&gt;val) 
+                || hasPathSum(root-&gt;right, sum - root-&gt;val);
+    &#125;
+&#125;;
+</code></pre>
+<p>BFS，有正负应该怎么剪枝呢？</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    bool hasPathSum(TreeNode* root, int sum) &#123;
+        if(root==NULL)&#123;
+            return false;
+        &#125;
+        queue&lt; pair&lt;TreeNode*, int&gt; &gt; que;
+        que.push(make_pair(root,0));
+        while(!que.empty())&#123;
+            int size = que.size();
+            for(int i=0;i&lt;size;i++)&#123;
+                pair&lt;TreeNode*, int&gt; hp = que.front();
+                que.pop();
+                TreeNode* p = hp.first;
+                int tmp_sum = hp.second + p-&gt;val;
+                if(tmp_sum==sum &amp;&amp; p-&gt;left==NULL &amp;&amp; p-&gt;right==NULL)&#123;
+                    return true;
+                &#125;
+                if(p-&gt;left!=NULL)&#123;
+                    que.push(make_pair(p-&gt;left, tmp_sum));
+                &#125;
+                if(p-&gt;right!=NULL)&#123;
+                    que.push(make_pair(p-&gt;right, tmp_sum));
+                &#125;
+            &#125;
+        &#125;
+        return false;
+    &#125;
+&#125;;
+</code></pre>
+<p>257.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/binary-tree-paths/">二叉树的所有路径</a></p>
+<p>顺其自然DFS递归实现。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    vector&lt;string&gt; ans;
+    void DFS(TreeNode* p, string path)&#123;
+        if(p-&gt;left==NULL &amp;&amp; p-&gt;right==NULL)&#123;
+            ans.push_back(path + to_string(p-&gt;val));  
+        &#125;
+        if(p-&gt;left!=NULL)&#123;
+            DFS(p-&gt;left,path + to_string(p-&gt;val) + &quot;-&gt;&quot;);
+        &#125;
+        if(p-&gt;right!=NULL)&#123;
+            DFS(p-&gt;right,path + to_string(p-&gt;val) + &quot;-&gt;&quot;);
+        &#125;
+    &#125;
+    vector&lt;string&gt; binaryTreePaths(TreeNode* root) &#123;
+        if(root==NULL)&#123;
+            return ans;
+        &#125;
+        DFS(root, &quot;&quot;);
+        return ans;
+    &#125;
+&#125;;
+</code></pre>
+<p>559.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/maximum-depth-of-n-ary-tree/">N叉树的最大深度</a></p>
+<pre><code class="hljs">/*
+// Definition for a Node.
+class Node &#123;
+public:
+    int val;
+    vector&lt;Node*&gt; children;
+
+    Node() &#123;&#125;
+
+    Node(int _val) &#123;
+        val = _val;
+    &#125;
+
+    Node(int _val, vector&lt;Node*&gt; _children) &#123;
+        val = _val;
+        children = _children;
+    &#125;
+&#125;;
+*/
+
+class Solution &#123;
+public:
+    int maxDepth(Node* root) &#123;
+        if(root==NULL)&#123;
+            return 0;
+        &#125;
+        int size = root-&gt;children.size();
+        if(size==0)&#123; //没有孩子结点，说明当前root是叶子结点，返回深度1
+            return 1;
+        &#125;
+        int max_depth = -1;
+        for(int i=0;i&lt;size;i++)&#123;
+            max_depth = max(max_depth, maxDepth(root-&gt;children[i]));
+        &#125;
+        return max_depth + 1;
+    &#125;
+&#125;;
+</code></pre>
+<p>690.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/employee-importance/">员工的重要性</a></p>
+<pre><code class="hljs">/*
+// Definition for Employee.
+class Employee &#123;
+public:
+    int id;
+    int importance;
+    vector&lt;int&gt; subordinates;
+&#125;;
+*/
+
+class Solution &#123;
+public:
+    map&lt;int, Employee*&gt; mp;
+    // bool cmp(const Employee* a, const ) //不需要排序？
+    int DFS(int id)&#123;
+        Employee* ee = mp[id];
+        int ans = ee-&gt;importance;
+        for(int i=0;i&lt;ee-&gt;subordinates.size();i++)&#123;
+            ans += DFS(ee-&gt;subordinates[i]);
+        &#125;
+        return ans;
+    &#125;
+    int getImportance(vector&lt;Employee*&gt; employees, int id) &#123;  
+        for(int i=0;i&lt;employees.size();i++)&#123;//快速查询员工，原始输入并非有序
+            mp.emplace(employees[i]-&gt;id, employees[i]);
+        &#125;
+        return DFS(id);
+    &#125;
+&#125;;
+</code></pre>
+<p>BFS写一遍。</p>
+<pre><code class="hljs">/*
+// Definition for Employee.
+class Employee &#123;
+public:
+    int id;
+    int importance;
+    vector&lt;int&gt; subordinates;
+&#125;;
+*/
+
+class Solution &#123;
+public:
+    int getImportance(vector&lt;Employee*&gt; employees, int id) &#123; 
+        if(employees.empty())&#123;
+            return 0;
+        &#125;
+        int size = employees.size();
+        map&lt;int, Employee*&gt; mp;
+        for(int i=0;i&lt;size;i++)&#123;
+            mp.emplace(employees[i]-&gt;id, employees[i]);
+        &#125;
+        int ans = 0;
+        queue&lt;int&gt; que;
+        que.push(id);
+        while(!que.empty())&#123;
+            int que_size = que.size();
+            for(int i=0;i&lt;que_size;i++)&#123;
+                int e = que.front();
+                que.pop();
+                ans += mp[e]-&gt;importance;
+                for(auto ee : mp[e]-&gt;subordinates)&#123;
+                    //一个员工最多有一个直系领导，不需要visitedz数组标记
+                    que.push(ee);
+                &#125;
+            &#125;
+        &#125;
+        return ans;
+    &#125;
+&#125;;
+</code></pre>
+<p>733.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/flood-fill/">图像渲染</a></p>
+<pre><code class="hljs">class Solution &#123;
+public:
+    bool visited[55][55] = &#123;0&#125;;
+    void DFS(vector&lt;vector&lt;int&gt;&gt;&amp; image, int r, int c, int old_color, int new_color)&#123;
+        if((0&lt;=r &amp;&amp; r&lt;image.size()) &amp;&amp; (0&lt;=c &amp;&amp; c&lt;image[0].size()) &amp;&amp; !visited[r][c])&#123;
+            visited[r][c] = true;
+            if(image[r][c]==old_color)&#123;
+                image[r][c] = new_color;
+                DFS(image, r+1,c, old_color, new_color);
+                DFS(image, r-1,c, old_color, new_color);
+                DFS(image, r,c+1, old_color, new_color);
+                DFS(image, r,c-1, old_color, new_color);
+            &#125;
+        &#125;
+    &#125;
+
+    vector&lt;vector&lt;int&gt;&gt; floodFill(vector&lt;vector&lt;int&gt;&gt;&amp; image, int sr, int sc, int newColor) &#123;
+        // DFS(image, sr, sc, image[sr][sc], newColor);
+        // BFS
+        queue&lt; pair&lt;int,int&gt; &gt; que;
+        que.push(make_pair(sr,sc));
+        int scolor = image[sr][sc];
+        while(!que.empty())&#123;
+            pair&lt;int,int&gt; pos = que.front();
+            int r = pos.first;
+            int c = pos.second;
+            que.pop();
+            if((0&lt;=r &amp;&amp; r&lt;image.size()) &amp;&amp; (0&lt;=c &amp;&amp; c&lt;image[0].size()) &amp;&amp; !visited[r][c])&#123;
+                visited[r][c] = true;
+                if(image[r][c]==scolor)&#123;
+                    image[r][c] = newColor;
+                    que.push(make_pair(r+1,c));
+                    que.push(make_pair(r-1,c));
+                    que.push(make_pair(r,c+1));
+                    que.push(make_pair(r,c-1));
+                &#125;
+            &#125;
+            
+        &#125;
+        return image;
+    &#125;
+&#125;;
+</code></pre>
+<p>872.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/leaf-similar-trees/">叶子相似的树</a></p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    void DFS(TreeNode* p, vector&lt;int&gt;&amp; leafs)&#123;
+        if(!p-&gt;left &amp;&amp; !p-&gt;right)&#123;
+             leafs.push_back(p-&gt;val);
+        &#125;
+        if(p-&gt;left)&#123;
+            DFS(p-&gt;left, leafs);
+        &#125;
+        if(p-&gt;right)&#123;
+            DFS(p-&gt;right, leafs);
+        &#125;
+    &#125;
+
+    bool leafSimilar(TreeNode* root1, TreeNode* root2) &#123;
+        if(!root1 &amp;&amp; !root2)return true;
+        if(!root1 || !root2)return false;
+        vector&lt;int&gt; leafs1;
+        vector&lt;int&gt; leafs2;
+        DFS(root1,leafs1);
+        DFS(root2,leafs2);
+        // if(leafs1.size()!=leafs2.size())&#123;
+        //     return false;
+        // &#125;
+        // for(int i=0;i&lt;leafs1.size();i++)&#123;
+        //     if(leafs1[i]!=leafs2[i])&#123;
+        //         return false;
+        //     &#125;
+        // &#125;
+        /*如果vector是内置类型的数据,如int, char等,直接用v1 == v2来判断,
+          但是如果用了自定义类型的话,那么首先要实现该类型的operator==函数,
+          也就是重载等于判断.
+        */
+        return leafs1==leafs2;
+    &#125;
+&#125;;
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123; //官方题解速度更快欸
+public:
+    void DFS(TreeNode* p, vector&lt;int&gt;&amp; leaves)&#123;
+        if(!p)return;//递归的结束条件可以学习一下
+        if(!p-&gt;left &amp;&amp; !p-&gt;right)&#123;
+             leaves.push_back(p-&gt;val);
+        &#125;
+        DFS(p-&gt;left, leaves);
+        DFS(p-&gt;right, leaves);
+    &#125;
+
+    bool leafSimilar(TreeNode* root1, TreeNode* root2) &#123;
+        vector&lt;int&gt; leaves1;
+        vector&lt;int&gt; leaves2;
+        DFS(root1,leaves1);
+        DFS(root2,leaves2);
+        return leaves1==leaves2;
+    &#125;
+&#125;;
+</code></pre>
+<p>897.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/increasing-order-search-tree/">递增顺序查找树</a></p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    void DFS(TreeNode* p, vector&lt;int&gt;&amp; nodes)&#123;
+        if(p==NULL)return;
+        DFS(p-&gt;left,nodes);
+        nodes.push_back(p-&gt;val);
+        DFS(p-&gt;right,nodes);
+    &#125;
+
+    TreeNode* buildTree(const vector&lt;int&gt;&amp; nodes)&#123;
+        if(nodes.empty())return NULL;
+        int size = nodes.size();
+        TreeNode* root = new TreeNode(nodes[0]);
+        TreeNode* pre = root;
+        for(int i=1;i&lt;size;i++)&#123;
+            TreeNode* p = new TreeNode(nodes[i]);
+            pre-&gt;right = p;
+            pre = p;
+        &#125;
+        return root;
+    &#125;
+
+    TreeNode* increasingBST(TreeNode* root) &#123;
+        vector&lt;int&gt; nodes;
+        DFS(root,nodes);
+        return buildTree(nodes);
+    &#125;
+&#125;;
+</code></pre>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-chain-item">学习笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>LeetCode专题 BFS DFS</div>
+      <div>https://orion-wyc.github.io/2020/07/25/2020-07-26-LeetCode专题-BFS-DFS/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Yuchen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年7月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/09/19/2020-09-19-%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%AD%E7%BB%83%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/" title="分布式训练技术总结">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">分布式训练技术总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/07/14/2020-07-15-LeetCode%E4%B8%93%E9%A2%98-%E6%A0%91/" title="LeetCode专题 树">
+                        <span class="hidden-mobile">LeetCode专题 树</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="" target="_blank" rel="nofollow noopener"><span>Yuchen</span></a> <i class="iconfont icon-love"></i> <a href="" target="_blank" rel="nofollow noopener"><span>NoCookEatMcDonald's</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="/js/mermaid-viewer.js"></script><!-- hexo injector body_end end --></body>
+</html>

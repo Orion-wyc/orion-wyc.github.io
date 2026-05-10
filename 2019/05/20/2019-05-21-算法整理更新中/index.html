@@ -1,0 +1,2323 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Yuchen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="算法整理  基础数据结构数组链表、双向链表队列、单调队列、优先队列、双端队列栈、单调栈中级数据结构堆并查集、带权并查集Hash表自然溢出双Hash高级数据结构树状数组1 [2] i + (i&amp;-1)非常有意思，构造分形图案。i &amp; (~i + 1) 线段树、线段树合并平衡树Treapsplay替罪羊树块状数组、块状链表嵌套数据结构树套树DP套DP可并堆左偏树配对堆K-D Tree">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法整理（更新中...）">
+<meta property="og:url" content="https://orion-wyc.github.io/2019/05/20/2019-05-21-%E7%AE%97%E6%B3%95%E6%95%B4%E7%90%86%E6%9B%B4%E6%96%B0%E4%B8%AD/index.html">
+<meta property="og:site_name" content="Yuchen&#39;s Blog">
+<meta property="og:description" content="算法整理  基础数据结构数组链表、双向链表队列、单调队列、优先队列、双端队列栈、单调栈中级数据结构堆并查集、带权并查集Hash表自然溢出双Hash高级数据结构树状数组1 [2] i + (i&amp;-1)非常有意思，构造分形图案。i &amp; (~i + 1) 线段树、线段树合并平衡树Treapsplay替罪羊树块状数组、块状链表嵌套数据结构树套树DP套DP可并堆左偏树配对堆K-D Tree">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://orion-wyc.github.io/Snipaste_2020-12-22_22-08-48.png">
+<meta property="og:image" content="https://orion-wyc.github.io/Snipaste_2020-12-23_09-31-21.png">
+<meta property="og:image" content="https://orion-wyc.github.io/Snipaste_2020-12-23_08-55-41.png">
+<meta property="og:image" content="g:\Personal%20Document\Markdown\Pictures\Snipaste_2020-03-27_16-03-57.png">
+<meta property="article:published_time" content="2019-05-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-05-10T15:47:14.087Z">
+<meta property="article:author" content="Yuchen">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://orion-wyc.github.io/Snipaste_2020-12-22_22-08-48.png">
+  
+  
+  
+  <title>算法整理（更新中...） - Yuchen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"orion-wyc.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="/css/custom.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Yuchen&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="算法整理（更新中...）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-05-21 00:00" pubdate>
+          2019年5月21日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          32k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          269 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">算法整理（更新中...）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <ul>
+<li><h1 id="算法整理"><a href="#算法整理" class="headerlink" title="算法整理"></a>算法整理</h1></li>
+</ul>
+<h2 id="基础数据结构"><a href="#基础数据结构" class="headerlink" title="基础数据结构"></a>基础数据结构</h2><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><h3 id="链表、双向链表"><a href="#链表、双向链表" class="headerlink" title="链表、双向链表"></a>链表、双向链表</h3><h3 id="队列、单调队列、优先队列、双端队列"><a href="#队列、单调队列、优先队列、双端队列" class="headerlink" title="队列、单调队列、优先队列、双端队列"></a>队列、单调队列、优先队列、双端队列</h3><h3 id="栈、单调栈"><a href="#栈、单调栈" class="headerlink" title="栈、单调栈"></a>栈、单调栈</h3><h2 id="中级数据结构"><a href="#中级数据结构" class="headerlink" title="中级数据结构"></a>中级数据结构</h2><h3 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h3><h3 id="并查集、带权并查集"><a href="#并查集、带权并查集" class="headerlink" title="并查集、带权并查集"></a>并查集、带权并查集</h3><h3 id="Hash表"><a href="#Hash表" class="headerlink" title="Hash表"></a>Hash表</h3><h4 id="自然溢出"><a href="#自然溢出" class="headerlink" title="自然溢出"></a>自然溢出</h4><h4 id="双Hash"><a href="#双Hash" class="headerlink" title="双Hash"></a>双Hash</h4><h2 id="高级数据结构"><a href="#高级数据结构" class="headerlink" title="高级数据结构"></a>高级数据结构</h2><h3 id="树状数组"><a href="#树状数组" class="headerlink" title="树状数组"></a>树状数组</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Yaokai_AssultMaster/article/details/79492190">1</a> <a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/binary-indexed-tree-or-fenwick-tree-2/">[2]</a></p>
+<p>i + (i&amp;-1)非常有意思，构造分形图案。i &amp; (~i + 1)</p>
+<h3 id="线段树、线段树合并"><a href="#线段树、线段树合并" class="headerlink" title="线段树、线段树合并"></a>线段树、线段树合并</h3><h3 id="平衡树"><a href="#平衡树" class="headerlink" title="平衡树"></a>平衡树</h3><h4 id="Treap"><a href="#Treap" class="headerlink" title="Treap"></a>Treap</h4><h4 id="splay"><a href="#splay" class="headerlink" title="splay"></a>splay</h4><h4 id="替罪羊树"><a href="#替罪羊树" class="headerlink" title="替罪羊树"></a>替罪羊树</h4><h3 id="块状数组、块状链表"><a href="#块状数组、块状链表" class="headerlink" title="块状数组、块状链表"></a>块状数组、块状链表</h3><h3 id="嵌套数据结构"><a href="#嵌套数据结构" class="headerlink" title="嵌套数据结构"></a>嵌套数据结构</h3><h4 id="树套树"><a href="#树套树" class="headerlink" title="树套树"></a>树套树</h4><h4 id="DP套DP"><a href="#DP套DP" class="headerlink" title="DP套DP"></a>DP套DP</h4><h3 id="可并堆"><a href="#可并堆" class="headerlink" title="可并堆"></a>可并堆</h3><h4 id="左偏树"><a href="#左偏树" class="headerlink" title="左偏树"></a>左偏树</h4><h4 id="配对堆"><a href="#配对堆" class="headerlink" title="配对堆"></a>配对堆</h4><h3 id="K-D-Tree、四分树"><a href="#K-D-Tree、四分树" class="headerlink" title="K-D Tree、四分树"></a>K-D Tree、四分树</h3><h2 id="可持久化数据结构"><a href="#可持久化数据结构" class="headerlink" title="可持久化数据结构"></a>可持久化数据结构</h2><h3 id="可持久化线段树"><a href="#可持久化线段树" class="headerlink" title="可持久化线段树"></a>可持久化线段树</h3><h4 id="主席树"><a href="#主席树" class="headerlink" title="主席树"></a>主席树</h4><h3 id="可持久化平衡树"><a href="#可持久化平衡树" class="headerlink" title="可持久化平衡树"></a>可持久化平衡树</h3><h3 id="可持久化并查集"><a href="#可持久化并查集" class="headerlink" title="可持久化并查集"></a>可持久化并查集</h3><h3 id="可持久化块状数组"><a href="#可持久化块状数组" class="headerlink" title="可持久化块状数组"></a>可持久化块状数组</h3><h2 id="字符串算法"><a href="#字符串算法" class="headerlink" title="字符串算法"></a>字符串算法</h2><h3 id="KMP"><a href="#KMP" class="headerlink" title="KMP"></a>KMP</h3><p>参考资料 <a target="_blank" rel="noopener" href="http://jakeboxer.com/blog/2009/12/13/the-knuth-morris-pratt-algorithm-in-my-own-words/">[1]</a> <a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2013/05/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm.html">[2]</a></p>
+<h3 id="Manacher"><a href="#Manacher" class="headerlink" title="Manacher"></a>Manacher</h3><h3 id="Trie"><a href="#Trie" class="headerlink" title="Trie"></a>Trie</h3><h3 id="AC自动机"><a href="#AC自动机" class="headerlink" title="AC自动机"></a>AC自动机</h3><h3 id="后缀数组"><a href="#后缀数组" class="headerlink" title="后缀数组"></a>后缀数组</h3><h3 id="后缀树"><a href="#后缀树" class="headerlink" title="后缀树"></a>后缀树</h3><h3 id="后缀自动机"><a href="#后缀自动机" class="headerlink" title="后缀自动机"></a>后缀自动机</h3><h2 id="图论算法"><a href="#图论算法" class="headerlink" title="图论算法"></a>图论算法</h2><h3 id="图的搜索"><a href="#图的搜索" class="headerlink" title="图的搜索"></a>图的搜索</h3><h4 id="BFS-DFS"><a href="#BFS-DFS" class="headerlink" title="BFS DFS"></a>BFS DFS</h4><p>基本思想：BFS使用队列，宽度优先；DFS使用递归写法or非递归(堆栈)实现，深度优先。</p>
+<pre><code class="hljs">    #include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;vector&gt;
+#include &lt;queue&gt;
+#include &lt;stack&gt;
+using namespace std;
+
+const int INF = 0x3f3f3f3f;
+const int MAX_V = 10;
+
+int V, E;
+int G[MAX_V][MAX_V];//邻接矩阵
+
+struct Edge &#123;
+    int to, cost;
+    Edge(int to, int cost): to(to), cost(cost) &#123;&#125;;
+&#125;;
+vector&lt;Edge&gt; M[MAX_V];//邻接表
+typedef pair&lt;int, int&gt; P;//first-to ,second-cost(unused)
+
+int visited[MAX_V];
+
+void add_edge(int u, int v) &#123;
+    G[u][v] = 1;
+    G[v][u] = 1;
+    M[u].push_back(Edge(v, 0));
+    M[v].push_back(Edge(u, 0));
+&#125;
+
+void DFS1(int s) &#123; //递归 邻接矩阵
+    cout &lt;&lt; s &lt;&lt; &quot; &quot;;
+    visited[s] = 1;
+    for (int i = 1; i &lt;= V; i++) &#123;
+        if ( visited[i] == 0 &amp;&amp; G[s][i] != INF) &#123;
+            DFS1(i);
+        &#125;
+    &#125;
+&#125;
+
+void BFS1(int s) &#123; //邻接矩阵
+    queue&lt;int&gt; q;
+    q.push(s);
+    while (!q.empty()) &#123;
+        int p = q.front();
+        q.pop();
+        if (visited[p] == 0) &#123;
+            cout &lt;&lt; p &lt;&lt; &quot; &quot;;
+        &#125;
+        visited[p] = 1;
+        for (int i = 1; i &lt;= V; i++) &#123;
+            if (visited[i] == 0 &amp;&amp; G[p][i] &lt; INF) &#123;
+                q.push(i);
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+void DFS2(int s) &#123; //递归 邻接表
+    cout &lt;&lt; s &lt;&lt; &quot; &quot;;
+    visited[s] = 1;
+    for (int i = 0; i &lt; M[s].size(); i++) &#123;
+        Edge e = M[s][i];
+        if ( visited[e.to] == 0) &#123;
+            DFS1(e.to);
+        &#125;
+    &#125;
+&#125;
+
+void BFS2(int s) &#123; //邻接表
+    queue&lt;int&gt; q;
+    q.push(s);
+    while (!q.empty()) &#123;
+        int p = q.front();
+        q.pop();
+        if (!visited[p]) &#123;
+            cout &lt;&lt; p &lt;&lt; &quot; &quot;;
+        &#125;
+        visited[p] = 1;
+        for (int i = 0; i &lt; M[p].size(); i++) &#123;
+            Edge t = M[p][i];
+            if (!visited[t.to]) &#123;
+                q.push(t.to);
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+void DFS3(int s) &#123; //非递归 邻接矩阵
+    stack&lt;int&gt; _s;
+    _s.push(s);
+    while (!_s.empty()) &#123;
+        int p = _s.top();
+        if (!visited[p]) &#123;
+            cout &lt;&lt; p &lt;&lt; &quot; &quot;;
+            visited[p] = 1;
+        &#125;
+        int flag = 0;
+        for (int i = 1; i &lt;= V; i++) &#123;
+            if (!visited[i] &amp;&amp; G[p][i] == 1) &#123;
+                // visited[i] = 1;
+                // cout &lt;&lt; i &lt;&lt; &quot; &quot;;
+                _s.push(i);
+                flag = 1;
+                break;
+            &#125;
+        &#125;
+        if (flag == 0) &#123;
+            _s.pop();
+        &#125;
+    &#125;
+&#125;
+
+void DFS4(int s) &#123; //非递归 邻接表
+    stack&lt;int&gt; _s;
+    _s.push(s);
+    while (!_s.empty()) &#123;
+        int p = _s.top();
+        if (!visited[p]) &#123;
+            cout &lt;&lt; p &lt;&lt; &quot; &quot;;
+            visited[p] = 1;
+        &#125;
+        int flag = 0;
+        for (int i = 0; i &lt; M[p].size(); i++) &#123;
+            Edge e = M[p][i];
+            if (!visited[e.to]) &#123;
+                // visited[i] = 1;
+                // cout &lt;&lt; i &lt;&lt; &quot; &quot;;
+                _s.push(e.to);
+                flag = 1;
+                break;
+            &#125;
+        &#125;
+        if (flag == 0) &#123;
+            _s.pop();
+        &#125;
+    &#125;
+&#125;
+
+int main() &#123;
+    fill(G[0], G[0] + MAX_V * MAX_V, INF);
+    cin &gt;&gt; V &gt;&gt; E;
+    for (int i = 0; i &lt; E; i++) &#123;
+        int u, v, w;
+        cin &gt;&gt; u &gt;&gt; v;
+        add_edge(u, v);
+    &#125;
+
+    int st = 1;
+
+    fill(visited, visited + MAX_V, 0);
+    DFS1(st);//邻接矩阵
+    cout &lt;&lt; endl;
+
+    fill(visited, visited + MAX_V, 0);
+    BFS1(st);
+    cout &lt;&lt; endl;
+
+    fill(visited, visited + MAX_V, 0);
+    DFS2(st);//邻接表
+    cout &lt;&lt; endl;
+
+    fill(visited, visited + MAX_V, 0);
+    BFS2(st);
+    cout &lt;&lt; endl;
+
+    fill(visited, visited + MAX_V, 0);
+    DFS3(st);
+    cout &lt;&lt; endl;
+
+    fill(visited, visited + MAX_V, 0);
+    DFS4(st);
+    cout &lt;&lt; endl;
+
+    return 0;
+&#125;
+/*
+
+8 9
+1 2
+1 3
+2 4
+2 5
+4 8
+5 8
+3 6
+3 7
+6 7
+*/
+</code></pre>
+<h3 id="最短路径、次短路"><a href="#最短路径、次短路" class="headerlink" title="最短路径、次短路"></a>最短路径、次短路</h3><hr>
+<p>连通图：在无向图中，若任意两个顶点vivi与vjvj都有路径相通，则称该无向图为连通图。 强连通图：在有向图中，若任意两个顶点vivi与vjvj都有路径相通，则称该有向图为强连通图。 连通网：在连通图中，若图的边具有一定的意义，每一条边都对应着一个数，称为权；权代表着连接连个顶点的代价，称这种连通图叫做连通网。 生成树：一个连通图的生成树是指一个连通子图，它含有图中全部n个顶点，但只有足以构成一棵树的n-1条边。一颗有n个顶点的生成树有且仅有n-1条边，如果生成树中再添加一条边，则必定成环。 最小生成树：在连通网的所有生成树中，所有边的代价和最小的生成树，称为最小生成树。</p>
+<hr>
+<h4 id="Dijkstra"><a href="#Dijkstra" class="headerlink" title="Dijkstra"></a>Dijkstra</h4><p><strong>基本思想</strong> （邻接矩阵表述）</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/C2681595858/article/details/85687836#1_Dijkstra_3">参考资料</a></p>
+<p>设定两个集合\(A\)和\(B\)，\(A\)中存放我们已经处理过的顶点，\(B\)中存放图中剩余顶点。刚开始的时候，\(A\)中只有一个我们选定的起点\(v_0\)，每一次从集合\(B\)中取到\(v_0\)的代价最小的点并入，每一次并入时都需要修改\(v_0\)到\(B\)中顶点的代价，直到所有的顶点都并入为止。</p>
+<p><strong>算法准备</strong></p>
+<pre><code class="hljs">1. 数组\\(dist\\)，用于存放\\(v_0\\)到图中个顶点的代价，数组下标表示顶点编号
+
+2. 数组\\(path\\)，用于存放路径，数组下标表示顶点编号，下标所对应的数组值表示能够到达当前这个顶点的前一个顶点编号，最后连起来就是\\(v_0\\)到图中各顶点的最短路径了。如果没有前前驱顶点，则内容值为-1。
+
+3. 数组\\(set\\)，用于标识图中顶点是否被处理过，数组下标表示顶点编号。处理过为1，没处理过为0。
+
+4. 使用图的邻接矩阵来存储有向带权图，\\(graph[i][j]\\)。
+</code></pre>
+<p><strong>算法过程（我们选择编号为0的顶点作为起点）</strong></p>
+<pre><code class="hljs">1. 首先进行3个数组的初始化，把set数组全部初始化为0；\\(dist\\)数组全部初始化为无穷大，\\(path\\)数组全部初始化为-1。
+2. 将\\(set[0]\\)的值设置为1，然后遍历邻接矩阵的第0行，依次更新\\(dist\\)数组的每一项。
+3. 将\\(dist\\)数组中值不为无穷大的在\\(path\\)中的对应下标，把它们的值改为0。因为编号为0的点是它们的前驱嘛。
+4. 选择\\(dist\\)数组中值最小的点的下标，这里为1。
+5. 将\\(set[1]\\)的值设置为1
+6. 遍历邻接矩阵的第1行(因为1是最小权值的下标)，将dist[1]的值与邻接矩阵\\(graph[1][i]\\)的值相加（此时是以编号为1的点作为中间点，看看由\\(v_0\\)-&gt;\\(v_1\\)再到其余点的路径长度会不会比\\(v_0\\)直接到它们的路径长度短），如果这个值比dist[i]的值小，就更新\\(dist[i]\\)，同时将\\(path[i]\\)的值设置为1，执行这个操作的前提是，\\(set[i]==0\\)。
+7. 重复（4）~（6）步，如果已经处理过的点就不用再判断了。直到\\(set\\)数组全变为1。
+
+    function Dijkstra(G, w, s)
+    for each vertex v in V[G]   // 初始化
+        d[v] := infinity     // 将各点的已知最短距离先设成无穷大
+        previous[v] := undefined   // 各点的已知最短路径上的前趋都未知
+    d[s] := 0           // 因为出发点到出发点间不需移动任何距离，所以可以直接将s到s的最小距离设为0
+    S := empty set
+    Q := set of all vertices
+    while Q is not an empty set      // Dijkstra算法主体
+        u := Extract_Min(Q)//从Q中找一个距离远点s距离最小的点，加入S
+        S.append(u)
+        for each edge outgoing from u as (u,v)
+            if d[v] &gt; d[u] + w(u,v)    // 拓展边（u,v）。w(u,v)为从u到v的路径长度。
+                d[v] := d[u] + w(u,v)  // 更新路径长度到更小的那个和值。
+                previous[v] := u   // 纪录前趋顶点
+
+    //采用邻接矩阵存储
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;vector&gt;
+#include &lt;queue&gt;
+using namespace std;
+
+const int INF = 0x3f3f3f3f;
+const int MAX_V = 10;
+
+int V, E;
+int G[MAX_V][MAX_V];
+int dist[MAX_V];
+int path[MAX_V];
+int visited[MAX_V];
+/*
+采用邻接矩阵存储,需要设置visited数组判断是否已经访问过,
+保证已计算出最短路的结点访问次数唯一,
+作为对比可参考邻接表存储时的相应操作.
+*/
+void dijkstra(int s) &#123;
+    fill(path, path + MAX_V, -1);
+    fill(visited, visited + MAX_V, 0);
+
+    for (int j = 1; j &lt;= V; j++) &#123;
+        dist[j] = G[s][j];
+        if (G[s][j] &lt; INF) &#123;
+            path[j] = s;
+        &#125;
+    &#125;
+
+    dist[s] = 0;
+    visited[s] = 1;
+    path[s] = 0;
+
+    for (int i = 1; i &lt;= V - 1; i++) &#123;
+        int minp = s, minw = INF;
+        for (int j = 1; j &lt;= V; j++) &#123;
+            if (visited[j] == 0 &amp;&amp; dist[j] &lt; minw) &#123;
+                minw = dist[j];
+                minp = j;
+            &#125;
+        &#125;
+        visited[minp] = 1;
+        for (int j = 1; j &lt;= V; j++) &#123;
+            if (visited[j] == 0 &amp;&amp; minw &lt; INF &amp;&amp; dist[j] &gt; G[minp][j] + minw) &#123;
+                dist[j] = G[minp][j] + minw;
+                path[j] = minp;
+
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+void get_path(int ed) &#123;
+    if (path[ed] != -1)
+        get_path(path[ed]);
+    else
+        return;
+    cout &lt;&lt; ed &lt;&lt; &quot;-&gt;&quot;;
+&#125;
+
+int main() &#123;
+    cin &gt;&gt; V &gt;&gt; E;
+    fill(G[0], G[0] + MAX_V * MAX_V, INF);
+    for (int i = 0; i &lt; E; i++) &#123;
+        int u, v, w;
+        cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        G[u][v] = w;
+    &#125;
+    int st = 2, ed = 1;
+    dijkstra(st);
+    get_path(ed);
+    cout &lt;&lt; &quot;end&quot; &lt;&lt; endl;
+    cout &lt;&lt; dist[ed] &lt;&lt; endl;
+    return 0;
+&#125;
+
+    //采用邻接表存储
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;queue&gt;
+using namespace std;
+
+const int INF = 0x3f3f3f3f;
+const int MAX_V = 10;
+struct Edge &#123;
+    int to, cost;
+    Edge(int to, int cost): to(to), cost(cost) &#123;&#125;;//C++初始化列表-构造函数内容：（参数列表，函数体，初始化列表）
+&#125;;
+typedef pair&lt;int, int&gt; P;//first-to ,second-cost
+
+int V, E;
+vector&lt;Edge&gt; G[MAX_V];
+int dist[MAX_V];
+int path[MAX_V];
+//bool visited[MAX_V];
+/*
+采用邻接表存储,不需要设置visited数组判断是否已经访问过,
+因为采用优先队列维护已经保证访问次数唯一,
+作为对比可参考邻接矩阵存储时的相应操作.
+*/
+void dijkstra(int s) &#123;
+    priority_queue&lt;P, vector&lt;P&gt;, greater&lt;P&gt; &gt; que;
+    fill(dist, dist + V + 1, INF);
+    fill(path, path + V + 1, -1);
+    dist[s] = 0;
+    path[s] = 0;
+    que.push(P(s, 0));
+
+    while (!que.empty()) &#123;
+        P p = que.top();
+        que.pop();
+        int v = p.first;
+        if (dist[v] &lt; p.second) &#123;
+            continue;
+        &#125;
+        /*细节问题！这里是剪枝操作，因为之前加入的点更新的距离可能已经不是最短，
+        此时找到了另外一条最短路，节点也更新，即在优先队列中存在多个相同顶点序号，
+        不同距离的pair&lt;&gt;，例如&lt;2,3&gt;,&lt;2,2&gt;（下面样例）会同时存在，显然，&lt;2,3&gt;这对数据没必要在运行*/
+        for (int i = 0; i &lt; G[v].size(); i++) &#123;
+            Edge e = G[v][i];
+            if (dist[e.to] &gt; dist[v] + e.cost) &#123;
+                dist[e.to] = dist[v] + e.cost;
+                que.push(P(e.to, dist[e.to]));
+                path[e.to] = v;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+void get_path(int ed) &#123;
+    if (path[ed]!=-1)
+        get_path(path[ed]);
+    else
+        return;
+    cout &lt;&lt; ed &lt;&lt; &quot;-&gt;&quot;;
+&#125;
+
+int main() &#123;
+    cin &gt;&gt; V &gt;&gt; E;
+    for (int i = 0; i &lt; E; i++) &#123;
+        int u, v, w;
+        cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;
+        G[u].push_back(Edge(v, w));
+    &#125;
+    int st = 1, ed = 4;
+    dijkstra(st);
+    get_path(ed);
+    cout &lt;&lt; &quot;end&quot; &lt;&lt; endl;
+    cout &lt;&lt; dist[ed] &lt;&lt; endl;
+    return 0;
+&#125;
+/*
+5 7
+1 2 1
+1 3 4
+1 5 1
+2 4 5
+5 2 1
+5 3 2
+3 4 2
+*/
+</code></pre>
+<p>在最短路径问题中，对于带权有向图G &#x3D; (V, E)，<strong>Dijkstra</strong> 算法的初始实现版本未使用最小优先队列实现，其<strong>时间复杂度</strong> 为O(V2)，基于Fibonacci heap 的最小优先队列实现版本，其<strong>时间复杂度</strong> 为O(E + VlogV)。</p>
+<hr>
+<h4 id="Bell-man-Ford"><a href="#Bell-man-Ford" class="headerlink" title="Bell-man Ford"></a>Bell-man Ford</h4><p><strong>算法思路</strong></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/C2681595858/article/details/85687836#1_Dijkstra_3">参考资料</a></p>
+<p><strong>核心思想是：</strong> 首先对距离进行松弛，然后随着迭代次数的增加，距离越来越接近最短路径，直到最后得出最短路径。更具体一点说就是每一次检查每一条边 \(&lt;u,v&gt;\) ,看是否有 \(d[v] &gt; d[u] + L_{uv}\) 情况，如果有就更新 \(d[v]\) 的值，这样一来每一遍大的循环就把源点的情况全局推进一步，然后最多推进n-1步也就把原点的情况推到了每一个节点。</p>
+<p><strong>松弛：</strong> 每次松弛操作实际上是对相邻节点的访问，第 \(k\) 次松弛操作保证了所有深度为 \(k\) 的路径最短。由于图的最短路径最长不会经过超过 \(|V|-1\) 条边，所以可知贝尔曼-福特算法所得为最短路径。</p>
+<p><strong>负边权操作：</strong> 与迪科斯彻算法不同的是，迪科斯彻算法的基本操作“拓展”是在深度上寻路；而“松弛”操作则是在广度上寻路，这就确定了贝尔曼-福特算法可以对负边进行操作而不会影响结果。</p>
+<p><strong>负权环判定：</strong> 因为负权环可以无限制的降低总花费，所以如果发现第 \(n\) 次操作仍可降低花销，就一定存在负权环。</p>
+<pre><code class="hljs">    procedure BellmanFord(list vertices, list edges, vertex source)
+   //读入边和顶点的列表并对distance和predecessor写入最短路径
+   // 初始化图
+   for each vertex v in vertices:
+       if v is source then distance[v] := 0
+       else distance[v] := infinity
+       predecessor[v] := null
+
+   // 对每一条边重复进行“松弛”操作
+   for i from 1 to size(vertices)-1: // V - 1 次松弛
+       for each edge (u, v) with weight w in edges:
+           if distance[u] + w &lt; distance[v]:
+               distance[v] := distance[u] + w
+               predecessor[v] := u
+
+   // 检查图中包含有负权重的环
+   for each edge (u, v) with weight w in edges:
+       if distance[u] + w &lt; distance[v]:
+           error &quot;图中包含有负权重的环&quot;
+
+    #include &lt;bits/stdc++.h&gt; 
+using namespace std;
+const int maxnum = 100;
+const int maxint = 0x3f3f3f3f;
+
+// 边，
+typedef struct Edge&#123;
+    int u, v;    // 起点，重点
+    int weight;  // 边的权值
+&#125;Edge;
+
+Edge edge[maxnum];     // 保存边的值
+int  dist[maxnum];     // 结点到源点最小距离
+
+int nodenum, edgenum, source;    // 结点数，边数，源点
+
+// 初始化图
+void init()&#123;
+    // 输入结点数，边数，源点
+    cin &gt;&gt; nodenum &gt;&gt; edgenum &gt;&gt; source;
+    for(int i=1; i&lt;=nodenum; ++i)
+        dist[i] = maxint;
+    dist[source] = 0;
+    for(int i=1; i&lt;=edgenum; ++i)&#123;
+        cin &gt;&gt; edge[i].u &gt;&gt; edge[i].v &gt;&gt; edge[i].weight;
+        if(edge[i].u == source)          //注意这里设置初始情况
+            dist[edge[i].v] = edge[i].weight;
+    &#125;
+&#125;
+
+// 松弛计算
+void relax(int u, int v, int weight)&#123;
+    if(dist[v] &gt; dist[u] + weight)
+        dist[v] = dist[u] + weight;
+&#125;
+
+bool Bellman_Ford()&#123;
+    for(int i=1; i&lt;=nodenum-1; ++i)
+        for(int j=1; j&lt;=edgenum; ++j)
+            relax(edge[j].u, edge[j].v, edge[j].weight);
+    bool flag = 1;
+    // 判断是否有负环路
+    for(int i=1; i&lt;=edgenum; ++i)
+        if(dist[edge[i].v] &gt; dist[edge[i].u] + edge[i].weight)&#123;
+            flag = 0;
+            break;
+        &#125;
+    return flag;
+&#125;
+int main()&#123;
+    //freopen(&quot;input3.txt&quot;, &quot;r&quot;, stdin);
+    init();
+    if(Bellman_Ford())&#123;
+        for(int i = 1 ;i &lt;= nodenum; i++)
+            cout &lt;&lt; dist[i] &lt;&lt; endl;
+    &#125; 
+    return 0;
+&#125;
+</code></pre>
+<p>复杂度O(VE)</p>
+<hr>
+<h4 id="SPFA"><a href="#SPFA" class="headerlink" title="SPFA"></a>SPFA</h4><p>算法思路</p>
+<p><strong>算法思想：</strong></p>
+<p>我们用数组记录每个结点的最短路径估计值，用邻接表来存储图G。</p>
+<p>我们采取的方法是动态逼近法：1.设立一个先进先出的队列用来保存待优化的结点。 2.优化时每次取出队首结点u，并且用u点当前的最短路径估计值对离开u点所指向的结点v进行松弛操作，如果v点的最短路径估计值有所调整，且v点不在当前的队列中，就将v点放入队尾。 3.这样不断从队列中取出结点来进行松弛操作，直至队列空为止。</p>
+<p>期望的时间复杂度O(ke)， 其中k为所有顶点进队的平均次数，可以证明k一般小于等于2。（?）</p>
+<pre><code class="hljs">    procedure Shortest-Path-Faster-Algorithm(G, s)
+   for each vertex v ≠ s in V(G)
+       d(v) := ∞
+   d(s) := 0
+   offer s into PQ //PQ是优先队列
+   while PQ is not empty
+       u := poll PQ
+       for each edge (u, v) in E(G)
+           if d(u) + w(u, v) &lt; d(v) then
+               d(v) := d(u) + w(u, v)
+               if v is not in PQ then
+                   offer v into PQ
+
+    //bfs 万能啊
+int spfa_bfs(int s)&#123;
+    queue &lt;int&gt; q;
+    memset(d,0x3f,sizeof(d));
+    d[s]=0;
+    memset(c,0,sizeof(c));
+    memset(vis,0,sizeof(vis));
+
+    q.push(s);  vis[s]=1; c[s]=1;
+    //顶点入队vis要做标记，另外要统计顶点的入队次数
+    int OK=1;
+    while(!q.empty())
+    &#123;
+        int x;
+        x=q.front(); q.pop();  vis[x]=0;
+        //队头元素出队，并且消除标记
+        for(int k=f[x]; k!=0; k=nnext[k]) //遍历顶点x的邻接表
+        &#123;
+            int y=v[k];
+            if( d[x]+w[k] &lt; d[y])
+            &#123;
+                d[y]=d[x]+w[k];  //松弛
+                if(!vis[y])  //顶点y不在队内
+                &#123;
+                    vis[y]=1;    //标记
+                    c[y]++;      //统计次数
+                    q.push(y);   //入队
+                    if(c[y]&gt;NN)  //超过入队次数上限，说明有负环
+                        return OK=0;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+    return OK;
+&#125;
+
+//dfs处理负环更快，但是仅限于有限深度
+int spfa_dfs(int u)
+&#123;
+    vis[u]=1;
+    for(int k=f[u]; k!=0; k=e[k].next)
+    &#123;
+        int v=e[k].v,w=e[k].w;
+        if( d[u]+w &lt; d[v] )
+        &#123;
+            d[v]=d[u]+w;
+            if(!vis[v])
+            &#123;
+                if(spfa_dfs(v))
+                    return 1;
+            &#125;
+            else
+                return 1;
+        &#125;
+    &#125;
+    vis[u]=0;
+    return 0;
+&#125;
+</code></pre>
+<p>时间复杂度是O(α(n)n)，n为边数，α(n)为n的反阿克曼函数，一般小于等于4</p>
+<hr>
+<h4 id="Floyd"><a href="#Floyd" class="headerlink" title="Floyd"></a>Floyd</h4><p>算法思路</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ECJTUACM-873284962/p/6995648.html">参考资料</a></p>
+<p><strong>Floyd-Warshall算法</strong> （Floyd-Warshall algorithm）是解决任意两点间的最短路径的一种算法，可以正确处理有向图或负权的最短路径问题，同时也被用于计算有向图的传递闭包。Floyd算法的时间复杂度为 \(O(N^3)\) ，空间复杂度为 \(O(N^2)\) 。Floyd算法是一个经典的动态规划算法。用通俗的语言来描述的话，首先我们的目标是寻找从点 u 到点 v 的最短路径，有两种情况：（1）直接从点 u 到 v 点（2）从点 u 经过若干个中间点 w 到点 v 。</p>
+<p>算法描述：a.从任意一条单边路径开始。所有两点之间的距离是边的权，如果两点之间没有边相连，则权为无穷大。b.对于每一对顶点 u 和 v，看看是否存在一个顶点 w 使得从 u 到 w 再到 v 比己知的路径更短。如果是更新它。</p>
+<pre><code class="hljs">    let dist be a |V| × |V| array of minimum distances initialized to ∞ (infinity)
+for each vertex v
+    dist[v][v] ← 0
+for each edge (u,v)
+    dist[u][v] ← w(u,v)  // the weight of the edge (u,v)
+for k from 1 to |V|
+    for i from 1 to |V|
+       for j from 1 to |V|
+          if dist[i][j] &gt; dist[i][k] + dist[k][j] 
+             dist[i][j] ← dist[i][k] + dist[k][j]
+          end if
+
+    void floyed()&#123;//顶点的编号1~n
+    for(int k=1;k&lt;=n;k++)&#123;
+        for(int i=1;i&lt;=n;i++)&#123;
+            for(int j=1;j&lt;=n;j++)&#123;
+                dist[i][j] = min(dis[i][j],dis[i][k]+dis[k][j]);
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+/*
+4 8   
+1 2 2   
+1 3 6   
+1 4 4   
+2 3 3   
+3 1 7   
+3 4 1   
+4 1 5   
+4 3 12 
+*/
+//传递闭包问题的修改版
+void floyd()&#123;
+    for(int k=0;k&lt;n;k++)&#123;
+        for(int i=0;i&lt;n;i++)&#123;
+            for(int j=0;j&lt;n;j++)&#123;
+                dp[i][j]=dp[i][j]||(dp[i][k]&amp;&amp;dp[k][j]);
+            &#125;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>时间复杂度：\(O(n^3)\)</p>
+<hr>
+<h3 id="图的连通"><a href="#图的连通" class="headerlink" title="图的连通"></a>图的连通</h3><h4 id="强连通分量"><a href="#强连通分量" class="headerlink" title="强连通分量"></a>强连通分量</h4><p>tarjan，</p>
+<h4 id="双连通分量"><a href="#双连通分量" class="headerlink" title="双连通分量"></a>双连通分量</h4><h4 id="割点、桥"><a href="#割点、桥" class="headerlink" title="割点、桥"></a>割点、桥</h4><h3 id="网络流"><a href="#网络流" class="headerlink" title="网络流"></a>网络流</h3><p>用于解决流量问题。</p>
+<p><strong>网络流</strong> ：所有弧上流量的集合\(f&#x3D;\{f(u,v)\}\)，称为该容量网络的一个网络流(flow)。</p>
+<p><strong>定义</strong> ：带权的有向图\(G&#x3D;(V,E)\)，满足以下条件，则称为<strong>流网络</strong>(flow network)：</p>
+<pre><code class="hljs">* 仅有一个入度为0的顶点，源点\\(s\\) (source)
+* 仅有一个出度为0的顶点，汇点\\(t\\) (sink)
+* 每条边\\((u,v) \in E\\)，都有一个非负权重 \\(c(u,v)\\)，表示边的容量(capacity)
+</code></pre>
+<p><strong>性质</strong> ：</p>
+<p>对于任意一个时刻，设\(f(u,v)\)为实际流量，则整个图G的流网络满足3个性质：</p>
+<pre><code class="hljs">1. **容量限制** ：对任意\\(u,v∈V\\)，\\(f(u,v)≤c(u,v)\\)。
+2. **反对称性** ：对任意\\(u,v∈V\\)，\\(f(u,v) = -f(v,u)\\)。 每条边的流量与其相反边的流量之和为 0 。
+3. **流守恒性** ：\\(\forall x \in V-\\&#123;s,t\\&#125;, \sum_&#123;(u,x)\in E&#125; f(u,x) = \sum_&#123;(x,v)\in E&#125; f(x,v)\\) ，即，源点流出的流量等于汇点流入的流量。
+</code></pre>
+<p><strong>剩余容量</strong> ：\(c(u,v) - f(u,v)\)</p>
+<p><strong>整个网络的流量</strong> ： 从源点发出的所有流量之和 \(\sum_{(s,v)\in E} f(s,v)\) 。</p>
+<p><strong>可行流</strong> ：在\(G\)中，满足下列条件的网络流称为可行流：</p>
+<pre><code class="hljs">* \\(0 \leq f(u,v) \leq c(u,v)\\)
+* \\(\sum_&#123;e\in E^-(u)&#125; f(e) = \sum_&#123;e \in E^+(u)f(e)&#125;\\)， 即流入一个点的流量要等于流出这个点的流量
+</code></pre>
+<p><strong>零流</strong> ：若网络流上每条弧上的流量都为0，则该网络流称为零流。 <strong>伪流</strong> ：如果一个网络流只满足弧流量限制条件，不满足平衡条件，则这种网络流为伪流，或称为容量可行流。</p>
+<p><strong>最大流</strong> ：最大可行流。</p>
+<p><strong>割(cut)</strong> ：割其实就是把节点分成两部分\((S,T)\) ，而且\(s\)位于\(S\)中，\(t\)位于\(T\)中。</p>
+<p><strong>最大流最小割(Max-flow min-cut)定理</strong> ：网络流的最大流量等于最小割的容量。（最大流小于任意最小割的容量）</p>
+<p><strong>链</strong> ：在容量网络中，称顶点序列\((u1,u2,u3,u4,..,un,v)\)为一条链，要求相邻的两个顶点之间有一条弧。 设\(P\)是\(G\)中一条从\(s\)到\(t\)的链,约定从s指向t的方向为正方向。在链中并不要求所有的弧的方向都与链的方向相同。</p>
+<p><strong>增广路径</strong> ：</p>
+<p>设\(f\)是一个容量网络\(G\)中的一个可行流，\(P\)是从\(s\)到\(t\) 的一条链，若\(P\)满足以下条件:</p>
+<pre><code class="hljs">1. \\(P\\)中所有前向弧都是非饱和弧（流大小严格\\(&lt;\\)容量）
+
+2. \\(P\\)中所有后向弧都是非零弧
+</code></pre>
+<p>则称\(P\)为关于可行流\(f\)的一条增广路。</p>
+<p><strong>残留网络</strong> ： 给定容量网络\(G(V,E)\)，及可行流\(f\)，弧\((u,v)\)上的剩余容量记为\(cl(u,v)&#x3D;c(u,v)-f(u,v)\)。每条弧上的残留容量表示这条弧上可以增加的流量。因为从顶点\(u\)到顶点\(v\)的流量减少，等效与从顶点\(v\)到顶点\(u\)的流量增加，所以每条弧\((u,v)\)上还有一个反方向的残留容量\(cl(v,u)&#x3D;-f(u,v)\)。</p>
+<p><img src="/Snipaste_2020-12-22_22-08-48.png" srcset="/img/loading.gif" lazyload></p>
+<p>算法： <a target="_blank" rel="noopener" href="https://fireworks99.github.io/2019/05/21/%E6%9C%80%E5%A4%A7%E6%B5%81EK%E7%AE%97%E6%B3%95/">EK</a>（Edmond—Karp）算法，<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40673608/article/details/86707598">Ford-Fulkerson</a>算（方）法，<a target="_blank" rel="noopener" href="https://www.cnblogs.com/SYCstudio/p/7260613.html">Dinic</a>算法</p>
+<p><img src="/Snipaste_2020-12-23_09-31-21.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/Snipaste_2020-12-23_08-55-41.png" srcset="/img/loading.gif" lazyload></p>
+<p>参考资料 <a target="_blank" rel="noopener" href="https://blog.csdn.net/mystery_guest/article/details/51910913">[1]</a> <a target="_blank" rel="noopener" href="https://blog.csdn.net/orion_pistachio/article/details/78090074">[自己]</a></p>
+<h4 id="最大流"><a href="#最大流" class="headerlink" title="最大流"></a>最大流</h4><p>我们有一张图，要求从源点流向汇点的最大流量（可以有很多条路到达汇点），就是我们的最大流问题。</p>
+<h4 id="最小割"><a href="#最小割" class="headerlink" title="最小割"></a>最小割</h4><p>割其实就是删边的意思，当然最小割就是割掉\(X\)条边来让\(s\)跟\(t\)不互通。我们要求\(X\)条边加起来的流量综合最小。这就是最小割问题，一般转化到最大流上。</p>
+<pre><code class="hljs">1. 网络流的割：是网络中顶点的一个划分，把所有顶点划分成两个顶点集合S和T，其中源点\\(s\\)属于\\(S\\)，汇点\\(t\\)属于\\(T\\)，记作\\(CUT(S,T)\\)。(包括正向边与反向边)
+
+2. 割的割边：如果一条弧的两个顶点一个属于顶点集\\(S\\)一个属于顶点集\\(T\\)，该弧为割\\(CUT(S,T)\\)的一条割边。
+
+3. 从\\(S\\)指向\\(T\\)的割边是正向割边；从\\(T\\)指向\\(S\\)的割边是逆向割边。
+
+4. 割的容量：所有**正向割边的容量和** ，不同割的容量不同。
+</code></pre>
+<p>但注意，割的容量只记从\(S\)点集到\(T\)点集的而\(T\)点集到\(S\)点集的不算，所以割的容量等于这从\(S\)点集到\(T\)点集所有边的容量之和。</p>
+<p>参考资料 <a target="_blank" rel="noopener" href="https://imlogm.github.io/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/mincut-maxflow/">[1]</a></p>
+<h4 id="费用流"><a href="#费用流" class="headerlink" title="费用流"></a>费用流</h4><p>最小费用最大流问题是这样的：每条边都有一个费用，代表单位流量流过这条边的开销。我们要在求出最大流的同时，要求花费的费用最小。</p>
+<h4 id="分数规划"><a href="#分数规划" class="headerlink" title="分数规划"></a>分数规划</h4><h4 id="无汇无源可行流"><a href="#无汇无源可行流" class="headerlink" title="无汇无源可行流"></a>无汇无源可行流</h4><h3 id="二分图"><a href="#二分图" class="headerlink" title="二分图"></a>二分图</h3><pre><code class="hljs">* KM算法
+* Hungary算法、HK算法
+</code></pre>
+<hr>
+<h3 id="最小生成树"><a href="#最小生成树" class="headerlink" title="最小生成树"></a>最小生成树</h3><p>1.Prim在稠密图中比Kruskal优，在稀疏图中比Kruskal劣。</p>
+<p>2.Prim+Heap在任何时候都有令人满意的的时间复杂度，但是代价是空间消耗极大。【以及代码很复杂&gt;_&lt;】</p>
+<p>3.时间复杂度并不能反映出一个<a target="_blank" rel="noopener" href="https://blog.csdn.net/Haskei/article/details/53132681">算法</a>的实际优劣。</p>
+<h4 id="Prim"><a href="#Prim" class="headerlink" title="Prim"></a>Prim</h4><p><strong>算法思路</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/alantu2018/p/8464561.html">参考资料</a></p>
+<p>定义：一个连通图的生成树是一个极小的连通子图，它包含图中全部的顶点（n个顶点），但只有n-1条边。最小生成树是构造连通网的最小代价（最小权值）生成树。</p>
+<p>最小生成树MST性质：假设N&#x3D;（V,{E}）是一个连通网，U是顶点集V的一个非空子集。若（u,v）是一条具有最小权值（代价）的边，其中u∈U，v∈V-U，则必存在一颗包含边（u,v）的最小生成树。</p>
+<p><strong>Prim算法过程为：</strong></p>
+<p>书上是这么说的：假设N&#x3D;（V,{E}）是连通图，TE是N上最小生成树中边的集合。算法从U&#x3D;{u_0}（u_0∈V），TE&#x3D;{}开始，重复执行下述操作：在所有u∈U，v∈V-U的边（u，v）∈E中找一条代价最小的边（u0，v0）并入集合TE，同时v0 并入U，直至U&#x3D;V为止。此时TE中必有n-1条边，则T&#x3D;（V，{TE}）为N的最小生成树。</p>
+<p>此算法可以称为“加点法”，每次迭代选择代价最小的边对应的点，加入到最小生成树中。算法从某一个顶点s开始，逐渐长大覆盖整个连通网的所有顶点。</p>
+<p>图的所有顶点集合为V；初始令集合u&#x3D;{s}, v&#x3D;V−u; 在两个集合u,v能够组成的边中，选择一条代价最小的边(u0,v0)，加入到最小生成树中，并把v0并入到集合u中。 重复上述步骤，直到最小生成树有n-1条边或者n个顶点为止。 由于不断向集合u中加点，所以最小代价边必须同步更新；需要建立一个辅助数组mincost[MAX_V]，用来维护集合v中每个顶点与集合u中最小代价边信息。</p>
+<pre><code class="hljs">    /* wiki伪代码
+从单一顶点开始，普里姆算法按照以下步骤逐步扩大树中所含顶点的数目，直到遍及连通图的所有顶点。
+    输入：一个加权连通图，其中顶点集合为V，边集合为E；
+    初始化：Vnew=&#123;x&#125;，其中x为集合V中的任一节点（起始点），Enew=&#123;&#125;；
+    重复下列操作，直到Vnew = V：
+    在集合E中选取权值最小的边（u, v），其中u为集合Vnew中的元素，而v则是V中没有加入Vnew的顶点（如果存在有多条满足前述条件即具有相同权值的边，则可任意选取其中之一）；
+    将v加入集合Vnew中，将（u, v）加入集合Enew中；
+    输出：使用集合Vnew和Enew来描述所得到的最小生成树。
+*/
+</code></pre>
+<p><strong>主要过程是以“点”集合为中心算的，此外还可以使用Heap + Prim优化。</strong></p>
+<pre><code class="hljs">    int cost[MAX _V][MAX _V]; //cost[u][v]表 示边e=(u,v)的权值(不存在的情况下设为INF )
+int mincost[MAX_ V] ;  //从集合X出发的边到每个顶点的最小权值
+bool used[MAX_ _V];  // 顶点i是否包含在集合X中
+int V;  //顶点数
+
+int prim() &#123;
+    for (int i = 0; i &lt; V; i++) &#123;
+        mincost[i] = INF;
+        used[i] = false;
+    &#125;
+    mincost[0] = 0;
+    int res = 0;
+
+    while (true) &#123;
+        int v = -1;  
+        //从不属于X的顶点中选取从X到其权值最小的顶点
+        for (int u = 0; u &lt; V; u++) &#123;
+            if (!used[u] &amp;&amp; (v == -1 || mincost[u] &lt; mincost[v])) &#123;
+                v = u;
+            &#125;
+        &#125;
+        if (v == -1) break;
+        used[v] = true;  //把顶点v加入X
+        res += mincost[v];  //把边的长度加到结果里
+        for (int u = 0; u &lt; V; u++) &#123;
+            mincost[u] = min(mincost[u], cost[v][u]);
+        &#125;
+    &#125;
+    return res;//返回MST权值
+&#125;
+</code></pre>
+<p>复杂度：临接矩阵\(O(|V|^2)\) 邻接表 \(O(|E| log |V|)\)</p>
+<hr>
+<h4 id="Krusual"><a href="#Krusual" class="headerlink" title="Krusual"></a>Krusual</h4><p>算法思路</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41754350/article/details/81460643">参考资料</a></p>
+<p>克鲁斯卡尔算法的基本思想是以边为主导地位，始终选择当前可用的最小边权的边（可以sort）。每次选择边权最小的边链接两个端点是kruskal的规则，并实时判断两个点之间有没有间接联通。</p>
+<p>Kruskal算法原理如下。首先，将每个顶点放入其自身的数据集合中。然后，按照权值的升序来选择边。当选择每条边时，判断定义边的顶点是否在不同的数据集中。如果是，将此边插入最小生成树的集合中，同时，将集合中包含每个顶点的联合体取出，如果不是，就移动到下一条边。重复这个过程直到所有的边都探查过。</p>
+<p>算法简单，需要使用到<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41754350/article/details/81271567">并查集</a>。</p>
+<pre><code class="hljs">    #include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+int n,m,tot=0,k=0;//n端点总数，m边数，tot记录最终答案，k已经连接了多少边 
+int fat[200010];//记录集体老大 
+struct node
+&#123;
+    int from,to,dis;//结构体储存边 
+&#125;edge[200010];
+bool cmp(const node &amp;a,const node &amp;b)//sort排序（当然你也可以快排） 
+&#123;
+    return a.dis&lt;b.dis;
+&#125;
+int father(int x)//找集体老大，并查集的一部分 
+&#123;
+    if(fat[x]!=x)
+    return father(fat[x]);
+    else return x;
+&#125;
+void unionn(int x, int y)//加入团体，并查集的一部分 
+&#123;
+    fat[father(y)]=father(x);
+&#125;
+int main()
+&#123;
+    scanf(&quot;%d%d&quot;,&amp;n,&amp;m);//输入点数，边数 
+    for(int i=1;i&lt;=m;i++)
+    &#123;
+        scanf(&quot;%d%d%d&quot;,&amp;edge[i].from,&amp;edge[i].to,&amp;edge[i].dis);//输入边的信息 
+    &#125;
+    for(int i=1;i&lt;=n;i++) fat[i]=i;//自己最开始就是自己的老大 （初始化） 
+    sort(edge+1,edge+1+m,cmp);//按权值排序（kruskal的体现） 
+    for(int i=1;i&lt;=m;i++)//从小到大遍历 
+    &#123;
+        if(k==n-1) break;//n个点需要n-1条边连接 
+        if(father(edge[i].from)!=father(edge[i].to))//假如不在一个团体 
+        &#123;
+            unionn(edge[i].from,edge[i].to);//加入 
+            tot+=edge[i].dis;//记录边权 
+            k++;//已连接边数+1 
+        &#125;
+    &#125;
+    printf(&quot;%d&quot;,tot);
+    return 0;
+&#125;
+</code></pre>
+<p>时间复杂度：O(|Elog|E|)</p>
+<hr>
+<pre><code class="hljs">* 最小树形图
+
+  * 朱刘算法
+* 欧拉图
+
+* 环套树
+
+* 仙人掌
+</code></pre>
+<h2 id="树相关"><a href="#树相关" class="headerlink" title="树相关"></a>树相关</h2><pre><code class="hljs">* 树上倍增
+
+* 最近公共祖先 LCA
+
+* 树链剖分
+
+* 动态树
+
+  * Link-Cut Tree
+  * 树分块
+* 树分治
+
+  * 点分治
+  * 边分治
+* 虚树
+
+* Prufer编码
+
+* 拓扑排序
+</code></pre>
+<p><strong>基于DFS的拓扑排序</strong></p>
+<pre><code class="hljs">            摘录一段维基百科上的伪码：
+    L ← Empty list that will contain the sorted nodes
+    S ← Set of all nodes with no outgoing edges
+    for each node n in S do
+        visit(n) 
+    function visit(node n)
+        if n has not been visited yet then
+            mark n as visited
+            for each node m with an edgefrom m to ndo
+                visit(m)
+            add n to L
+</code></pre>
+<p>DFS的实现更加简单直观，使用递归实现。利用DFS实现拓扑排序，实际上只需要添加一行代码，即上面伪码中的最后一行：add n to L .需要注意的是，将顶点添加到结果List中的时机是在visit方法即将退出之时。这种方法十分巧妙。</p>
+<pre><code class="hljs">            #include&lt;bits/stdc++.h&gt;
+    using namespace std;
+    typedef long long ll;
+    const int maxn = 1000 + 10;
+    const int INF = 1e9 + 7;
+    int T, n, m, cases;
+    vector&lt;int&gt;Map[maxn];
+    int c[maxn];//标记数组c[i] = 0 表示还未访问过点i， c[i] = 1表示已经访问过点i，并且还递归访问过它的所有子孙，c[i] = -1表示正在访问中，尚未返回
+    int topo[maxn], t;
+    bool dfs(int u)//从u出发
+    &#123;
+        c[u] = -1;//访问标志
+        for(int i = 0; i &lt; Map[u].size(); i++)
+        &#123;
+            int v = Map[u][i];
+            if(c[v] &lt; 0)return false;//如果子孙比父亲先访问，说明存在有向环，失败退出
+            else if(!c[v] &amp;&amp; !dfs(v))return false;//如果子孙未被访问，访问子孙返回假，说明也是失败
+        &#125;
+        c[u] = 1;
+        topo[--t] = u;//在递归结束才加入topo排序中，这是由于在最深层次递归中，已经访问到了尽头，此时才是拓扑排序中的最后一个元素
+        return true;
+    &#125;
+    bool toposort()
+    &#123;
+        t = n;
+        memset(c, 0, sizeof(c));
+        for(int u = 1; u &lt;= n; u++)if(!c[u])
+            if(!dfs(u))return false;
+        return true;
+    &#125;
+    int main()
+    &#123;
+        while(cin &gt;&gt; n &gt;&gt; m)
+        &#123;
+            if(!n &amp;&amp; !m)break;
+            int u, v;
+            for(int i = 0;  i &lt;= n; i++)Map[i].clear();
+            for(int i = 0; i &lt; m; i++)
+            &#123;
+                cin &gt;&gt; u &gt;&gt; v;
+                Map[u].push_back(v);
+            &#125;
+            if(toposort())
+            &#123;
+                cout&lt;&lt;&quot;Great! There is not cycle.&quot;&lt;&lt;endl;
+                for(int i = 0; i &lt; n; i++)cout&lt;&lt;topo[i]&lt;&lt;&quot; &quot;;
+                cout&lt;&lt;endl;
+            &#125;
+            else cout&lt;&lt;&quot;Network has a cycle!&quot;&lt;&lt;endl;
+        &#125;
+        return 0;
+    &#125;
+</code></pre>
+<p><strong>Kahn算法</strong></p>
+<p><strong>Kahn算法：</strong></p>
+<pre><code class="hljs">            摘一段维基百科上关于Kahn算法的伪码描述：
+    L← Empty list that will contain the sorted elements
+    S ← Set of all nodes with no incoming edges
+    while S is non-empty do
+        remove a node n from S
+        insert n into L
+        foreach node m with an edge e from nto m do
+            remove edge e from thegraph
+            ifm has no other incoming edges then
+                insert m into S
+    if graph has edges then
+        return error (graph has at least onecycle)
+    else 
+        return L (a topologically sortedorder)
+</code></pre>
+<p>不难看出该算法的实现十分直观，关键在于需要维护一个入度为0的顶点的集合：每次从该集合中取出(没有特殊的取出规则，随机取出也行，使用队列&#x2F;栈也行，下同)一个顶点，将该顶点放入保存结果的List中。紧接着循环遍历由该顶点引出的所有边，从图中移除这条边，同时获取该边的另外一个顶点，如果该顶点的入度在减去本条边之后为0，那么也将这个顶点放到入度为0的集合中。然后继续从集合中取出一个顶点……当集合为空之后，检查图中是否还存在任何边，如果存在的话，说明图中至少存在一条环路。不存在的话则返回结果List，此List中的顺序就是对图进行拓扑排序的结果。</p>
+<p>实现算法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qinzhaokun/article/details/48541117">博客链接</a></p>
+<h2 id="数论"><a href="#数论" class="headerlink" title="数论"></a>数论</h2><pre><code class="hljs">* 欧几里得算法 
+  * 扩展欧几里得算法
+* 筛法
+* 杜教筛
+* 快速幂
+* 裴蜀定理
+* 欧拉函数 
+  * 欧拉定理
+  * 费马小定理
+* 排列组合 
+  * Lucas定理
+* 乘法逆元
+* 矩阵乘法
+* 数学概率与期望
+* 博弈论 
+  * SG函数
+  * 树上删边游戏
+* 拉格朗日乘子法
+* 中国剩余定理
+* 线性规划 
+  * 单纯形
+* 辛普森积分
+* 模线性方程组
+* 莫比乌斯反演 
+  * 莫比乌斯函数
+* 容次原理
+* 置换群
+* FFT、NTT
+* BSGS 
+  * 扩展BSGS
+</code></pre>
+<h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><p>动态规划常常适用于有<strong>重叠子问题和最优子结构</strong> 性质的问题，动态规划方法所耗时间往往远少于朴素解法。</p>
+<p>动态规划在查找有很多重叠子问题的情况的最优解时有效。它将问题重新组合成子问题。为了避免多次解决这些子问题，它们的结果都逐渐被计算并被保存，从简单的问题直到整个问题都被解决。因此，动态规划保存递归时的结果，因而不会在解决同样的问题时花费时间。</p>
+<p>动态规划只能应用于有最优子结构的问题。最优子结构的意思是局部最优解能决定全局最优解（对有些问题这个要求并不能完全满足，故有时需要引入一定的近似）。简单地说，问题能够分解成子问题来解决。</p>
+<p>参考资料 <a target="_blank" rel="noopener" href="https://leetcode.com/discuss/general-discussion/592146/dynamic-programming-summary/513130">[1]</a></p>
+<pre><code class="hljs">* 背包问题
+* 概率DP
+* 状压DP
+* 区间DP
+* 树形DP
+* 数位DP
+* 插头DP
+* 斯坦纳树
+* DP优化 
+  * 单调队列优化
+  * 矩阵乘法优化
+  * 斜率优化
+  * 四边形不等式优化
+</code></pre>
+<h2 id="计算几何"><a href="#计算几何" class="headerlink" title="计算几何"></a>计算几何</h2><pre><code class="hljs">* 计算几何基础
+* 梯形剖分
+* 三角形剖分
+* 旋转卡壳
+* 半平面交
+* pick定理
+* 扫描线
+</code></pre>
+<h2 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h2><pre><code class="hljs">* DFS、BFS
+* A _、IDA_
+* 迭代加深搜索
+* 双向BFS
+</code></pre>
+<h2 id="随机化"><a href="#随机化" class="headerlink" title="随机化"></a>随机化</h2><pre><code class="hljs">* 模拟退火
+* 爬山算法
+* 随机增量法
+</code></pre>
+<hr>
+<h2 id="排序算法"><a href="#排序算法" class="headerlink" title="排序算法"></a>排序算法</h2><p>这里将展示十中排序算法，包括内部排序和外部排序，各类排序算法的复杂度总结如下表：</p>
+<p>！！！待插入汇总表</p>
+<hr>
+<h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><h4 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h4><p><strong>算法思想：</strong> 将一个记录插入到已排序好的有序表中，从而得到一个新，记录数增1的有序表。即：先将序列的第1个记录看成是一个有序的子序列，然后从第2个记录逐个进行插入，直至整个序列有序为止。此方法可用于链表。</p>
+<p><strong>要点：</strong> 设立哨兵，作为临时存储和判断数组边界之用。</p>
+<pre><code class="hljs">    //插入排序
+void Insert_Sort(int list[],int count)&#123;
+    int temp;    /*此处充当哨兵，不在list数组里面单独占一个单位*/
+    int i,j;
+    for(i=1;i&lt;count;i++)&#123;
+        if(list[i]&lt;list[i-1])&#123;
+            temp = list[i];
+            for(j=i-1;list[j]&gt;temp&amp;&amp;j&gt;=0;j--)&#123;
+                list[j+1] = list[j];
+            &#125;
+            list[j+1] = temp;
+        &#125;
+    &#125;
+&#125;
+//
+void Sort(int a[], int len)&#123;
+    for(int i=1;i&lt;len;i++)&#123;
+        if(a[i]&lt;a[i-1])&#123;
+            int tmp = a[i];
+            int j;
+            for(j=i-1;j&gt;=0;j--)&#123;
+                if(tmp&lt;a[j])&#123;
+                    a[j+1] = a[j];
+                &#125;else break;//上面那个拆开就是这样
+            &#125;
+            a[j+1] = tmp;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h4 id="折半插入排序"><a href="#折半插入排序" class="headerlink" title="折半插入排序"></a>折半插入排序</h4><p><strong>基本概念：</strong> 折半插入排序（binary insertion sort）是对插入排序算法的一种改进，由于排序算法过程中，就是不断的依次将元素插入前面已排好序的序列中。由于前半部分为已排好序的数列，这样我们不用按顺序依次寻找插入点，可以采用折半查找的方法来加快寻找插入点的速度。</p>
+<p><strong>算法思想：</strong> 在将一个新元素插入已排好序的数组的过程中，寻找插入点时，将待插入区域的首元素设置为a[low]，末元素设置为a[high]，则轮比较时将待插入元素与a[m]，其中m&#x3D;(low+high)&#x2F;2相比较,如果比参考元素大，则选择a[low]到a[m-1]为新的插入区域(即high&#x3D;m-1)，否则选择a[m+1]到a[high]为新的插入区域（即low&#x3D;m+1），如此直至low&lt;&#x3D;high不成立，即将此位置之后所有元素后移一位，并将新元素插入a[high+1]。</p>
+<pre><code class="hljs">    void BinaryInsertSort(int a[], int n)   &#123;
+    int i, j, k, low, high, m;
+    for(i = 1; i &lt; n; i++) &#123;
+        low = 0;
+        high = i - 1;
+
+        while(low &lt;= high) &#123; //主要优化就是用二分法寻找有序数组的目标值
+            m = (low + high) / 2;
+            if(a[m] &gt; a[i]) high = m - 1;
+            else low = m + 1;
+        &#125;
+
+        if(j != i - 1) &#123;
+            int temp = a[i];
+            for(k = i - 1; k &gt;= high + 1; k--)
+                a[k + 1] = a[k];
+            a[k + 1] = temp;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h4 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h4><p><strong>基本思想：</strong> 希尔排序是把记录按下标的一定增量分组，对每组使用直接插入排序算法排序；随着增量逐渐减少，每组包含的关键词越来越多，当增量减至1时，整个文件恰被分成一组，算法便终止。</p>
+<p><strong>排序过程：</strong> 先取一个正整数\(d_1&lt;n\) ，把所有序号相隔 \(d_1\) 的数组元素放一组，组内进行直接插入排序；然后取 \(d_2&lt;d_1\) ，重复上述分组和排序操作；直至 \(d_i&#x3D;1\) ，即所有记录放进一个组中排序为止。</p>
+<pre><code class="hljs">    //shell排序，序号是0~count-1，序号如果从1开始，写法上有一点区别
+//待排序数组和数组长度count
+void Shell_Sort(int a[], int len) &#123;
+    for (int d = len / 2; d &gt;= 1; d /= 2) &#123;
+        for (int i = d; i &lt; len; i++) &#123;
+            if (a[i] &lt; a[i - d]) &#123;
+                int tmp = a[i];
+                int j;
+                for (j = i - d; j &gt;= 0; j -= d) &#123;
+                    if (tmp &lt; a[j]) &#123;
+                        a[j + d] = a[j];
+                    &#125; else break;
+                &#125;
+                a[j + d] = tmp;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<hr>
+<h3 id="交换排序"><a href="#交换排序" class="headerlink" title="交换排序"></a>交换排序</h3><h4 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h4><p>算法思想：冒泡排序比较简单，俩层循环，第一层循环决定终止位置，第二层循环从起点位置开始遍历，到终止位置，其间对比相邻俩个元素，根据升序或者降序需求比较值并进行兑换。假设有一个大小为 N 的无序序列，冒泡排序就是要每趟排序过程中通过两两比较，找到第 i 个小（大）的元素，将其往上排。</p>
+<pre><code class="hljs">    void BubbleSort(int arr[], int n)&#123;//数组序号从0开始
+    for (int i = 0; i &lt; n - 1; i++)&#123;
+        for (int j = 0; j &lt; n - i - 1; j++)&#123;
+            if (arr[j] &gt; arr[j + 1])&#123;//递增排序，把大的先放到数组后面
+                swap(arr[j], arr[j + 1]);
+                
+            &#125;
+        &#125;
+    &#125;
+&#125;
+//逆序的写法，有序后加入flag提前退出
+void BubbleSort(int arr[], int n)&#123;
+    for (int i = 0; i &lt; n - 1; i++)&#123;
+        bool flag = false;//判断本轮的冒泡是否更新
+        for (int j = n-1; j &gt; i; j--)&#123;//把小的先放到数组前面,本轮选择第i小的数字
+            if (arr[j-1] &gt; arr[j])&#123;//递增排序
+                swap(arr[j-1], arr[j]);
+                flag = true;
+            &#125;
+        &#125;
+        if(!flag)return;
+    &#125;
+&#125;
+</code></pre>
+<h4 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h4><p><strong>算法思想：</strong> 随机找出一个数，可以随机取，也可以取固定位置，一般是取第一个或最后一个称为基准，然后就是比基准小的在左边，比基准大的放到右边，如何放做，就是和基准进行交换，这样交换完左边都是比基准小的，右边都是比较基准大的，这样就将一个数组分成了两个子数组，然后再按照同样的方法把子数组再分成更小的子数组，直到不能分解为止。</p>
+<p><strong>算法流程：</strong> （1）设置两个变量i、j，排序开始的时候：i&#x3D;0，j&#x3D;N-1； （2）以第一个数组元素作为关键数据，赋值给key，即key&#x3D;A[0]； （3）从j开始向前搜索，即由后开始向前搜索(j–)，找到第一个小于key的值A[j]，将A[j]和A[i]互换； （4）从i开始向后搜索，即由前开始向后搜索(i++)，找到第一个大于key的A[i]，将A[i]和A[j]互换； （5）重复第3、4步，直到i&#x3D;j； (3,4步中，没找到符合条件的值，即3中A[j]不小于key,4中A[i]不大于key的时候改变j、i的值，使得j&#x3D;j-1，i&#x3D;i+1，直至找到为止。找到符合条件的值，进行交换的时候i， j指针位置不变。另外，i&#x3D;&#x3D;j这一过程一定正好是i+或j-完成的时候，此时令循环结束）。</p>
+<pre><code class="hljs">    #include&lt;iostream&gt;
+using namespace std;
+int partition(int arr[],int left,int right)&#123;
+    int temp=arr[left];
+    while(left&lt;right)//直达left和right重合的时候，才找到合适的位置
+    &#123;
+        //先从后往前找比基准小的
+        while(left&lt;right  &amp;&amp;  arr[right]&gt;=temp)
+            //当right的值大于temp的值的时候才执行
+            //等号一定得写，因为可能会出现，保存的temp元素和数据中的元素一样的，不写会出现死循环的现象
+        &#123;
+            right--;
+        &#125;
+        arr[left]=arr[right];
+        //当right的值小于temp的值的时候执行
+        //从前往后找，找比基准大的
+        while(left&lt;right  &amp;&amp; arr[left] &lt;=temp)//当left的值小于temp的值的时候执行
+        &#123;
+            left++;
+        &#125;
+        arr[right]=arr[left];//当left的值大于temp的时候执行
+    &#125;
+    arr[left]=temp;//此时的left和right在同一个位置，此时为合适的位置，把temp的值给left
+    return left;//此时返回的值是temp合适的位置，即小于它的在它的左边，大于它的在它的右边
+&#125;
+ void quick(int arr[], int left, int right)&#123;
+    if(left&lt;right)&#123;
+        int pivot=partition(arr,left,right);
+        quick(arr,left,pivot-1);
+        quick(arr,pivot+1,right);
+    &#125;
+&#125;
+void quick_sort(int arr[],int len)&#123;
+    quick(arr,0,len-1);
+&#125;
+int main()&#123;
+    int arr[]=&#123;9,5,7,10,45,12&#125;;
+    int len=sizeof(arr)/sizeof(arr[0]);
+    quick_sort(arr,len);
+    for(int k=0;k&lt;len;++k)&#123;
+        cout&lt;&lt;arr[k]&lt;&lt;&quot;  &quot;;
+    &#125;
+    cout&lt;&lt;endl;
+&#125;
+
+    int partition(int a[],int low,int high)&#123;
+    int tmp = a[low];
+    while(low&lt;high)&#123;
+        while(low&lt;high &amp;&amp; a[high]&gt;=tmp) --high;
+        a[low] = a[high];
+        while(low&lt;high &amp;&amp; a[low]&lt;=tmp) ++low;
+        a[high] = a[low]; 
+    &#125;
+    a[low] = tmp;
+    return low;
+&#125;
+
+void quickSort(int a[], int low,int high) &#123;
+    if(low &lt; high)&#123;
+        int pos = partition(a,low,high);
+        quickSort(a,low,pos-1);
+        quickSort(a,pos+1,high);
+    &#125;
+&#125;
+</code></pre>
+<p><strong>快速排序的优化方法：</strong> <a target="_blank" rel="noopener" href="https://blog.csdn.net/lingling_nice/article/details/80943231">参考资料</a></p>
+<p>（1）三数取中法，解决数据基本有序的（就是找到数组中最小下标，最大下标，中间下标的数字，进行比较，把中间大的数组放在最左边）</p>
+<p>（2）随机选取基准，引入的原因是因为在待排序列是部分有序时，固定选取枢轴使快排效率底下，要缓解这种情况，就引入了随机选取枢轴，方法就是取待排序列中任意一个元素作为基准</p>
+<p>（3）优化小数组的交换，就是为了解决大才小用问题，<strong>对于很小和部分有序的数组，快排不如插排好</strong> 。当待排序序列的长度分割到一定大小后，继续分割的效率比插入排序要差，此时可以使用插排而不是快排，快排截止范围：<strong>待排序序列长度N &#x3D; 10</strong> ，虽然在5~20之间任一截止范围都有可能产生类似的结果，这种做法也避免了一些有害的退化情形</p>
+<p>（4）在一次分割结束后，可以把与Key相等的元素聚在一起，继续下次分割时，不用再对与key相等元素分割，具体过程：在处理过程中，会有两个步骤第一步，在划分过程中，把与key相等元素放入数组的两端，第二步，划分结束后，把与key相等的元素移到枢轴周围</p>
+<hr>
+<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><h4 id="简单选择排序"><a href="#简单选择排序" class="headerlink" title="简单选择排序"></a>简单选择排序</h4><p>算法思想：在要排序的一组数中，选出最小（或者最大）的一个数与第1个位置的数交换；然后在剩下的数当中再找最小（或者最大）的与第2个位置的数交换，依次类推，直到第n-1个元素（倒数第二个数）和第n个元素（最后一个数）比较为止。</p>
+<pre><code class="hljs">    //选择排序
+void Select_Sort(int list[],int count)&#123;
+    int min,i,j;
+    for(i=0;i&lt;count;i++)&#123;
+        min = i;
+        for(j=i+1;j&lt;count;j++)&#123;
+            if(list[min]&gt;list[j])&#123;
+                min = j;
+            &#125;
+        &#125;
+        if(min!=i)&#123;
+            swap(list[i],list[min]);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h4 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h4><p>堆排序是一种树形选择排序，是对直接选择排序的有效改进。堆是一种特殊的树形数据结构，即完全二叉树。堆分为大根堆和小根堆，大根堆为根节点的值大于两个子节点的值；小根堆为根节点的值小于两个子节点的值，同时根节点的两个子树也分别是一个堆。</p>
+<p><strong>算法思想：</strong></p>
+<pre><code class="hljs">* 步骤一：建立大根堆--将n个元素组成的无序序列构建一个堆，从最后一个非叶子节点开始向下调整。
+* 步骤二：交换堆元素--交换堆尾元素和堆首元素，使堆尾元素为最大元素；
+* 步骤三：重建大根堆--将前n-1个元素组成的无序序列调整为大根堆；
+</code></pre>
+<p>​ 重复执行步骤二和步骤三，直到整个序列有序。</p>
+<p>需要注意的是数组的序号可以从0开始也可以从1开始，写法上稍有不同，若初始序号是0，则对于序号是i的结点，</p>
+<pre><code class="hljs">    //调整为一个堆
+void Heap_AdjustDown(int *list,int s,int m)//数组的序号的从1开始
+&#123;
+    list[0] = list[s];
+    for(int j=2*s;j&lt;=m;j = 2*j)
+    &#123;
+        if(list[j]&lt;list[j+1]&amp;&amp;j&lt;m)
+        &#123;
+            j++;
+        &#125;
+        if(list[0]&gt;list[j])
+            break;
+        list[s] = list[j];
+        s = j;
+    &#125;
+    list[s] = list[0];
+&#125;
+/*这样写也可以
+void adjustDown(int a[],int k, int len)&#123;
+    a[0] = a[k];
+    for(int i=2*k;i&lt;=len;i*=2)&#123;
+        if(a[i]&lt;a[i+1]&amp;&amp;i&lt;len)i++;
+        //if(a[0]&gt;a[i])break;
+        if(a[i]&gt;a[k])&#123;
+            swap(a[i],a[k]);k = i;
+        &#125;
+        else break;
+        //a[k] = a[i];
+        
+    &#125;
+    //a[k] = a[0];
+&#125;
+*/
+//堆排序
+void Heap_Sort(int *list,int len)//数组的序号的从1开始
+&#123;
+    //创建一个大顶堆
+    for(int s = len/2;s&gt;0;s--)
+    &#123;
+        Heap_AdjustDown(list,s,len);
+    &#125;
+ 
+    //排序
+    for(int i = len;i &gt; 1;i--)
+    &#123;
+        swap(list[1],list[i]);
+        Heap_AdjustDown(list,1,i-1);
+    &#125;
+&#125;
+</code></pre>
+<p>补充，堆的插入和删除：删除堆顶元素操作需要将堆顶元素与堆尾交换，由于破坏了堆的性质，需要向下调整Heap_AdjustDown。而插入元素操作，需要在堆尾插入，然后从堆尾开始向上调整Heap_AdjustUp。</p>
+<pre><code class="hljs">    void Heap_AdjustUp(int *list,int k)//数组的序号的从1开始，参数k是向上调整的节点位置(list[k])，也是堆元素个数;list[0]用作临时变量存放结点数字
+&#123;
+    list[0] = list[k];
+    int i = k/2;
+    while(i&gt;0&amp;&amp;list[i]&lt;list[0])&#123;
+        list[k] = list[i];
+        k = i;
+        i = k/2;
+    &#125;
+    list[k] = list[0];
+&#125;
+</code></pre>
+<p>另外一种写法，差不多。</p>
+<pre><code class="hljs">    //调整为一个堆，这个写法是0序号开始
+void Heap_AdjustDown(int *list,int s,int m)//list是待排序数组，s是开始调整的父亲结点，m是堆尾结点的序号
+&#123;
+    int temp = list[s];
+    for(int j=2*s+1;j&lt;=m;j = 2*j+1)
+    &#123;
+        if(j&lt;m &amp;&amp; list[j]&lt;list[j+1])
+        &#123;
+            j++;
+        &#125;
+        if(temp&gt;list[j])
+            break;
+        list[s] = list[j];
+        s = j;
+    &#125;
+    list[s] = temp;
+&#125;
+ 
+//堆排序
+void Heap_Sort(int *list,int len)
+&#123;
+    //创建一个大顶堆
+    for(int s = len/2-1;s&gt;=0;s--)
+    &#123;
+        Heap_AdjustDown(list,s,len-1);
+    &#125;
+ 
+    //排序
+    for(int i = len-1;i &gt;= 1;i--)
+    &#123;
+        swap(list[0],list[i]);
+        Heap_AdjustDown(list,0,i-1);
+    &#125;
+&#125;
+
+
+
+    void Heap_AdjustUp(int *list,int k)//数组的序号的从0开始，参数k是向上调整的节点位置，也是堆元素个数
+&#123;
+    int tmp = list[k];
+    int i = (k-1)/2;
+    while(i&gt;=0&amp;&amp;list[i]&lt;tmp)&#123;
+        list[k] = list[i];
+        k = i;
+        i = (k-1)/2;
+        if(k==0)break;//这里跳出，有空再改
+    &#125;
+    list[k] = tmp;
+&#125;
+</code></pre>
+<p>n个元素建立堆的时间复杂度是O(n)，调整堆的时间复杂度是O(h)</p>
+<hr>
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><p><strong>算法思想：</strong> 归并（Merge）排序法是将两个（或两个以上）有序表合并成一个新的有序表，即把待排序序列分为若干个子序列，每个子序列是有序的。然后再把有序子序列合并为整体有序序列。</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/orion_pistachio/article/details/70766898">参考资料</a></p>
+<pre><code class="hljs">    //非递归
+int min(int x, int y) &#123;
+    return x &lt; y ? x : y;
+&#125;
+void merge_sort(int arr[], int len) &#123;
+    int *a = arr;
+    int *b = (int *) malloc(len * sizeof(int));
+    int seg, start;
+    for (seg = 1; seg &lt; len; seg += seg) &#123;
+        for (start = 0; start &lt; len; start += seg * 2) &#123;
+            int low = start, mid = min(start + seg, len), high = min(start + seg * 2, len);
+            int k = low;
+            int start1 = low, end1 = mid;
+            int start2 = mid, end2 = high;
+            while (start1 &lt; end1 &amp;&amp; start2 &lt; end2)
+                b[k++] = a[start1] &lt; a[start2] ? a[start1++] : a[start2++];
+            while (start1 &lt; end1)
+                b[k++] = a[start1++];
+            while (start2 &lt; end2)
+                b[k++] = a[start2++];
+        &#125;
+        int *temp = a;
+        a = b;
+        b = temp;
+    &#125;
+    if (a != arr) &#123;
+        int i;
+        for (i = 0; i &lt; len; i++)
+            b[i] = a[i];
+        b = a;
+    &#125;
+    free(b);
+&#125;
+
+    //递归
+//merge_sort_recursive（待排序数组，辅助数组，起始位置，结束位置）
+void merge_sort_recursive(int arr[], int reg[], int start, int end) &#123;
+    if (start &gt;= end)
+        return;
+    int len = end - start, mid = (len &gt;&gt; 1) + start;//mid = (len)/2 + st
+    int start1 = start, end1 = mid;
+    int start2 = mid + 1, end2 = end;
+    merge_sort_recursive(arr, reg, start1, end1);
+    merge_sort_recursive(arr, reg, start2, end2);
+    int k = start;
+    while (start1 &lt;= end1 &amp;&amp; start2 &lt;= end2)
+        reg[k++] = arr[start1] &lt; arr[start2] ? arr[start1++] : arr[start2++];
+    while (start1 &lt;= end1)
+        reg[k++] = arr[start1++];
+    while (start2 &lt;= end2)
+        reg[k++] = arr[start2++];
+    for (k = start; k &lt;= end; k++)
+        arr[k] = reg[k];
+&#125;
+
+void merge_sort(int arr[], const int len) &#123;
+    int reg[len];
+    merge_sort_recursive(arr, reg, 0, len - 1);
+&#125;
+</code></pre>
+<h3 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h3><p>两种多关键码排序方法：最高位优先(Most Significant Digit first)法，简称MSD 法；最低位优先(Least Significant Digit first)法，简称LSD 法。实现方法是将所有待比较数值（正整数）统一为同样的数字长度，数字较短的数前面补零。然后，从最低位开始，依次进行一次排序。这样从最低位排序一直到最高位排序完成以后，数列就变成一个有序序列。</p>
+<pre><code class="hljs">    int maxbit(int data[], int n) //辅助函数，求数据的最大位数
+&#123;
+    int maxData = data[0];		///&lt; 最大数
+    /// 先求出最大数，再求其位数，这样有原先依次每个数判断其位数，稍微优化点。
+    for (int i = 1; i &lt; n; ++i)
+    &#123;
+        if (maxData &lt; data[i])
+            maxData = data[i];
+    &#125;
+    int d = 1;
+    int p = 10;
+    while (maxData &gt;= p)
+    &#123;
+        //p *= 10; // Maybe overflow
+        maxData /= 10;
+        ++d;
+    &#125;
+    return d;
+/*    int d = 1; //保存最大的位数
+    int p = 10;
+    for(int i = 0; i &lt; n; ++i)
+    &#123;
+        while(data[i] &gt;= p)
+        &#123;
+            p *= 10;
+            ++d;
+        &#125;
+    &#125;
+    return d;*/
+&#125;
+void radixsort(int data[], int n) //基数排序
+&#123;
+    int d = maxbit(data, n);
+    int *tmp = new int[n];
+    int *count = new int[10]; //计数器
+    int i, j, k;
+    int radix = 1;
+    for(i = 1; i &lt;= d; i++) //进行d次排序
+    &#123;
+        for(j = 0; j &lt; 10; j++)
+            count[j] = 0; //每次分配前清空计数器
+        for(j = 0; j &lt; n; j++)
+        &#123;
+            k = (data[j] / radix) % 10; //统计每个桶中的记录数
+            count[k]++;
+        &#125;
+        for(j = 1; j &lt; 10; j++)
+            count[j] = count[j - 1] + count[j]; //将tmp中的位置依次分配给每个桶
+        for(j = n - 1; j &gt;= 0; j--) //将所有桶中记录依次收集到tmp中
+        &#123;
+            k = (data[j] / radix) % 10;
+            tmp[count[k] - 1] = data[j];
+            count[k]--;
+        &#125;
+        for(j = 0; j &lt; n; j++) //将临时数组的内容复制到data中
+            data[j] = tmp[j];
+        radix = radix * 10;
+    &#125;
+    delete []tmp;
+    delete []count;
+&#125;
+</code></pre>
+<h3 id="外部排序算法之多路归并排序"><a href="#外部排序算法之多路归并排序" class="headerlink" title="外部排序算法之多路归并排序"></a>外部排序算法之多路归并排序</h3><hr>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><pre><code class="hljs">* 分治
+
+  * CDQ分治
+  * 整体二分
+* 莫队算法
+
+  * 树上莫队算法
+  * 待修改莫队算法
+* 分块
+
+* 高精度
+
+* 离线
+
+* RMQ
+
+  * ST表
+* 二分法
+
+  * 二分答案
+
+  * 二分查找
+</code></pre>
+<p><strong>三种写法不一样</strong> 能够写对一种就好，注意溢出。</p>
+<p>在这里再补充一下lowerbound和upperbound</p>
+<pre><code class="hljs">    //用这个!!!!!!!!!!
+int binarySearch(int a[],int l,int r,int tar)&#123;
+    while(l&lt;r)&#123;//返回[l,r)中第一个不小于tar的值的下标
+        int mid = l + (r-l)/2;
+        if(a[mid] &gt;= tar) r = mid;
+        else l=mid+1;
+    &#125;
+    return l;
+&#125;
+
+    bool bSearch(int a[], int left, int right, int tag)
+&#123;
+   while(left &lt;= right)&#123;
+        int mid = (left + right) &gt;&gt; 1;
+        if (a[mid] == tag)
+            return true;
+        else
+            a[mid] &lt; tag ? left = mid + 1 : right = mid - 1;
+    &#125;
+    return false;
+&#125;
+//求解区间[l,r]
+</code></pre>
+<p>**ForwardIter lower_bound(ForwardIter first, ForwardIter last,const _Tp&amp; val)**算法返回一个非递减序列[first, last)中的第一个大于等于值val的位置。</p>
+<p>**ForwardIter upper_bound(ForwardIter first, ForwardIter last, const _Tp&amp; val)**算法返回一个非递减序列[first, last)中第一个大于val的位置。</p>
+<pre><code class="hljs">    int upperBound(int a[], int l, int r,int tag)&#123;//[l,r)区间求解UB
+    while(l &lt; r) &#123;//在[l,r]求LB,等于[l,l+len)
+        int mid = (l + r) / 2;
+        if(a[mid] &gt; tag) 
+            r = mid;
+        else 
+            l = mid+1;
+    &#125;
+    return l;//写return l不会错
+&#125;
+
+    int lowerBound(int a[], int l, int r, int tag)&#123;
+    while(l&lt;r)&#123;//在[l,r)求LB,等于[l,l+len)
+        int mid = (l+r)/2;
+        if(a[mid]&gt;=tag)//求上下界的区别在于等号的处理
+            r = mid;
+        else
+            l = mid+1;
+    &#125;
+    return l;
+&#125;
+//求上下界的区别在于等号的处理,下界的等号与&quot;&gt;&quot;合并,因为要取得tag的值的索引必定比mid大,而有边界好取
+</code></pre>
+<p>lower_bound( )和upper_bound( )都是利用二分查找的方法在一个排好序的数组中进行查找的。</p>
+<p>在<strong>从小到大的排序数组</strong> 中：</p>
+<p><strong>lower_bound( begin,end,num)：</strong> 从数组的begin位置到end-1位置二分查找第一个大于或等于num的数字，找到返回该数字的地址，不存在则返回end。通过返回的地址减去起始地址begin,得到找到数字在数组中的下标。</p>
+<p><strong>upper_bound( begin,end,num)：</strong> 从数组的begin位置到end-1位置二分查找第一个大于num的数字，找到返回该数字的地址，不存在则返回end。通过返回的地址减去起始地址begin,得到找到数字在数组中的下标。</p>
+<p>在<strong>从大到小的排序数组</strong> 中，重载lower_bound()和upper_bound()：</p>
+<p>**lower_bound( begin,end,num,greater() ):**从数组的begin位置到end-1位置二分查找第一个小于或等于num的数字，找到返回该数字的地址，不存在则返回end。通过返回的地址减去起始地址begin,得到找到数字在数组中的下标。</p>
+<p>**upper_bound( begin,end,num,greater() ):**从数组的begin位置到end-1位置二分查找第一个小于num的数字，找到返回该数字的地址，不存在则返回end。通过返回的地址减去起始地址begin,得到找到数字在数组中的下标。</p>
+<p>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40160605/article/details/80150252">https://blog.csdn.net/qq_40160605/article/details/80150252</a></p>
+<p><strong>应用一：upper_bound - lower_bound &#x3D; target的数量</strong></p>
+<pre><code class="hljs">    [0,1,1,2,2，2,3,4,5,6]
+lower_bound(2) --&gt; 3(下标)
+upper_bound(2) --&gt; 6(下标)
+可以得到2的个数是3
+</code></pre>
+<p><img src="G:\Personal%20Document\Markdown\Pictures\Snipaste_2020-03-27_16-03-57.png" srcset="/img/loading.gif" lazyload></p>
+<p>参考链接 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/cobbliu/archive/2012/05/21/2512249.html">LINK1</a> <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/36132386">LINK2</a> <a target="_blank" rel="noopener" href="https://blog.csdn.net/yang20141109/article/details/51934437">LINK3</a></p>
+<pre><code class="hljs">* 三分法
+
+* 贪心
+
+* 模拟
+
+* **P类问题：** 存在多项式时间算法的问题。(P：polynomial，多项式)
+</code></pre>
+<p><strong>NP类问题：</strong> 能在多项式时间内验证得出一个正确解的问题。(NP:Nondeterministic polynomial，非确定性多项式)P类问题是NP问题的子集，因为存在多项式时间解法的问题，总能在多项式时间内验证他。注意定义，这里是验证。NP类问题，我用个人的俗话理解就是，不知道这个问题是不是存在多项式时间内的算法，所以叫non-deterministic非确定性，但是我们可以在多项式时间内验证并得出这个问题的一个正确解。举个例子，</p>
+<p><strong>NPC问题：</strong> 如果所有np问题都能在多项式时间内转化为他，则称该np问题为npc问题(NPC:NP complete又叫NP完全问题)NPC问题是NP问题的子集。</p>
+<p><strong>NPH问题：</strong> 我们又叫NP难问题，他不是一个NP问题，然后所有的NPC问题都可以在多项式时间内转化为他的话，我们就叫他NPH（hard）问题。</p>
+<pre><code class="hljs">* 牛顿迭代法
+</code></pre>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-chain-item">学习笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>算法整理（更新中...）</div>
+      <div>https://orion-wyc.github.io/2019/05/20/2019-05-21-算法整理更新中/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Yuchen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年5月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/10/15/2019-10-16-%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8/" title="深度学习入门">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">深度学习入门</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/05/19/2019-05-20-CSDN%E5%8D%9A%E5%AE%A2%E9%93%BE%E6%8E%A5/" title="CSDN博客链接">
+                        <span class="hidden-mobile">CSDN博客链接</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="" target="_blank" rel="nofollow noopener"><span>Yuchen</span></a> <i class="iconfont icon-love"></i> <a href="" target="_blank" rel="nofollow noopener"><span>NoCookEatMcDonald's</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="/js/mermaid-viewer.js"></script><!-- hexo injector body_end end --></body>
+</html>

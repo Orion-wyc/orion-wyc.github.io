@@ -1,0 +1,1554 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Yuchen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="GE 图引擎动态图拆分模块分析一、问题背景：为什么需要动态图拆分？GE 图引擎面临一个根本性的架构挑战：如何在一张图中同时处理静态 shape 算子和动态 shape 算子？ 1.1 具体场景典型问题场景：  用户模型中包含动态 shape 算子（如 Reshape、Broadcast），其输入&#x2F;输出 shape 在编译时未知（dim&#x3D;-1） 同时模型中也有大量静态 shape">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GE 图引擎动态图拆分模块分析">
+<meta property="og:url" content="https://orion-wyc.github.io/2026/05/07/2026-05-07-GE%E5%9B%BE%E5%BC%95%E6%93%8E%E5%8A%A8%E6%80%81%E5%9B%BE%E6%8B%86%E5%88%86%E6%A8%A1%E5%9D%97%E6%B7%B1%E5%BA%A6%E6%9E%B6%E6%9E%84%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Yuchen&#39;s Blog">
+<meta property="og:description" content="GE 图引擎动态图拆分模块分析一、问题背景：为什么需要动态图拆分？GE 图引擎面临一个根本性的架构挑战：如何在一张图中同时处理静态 shape 算子和动态 shape 算子？ 1.1 具体场景典型问题场景：  用户模型中包含动态 shape 算子（如 Reshape、Broadcast），其输入&#x2F;输出 shape 在编译时未知（dim&#x3D;-1） 同时模型中也有大量静态 shape">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-07T12:36:00.000Z">
+<meta property="article:modified_time" content="2026-05-10T15:47:14.090Z">
+<meta property="article:author" content="Yuchen">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="图引擎">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>GE 图引擎动态图拆分模块分析 - Yuchen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"orion-wyc.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="/css/custom.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Yuchen&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="GE 图引擎动态图拆分模块分析"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-05-07 20:36" pubdate>
+          2026年5月7日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          19k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          159 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">GE 图引擎动态图拆分模块分析</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="GE-图引擎动态图拆分模块分析"><a href="#GE-图引擎动态图拆分模块分析" class="headerlink" title="GE 图引擎动态图拆分模块分析"></a>GE 图引擎动态图拆分模块分析</h1><h2 id="一、问题背景：为什么需要动态图拆分？"><a href="#一、问题背景：为什么需要动态图拆分？" class="headerlink" title="一、问题背景：为什么需要动态图拆分？"></a>一、问题背景：为什么需要动态图拆分？</h2><p>GE 图引擎面临一个根本性的架构挑战：<strong>如何在一张图中同时处理静态 shape 算子和动态 shape 算子？</strong></p>
+<h3 id="1-1-具体场景"><a href="#1-1-具体场景" class="headerlink" title="1.1 具体场景"></a>1.1 具体场景</h3><p><strong>典型问题场景</strong>：</p>
+<ul>
+<li>用户模型中包含动态 shape 算子（如 <code>Reshape</code>、<code>Broadcast</code>），其输入&#x2F;输出 shape 在编译时未知（dim&#x3D;-1）</li>
+<li>同时模型中也有大量静态 shape 算子（如 <code>Conv2D</code>、<code>MatMul</code>），其 shape 在编译时已确定</li>
+<li>如果不拆分，整个图会被标记为”动态图”，导致：<ul>
+<li>静态算子无法享受静态图优化（如内存复用、算子融合）</li>
+<li>动态算子无法享受动态图特性（如 shape 推导、流式执行）</li>
+<li>整体性能严重下降</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-现有方案的不足"><a href="#1-2-现有方案的不足" class="headerlink" title="1.2 现有方案的不足"></a>1.2 现有方案的不足</h3><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>全静态图</strong></td>
+<td>动态算子无法执行，shape 推导失败</td>
+</tr>
+<tr>
+<td><strong>全动态图</strong></td>
+<td>静态算子性能损失，无法做深度优化</td>
+</tr>
+<tr>
+<td><strong>用户手动拆分</strong></td>
+<td>用户负担重，破坏模型可移植性</td>
+</tr>
+<tr>
+<td><strong>算子级别动态调度</strong></td>
+<td>调度开销大，无法做跨算子优化</td>
+</tr>
+</tbody></table>
+<h3 id="1-3-GE-的解决方案"><a href="#1-3-GE-的解决方案" class="headerlink" title="1.3 GE 的解决方案"></a>1.3 GE 的解决方案</h3><p>设计一套<strong>自动化的动态图拆分机制</strong>，将一张混合图拆分成多个子图：</p>
+<ul>
+<li><strong>静态子图</strong>：包含静态 shape 算子，享受静态图优化</li>
+<li><strong>动态子图</strong>：包含动态 shape 算子，享受动态图特性</li>
+<li><strong>自动连接</strong>：通过 <code>PartitionedCall</code> 算子自动连接子图，保证数据流正确</li>
+</ul>
+<p><strong>核心价值</strong>：用户无需关心拆分细节，系统自动适配，既保证兼容性，又最大化性能。</p>
+<hr>
+<h2 id="二、设计哲学：动静分离，最优调度"><a href="#二、设计哲学：动静分离，最优调度" class="headerlink" title="二、设计哲学：动静分离，最优调度"></a>二、设计哲学：动静分离，最优调度</h2><p>GE 的动态图拆分遵循一个清晰的设计哲学：**”静态算子走静态路，动态算子走动态路，自动连接不丢数据”**。</p>
+<p>这个哲学体现在三个核心原则：</p>
+<h3 id="2-1-原则一：最小化动态子图"><a href="#2-1-原则一：最小化动态子图" class="headerlink" title="2.1 原则一：最小化动态子图"></a>2.1 原则一：最小化动态子图</h3><p><strong>动机</strong>：动态子图的调度开销大，应尽量减少。</p>
+<p><strong>实现</strong>：</p>
+<ul>
+<li>只将真正需要动态 shape 的算子放入动态子图</li>
+<li>静态算子尽量合并到静态子图，即使与动态算子相邻</li>
+<li>小静态子图（&lt;阈值）会被合并到动态子图，避免碎片化</li>
+</ul>
+<p><strong>代码依据</strong>：<code>dynamic_shape_partition.cc:774-791</code>（<code>ChangeSmallClusterType</code>）</p>
+<h3 id="2-2-原则二：最大化静态子图优化"><a href="#2-2-原则二：最大化静态子图优化" class="headerlink" title="2.2 原则二：最大化静态子图优化"></a>2.2 原则二：最大化静态子图优化</h3><p><strong>动机</strong>：静态子图可以做深度优化（内存复用、算子融合），应尽量放大。</p>
+<p><strong>实现</strong>：</p>
+<ul>
+<li>静态算子优先合并到静态子图</li>
+<li>静态子图可以跨多个动态算子（通过 <code>PartitionedCall</code> 连接）</li>
+<li>静态子图内部可以做完整的图优化</li>
+</ul>
+<p><strong>代码依据</strong>：<code>dynamic_shape_partition.cc:912-963</code>（<code>MergeClustersNormal</code>）</p>
+<h3 id="2-3-原则三：保证数据流正确性"><a href="#2-3-原则三：保证数据流正确性" class="headerlink" title="2.3 原则三：保证数据流正确性"></a>2.3 原则三：保证数据流正确性</h3><p><strong>动机</strong>：拆分后数据流不能断，必须保证输入输出正确。</p>
+<p><strong>实现</strong>：</p>
+<ul>
+<li>每个 Cluster 对应一个 <code>PartitionedCall</code> 算子</li>
+<li><code>PartitionedCall</code> 的输入&#x2F;输出锚点与原 Cluster 的输入&#x2F;输出锚点一致</li>
+<li>子图内部通过 <code>Data</code> 和 <code>NetOutput</code> 算子连接</li>
+</ul>
+<p><strong>代码依据</strong>：<code>base_cluster.cc:BuildFrame</code>、<code>CombinePartitionFrame</code></p>
+<hr>
+<h2 id="三、核心数据结构"><a href="#三、核心数据结构" class="headerlink" title="三、核心数据结构"></a>三、核心数据结构</h2><h3 id="3-1-Cluster：拆分的基本单元"><a href="#3-1-Cluster：拆分的基本单元" class="headerlink" title="3.1 Cluster：拆分的基本单元"></a>3.1 Cluster：拆分的基本单元</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">BaseCluster</span> : <span class="hljs-keyword">public</span> std::enable_shared_from_this&lt;BaseCluster&gt; &#123;<br>  <span class="hljs-type">int32_t</span> type_index_;          <span class="hljs-comment">// Cluster 类型（DATA/KNOWN_SHAPE/UNKNOWN_SHAPE/NETOUTPUT）</span><br>  <span class="hljs-type">size_t</span> id_;                   <span class="hljs-comment">// Cluster ID（拓扑排序位置）</span><br>  <span class="hljs-type">size_t</span> min_;                  <span class="hljs-comment">// Cluster 内节点的最小拓扑序</span><br>  <span class="hljs-type">size_t</span> max_;                  <span class="hljs-comment">// Cluster 内节点的最大拓扑序</span><br>  std::vector&lt;BaseCluster *&gt; in_clusters_;   <span class="hljs-comment">// 输入 Cluster</span><br>  std::vector&lt;BaseCluster *&gt; out_clusters_;  <span class="hljs-comment">// 输出 Cluster</span><br>  std::vector&lt;NodePtr&gt; nodes_;              <span class="hljs-comment">// Cluster 包含的节点</span><br>  ComputeGraphPtr subgraph_;                <span class="hljs-comment">// 对应的子图</span><br>  NodePtr partition_node_;                  <span class="hljs-comment">// 对应的 PartitionedCall 算子</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p><strong>设计亮点</strong>：</p>
+<ul>
+<li><code>min_</code> 和 <code>max_</code> 记录拓扑范围，用于判断是否可以合并（避免环）</li>
+<li><code>in_clusters_</code> 和 <code>out_clusters_</code> 记录 Cluster 间的连接关系</li>
+<li><code>subgraph_</code> 和 <code>partition_node_</code> 是拆分后的产物</li>
+</ul>
+<h3 id="3-2-DynamicShapeCluster：动态图拆分的特化"><a href="#3-2-DynamicShapeCluster：动态图拆分的特化" class="headerlink" title="3.2 DynamicShapeCluster：动态图拆分的特化"></a>3.2 DynamicShapeCluster：动态图拆分的特化</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">DynamicShapeCluster</span> : <span class="hljs-keyword">public</span> BaseCluster &#123;<br>  <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">IsKnownShape</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;     <span class="hljs-comment">// 是否为静态 Cluster</span><br>  <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">IsUnknownShape</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;   <span class="hljs-comment">// 是否为动态 Cluster</span><br>  <span class="hljs-function">Status <span class="hljs-title">SetUnknownAttr</span><span class="hljs-params">()</span></span>;       <span class="hljs-comment">// 设置动态属性（内存不连续等）</span><br>  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Merge</span><span class="hljs-params">(std::shared_ptr&lt;BaseCluster&gt; other)</span> <span class="hljs-keyword">override</span></span>;  <span class="hljs-comment">// 合并时更新类型</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p><strong>关键行为</strong>：</p>
+<ul>
+<li>合并时，如果被合并的 Cluster 是动态类型，当前 Cluster 也会变为动态类型</li>
+<li>动态 Cluster 的子图会被标记为”内存不连续分配”（<code>ATTR_NAME_MEMORY_DISCONTIGUOUS_ALLOCATION</code>）</li>
+</ul>
+<h3 id="3-3-DynamicShapePartitioner：拆分的主控制器"><a href="#3-3-DynamicShapePartitioner：拆分的主控制器" class="headerlink" title="3.3 DynamicShapePartitioner：拆分的主控制器"></a>3.3 DynamicShapePartitioner：拆分的主控制器</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">DynamicShapePartitioner</span> : <span class="hljs-keyword">public</span> BasePartitioner &#123;<br>  std::unordered_set&lt;NodePtr&gt; known_shape_nodes_;           <span class="hljs-comment">// 静态节点集合</span><br>  std::unordered_set&lt;NodePtr&gt; unknown_shape_nodes_;         <span class="hljs-comment">// 动态节点集合</span><br>  std::unordered_set&lt;NodePtr&gt; unknown_shape_no_tiling_nodes_; <span class="hljs-comment">// 支持 No Tiling 的动态节点</span><br>  <span class="hljs-type">int64_t</span> static_model_ops_lower_limit_;                    <span class="hljs-comment">// 静态子图最小算子数阈值</span><br>  <span class="hljs-type">bool</span> merge_known_first_;                                  <span class="hljs-comment">// 是否优先合并静态 Cluster</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p><strong>核心职责</strong>：</p>
+<ul>
+<li>标记动态节点（<code>MarkUnknownShapeNodes</code>）</li>
+<li>初始化 Cluster（<code>InitClusters</code>）</li>
+<li>合并 Cluster（<code>MergeClusters</code>）</li>
+<li>构建子图（<code>BuildPartitionFrame</code>）</li>
+</ul>
+<hr>
+<h2 id="四、核心流程"><a href="#四、核心流程" class="headerlink" title="四、核心流程"></a>四、核心流程</h2><h3 id="4-1-整体流程架构"><a href="#4-1-整体流程架构" class="headerlink" title="4.1 整体流程架构"></a>4.1 整体流程架构</h3><pre><code class=" mermaid">flowchart TD
+    Start([图预处理入口]) --&gt; Init[Initialize&lt;br/&gt;初始化阈值参数]
+    
+    Init --&gt; CheckScene&#123;场景判断&#125;
+    
+    CheckScene --&gt;|Host执行模式| SetUnknown[SetRootGraphUnknown&lt;br/&gt;整图标记为动态]
+    CheckScene --&gt;|仅包含Data/NetOutput| SetUnknown
+    CheckScene --&gt;|阈值=-1| SetUnknown
+    
+    SetUnknown --&gt; End([结束])
+    
+    CheckScene --&gt;|正常场景| GetIndepGraph[GetMultiBatchIndependCompileGraphs&lt;br/&gt;获取独立编译子图]
+    
+    GetIndepGraph --&gt; LoopGraph[遍历每个独立编译子图]
+    
+    LoopGraph --&gt; MarkNodes[MarkUnknownShapeNodes&lt;br/&gt;标记动态节点]
+    
+    MarkNodes --&gt; CheckNeed&#123;是否需要拆分?&#125;
+    
+    CheckNeed --&gt;|无动态节点| Skip[跳过拆分&lt;br/&gt;标记为静态图]
+    CheckNeed --&gt;|单算子场景| SingleOp[单算子场景处理&lt;br/&gt;标记为动态图]
+    CheckNeed --&gt;|需要拆分| CtrlTransfer[CtrlEdgeTransfer&lt;br/&gt;控制边转移]
+    
+    CtrlTransfer --&gt; PartitionImpl[PartitionImpl&lt;br/&gt;执行拆分]
+    
+    PartitionImpl --&gt; GenerateCluster[GenerateCluster&lt;br/&gt;生成 Cluster]
+    
+    GenerateCluster --&gt; InitClusters[InitClusters&lt;br/&gt;初始化 Cluster]
+    
+    InitClusters --&gt; MergeClusters[MergeClusters&lt;br/&gt;合并 Cluster]
+    
+    MergeClusters --&gt; Prune[PruneUniqueClusters&lt;br/&gt;去重并排序]
+    
+    Prune --&gt; RePartition[ReDynamicShapePartitioner&lt;br/&gt;二次拆分优化]
+    
+    RePartition --&gt; BuildFrame[BuildPartitionFrame&lt;br/&gt;构建子图框架]
+    
+    BuildFrame --&gt; CombineFrame[CombinePartitionFrame&lt;br/&gt;连接子图]
+    
+    CombineFrame --&gt; BuildSubgraph[BuildPartitionSubgraph&lt;br/&gt;构建完整子图]
+    
+    BuildSubgraph --&gt; Clear[ClearResource&lt;br/&gt;清理资源]
+    
+    Clear --&gt; NextGraph&#123;还有子图?&#125;
+    
+    NextGraph --&gt;|是| LoopGraph
+    NextGraph --&gt;|否| End
+    
+    Skip --&gt; NextGraph
+    SingleOp --&gt; NextGraph
+    
+    style Start fill:#e1f5e1
+    style End fill:#ffe1e1
+    style PartitionImpl fill:#e1f0ff
+    style MergeClusters fill:#f0e1ff
+    style BuildFrame fill:#fff4e1
+</code></pre>
+
+<h3 id="4-2-动态节点标记流程"><a href="#4-2-动态节点标记流程" class="headerlink" title="4.2 动态节点标记流程"></a>4.2 动态节点标记流程</h3><pre><code class=" mermaid">flowchart TD
+    Start([遍历图中节点]) --&gt; CheckAttr&#123;检查强制标记属性&#125;
+    
+    CheckAttr --&gt;|ATTR_IS_UNKNOWN_SHAPE=true| MarkUnknown[标记为动态节点]
+    CheckAttr --&gt;|ATTR_FORCE_UNKNOWN_SHAPE=true| MarkUnknown
+    CheckAttr --&gt;|无强制标记| CheckEngine&#123;检查引擎类型&#125;
+    
+    CheckEngine --&gt;|Host CPU引擎| MarkUnknown
+    CheckEngine --&gt;|其他引擎| CheckShape&#123;检查 Shape&#125;
+    
+    CheckShape --&gt;|存在 Unknown Shape&lt;br/&gt;dim=-1/-2| CheckNoTiling&#123;是否支持 No Tiling?&#125;
+    
+    CheckNoTiling --&gt;|支持| MarkNoTiling[标记为 No Tiling 节点&lt;br/&gt;不走 Tiling 流程]
+    CheckNoTiling --&gt;|不支持| MarkUnknown
+    
+    CheckShape --&gt;|静态 Shape| CheckSubgraph&#123;检查子图&#125;
+    
+    CheckSubgraph --&gt;|子图包含动态节点| MarkUnknown
+    CheckSubgraph --&gt;|子图全静态| CheckTilingDepend&#123;检查 Tiling Depend&#125;
+    
+    CheckTilingDepend --&gt;|是 Tiling Depend 算子| CheckTilingSink&#123;是否支持 Tiling Sink?&#125;
+    
+    CheckTilingSink --&gt;|支持| MarkTilingSink[标记为 Tiling Sink&lt;br/&gt;走 Host Tiling]
+    CheckTilingSink --&gt;|不支持| MarkUnknown
+    
+    CheckTilingDepend --&gt;|非 Tiling Depend| CheckAddrRefresh&#123;是否支持地址刷新?&#125;
+    
+    CheckAddrRefresh --&gt;|不支持| MarkUnknown
+    CheckAddrRefresh --&gt;|支持| MarkKnown[标记为静态节点]
+    
+    MarkUnknown --&gt; CollectConst[收集相连的 Const 节点&lt;br/&gt;放入动态集合]
+    MarkNoTiling --&gt; CollectConst
+    MarkKnown --&gt; CheckSpecial&#123;是否为特殊节点?&#125;
+    
+    CheckSpecial --&gt;|是&lt;br/&gt;如 Case/While/PartitionedCall| MarkSpecial[标记 has_special_node=true]
+    CheckSpecial --&gt;|否| NextNode
+    
+    MarkSpecial --&gt; NextNode
+    CollectConst --&gt; NextNode
+    MarkTilingSink --&gt; NextNode
+    
+    NextNode&#123;还有节点?&#125;
+    NextNode --&gt;|是| CheckAttr
+    NextNode --&gt;|否| CheckMixed&#123;检查混合场景&#125;
+    
+    CheckMixed --&gt;|动态节点 + No Tiling 节点共存| RevertNoTiling[回退 No Tiling 标记&lt;br/&gt;全部放入动态集合]
+    CheckMixed --&gt;|无混合| End([标记完成])
+    
+    RevertNoTiling --&gt; End
+    
+    style Start fill:#e1f5e1
+    style End fill:#ffe1e1
+    style MarkUnknown fill:#ffe1e1
+    style MarkKnown fill:#e1f5e1
+    style MarkNoTiling fill:#fff4e1
+    style MarkTilingSink fill:#f0e1ff
+</code></pre>
+
+<h3 id="4-3-Cluster-初始化流程"><a href="#4-3-Cluster-初始化流程" class="headerlink" title="4.3 Cluster 初始化流程"></a>4.3 Cluster 初始化流程</h3><pre><code class=" mermaid">sequenceDiagram
+    participant Partitioner as DynamicShapePartitioner
+    participant Graph as ComputeGraph
+    participant Node as Node
+    participant Cluster as DynamicShapeCluster
+    
+    Partitioner-&gt;&gt;Graph: TopologicalSorting()
+    Note right of Graph: 拓扑排序保证顺序
+    
+    Partitioner-&gt;&gt;Partitioner: InitClusterType()
+    Note right of Partitioner: 初始化类型映射&lt;br/&gt;DATA/KNOWN_SHAPE/UNKNOWN_SHAPE/NETOUTPUT
+    
+    Partitioner-&gt;&gt;Graph: GetDirectNode()
+    Graph--&gt;&gt;Partitioner: nodes
+    
+    loop 每个节点
+        Partitioner-&gt;&gt;Node: GetType()
+        Node--&gt;&gt;Partitioner: type
+        
+        alt Data节点且无输入
+            Partitioner-&gt;&gt;Partitioner: type_index = kDataTypeIndex
+        else Const节点且无输入
+            Partitioner-&gt;&gt;Partitioner: type_index = kInputNodeTypeIndex
+        else NetOutput节点
+            Partitioner-&gt;&gt;Partitioner: type_index = kNetOutputTypeIndex
+        else PartitionedCall且有Stage属性
+            Partitioner-&gt;&gt;Partitioner: type_index = kStageTypeIndex
+        else 动态节点集合中
+            Partitioner-&gt;&gt;Partitioner: type_index = kUnknownShapeTypeIndex
+        else 其他
+            Partitioner-&gt;&gt;Partitioner: type_index = kKnownShapeTypeIndex
+        end
+        
+        Partitioner-&gt;&gt;Cluster: new Cluster(rank++, type_index, node)
+        Partitioner-&gt;&gt;Partitioner: RecordClusters(cluster)
+        Partitioner-&gt;&gt;Partitioner: SetCluster(node, cluster)
+        
+        Partitioner-&gt;&gt;Node: GetInAllNodes()
+        Node--&gt;&gt;Partitioner: parent_nodes
+        
+        loop 每个父节点
+            Partitioner-&gt;&gt;Cluster: AddInput(GetCluster(parent))
+        end
+        
+        alt 控制流节点
+            Partitioner-&gt;&gt;Node: GetAttr(ATTR_CONTROL_FLOW_GROUP)
+            Node--&gt;&gt;Partitioner: group_index
+            Partitioner-&gt;&gt;Partitioner: control_nodes_[group_index].push_back(node)
+        end
+    end
+    
+    Partitioner--&gt;&gt;Partitioner: 初始化完成
+</code></pre>
+
+<h3 id="4-4-Cluster-合并流程（核心）"><a href="#4-4-Cluster-合并流程（核心）" class="headerlink" title="4.4 Cluster 合并流程（核心）"></a>4.4 Cluster 合并流程（核心）</h3><pre><code class=" mermaid">flowchart TD
+    Start([开始合并]) --&gt; CheckMode&#123;合并模式&#125;
+    
+    CheckMode --&gt;|merge_known_first=true| KnownFirst[优先合并静态 Cluster]
+    CheckMode --&gt;|merge_known_first=false| UnknownFirst[优先合并动态 Cluster]
+    
+    KnownFirst --&gt; MergeControl[MergeClustersControlFlow&lt;br/&gt;合并控制流 Cluster]
+    UnknownFirst --&gt; MergeControl
+    
+    MergeControl --&gt; CheckTopoMode&#123;拓扑排序模式&#125;
+    
+    CheckTopoMode --&gt;|stable_rdfs_sort| ConsistantId[MergeClustersWithConsistantId&lt;br/&gt;保持 ID 一致性合并]
+    CheckTopoMode --&gt;|其他| Normal[MergeClustersNormal&lt;br/&gt;常规合并]
+    
+    ConsistantId --&gt; MergeIdConsistant[MergeIdConsistantCluster&lt;br/&gt;按 ID 一致性合并]
+    MergeIdConsistant --&gt; MergeRef[MergeRefVariableCluster&lt;br/&gt;合并 Variable Cluster]
+    MergeRef --&gt; MergeInput[MergeClustersInput&lt;br/&gt;合并输入 Cluster]
+    MergeInput --&gt; End
+    
+    Normal --&gt; KnownFirstBranch&#123;merge_known_first?&#125;
+    
+    KnownFirstBranch --&gt;|true| TopoKnown1[TopologicalSortClusters&lt;br/&gt;按静态 Cluster 拓扑排序]
+    TopoKnown1 --&gt; TryMergeKnown1[TryMergeClusters&lt;br/&gt;尝试合并静态 Cluster]
+    TryMergeKnown1 --&gt; ChangeSmall1[ChangeSmallClusterType&lt;br/&gt;小静态 Cluster 变为动态]
+    ChangeSmall1 --&gt; MergeInputData1[MergeClustersInputData&lt;br/&gt;合并输入数据 Cluster]
+    MergeInputData1 --&gt; TopoUnknown1[TopologicalSortClusters&lt;br/&gt;按动态 Cluster 拓扑排序]
+    TopoUnknown1 --&gt; TryMergeUnknown1[TryMergeClusters&lt;br/&gt;尝试合并动态 Cluster]
+    TryMergeUnknown1 --&gt; End
+    
+    KnownFirstBranch --&gt;|false| TopoUnknown2[TopologicalSortClusters&lt;br/&gt;按动态 Cluster 拓扑排序]
+    TopoUnknown2 --&gt; MergeUnknown2[MergeClustersUnknownShape&lt;br/&gt;合并动态 Cluster]
+    MergeUnknown2 --&gt; TopoKnown2[TopologicalSortClusters&lt;br/&gt;按静态 Cluster 拓扑排序]
+    TopoKnown2 --&gt; TryMergeKnown2[TryMergeClusters&lt;br/&gt;尝试合并静态 Cluster]
+    TryMergeKnown2 --&gt; MergeInputData2[MergeClustersInputData&lt;br/&gt;合并输入数据 Cluster]
+    MergeInputData2 --&gt; ChangeSmall2[ChangeSmallClusterType&lt;br/&gt;小静态 Cluster 变为动态]
+    ChangeSmall2 --&gt; TopoUnknown2Again[TopologicalSortClusters&lt;br/&gt;再次按动态 Cluster 排序]
+    TopoUnknown2Again --&gt; TryMergeUnknown2[TryMergeClusters&lt;br/&gt;再次尝试合并动态 Cluster]
+    TryMergeUnknown2 --&gt; End
+    
+    style Start fill:#e1f5e1
+    style End fill:#ffe1e1
+    style MergeControl fill:#f0e1ff
+    style Normal fill:#e1f0ff
+    style ConsistantId fill:#fff4e1
+</code></pre>
+
+<h3 id="4-5-Cluster-合并的详细逻辑"><a href="#4-5-Cluster-合并的详细逻辑" class="headerlink" title="4.5 Cluster 合并的详细逻辑"></a>4.5 Cluster 合并的详细逻辑</h3><pre><code class=" mermaid">sequenceDiagram
+    participant Partitioner as DynamicShapePartitioner
+    participant ClusterA as Cluster A&lt;br/&gt;（目标）
+    participant ClusterB as Cluster B&lt;br/&gt;（被合并）
+    participant PathClusters as Path Clusters&lt;br/&gt;（路径上的 Cluster）
+    
+    Partitioner-&gt;&gt;Partitioner: 遍历 ordered_cluster_
+    
+    loop 每个 Cluster
+        Partitioner-&gt;&gt;ClusterA: Inputs()
+        ClusterA--&gt;&gt;Partitioner: in_clusters
+        
+        loop 每个输入 Cluster
+            alt 动态 Cluster 合并
+                Partitioner-&gt;&gt;ClusterB: IsUnknownShape()
+                ClusterB--&gt;&gt;Partitioner: true
+                
+                Partitioner-&gt;&gt;ClusterA: MergeAllPathFrom(ClusterB)
+                Note right of ClusterA: 合并从 ClusterB 到 ClusterA&lt;br/&gt;路径上的所有 Cluster
+                
+                ClusterA-&gt;&gt;PathClusters: 计算路径
+                PathClusters--&gt;&gt;ClusterA: path_clusters
+                
+                loop 每个路径 Cluster
+                    ClusterA-&gt;&gt;ClusterA: Merge(path_cluster)
+                    Note right of ClusterA: 合并节点、更新拓扑范围&lt;br/&gt;更新输入输出关系
+                end
+                
+                Partitioner-&gt;&gt;Partitioner: expired_clusters.insert(path_clusters)
+                Partitioner-&gt;&gt;Partitioner: merged_clusters.insert(ClusterA)
+                
+            else 静态 Cluster 合并
+                Partitioner-&gt;&gt;ClusterB: IsKnownShape()
+                ClusterB--&gt;&gt;Partitioner: true
+                
+                Partitioner-&gt;&gt;ClusterA: TryMerge(ClusterB)
+                Note right of ClusterA: 尝试合并，检查是否会产生环
+                
+                alt 不会产生环
+                    ClusterA-&gt;&gt;ClusterA: Merge(ClusterB)
+                    Partitioner-&gt;&gt;Partitioner: SetCluster(node, ClusterA)
+                else 会产生环
+                    Partitioner-&gt;&gt;Partitioner: 不合并
+                end
+            end
+        end
+    end
+    
+    Partitioner-&gt;&gt;Partitioner: 更新 node_2_cluster_ 映射
+    Partitioner--&gt;&gt;Partitioner: 合并完成
+</code></pre>
+
+<h3 id="4-6-子图构建流程"><a href="#4-6-子图构建流程" class="headerlink" title="4.6 子图构建流程"></a>4.6 子图构建流程</h3><pre><code class=" mermaid">sequenceDiagram
+    participant Partitioner as DynamicShapePartitioner
+    participant Cluster as DynamicShapeCluster
+    participant Subgraph as ComputeGraph&lt;br/&gt;（子图）
+    participant PartitionedCall as PartitionedCall&lt;br/&gt;（调用算子）
+    participant Data as Data算子
+    participant NetOutput as NetOutput算子
+    
+    Partitioner-&gt;&gt;Cluster: BuildPartitionFrame()
+    
+    Cluster-&gt;&gt;Cluster: 创建子图名称
+    Cluster-&gt;&gt;Subgraph: new ComputeGraph(subgraph_name)
+    
+    Cluster-&gt;&gt;Cluster: 处理输入锚点
+    loop 每个输入锚点
+        Cluster-&gt;&gt;Data: new Data算子
+        Cluster-&gt;&gt;Subgraph: AddNode(Data)
+        Cluster-&gt;&gt;Cluster: inputs_index_[anchor] = index
+    end
+    
+    Cluster-&gt;&gt;Cluster: 处理输出锚点
+    loop 每个输出锚点
+        Cluster-&gt;&gt;NetOutput: new NetOutput算子
+        Cluster-&gt;&gt;Subgraph: AddNode(NetOutput)
+        Cluster-&gt;&gt;Cluster: outputs_index_[anchor] = index
+    end
+    
+    Cluster-&gt;&gt;Cluster: 添加原节点到子图
+    loop 每个原节点
+        Cluster-&gt;&gt;Subgraph: AddNode(node)
+    end
+    
+    Cluster-&gt;&gt;Cluster: 连接 Data 到原节点
+    Cluster-&gt;&gt;Cluster: 连接原节点到 NetOutput
+    
+    Cluster-&gt;&gt;PartitionedCall: new PartitionedCall算子
+    Note right of PartitionedCall: 输入/输出锚点与 Cluster 一致
+    
+    Cluster-&gt;&gt;PartitionedCall: SetAttr(&quot;_subgraph&quot;, Subgraph)
+    
+    Cluster-&gt;&gt;Cluster: SetUnknownAttr()
+    alt 动态 Cluster
+        Cluster-&gt;&gt;Subgraph: SetAttr(ATTR_MEMORY_DISCONTIGUOUS_ALLOCATION, true)
+        Cluster-&gt;&gt;Subgraph: SetGraphUnknownFlag(true)
+    else 静态 Cluster
+        Cluster-&gt;&gt;Subgraph: SetGraphUnknownFlag(false)
+    end
+    
+    Cluster--&gt;&gt;Partitioner: 子图构建完成
+    
+    Partitioner-&gt;&gt;Partitioner: CombinePartitionFrame()
+    Note right of Partitioner: 连接 PartitionedCall 到父图&lt;br/&gt;替换原 Cluster 的节点
+</code></pre>
+
+<hr>
+<h2 id="五、关键设计决策"><a href="#五、关键设计决策" class="headerlink" title="五、关键设计决策"></a>五、关键设计决策</h2><h3 id="5-1-为什么用-Cluster-作为拆分单元？"><a href="#5-1-为什么用-Cluster-作为拆分单元？" class="headerlink" title="5.1 为什么用 Cluster 作为拆分单元？"></a>5.1 为什么用 Cluster 作为拆分单元？</h3><p><strong>决策</strong>：用 Cluster（一组节点）作为拆分的基本单元，而不是单个节点。</p>
+<p><strong>替代方案</strong>：</p>
+<ol>
+<li><strong>节点级别拆分</strong>：每个节点一个子图，调度开销大</li>
+<li><strong>算子类型拆分</strong>：按算子类型拆分，无法处理混合场景</li>
+<li><strong>用户手动拆分</strong>：用户负担重，破坏可移植性</li>
+</ol>
+<p><strong>权衡分析</strong>：</p>
+<ul>
+<li>Cluster 可以<strong>最大化子图大小</strong>，减少调度开销</li>
+<li>Cluster 内部可以做<strong>跨算子优化</strong>（如算子融合、内存复用）</li>
+<li>Cluster 的合并逻辑可以<strong>动态调整</strong>，适应不同场景</li>
+<li>代价是 Cluster 的合并逻辑复杂，需要处理环检测、拓扑排序等</li>
+</ul>
+<p><strong>代码依据</strong>：<code>base_cluster.h:76-191</code></p>
+<h3 id="5-2-为什么动态-Cluster-合并要”合并路径”？"><a href="#5-2-为什么动态-Cluster-合并要”合并路径”？" class="headerlink" title="5.2 为什么动态 Cluster 合并要”合并路径”？"></a>5.2 为什么动态 Cluster 合并要”合并路径”？</h3><p><strong>决策</strong>：合并动态 Cluster 时，不是简单合并两个 Cluster，而是合并路径上的所有 Cluster。</p>
+<p><strong>示例</strong>：</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livescript">ClusterA <span class="hljs-function"><span class="hljs-params">(动态)</span> -&gt;</span> ClusterB <span class="hljs-function"><span class="hljs-params">(静态)</span> -&gt;</span> ClusterC <span class="hljs-function"><span class="hljs-params">(静态)</span> -&gt;</span> ClusterD (动态)<br></code></pre></td></tr></table></figure>
+<p>合并 ClusterA 和 ClusterD 时，会合并 ClusterB 和 ClusterC。</p>
+<p><strong>设计动机</strong>：</p>
+<ul>
+<li>动态 Cluster 之间的静态 Cluster 如果不合并，会导致<strong>数据流断裂</strong></li>
+<li>静态 Cluster 在动态路径上无法独立执行（需要动态 shape 输入）</li>
+<li>合并路径保证了<strong>数据流的连续性</strong></li>
+</ul>
+<p><strong>代码依据</strong>：<code>dynamic_shape_partition.cc:687-721</code>（<code>MergeClustersUnknownShape</code>）</p>
+<h3 id="5-3-为什么静态-Cluster-合并要”尝试合并”？"><a href="#5-3-为什么静态-Cluster-合并要”尝试合并”？" class="headerlink" title="5.3 为什么静态 Cluster 合并要”尝试合并”？"></a>5.3 为什么静态 Cluster 合并要”尝试合并”？</h3><p><strong>决策</strong>：合并静态 Cluster 时，使用 <code>TryMerge</code>，检查是否会产生环。</p>
+<p><strong>设计动机</strong>：</p>
+<ul>
+<li>静态 Cluster 合并可能产生环（如 A-&gt;B-&gt;C，合并 A 和 C 会产生环）</li>
+<li>环会导致<strong>拓扑排序失败</strong>，无法构建子图</li>
+<li><code>TryMerge</code> 通过检查 <code>min_</code> 和 <code>max_</code> 来判断是否会产生环</li>
+</ul>
+<p><strong>环检测逻辑</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">TryMerge</span><span class="hljs-params">(std::shared_ptr&lt;BaseCluster&gt; other)</span> </span>&#123;<br>  <span class="hljs-comment">// 如果 other 的拓扑范围在当前 Cluster 内，会产生环</span><br>  <span class="hljs-keyword">if</span> ((other-&gt;<span class="hljs-built_in">MinId</span>() &gt;= min_) &amp;&amp; (other-&gt;<span class="hljs-built_in">MaxId</span>() &lt;= max_)) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;  <span class="hljs-comment">// 会产生环，不合并</span><br>  &#125;<br>  <span class="hljs-built_in">Merge</span>(other);<br>  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>代码依据</strong>：<code>base_cluster.cc:TryMerge</code></p>
+<h3 id="5-4-为什么小静态-Cluster-要变为动态-Cluster？"><a href="#5-4-为什么小静态-Cluster-要变为动态-Cluster？" class="headerlink" title="5.4 为什么小静态 Cluster 要变为动态 Cluster？"></a>5.4 为什么小静态 Cluster 要变为动态 Cluster？</h3><p><strong>决策</strong>：静态 Cluster 的节点数小于阈值（默认 4）时，强制变为动态 Cluster。</p>
+<p><strong>设计动机</strong>：</p>
+<ul>
+<li>小静态子图会<strong>占用流资源</strong>（每个子图需要一个流）</li>
+<li>小静态子图会导致<strong>动态子图碎片化</strong>（动态子图被分割成多段）</li>
+<li>合并到动态子图可以<strong>保证动态子图的连续性</strong></li>
+</ul>
+<p><strong>权衡分析</strong>：</p>
+<ul>
+<li>优点：减少流资源占用，保证动态子图连续性</li>
+<li>缺点：静态算子失去静态优化机会</li>
+<li>阈值可配置（<code>OPTION_STATIC_MODEL_OPS_LOWER_LIMIT</code>），用户可以调整</li>
+</ul>
+<p><strong>代码依据</strong>：<code>dynamic_shape_partition.cc:774-791</code>（<code>ChangeSmallClusterType</code>）</p>
+<h3 id="5-5-为什么支持-No-Tiling-机制？"><a href="#5-5-为什么支持-No-Tiling-机制？" class="headerlink" title="5.5 为什么支持 No Tiling 机制？"></a>5.5 为什么支持 No Tiling 机制？</h3><p><strong>决策</strong>：动态 shape 算子如果支持 No Tiling，可以不走 Tiling 流程，直接执行。</p>
+<p><strong>设计动机</strong>：</p>
+<ul>
+<li>Tiling 流程需要<strong>Host 计算</strong>，开销大</li>
+<li>某些动态算子（如 <code>MemcpyAsync</code>）不需要 Tiling，可以直接执行</li>
+<li>No Tiling 可以<strong>减少 Host 开销</strong>，提升性能</li>
+</ul>
+<p><strong>No Tiling 的条件</strong>：</p>
+<ol>
+<li>算子引擎支持 Tiling Inline（在 Device 上执行 Tiling）</li>
+<li>算子引擎支持 Export Shape（执行后更新 shape）</li>
+<li>输入节点的引擎也支持 Export Shape</li>
+<li>Shape Range 有效（max shape &gt;&#x3D; 0）</li>
+</ol>
+<p><strong>代码依据</strong>：<code>dynamic_shape_partition.cc:1018-1099</code>（<code>IsNodeSupportNoTiling</code>）</p>
+<hr>
+<h2 id="六、模块间协作关系"><a href="#六、模块间协作关系" class="headerlink" title="六、模块间协作关系"></a>六、模块间协作关系</h2><h3 id="6-1-协作模式分析"><a href="#6-1-协作模式分析" class="headerlink" title="6.1 协作模式分析"></a>6.1 协作模式分析</h3><ul>
+<li><strong>ComputeGraph</strong>：原图，包含所有节点和连接关系</li>
+<li><strong>Cluster</strong>：拆分的基本单元，一组节点</li>
+<li><strong>PartitionedCall</strong>：拆分后的产物，调用子图的算子</li>
+<li><strong>Subgraph</strong>：拆分后的子图，包含 Cluster 内的节点</li>
+<li><strong>PartitionerPass</strong>：二次拆分优化，如 <code>DynamicDataFlowPartitionerPass</code></li>
+</ul>
+<hr>
+<h2 id="七、业界对比与设计洞察"><a href="#七、业界对比与设计洞察" class="headerlink" title="七、业界对比与设计洞察"></a>七、业界对比与设计洞察</h2><h3 id="7-1-与其他框架的动态图处理对比"><a href="#7-1-与其他框架的动态图处理对比" class="headerlink" title="7.1 与其他框架的动态图处理对比"></a>7.1 与其他框架的动态图处理对比</h3><table>
+<thead>
+<tr>
+<th>框架</th>
+<th>动态图处理方案</th>
+<th>设计哲学</th>
+<th>优缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>TensorFlow</strong></td>
+<td>动态 shape 算子走动态执行，静态算子走静态执行</td>
+<td>算子级别动态调度</td>
+<td>优点：简单；缺点：调度开销大</td>
+</tr>
+<tr>
+<td><strong>PyTorch</strong></td>
+<td>JIT 编译时重新推导 shape</td>
+<td>动态推导</td>
+<td>优点：灵活；缺点：编译开销大</td>
+</tr>
+<tr>
+<td><strong>ONNX Runtime</strong></td>
+<td>动态 shape 算子走动态执行路径</td>
+<td>算子级别动态调度</td>
+<td>优点：跨框架；缺点：无法做跨算子优化</td>
+</tr>
+<tr>
+<td><strong>GE</strong></td>
+<td>动态图拆分 + Cluster 合并</td>
+<td>子图级别动态调度</td>
+<td>优点：最大化静态优化；缺点：拆分逻辑复杂</td>
+</tr>
+</tbody></table>
+<h3 id="7-2-GE-的独特之处"><a href="#7-2-GE-的独特之处" class="headerlink" title="7.2 GE 的独特之处"></a>7.2 GE 的独特之处</h3><ul>
+<li><strong>Cluster 抽象</strong>：用 Cluster 作为拆分单元，而不是节点</li>
+<li><strong>路径合并</strong>：动态 Cluster 合并时合并路径，保证数据流连续性</li>
+<li><strong>No Tiling 机制</strong>：支持动态算子不走 Tiling，减少 Host 开销</li>
+<li><strong>二次拆分优化</strong>：通过 PartitionerPass 进行二次优化</li>
+</ul>
+<h3 id="7-3-如果重新设计，可能的改进方向"><a href="#7-3-如果重新设计，可能的改进方向" class="headerlink" title="7.3 如果重新设计，可能的改进方向"></a>7.3 如果重新设计，可能的改进方向</h3><ol>
+<li><p><strong>引入更智能的合并策略</strong>：</p>
+<ul>
+<li>当前合并策略基于拓扑排序和类型，可以引入<strong>性能预估模型</strong></li>
+<li>根据算子执行时间、内存占用等预估子图性能，优化合并策略</li>
+</ul>
+</li>
+<li><p><strong>支持跨子图优化</strong>：</p>
+<ul>
+<li>当前子图内部可以做优化，但跨子图无法优化</li>
+<li>可以引入<strong>跨子图算子融合</strong>，如将 PartitionedCall 前后的算子融合</li>
+</ul>
+</li>
+<li><p><strong>增强 No Tiling 支持</strong>：</p>
+<ul>
+<li>当前 No Tiling 只支持部分算子，可以扩展到更多算子</li>
+<li>可以引入<strong>自动 No Tiling 判断</strong>，根据算子特性自动决定是否走 No Tiling</li>
+</ul>
+</li>
+<li><p><strong>支持动态子图缓存</strong>：</p>
+<ul>
+<li>动态子图的执行开销大，可以引入<strong>子图缓存机制</strong></li>
+<li>根据 shape range 缓存不同 shape 的子图执行结果</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="八、亮点与问题"><a href="#八、亮点与问题" class="headerlink" title="八、亮点与问题"></a>八、亮点与问题</h2><h3 id="8-1-亮点"><a href="#8-1-亮点" class="headerlink" title="8.1 亮点"></a>8.1 亮点</h3><ol>
+<li><strong>自动化程度高</strong>：用户无需关心拆分细节，系统自动适配</li>
+<li><strong>Cluster 抽象精妙</strong>：用 Cluster 作为拆分单元，最大化子图大小</li>
+<li><strong>路径合并保证连续性</strong>：动态 Cluster 合并时合并路径，避免数据流断裂</li>
+<li><strong>No Tiling 机制创新</strong>：支持动态算子不走 Tiling，减少 Host 开销</li>
+<li><strong>二次拆分优化</strong>：通过 PartitionerPass 进行二次优化，提升性能</li>
+</ol>
+<h3 id="8-2-问题"><a href="#8-2-问题" class="headerlink" title="8.2 问题"></a>8.2 问题</h3><ol>
+<li><strong>合并逻辑复杂</strong>：多种合并策略（前向、后向、控制流），理解难度大</li>
+<li><strong>环检测开销大</strong>：<code>TryMerge</code> 需要检查拓扑范围，大规模图时开销大</li>
+<li><strong>阈值配置不灵活</strong>：静态子图阈值固定，无法根据场景动态调整</li>
+<li><strong>No Tiling 支持有限</strong>：只支持部分算子，无法覆盖所有动态算子</li>
+<li><strong>缺少性能预估</strong>：合并策略基于拓扑，缺少性能预估模型</li>
+</ol>
+<hr>
+<h2 id="九、总结与启发"><a href="#九、总结与启发" class="headerlink" title="九、总结与启发"></a>九、总结与启发</h2><h3 id="9-1-核心启发"><a href="#9-1-核心启发" class="headerlink" title="9.1 核心启发"></a>9.1 核心启发</h3><ul>
+<li><strong>Cluster 是拆分的基本单元</strong>：用 Cluster 而不是节点，最大化子图大小</li>
+<li><strong>路径合并保证连续性</strong>：动态 Cluster 合并时合并路径，避免数据流断裂</li>
+<li><strong>No Tiling 减少开销</strong>：支持动态算子不走 Tiling，减少 Host 开销</li>
+<li><strong>二次优化提升性能</strong>：通过 PartitionerPass 进行二次优化，提升性能</li>
+</ul>
+<h3 id="9-2-适用场景"><a href="#9-2-适用场景" class="headerlink" title="9.2 适用场景"></a>9.2 适用场景</h3><ul>
+<li>需要处理动态 shape 算子的框架</li>
+<li>需要最大化静态算子优化的系统</li>
+<li>需要减少动态算子调度开销的场景</li>
+</ul>
+<hr>
+<h2 id="十、调用入口汇总"><a href="#十、调用入口汇总" class="headerlink" title="十、调用入口汇总"></a>十、调用入口汇总</h2><table>
+<thead>
+<tr>
+<th>调用位置</th>
+<th>文件路径</th>
+<th>调用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>图预处理</td>
+<td><code>compiler/graph/preprocess/graph_prepare.cc</code></td>
+<td>图编译前的预处理阶段</td>
+</tr>
+<tr>
+<td>图管理器</td>
+<td><code>compiler/graph/manager/graph_manager.cc</code></td>
+<td>图管理器统一入口</td>
+</tr>
+<tr>
+<td>FE 图优化</td>
+<td><code>compiler/engines/nn_engine/optimizer/graph_optimizer/fe_graph_optimizer.cc</code></td>
+<td>FE 图优化器</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十一、No-Tiling-机制详解"><a href="#十一、No-Tiling-机制详解" class="headerlink" title="十一、No Tiling 机制详解"></a>十一、No Tiling 机制详解</h2><h3 id="11-1-No-Tiling-的核心思想"><a href="#11-1-No-Tiling-的核心思想" class="headerlink" title="11.1 No Tiling 的核心思想"></a>11.1 No Tiling 的核心思想</h3><p><strong>问题</strong>：动态 shape 算子通常需要 Tiling 流程（Host 计算 shape，Device 执行算子），开销大。</p>
+<p><strong>解决方案</strong>：如果算子支持 No Tiling，可以：</p>
+<ol>
+<li><strong>在 Device 上执行 Tiling</strong>（Tiling Inline）</li>
+<li><strong>执行后更新 shape</strong>（Export Shape）</li>
+<li><strong>减少 Host 开销</strong>，提升性能</li>
+</ol>
+<h3 id="11-2-No-Tiling-的判断流程"><a href="#11-2-No-Tiling-的判断流程" class="headerlink" title="11.2 No Tiling 的判断流程"></a>11.2 No Tiling 的判断流程</h3><pre><code class=" mermaid">flowchart TD
+    Start([检查算子是否支持 No Tiling]) --&gt; CheckSystem&#123;系统算子?&#125;
+    
+    CheckSystem --&gt;|MemcpyAsync/StreamMerge/PartitionedCall| Support[支持 No Tiling]
+    CheckSystem --&gt;|其他| CheckAttr&#123;检查 ATTR_OP_NO_TILING&#125;
+    
+    CheckAttr --&gt;|已标记| Support
+    CheckAttr --&gt;|未标记| CheckEngine&#123;检查引擎支持&#125;
+    
+    CheckEngine --&gt;|Data/NetOutput| Skip[不需要 No Tiling]
+    CheckEngine --&gt;|其他| CheckTilingInline&#123;引擎支持 Tiling Inline?&#125;
+    
+    CheckTilingInline --&gt;|不支持| NotSupport[不支持 No Tiling]
+    CheckTilingInline --&gt;|支持| CheckExportShape&#123;引擎支持 Export Shape?&#125;
+    
+    CheckExportShape --&gt;|不支持| NotSupport
+    CheckExportShape --&gt;|支持| CheckShapeRange&#123;检查 Shape Range&#125;
+    
+    CheckShapeRange --&gt;|无 Shape Range| CheckUnknownDim&#123;检查 Unknown Dim&#125;
+    CheckShapeRange --&gt;|有 Shape Range| ParseRange[解析 Shape Range]
+    
+    CheckUnknownDim --&gt;|Unknown Dim Num=-2| NotSupport
+    CheckUnknownDim --&gt;|其他| CheckRangeValid&#123;Shape Range 有效?&#125;
+    
+    CheckRangeValid --&gt;|无效| NotSupport
+    CheckRangeValid --&gt;|有效| CheckMaxShape&#123;max shape 是否非负?&#125;
+    
+    CheckMaxShape --&gt;|有 -1| NotSupport
+    CheckMaxShape --&gt;|全部非负| CheckInputNode&#123;检查输入节点&#125;
+    
+    ParseRange --&gt; CheckInputNode
+    
+    CheckInputNode --&gt;|输入节点不支持 Export Shape| NotSupport
+    CheckInputNode --&gt;|输入节点支持 Export Shape| Support
+    
+    Support --&gt; MarkNoTiling[标记 ATTR_OP_NO_TILING=true&lt;br/&gt;标记 ATTR_TENSOR_NO_TILING_MEM_TYPE=true]
+    NotSupport --&gt; MarkNormal[标记 ATTR_OP_NO_TILING=false]
+    Skip --&gt; End
+    
+    MarkNoTiling --&gt; End([判断完成])
+    MarkNormal --&gt; End
+    
+    style Start fill:#e1f5e1
+    style End fill:#ffe1e1
+    style Support fill:#e1f5e1
+    style NotSupport fill:#ffe1e1
+</code></pre>
+
+<h3 id="11-3-No-Tiling-的实现细节"><a href="#11-3-No-Tiling-的实现细节" class="headerlink" title="11.3 No Tiling 的实现细节"></a>11.3 No Tiling 的实现细节</h3><p><strong>关键属性</strong>：</p>
+<ul>
+<li><code>ATTR_NAME_OP_NO_TILING</code>：算子是否支持 No Tiling</li>
+<li><code>ATTR_NAME_TENSOR_NO_TILING_MEM_TYPE</code>：Tensor 是否走 No Tiling 内存类型</li>
+<li><code>ATTR_NAME_OP_MAX_SHAPE</code>：算子的最大 shape（用于 shape range）</li>
+<li><code>ATTR_NAME_TENSOR_MAX_SHAPE</code>：Tensor 的最大 shape</li>
+</ul>
+<p><strong>执行流程</strong>：</p>
+<ol>
+<li>编译时标记 No Tiling 属性</li>
+<li>执行时，如果算子支持 No Tiling：<ul>
+<li>不走 Host Tiling 流程</li>
+<li>在 Device 上执行 Tiling Inline</li>
+<li>执行后更新 shape（Export Shape）</li>
+</ul>
+</li>
+</ol>
+<p><strong>代码依据</strong>：<code>dynamic_shape_partition.cc:1119-1165</code>（<code>MarkOpNoTiling</code>）</p>
+<hr>
+<h2 id="十二、控制流-Cluster-的特殊处理"><a href="#十二、控制流-Cluster-的特殊处理" class="headerlink" title="十二、控制流 Cluster 的特殊处理"></a>十二、控制流 Cluster 的特殊处理</h2><h3 id="12-1-控制流算子的特殊性"><a href="#12-1-控制流算子的特殊性" class="headerlink" title="12.1 控制流算子的特殊性"></a>12.1 控制流算子的特殊性</h3><p><strong>控制流算子</strong>：<code>Case</code>、<code>While</code>、<code>If</code>、<code>PartitionedCall</code> 等，包含子图。</p>
+<p><strong>特殊性</strong>：</p>
+<ul>
+<li>控制流算子的子图可能包含动态节点</li>
+<li>控制流算子本身可能是静态的（子图全静态）</li>
+<li>控制流算子的合并需要特殊处理</li>
+</ul>
+<h3 id="12-2-控制流-Cluster-的合并逻辑"><a href="#12-2-控制流-Cluster-的合并逻辑" class="headerlink" title="12.2 控制流 Cluster 的合并逻辑"></a>12.2 控制流 Cluster 的合并逻辑</h3><pre><code class=" mermaid">sequenceDiagram
+    participant Partitioner as DynamicShapePartitioner
+    participant ControlNodes as control_nodes_&lt;br/&gt;（控制流节点分组）
+    participant ClusterA as Cluster A
+    participant ClusterB as Cluster B
+    
+    Partitioner-&gt;&gt;ControlNodes: 遍历 control_nodes_
+    Note right of ControlNodes: 按 group_index 分组&lt;br/&gt;同一组的控制流节点
+    
+    loop 每个控制流节点组
+        Partitioner-&gt;&gt;ControlNodes: 获取控制流节点列表
+        
+        loop 每对控制流节点
+            Partitioner-&gt;&gt;ClusterA: GetCluster(node_front)
+            Partitioner-&gt;&gt;ClusterB: GetCluster(node_back)
+            
+            alt ClusterA == ClusterB
+                Partitioner-&gt;&gt;Partitioner: 跳过（已在同一 Cluster）
+            else ClusterA != ClusterB
+                Partitioner-&gt;&gt;ClusterB: MergeAllPathFrom(ClusterA)
+                Note right of ClusterB: 合并从 ClusterA 到 ClusterB&lt;br/&gt;路径上的所有 Cluster
+                
+                loop 每个路径 Cluster
+                    Partitioner-&gt;&gt;Partitioner: SetCluster(node, ClusterB)
+                end
+            end
+        end
+    end
+    
+    Partitioner--&gt;&gt;Partitioner: 控制流 Cluster 合并完成
+</code></pre>
+
+<p><strong>设计动机</strong>：</p>
+<ul>
+<li>控制流节点需要<strong>在同一 Cluster</strong>，保证控制流的正确性</li>
+<li>同一 <code>group_index</code> 的控制流节点属于同一控制流结构（如 Case 的多个分支）</li>
+<li>合并路径保证控制流 Cluster 的连续性</li>
+</ul>
+<p><strong>代码依据</strong>：<code>dynamic_shape_partition.cc:180-201</code>（<code>MergeClustersControlFlow</code>）</p>
+<hr>
+<p><strong>分析日期</strong>：2026-05-07<br><strong>分析工具</strong>：repo-analyzer skill<br><strong>代码版本</strong>：GE trunk_ai&#x2F;ge</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/GE%E5%9B%BE%E5%BC%95%E6%93%8E/" class="category-chain-item">GE图引擎</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="print-no-link">#深度学习</a>
+      
+        <a href="/tags/%E5%9B%BE%E5%BC%95%E6%93%8E/" class="print-no-link">#图引擎</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>GE 图引擎动态图拆分模块分析</div>
+      <div>https://orion-wyc.github.io/2026/05/07/2026-05-07-GE图引擎动态图拆分模块深度架构分析/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Yuchen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年5月7日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/05/08/2026-05-08-GE%E5%9B%BE%E5%BC%95%E6%93%8E%E5%88%86%E5%BC%95%E6%93%8E%E6%A8%A1%E5%9D%97%E6%B7%B1%E5%BA%A6%E6%9E%B6%E6%9E%84%E5%88%86%E6%9E%90/" title="GE 图引擎分引擎模块分析">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">GE 图引擎分引擎模块分析</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/05/05/2026-05-05-GE%E5%9B%BE%E5%BC%95%E6%93%8EIR%E6%81%A2%E5%A4%8D%E6%B5%81%E7%A8%8B%E6%B7%B1%E5%BA%A6%E6%9E%B6%E6%9E%84%E5%88%86%E6%9E%90/" title="GE 图引擎 IR 恢复流程分析">
+                        <span class="hidden-mobile">GE 图引擎 IR 恢复流程分析</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="" target="_blank" rel="nofollow noopener"><span>Yuchen</span></a> <i class="iconfont icon-love"></i> <a href="" target="_blank" rel="nofollow noopener"><span>NoCookEatMcDonald's</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="/js/mermaid-viewer.js"></script><!-- hexo injector body_end end --></body>
+</html>

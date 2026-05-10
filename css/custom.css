@@ -1,0 +1,225 @@
+/* 文章页正文加宽，保留单侧目录栏 */
+
+@media (min-width: 992px) {
+  main > .container-fluid.nopadding-x > .row.nomargin-x {
+    max-width: min(96vw, 1680px);
+    margin-left: auto !important;
+    margin-right: auto !important;
+    justify-content: center;
+  }
+
+  main > .container-fluid.nopadding-x > .row.nomargin-x > .side-col:not(:has(.sidebar)) {
+    display: none !important;
+  }
+
+  main > .container-fluid.nopadding-x > .row.nomargin-x > .side-col:has(.sidebar) {
+    flex: 0 0 280px;
+    max-width: 280px;
+  }
+
+  main > .container-fluid.nopadding-x > .row.nomargin-x:has(> .side-col .sidebar) > .col-lg-8.nopadding-x-md {
+    flex: 0 1 min(1180px, calc(100% - 280px));
+    max-width: min(1180px, calc(100% - 280px));
+  }
+
+  main > .container-fluid.nopadding-x > .row.nomargin-x:not(:has(> .side-col .sidebar)) > .col-lg-8.nopadding-x-md {
+    flex: 0 1 min(1240px, 100%);
+    max-width: min(1240px, 100%);
+  }
+
+  main #board-ctn.container {
+    max-width: 100% !important;
+  }
+
+  main .post-content.mx-auto {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+.post-content {
+  padding-left: clamp(1.25rem, 3vw, 2.5rem) !important;
+  padding-right: clamp(1.25rem, 3vw, 2.5rem) !important;
+}
+
+@media (max-width: 767px) {
+  .post-content {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+/* Mermaid 图表查看器：工具栏 + 交互功能 */
+
+.mermaid-viewer-wrapper {
+  position: relative;
+  margin: 0.5rem 0;
+}
+
+.mermaid-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  background: var(--board-bg-color, #fff);
+  border: 1px solid var(--line-color, #e1e4e8);
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  flex-wrap: wrap;
+}
+
+.mermaid-toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid var(--line-color, #e1e4e8);
+  border-radius: 4px;
+  background: var(--board-bg-color, #fff);
+  color: var(--text-color, #24292e);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 12px;
+  font-family: inherit;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.mermaid-toolbar-btn:hover {
+  background: var(--post-link-color, #0366d6);
+  color: #fff;
+  border-color: var(--post-link-color, #0366d6);
+}
+
+.mermaid-toolbar-btn:active {
+  transform: scale(0.95);
+}
+
+.mermaid-scale-display {
+  margin-left: auto;
+  min-width: 52px;
+  padding: 4px 8px;
+  font-size: 12px;
+  color: var(--sec-text-color, #6a737d);
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.markdown-body pre:has(.mermaid) {
+  padding: 0.75rem 0.5rem !important;
+  margin: 0 !important;
+  overflow-x: auto;
+  overflow-y: auto;
+  background-color: var(--board-bg-color, #fff) !important;
+  max-height: 600px;
+  border: 1px solid var(--line-color, #e1e4e8);
+  border-radius: 0 0 4px 4px;
+  cursor: grab;
+  position: relative;
+}
+
+.markdown-body pre.mermaid-dragging {
+  cursor: grabbing;
+}
+
+.markdown-body pre .mermaid {
+  display: inline-block;
+  min-width: 100%;
+  text-align: center;
+}
+
+.markdown-body pre .mermaid > svg {
+  min-width: max-content;
+  width: auto;
+  max-width: none;
+  height: auto;
+  max-height: none;
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+
+/* 复制成功提示 */
+.mermaid-copy-toast {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.mermaid-copy-toast.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* 响应式 */
+@media (max-width: 767px) {
+  .mermaid-toolbar {
+    padding: 4px 6px;
+    gap: 2px;
+  }
+  
+  .mermaid-toolbar-btn {
+    min-width: 24px;
+    height: 24px;
+    font-size: 12px;
+    padding: 0 6px;
+  }
+  
+  .markdown-body pre:has(.mermaid) {
+    padding: 0.5rem 0.25rem !important;
+    max-height: 400px;
+  }
+}
+
+/* TOC 标题显示优化：支持长标题换行，避免折叠问题 */
+
+.toc-list-item {
+  padding: 0.1rem 0;
+  display: block;
+  overflow: visible;
+  text-overflow: unset;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.tocbot-link {
+  display: inline;
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* 确保 TOC 容器有足够宽度显示长标题 */
+#toc-body {
+  min-width: 200px;
+  max-width: 100%;
+}
+
+/* TOC 折叠状态优化：确保展开状态正确显示 */
+.tocbot-is-collapsed {
+  max-height: 0;
+  overflow: hidden;
+}
+
+.tocbot-is-collapsible {
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+
+/* TOC 非折叠状态：确保有足够高度 */
+.tocbot-is-collapsible:not(.tocbot-is-collapsed) {
+  max-height: none;
+  overflow: visible;
+}

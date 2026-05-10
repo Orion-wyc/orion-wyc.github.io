@@ -1,0 +1,1994 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Yuchen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="LeetCode专题 树226.翻转二叉树 只需要遍历到每一个结点即可，然后交换左右两个孩子结点。 &#x2F;**  * Definition for a binary tree node.  * struct TreeNode &amp;#123;  *     int val;  *     TreeNode *left;  *     TreeNode *right;  *     TreeNode(int">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode专题 树">
+<meta property="og:url" content="https://orion-wyc.github.io/2020/07/14/2020-07-15-LeetCode%E4%B8%93%E9%A2%98-%E6%A0%91/index.html">
+<meta property="og:site_name" content="Yuchen&#39;s Blog">
+<meta property="og:description" content="LeetCode专题 树226.翻转二叉树 只需要遍历到每一个结点即可，然后交换左右两个孩子结点。 &#x2F;**  * Definition for a binary tree node.  * struct TreeNode &amp;#123;  *     int val;  *     TreeNode *left;  *     TreeNode *right;  *     TreeNode(int">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-05-10T15:47:14.088Z">
+<meta property="article:author" content="Yuchen">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>LeetCode专题 树 - Yuchen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"orion-wyc.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="/css/custom.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Yuchen&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="LeetCode专题 树"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-07-15 00:00" pubdate>
+          2020年7月15日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          24k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          199 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">LeetCode专题 树</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="LeetCode专题-树"><a href="#LeetCode专题-树" class="headerlink" title="LeetCode专题 树"></a>LeetCode专题 树</h2><p>226.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/invert-binary-tree/">翻转二叉树</a></p>
+<p>只需要遍历到每一个结点即可，然后交换左右两个孩子结点。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    TreeNode* invertTree(TreeNode* root) &#123;
+        if(root==NULL)&#123;
+            return NULL;
+        &#125;
+        TreeNode* tmp = invertTree(root-&gt;left);
+        root-&gt;left = invertTree(root-&gt;right);
+        root-&gt;right = tmp;
+        return root;
+    &#125;
+&#125;;
+</code></pre>
+<p>235.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree/">二叉搜索树的最近公共祖先</a> ★★★</p>
+<p>LCA最近公共祖先，有点意思，第一次写的超级垃圾的代码108ms，103.5MB。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+
+class Solution &#123;
+public:
+    vector&lt;vector&lt;TreeNode*&gt;&gt; helper;
+    void DFS(TreeNode* root,vector&lt;TreeNode*&gt; path,TreeNode* target)&#123;
+        if(root==NULL)&#123;
+            return;
+        &#125;
+        path.push_back(root);
+        if(root==target)&#123;
+            helper.push_back(path);
+            return;
+        &#125;
+        if(root-&gt;left!=NULL)&#123;
+            DFS(root-&gt;left,path,target);
+        &#125;
+        if(root-&gt;right!=NULL)&#123;
+            DFS(root-&gt;right,path,target);
+        &#125;   
+    &#125;
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) &#123;
+        if(root==NULL)&#123;
+            return NULL;
+        &#125;
+        vector&lt;TreeNode*&gt; path_p;
+        DFS(root,path_p,p);
+        DFS(root,path_p,q);
+        int i = 0;
+        int j = 0;
+        while(i&lt;helper[0].size()&amp;&amp;j&lt;helper[1].size())&#123;
+            cout&lt;&lt;helper[0][i]-&gt;val&lt;&lt; &quot; &quot; &lt;&lt;helper[1][j]-&gt;val&lt;&lt;endl;
+            if(helper[0][i]==helper[1][j])&#123;
+                i++,j++;
+            &#125;else&#123;
+                break;
+            &#125;
+        &#125;
+        return helper[0][i-1];
+    &#125;
+&#125;;
+</code></pre>
+<ul>
+<li><p><strong>二叉搜索树BST的性质</strong></p>
+<ol>
+<li>节点 N 左子树上的所有节点的值都小于等于节点 N 的值</li>
+<li>节点 N 右子树上的所有节点的值都大于等于节点 N 的值</li>
+<li>子树和右子树也都是 BST</li>
+</ol>
+</li>
+<li><p><strong>算法</strong></p>
+<ol>
+<li>从根节点开始遍历树</li>
+<li>如果节点 p 和节点 q 都在右子树上，那么以右孩子为根节点继续 (a) 的操作</li>
+<li>如果节点 p 和节点 q 都在左子树上，那么以左孩子为根节点继续 (a) 的操作</li>
+<li>如果条件 2 和条件 3 都不成立，这就意味着我们已经找到节 p 和节点 q 的 LCA 了</li>
+</ol>
+</li>
+<li><p>在左右子树上，则root.val - p.val和root.val - q.val异号</p>
+</li>
+</ul>
+<p>同在左&#x2F;右子树，则同号，分别递归地遍历左&#x2F;右子树</p>
+<p>该算法得到的性能是36ms，23.5MB</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+
+class Solution &#123;
+public:
+    TreeNode* lca = NULL;
+    void LCA(TreeNode* root, TreeNode*p, TreeNode* q)&#123;
+        if((root-&gt;val - p-&gt;val)*(root-&gt;val - q-&gt;val) &lt;= 0)&#123;
+            lca = root;//如果p,q分别再左右子树上，则root就是lca
+        &#125;else if(root-&gt;val &lt; p-&gt;val &amp;&amp; root-&gt;val &lt; q-&gt;val)&#123;
+            LCA(root-&gt;right, p, q);
+        &#125;else&#123;
+            LCA(root-&gt;left, p, q);
+        &#125;
+    &#125;
+
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) &#123;
+        // 题目的意思是树不空
+        // if (!root) return nullptr;
+        LCA(root, p, q);
+        return lca;
+    &#125;
+&#125;;
+
+
+class Solution &#123;
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) &#123;
+        if(!root) return NULL;
+        if(q -&gt; val &gt; root -&gt; val &amp;&amp; p -&gt; val &gt; root -&gt; val)    
+            return lowestCommonAncestor(root -&gt; right, p, q);// 都在root的右边
+        if(q -&gt; val &lt; root -&gt; val &amp;&amp; p -&gt; val &lt; root -&gt; val)    
+            return lowestCommonAncestor(root -&gt; left, p, q); // 都在root的左边
+        return root; // 若分布在root的两侧，说明root为最近公共祖先
+    &#125;
+&#125;;
+</code></pre>
+<ul>
+<li><p><strong>进阶： 二叉树 - 无左小右大的性质，需要全盘搜索</strong></p>
+<ol>
+<li>遇到指定节点，直接返回root，无需往下搜寻。</li>
+<li>向左右子树遍历，返回包含指定节点的子树。</li>
+<li>若左右子树都包含指定节点，则当前root为最近公共祖先。</li>
+</ol>
+</li>
+</ul>
+<p>自底向上遍历结点，一旦遇到结点等于p或者q，则将其向上传递给它的父结点。父结点会判断它的左右子树是否都包含其中一个结点，如果是，则父结点一定是这两个节点p和q的LCA，传递父结点到root。如果不是，我们向上传递其中的包含结点p或者q的子结点，或者NULL(如果子结点不包含任何一个)。该方法时间复杂度为O(N)。</p>
+<pre><code class="hljs">class Solution &#123;
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) &#123;
+        if(!root || root == p || root == q ) return root;
+        // ↓ l(r)=NULL,左(右)子树不包含p或q;l(r)=p或q,左(右)子树包含有p或q
+        TreeNode* l = lowestCommonAncestor(root -&gt; left, p , q);
+        TreeNode* r = lowestCommonAncestor(root -&gt; right, p, q);
+        if(l &amp;&amp; r) return root; // 如果p和q位于不同的子树,根即为LCA
+        return l ? l : r; 
+        // ↑ p和q在当前以root为根的相同的子树中(即左右子树)
+    &#125;
+&#125;;
+</code></pre>
+<p>404.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/sum-of-left-leaves/">左叶子之和</a></p>
+<ul>
+<li><p>算法思路 对任意一个节点，它只需要做两件事； 1、判断它的左孩子是不是左叶子； 2、让它的左孩子和右孩子分别向它汇报，以该孩子为根的sumOfLeftLeaves； 最后简单相加即可，很典型的递归算法。</p>
+<p>&#x2F;**</p>
+<ul>
+<li>Definition for a binary tree node.</li>
+<li>struct TreeNode {</li>
+<li><pre><code class="hljs">int val;
+</code></pre>
+</li>
+<li><pre><code class="hljs">TreeNode *left;
+</code></pre>
+</li>
+<li><pre><code class="hljs">TreeNode *right;
+</code></pre>
+</li>
+<li><pre><code class="hljs">TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+</code></pre>
+</li>
+<li>};<br><em>&#x2F;<br>class Solution {<br>public:<br>  int sumOfLeftLeaves(TreeNode</em> root) {<br>  if(root&#x3D;&#x3D;NULL)return 0;<br>  int left_sum &#x3D; 0;<br>  if(root-&gt;left!&#x3D;NULL){<br>      if(root-&gt;left-&gt;left&#x3D;&#x3D;NULL &amp;&amp; root-&gt;left-&gt;right&#x3D;&#x3D;NULL){<br>          left_sum +&#x3D; root-&gt;left-&gt;val;&#x2F;&#x2F;root-&gt;left是左叶子结点<br>      } else {<br>          left_sum +&#x3D; sumOfLeftLeaves(root-&gt;left);<br>      }<br>  }<br>  if(root-&gt;right!&#x3D;NULL){<br>      left_sum +&#x3D; sumOfLeftLeaves(root-&gt;right);<br>  }<br>  return left_sum;<br>  }<br>};</li>
+</ul>
+</li>
+</ul>
+<p>我的想法是BFS标记左叶子，但是很慢，开销也大</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    int sumOfLeftLeaves(TreeNode* root) &#123;
+        if(root==NULL)return 0;
+        queue&lt; pair&lt;TreeNode* , int&gt; &gt; que;
+        que.push(make_pair(root,-1));//0左1右，root默认为-1
+        int left_sum = 0;
+        while(!que.empty())&#123;
+            pair&lt;TreeNode*, int&gt; hp = que.front();
+            que.pop();
+            TreeNode* p = hp.first;
+            if(p-&gt;left==NULL &amp;&amp; p-&gt;right==NULL &amp;&amp; hp.second==0)&#123;
+                left_sum += p-&gt;val;
+            &#125;
+            if(p-&gt;left!=NULL)&#123;
+                que.push(make_pair(p-&gt;left,0));
+            &#125;
+            if(p-&gt;right!=NULL)&#123;
+                que.push(make_pair(p-&gt;right,1));
+            &#125;
+        &#125;
+
+        return left_sum;
+    &#125;
+&#125;;
+</code></pre>
+<p>501.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/find-mode-in-binary-search-tree/">二叉搜索树中的众数</a></p>
+<p>不使用额外空间的方法（递归的隐式栈开销忽略不计），和一开始想的方式很类似，但是用递归的方式实现。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+ //前序遍历(Preorder transversal),中序遍历(Inorder transversal)以及后序遍历(Postorder transversal)
+class Solution &#123;
+public:
+    vector&lt;int&gt; findMode(TreeNode* root) &#123;
+        Inorder(root);
+        return ans;
+    &#125;
+    // void Inorder(TreeNode* root,TreeNode*&amp; pre)引用传递
+    void Inorder(TreeNode* root)&#123;
+        // 这里我犯了一个错误，pre必须是全局的pre，
+        // 要按照引用传递或者设置全局变量，否则回溯的时候pre不会更新
+        if(root==NULL)return;
+        Inorder(root-&gt;left);
+        if(pre!=NULL &amp;&amp; root-&gt;val==pre-&gt;val)&#123;
+            cur_cnt ++;
+        &#125;else&#123;
+            cur_cnt = 1;
+        &#125;
+        
+        if(max_cnt &lt; cur_cnt)&#123;   
+            max_cnt = cur_cnt;
+            ans.clear();
+            ans.push_back(root-&gt;val);
+        &#125;else if(max_cnt==cur_cnt)&#123;
+            ans.push_back(root-&gt;val);
+        &#125;
+        pre = root;
+        Inorder(root-&gt;right);
+    &#125;
+private:
+    vector&lt;int&gt; ans;
+    int max_cnt = 0;
+    int cur_cnt = 1;
+    TreeNode* pre = NULL;//记录中序遍历过程中当前结点的前驱结点
+&#125;;
+</code></pre>
+<p>这个开销太大了，是最直接的做法，即原问题等价于求一个单调不减数列的众数。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+ //前序遍历(Preorder transversal),中序遍历(Inorder transversal)以及后序遍历(Postorder transversal)
+class Solution &#123;
+public:
+    vector&lt;int&gt; inorder;
+    void DFS(TreeNode* root)&#123;
+        if(root==NULL)return;
+        DFS(root-&gt;left);
+        inorder.push_back(root-&gt;val);
+        DFS(root-&gt;right);
+    &#125;
+    vector&lt;int&gt; findMode(TreeNode* root) &#123;
+        DFS(root);
+        vector&lt;int&gt; ans;
+        int max_cnt = 0,cnt = 1;
+        int size = inorder.size();
+        if(size==0)return ans;
+        int pre_val=inorder[0];
+        for(int i=1;i&lt;=size;i++)&#123;
+            if(i&lt;size &amp;&amp; inorder[i]==inorder[i-1])&#123;
+                cnt ++;
+            &#125;else&#123;
+                if(max_cnt &lt; cnt)&#123;
+                    max_cnt = cnt;
+                    ans.clear();
+                    ans.push_back(inorder[i-1]);
+                &#125;else if(max_cnt==cnt)&#123;
+                    ans.push_back(inorder[i-1]);
+                &#125;
+                cnt = 1;
+            &#125;
+        &#125;
+        return ans;
+    &#125;
+&#125;;
+</code></pre>
+<p>530.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/minimum-absolute-difference-in-bst/">二叉搜索树的最小绝对差</a></p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    int getMinimumDifference(TreeNode* root) &#123;
+        getMin(root);
+        return ans;
+    &#125;
+    void getMin(TreeNode* root)&#123;
+        if(!root) return;
+        getMin(root-&gt;left);
+        if(pre!=NULL &amp;&amp; root-&gt;val - pre-&gt;val &lt; ans)&#123;
+            ans = root-&gt;val - pre-&gt;val;
+        &#125;
+        pre = root;
+        getMin(root-&gt;right);
+    &#125;
+private:
+    const int INF = 0x3f3f3f3f;
+    int ans = INF;
+    TreeNode* pre = NULL;
+&#125;;
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    void dfs(TreeNode* root, int&amp; prev, int&amp; res) &#123;
+        if (root == NULL) return;
+        dfs(root-&gt;left, prev, res);
+        if (prev &gt;= 0) res = min(res, root-&gt;val - prev);
+        prev = root-&gt;val;
+        dfs(root-&gt;right, prev, res);
+    &#125;
+    int getMinimumDifference(TreeNode* root) &#123;
+        int prev = -1;
+        int res = INT_MAX;
+        dfs(root, prev, res);
+        return res;
+    &#125;
+&#125;;
+</code></pre>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/minimum-absolute-difference-in-bst/solution/zhong-xu-bian-li-tuan-mie-xi-lie-er-cha-sou-suo-sh/">二叉搜索树的绝杀方式</a></li>
+</ul>
+<p>538.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/convert-bst-to-greater-tree/">把二叉搜索树转换为累加树</a></p>
+<p>aha，一次AC，核心还是”中序遍历”，只不过该问需要从最右结点开始反向中序遍历，利用BST的特性（见235.LCA）当前结点的值加上大于当前结点”右侧”结点的值（右边的一定大）。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    TreeNode* convertBST(TreeNode* root) &#123;
+        buildGT(root);
+        return root;
+    &#125;
+
+    void buildGT(TreeNode* root)&#123;
+        if(root==NULL)return;
+        buildGT(root-&gt;right);
+        if(pre!=NULL)&#123;
+            root-&gt;val += pre-&gt;val;
+        &#125;
+        pre = root;
+        buildGT(root-&gt;left);
+    &#125;
+
+private:
+    TreeNode* pre = NULL;//记录反向中序遍历的&quot;前驱&quot;结点
+&#125;;
+</code></pre>
+<p>543.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/diameter-of-binary-tree/">二叉树的直径</a></p>
+<p>数的直径即求两节点间最大距离，即转化可递归解决的问题：</p>
+<p>1、不经过root，最长路径子在左子树上</p>
+<p>2、不经过root，最长路径子在右子树上</p>
+<p>3、经过root，最长路径为左右子树的最大高度之和。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    int diameterOfBinaryTree(TreeNode* root) &#123;
+        maxDepth(root);
+        return max_diameter;
+    &#125;
+
+    int maxDepth(TreeNode* root)&#123;
+        if(root==NULL) return 0;
+        int dL = maxDepth(root-&gt;left);
+        int dR = maxDepth(root-&gt;right);
+        max_diameter = max(max_diameter, dL+dR);
+        return max(dL,dR) + 1;
+    &#125;
+
+private:
+    int max_diameter = 0;
+&#125;;
+</code></pre>
+<p>563.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/binary-tree-tilt/">二叉树的坡度</a></p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    int findTilt(TreeNode* root) &#123;
+        getSum(root);
+        return tilt;
+    &#125;
+
+    int getSum(TreeNode* root) &#123;
+        if(root==NULL)return 0;
+        int L = getSum(root-&gt;left);
+        int R = getSum(root-&gt;right);
+        tilt += abs(L - R);
+        return L + R + root-&gt;val;
+    &#125;
+
+private:
+    int tilt = 0;
+&#125;;
+</code></pre>
+<p>572.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/subtree-of-another-tree/">另一个树的子树</a> ★★★★</p>
+<p>Donald Trump： Nobody knows SIMPLICITY better than me, noboday.</p>
+<p>官方题解，从暴力搜索匹配到字符串匹配KMP，再到树的hash，着实厉害。</p>
+<p>最简单的匹配方法</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125;
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125;
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    bool isSubtree(TreeNode* s, TreeNode* t) &#123;
+        if(s==NULL)return false; //主树为空时，返回false，避免使用空指针
+        return isSame(s,t) || isSubtree(s-&gt;left,t) || isSubtree(s-&gt;right,t);
+    &#125;
+
+    bool isSame(TreeNode* s, TreeNode* t)&#123;
+        if(s==NULL &amp;&amp; t==NULL) return true;
+        if(s==NULL || t==NULL || s-&gt;val!=t-&gt;val) return false;
+        return isSame(s-&gt;left,t-&gt;left) &amp;&amp; isSame(s-&gt;right,t-&gt;right);
+    &#125;
+
+&#125;;
+</code></pre>
+<p>589.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/n-ary-tree-preorder-traversal/">N叉树的前序遍历</a></p>
+<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/n-ary-tree-preorder-traversal/solution/yi-tao-quan-fa-shua-diao-nge-bian-li-shu-de-wen--3/">树的遍历合集</a></p>
+<pre><code class="hljs">/*
+// Definition for a Node.
+class Node &#123;
+public:
+    int val;
+    vector&lt;Node*&gt; children;
+
+    Node() &#123;&#125;
+
+    Node(int _val) &#123;
+        val = _val;
+    &#125;
+
+    Node(int _val, vector&lt;Node*&gt; _children) &#123;
+        val = _val;
+        children = _children;
+    &#125;
+&#125;;
+*/
+
+class Solution &#123;
+public:
+    vector&lt;int&gt; ans;
+    vector&lt;int&gt; preorder(Node* root) &#123;
+        traverse(root);
+        return ans;
+    &#125;
+
+    void traverse(Node* root)&#123;
+        if(root==NULL)return;
+        ans.push_back(root-&gt;val);
+        for(auto e : root-&gt;children)&#123;
+            traverse(e);
+        &#125;
+    &#125;
+&#125;;
+</code></pre>
+<p>迭代法</p>
+<pre><code class="hljs">/*
+// Definition for a Node.
+class Node &#123;
+public:
+    int val;
+    vector&lt;Node*&gt; children;
+
+    Node() &#123;&#125;
+
+    Node(int _val) &#123;
+        val = _val;
+    &#125;
+
+    Node(int _val, vector&lt;Node*&gt; _children) &#123;
+        val = _val;
+        children = _children;
+    &#125;
+&#125;;
+*/
+
+class Solution &#123;
+public:
+    vector&lt;int&gt; preorder(Node* root) &#123;
+        vector&lt;int&gt; ans;
+        stack&lt;Node*&gt; st;
+        // if(root==NULL)return ans;
+        st.push(root);
+        while(!st.empty())&#123;
+            Node* p = st.top();
+            st.pop();
+            if(p!=NULL)&#123;
+                ans.push_back(p-&gt;val);
+                for(int i=p-&gt;children.size()-1;i&gt;=0;i--)&#123;
+                    st.push(p-&gt;children[i]);
+                &#125;
+            &#125;  
+        &#125;
+        return ans;
+    &#125;
+&#125;;
+</code></pre>
+<p>590.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/n-ary-tree-postorder-traversal/">N叉树的后序遍历</a></p>
+<pre><code class="hljs">/*
+// Definition for a Node.
+class Node &#123;
+public:
+    int val;
+    vector&lt;Node*&gt; children;
+
+    Node() &#123;&#125;
+
+    Node(int _val) &#123;
+        val = _val;
+    &#125;
+
+    Node(int _val, vector&lt;Node*&gt; _children) &#123;
+        val = _val;
+        children = _children;
+    &#125;
+&#125;;
+*/
+
+class Solution &#123;
+public:
+    vector&lt;int&gt; ans;
+    vector&lt;int&gt; postorder(Node* root) &#123;
+        traverse(root);
+        return ans;
+    &#125;
+
+    void traverse(Node* root)&#123;
+        if(root==NULL) return;
+        for(auto e:root-&gt;children)&#123;
+            traverse(e);
+        &#125;
+        ans.push_back(root-&gt;val);
+    &#125;
+&#125;;
+</code></pre>
+<p>606.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/construct-string-from-binary-tree/">根据二叉树创建字符串</a></p>
+<p>题目的意思是子节点需要用<code>()</code>来包裹。举例来说，二叉树<code>[root,left,right]</code>，则转换为<code>root(left)(right)</code>。如果只有<code>left</code>为空节点，则输出<code>root()(right)</code>；如果只有<code>right</code>为空节点则可以忽略右节点的<code>()</code>，输出为<code>root(left)</code>。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    string tree2str(TreeNode* t) &#123;
+        if(t==NULL) return &quot;&quot;;
+        string ans = &quot;&quot;;
+        string L = tree2str(t-&gt;left);
+        string R = tree2str(t-&gt;right);
+        if(t-&gt;left==NULL &amp;&amp; t-&gt;right==NULL) &#123;
+            ans = to_string(t-&gt;val);
+        &#125; else if(t-&gt;left!=NULL &amp;&amp; t-&gt;right==NULL) &#123;
+            ans = to_string(t-&gt;val) + &quot;(&quot; + L + &quot;)&quot;;
+        &#125;else &#123;
+            ans = to_string(t-&gt;val) + &quot;(&quot; + L + &quot;)&quot; + &quot;(&quot; + R + &quot;)&quot;;
+        &#125; 
+        return ans;
+    &#125;
+&#125;;
+</code></pre>
+<p>617.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/merge-two-binary-trees/">合并二叉树</a> ★★</p>
+<p><strong>一开始没想到的是孩子为空的时候啥也不用做，直接连接即可。</strong></p>
+<p>我们可以对这两棵树同时进行前序遍历，并将对应的节点进行合并。在遍历时，如果两棵树的当前节点均不为空，我们就将它们的值进行相加，并对它们的左孩子和右孩子进行递归合并；如果其中有一棵树为空，那么我们返回另一颗树作为结果；如果两棵树均为空，此时返回任意一棵树均可（因为都是空）。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    TreeNode* mergeTrees(TreeNode* t1, TreeNode* t2) &#123;
+        TreeNode* root = t1 ? t1 : t2;
+        if(t1&amp;&amp;t2)&#123;
+            t1-&gt;val += t2-&gt;val;
+            t1-&gt;left = mergeTrees(t1-&gt;left,t2-&gt;left);
+            t1-&gt;right = mergeTrees(t1-&gt;right,t2-&gt;right);
+        &#125;
+        return root;
+    &#125;
+&#125;;
+</code></pre>
+<p>非递归的实现：如果t1和t2非空，则将其val求和并赋值给t1，然后考虑左右孩子，（以左孩为例）如果t1左孩子为空，则将t2的左孩子作为t1的左孩子，如果t1左孩子非空，则将结点入栈&#x2F;队，两者皆空则无操作（上述，右孩子同理）；如果t1为空，则返回t2（无论t2是否为空，不影响结果），否则返回t1。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    TreeNode* mergeTrees(TreeNode* t1, TreeNode* t2) &#123;
+        //判断t1空的情况，while循环仅执行一次
+        TreeNode* root = t1 ? t1 : t2;
+        
+        queue&lt; pair&lt;TreeNode*,TreeNode*&gt; &gt; que;
+        que.push(make_pair(t1,t2));
+        while(!que.empty()) &#123;
+            pair&lt;TreeNode*,TreeNode*&gt; hp = que.front();
+            que.pop();
+            TreeNode* p = hp.first;
+            TreeNode* q = hp.second;
+            //若t1为空，循环结束；或者p非空而q空，
+            //该情况出现在树t1的左或右孩子非空而树t2与之对应的孩子为空
+            if(p==NULL || q==NULL) continue;
+            p-&gt;val += q-&gt;val;
+            //分别判断左右孩子
+            if(p-&gt;left==NULL) &#123;
+                p-&gt;left = q-&gt;left;
+            &#125; else &#123;
+                que.push(make_pair(p-&gt;left,q-&gt;left));
+            &#125;
+            if(p-&gt;right==NULL) &#123;
+                p-&gt;right = q-&gt;right;
+            &#125; else &#123;
+                que.push(make_pair(p-&gt;right,q-&gt;right));
+            &#125;
+        &#125;
+        return root;
+    &#125;
+&#125;;
+</code></pre>
+<p>637.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/average-of-levels-in-binary-tree/">二叉树的层平均值</a></p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    vector&lt;double&gt; averageOfLevels(TreeNode* root) &#123;
+        vector&lt;double&gt; ans;
+        queue&lt;TreeNode*&gt; que;
+        que.push(root);
+        while(!que.empty())&#123;
+            int SIZE = que.size();
+            double avg = 0;
+            for(int i=0;i&lt;SIZE;i++)&#123;
+                TreeNode* p = que.front();
+                que.pop();
+                // if(p==NULL) continue; //非空二叉树
+                avg += p-&gt;val;
+                if(p-&gt;left!=NULL)&#123;
+                    que.push(p-&gt;left);
+                &#125;
+                if(p-&gt;right!=NULL)&#123;
+                    que.push(p-&gt;right);
+                &#125;
+            &#125;
+            ans.push_back(avg/SIZE);
+        &#125;
+        return ans;
+    &#125;
+&#125;;
+</code></pre>
+<p>653.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/two-sum-iv-input-is-a-bst/">两数之和 IV - 输入 BST</a></p>
+<p>最初的想法是直接返回中序遍历结果，然后问题就转化为1.两数之和。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    void traverse(TreeNode* root, vector&lt;int&gt;&amp; in)&#123;
+        if(root==NULL) return ;
+        traverse(root-&gt;left,in);
+        in.push_back(root-&gt;val);
+        traverse(root-&gt;right,in);
+    &#125;
+    bool findTarget(TreeNode* root, int k) &#123;
+        vector&lt;int&gt; inorder;
+        traverse(root,inorder);
+        int SIZE = inorder.size();
+        map&lt;int,int&gt; mp;
+        bool flag = false;
+        for(int i=0;i&lt;SIZE;i++)&#123;
+            if(mp.count(k - inorder[i])==1)&#123;
+                flag = true;
+                break;
+            &#125;
+            mp.emplace(inorder[i],i);
+        &#125;
+        return flag;
+    &#125;
+&#125;;
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    bool findTarget(TreeNode* root, int k) &#123;
+        if(not root) return false;
+        inorder(root);
+        int lo = 0;
+        int hi = vec.size() - 1;
+        while(lo &lt; hi)&#123;
+            if(vec[lo] + vec[hi] == k) return true;
+            else if(vec[lo] + vec[hi] &lt; k) lo++;
+            else hi--;
+        &#125;
+        return false;
+    &#125;
+private:
+    vector&lt;int&gt; vec;
+    void inorder(TreeNode* root)&#123;
+        if(not root) return;
+        inorder(root-&gt;left);
+        vec.emplace_back(root-&gt;val);
+        inorder(root-&gt;right);
+    &#125;
+&#125;;
+</code></pre>
+<p>递归，效率不高欸？？？</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    map&lt;int, int&gt; mp;
+    bool findTarget(TreeNode* root, int k) &#123;
+        if(root==NULL)&#123; 
+              return false;
+        &#125;
+        if(mp.count(k - root-&gt;val)==1)&#123;
+            return true;
+        &#125;
+        mp.emplace(root-&gt;val, 1);  
+        return findTarget(root-&gt;right, k) || findTarget(root-&gt;left, k);
+    &#125;
+&#125;;
+</code></pre>
+<p>669.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/trim-a-binary-search-tree/">修剪二叉搜索树</a></p>
+<p>递归做法，设当前结点为root：</p>
+<p>如果root-&gt;val小于L，则剪掉左子树和自身，递归处理右子树；如果root-&gt;val大于R，则剪掉右子树和自身，递归处理左子树；若root-&gt;val处在区间之间，则分别递归地处理左右子树。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    TreeNode* trimBST(TreeNode* root, int L, int R) &#123;
+        if(root!=NULL) &#123;
+            if(root-&gt;val &lt; L) &#123;
+                root = trimBST(root-&gt;right, L, R);
+            &#125; else if(root-&gt;val &gt; R) &#123;
+                root = trimBST(root-&gt;left, L, R);
+            &#125; else &#123;
+                root-&gt;left = trimBST(root-&gt;left, L, R);
+                root-&gt;right = trimBST(root-&gt;right, L, R);
+            &#125;
+        &#125;
+        return root;
+    &#125;
+&#125;;
+</code></pre>
+<p>671.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/second-minimum-node-in-a-binary-tree/">二叉树中第二小的节点</a></p>
+<p>最最直接的做法就是遍历一遍，使用map存储遍历结果，然后遍历一遍map寻找最小值。</p>
+<p>上述过程也可以使用额外的一个变量记录，遍历树寻找比root（由题意，root的值一定是最小的）值大的数中最小的一个。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    int findSecondMinimumValue(TreeNode* root) &#123;
+        if(root==NULL || (root-&gt;left==NULL &amp;&amp; root-&gt;right==NULL)) return -1;
+        mins = root-&gt;val;
+        getMin2(root);
+        return ans ;
+    &#125;
+
+    void getMin2(TreeNode* root)&#123;
+        if(root!=NULL)&#123;  
+            if(root-&gt;val &gt; mins)&#123;
+                if(ans==-1)
+                    ans = root-&gt;val;
+                else 
+                    ans = min(ans,root-&gt;val);
+            &#125;
+            getMin2(root-&gt;left);
+            getMin2(root-&gt;right);
+        &#125;    
+    &#125;
+private:
+    int mins;
+    int ans = -1;
+&#125;;
+</code></pre>
+<p>也可以这样做：分别求左右子树的最小值， 如果左右子树最小值都大于根节点的值取较小的值。其他情况取左右子树较大的值。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    int findSecondMinimumValue(TreeNode* root) &#123;
+        int ans = -1;
+        if(root!=NULL &amp;&amp; root-&gt;left!=NULL &amp;&amp; root-&gt;right!=NULL) &#123;
+            // 如果当前结点的孩子的值大于当前结点的值，则无需递归遍历，
+            // 因为以该孩子为根的子树最小值即为这个根
+            int l = root-&gt;left-&gt;val, r = root-&gt;right-&gt;val;
+            if(root-&gt;val==root-&gt;left-&gt;val)&#123;// 只有当孩子值与根相等时，才递归遍历
+                l = findSecondMinimumValue(root-&gt;left);
+            &#125;
+            if(root-&gt;val==root-&gt;right-&gt;val)&#123;
+                r = findSecondMinimumValue(root-&gt;right);
+            &#125;
+            // 问题可以转化为求左右子树的最小值
+            if(l&gt;root-&gt;val &amp;&amp; r&gt;root-&gt;val) &#123;
+                ans = min(l,r); // 如果左右子树最小值都大于根节点的值,取较小的值
+            &#125;else&#123;
+                ans = max(l,r); // 其他情况取左右子树较大的值
+            &#125;
+        &#125;
+        return ans;
+    &#125;
+&#125;;
+</code></pre>
+<p>687.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/longest-univalue-path/">最长同值路径</a> ★★★</p>
+<p>思路：递归的思想，对于某个根节点root，在左子树中，与左子树根节点（root-&gt;left-&gt;val）同值的最大路径长度为L（如果root-&gt;left值与其的左右孩子值都不同，则L&#x3D;0），同理，右子树记作R。</p>
+<p>类似地，如果root的值与左孩子相同，则路径长度应当为L+1，否则左孩子到root的的路径不符合要求，记作0；右子树同理，记作R+1或0。返回左右子树中的较长路径。</p>
+<p>函数getPath返回的是单侧的最长路径，若该路径穿越根结点，则需要加上左右两条分支路径的长度，所以在递归的过程中使用单独的变量ans记录最大路径的长度（这个长度可能是不经过根结点的单侧路径，也有可能是经过根节点的双分支路径）。</p>
+<p><strong>对于任意一个节点, 如果最长同值路径包含该节点, 那么只可能是两种情况：</strong></p>
+<ol>
+<li><p>其左右子树中加上该节点后所构成的同值路径中较长的那个继续向父节点回溯构成最长同值路径</p>
+</li>
+<li><p>左右子树加上该节点都在最长同值路径中, 构成了最终的最长同值路径 需要注意因为要求同值, 所以在判断左右子树能构成的同值路径时要加入当前节点的值作为判断依据</p>
+</li>
+</ol>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    int longestUnivaluePath(TreeNode* root) &#123;
+        getPath(root);
+        return ans;
+    &#125;
+
+    int getPath(TreeNode* root)&#123;
+        int path_len = 0;
+        if(root!=NULL)&#123;
+            int L = getPath(root-&gt;left); // 以左孩为根节点的最大路径长度
+            int R = getPath(root-&gt;right);
+            int tmp_L = 0, tmp_R = 0; // 过当前节点的路径长度，假设与孩子值不等，初始设为0
+            if(root-&gt;left!=NULL &amp;&amp; root-&gt;left-&gt;val == root-&gt;val)&#123;
+                tmp_L = L + 1;
+            &#125; // 如果与左孩子值相同，path值为L+1
+            if(root-&gt;right!=NULL &amp;&amp; root-&gt;right-&gt;val == root-&gt;val)&#123;
+                tmp_R += R + 1;
+            &#125; // 如果与右孩子值相同，path值为R+1
+            ans = max(ans, tmp_L + tmp_R); // 递归过程中记录最大路径长度
+            path_len = max(tmp_L,tmp_R);
+            // 若同时和左右孩子值相同，返回较长的路径，继续向上遍历
+            // 如果和左（右）孩子值不等，则路径长度设置为0
+        &#125;
+        return path_len;
+    &#125;
+private:
+    int ans = 0;
+&#125;;
+</code></pre>
+<p>700.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/search-in-a-binary-search-tree/">二叉搜索树中的搜索</a></p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    TreeNode* searchBST(TreeNode* root, int val) &#123;
+        TreeNode* ans = NULL;
+        if(root!=NULL)&#123;
+            if(root-&gt;val &gt; val) &#123;
+                ans = searchBST(root-&gt;left, val);
+            &#125; else if(root-&gt;val &lt; val) &#123;
+                ans = searchBST(root-&gt;right, val);
+            &#125; else &#123;
+                ans = root;
+            &#125;
+        &#125;
+        return ans;
+    &#125;
+&#125;;
+</code></pre>
+<p>783.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/minimum-distance-between-bst-nodes/">二叉搜索树节点最小距离</a></p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    int minDiffInBST(TreeNode* root) &#123;
+        traverse(root);
+        for(int i=0;i&lt;nums.size()-1;i++)&#123;
+            ans = min(ans, nums[i+1] - nums[i]);
+        &#125;
+        return ans;
+    &#125;
+
+    void traverse(TreeNode* root)&#123;
+        if(root!=NULL)&#123;
+            traverse(root-&gt;left);
+            nums.push_back(root-&gt;val);
+            traverse(root-&gt;right);
+        &#125;
+    &#125;
+private:
+    vector&lt;int&gt; nums;
+    int ans = INT_MAX;
+&#125;;
+</code></pre>
+<p>938.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/range-sum-of-bst/">二叉搜索树的范围和</a></p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    int rangeSumBST(TreeNode* root, int L, int R) &#123;
+        int sum = 0;
+        if(root!=NULL) &#123;
+            if(root-&gt;val &lt; L) &#123;
+                sum = rangeSumBST(root-&gt;right, L, R);
+            &#125; else if(root-&gt;val &gt; R) &#123;
+                sum = rangeSumBST(root-&gt;left, L, R);
+            &#125; else &#123;
+                sum = root-&gt;val + rangeSumBST(root-&gt;left, L, R) 
+                        + rangeSumBST(root-&gt;right, L, R);
+            &#125;
+        &#125;
+        return sum;
+    &#125;
+&#125;;
+</code></pre>
+<p>965.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/univalued-binary-tree/">单值二叉树</a></p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    bool isUnivalTree(TreeNode* root) &#123;
+        val = root-&gt;val; //无需验空
+        return dfs(root);
+    &#125;
+
+    bool dfs(TreeNode* root)&#123;
+        if(!root)return true;
+        return (root-&gt;val==val) &amp;&amp; dfs(root-&gt;left) &amp;&amp; dfs(root-&gt;right);
+        
+    &#125;
+private:
+    int val;
+&#125;;
+</code></pre>
+<p>993.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/cousins-in-binary-tree/">二叉树的堂兄弟节点</a></p>
+<p>遍历二叉树，分别记录 x、y 结点的深度和父亲结点。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125;
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125;
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    bool isCousins(TreeNode* root, int x, int y) &#123;
+        dfs(root, x, y, 0, nullptr);
+        return (parx!=pary &amp;&amp; dx==dy);
+    &#125;
+
+    void dfs(TreeNode* root, int x, int y, int d,TreeNode* par) &#123;
+        if(root==NULL) return;
+        if(root-&gt;val == x)&#123;
+            parx = par;
+            dx = d;
+        &#125;
+        if(root-&gt;val == y) &#123;
+            pary = par;
+            dy = d;
+        &#125;
+        dfs(root-&gt;left, x, y, d+1, root);
+        dfs(root-&gt;right, x, y, d+1, root);
+    &#125;
+private:
+    TreeNode* parx = nullptr;
+    TreeNode* pary = nullptr;
+    int dx=0, dy = 0;
+&#125;;
+</code></pre>
+<p>1022.<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/sum-of-root-to-leaf-binary-numbers/">从根到叶的二进制数之和</a> ★★☆</p>
+<p>自上而下地遍历二叉树，遇到叶子结点则表示一个”二进制”序列的值已被计算完整，加到ans上；由于自上而下不知道序列的最高位位数，所以上层的结果递归到下一级时需要×2。类似秦九韶算法。</p>
+<pre><code class="hljs">/**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;
+ * &#125;;
+ */
+class Solution &#123;
+public:
+    int sumRootToLeaf(TreeNode* root) &#123;
+        calculateSum(root, 0);
+        return ans % M;
+    &#125;
+    //由于不知道一个序列的高位位数，所以自顶向下计算数值，上一层结果×2后加上当前结点数字
+    void calculateSum(TreeNode* root, int num) &#123;
+        if(root!=NULL)&#123;
+            num = (num &lt;&lt; 1) + root-&gt;val;
+            if(root-&gt;left==NULL &amp;&amp; root-&gt;right==NULL)&#123;
+                ans += num; //叶子节点，当前路径计算结束，加上这个数字
+            &#125;else&#123;//非叶子结点继续递归，对上一层的结果×2再加上当前的数字
+                calculateSum(root-&gt;left, num % M);
+                calculateSum(root-&gt;right, num % M);
+            &#125;    
+        &#125;
+    &#125;
+private:
+    int ans = 0;
+    const int M = 1e9 + 7;
+&#125;;
+</code></pre>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-chain-item">学习笔记</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>LeetCode专题 树</div>
+      <div>https://orion-wyc.github.io/2020/07/14/2020-07-15-LeetCode专题-树/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Yuchen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年7月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/07/25/2020-07-26-LeetCode%E4%B8%93%E9%A2%98-BFS-DFS/" title="LeetCode专题 BFS DFS">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">LeetCode专题 BFS DFS</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/10/25/2019-10-26-NumPy%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/" title="NumPy入门笔记">
+                        <span class="hidden-mobile">NumPy入门笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="" target="_blank" rel="nofollow noopener"><span>Yuchen</span></a> <i class="iconfont icon-love"></i> <a href="" target="_blank" rel="nofollow noopener"><span>NoCookEatMcDonald's</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="/js/mermaid-viewer.js"></script><!-- hexo injector body_end end --></body>
+</html>
