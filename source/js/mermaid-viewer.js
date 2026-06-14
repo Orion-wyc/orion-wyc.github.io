@@ -145,9 +145,20 @@
       var currentScale = parseFloat(svg.dataset.scale) || 1;
       var newScale = Math.max(self.minScale, Math.min(self.maxScale, currentScale + delta));
       
+      if (!svg.dataset.baseWidth) {
+        svg.dataset.baseWidth = svg.clientWidth || svg.getBoundingClientRect().width;
+      }
+      if (!svg.dataset.baseHeight) {
+        svg.dataset.baseHeight = svg.clientHeight || svg.getBoundingClientRect().height;
+      }
+      
+      var baseW = parseFloat(svg.dataset.baseWidth);
+      var baseH = parseFloat(svg.dataset.baseHeight);
+      
       svg.dataset.scale = newScale;
-      svg.style.transform = 'scale(' + newScale + ')';
-      svg.style.transformOrigin = 'center center';
+      svg.style.width = (baseW * newScale) + 'px';
+      svg.style.height = (baseH * newScale) + 'px';
+      svg.style.minWidth = (baseW * newScale) + 'px';
       
       self.updateScaleDisplay(pre, newScale);
     },
@@ -157,7 +168,9 @@
       if (!svg) return;
       
       svg.dataset.scale = 1;
-      svg.style.transform = 'scale(1)';
+      svg.style.width = '';
+      svg.style.height = '';
+      svg.style.minWidth = '';
       
       pre.scrollLeft = 0;
       pre.scrollTop = 0;
@@ -169,6 +182,10 @@
       var svg = pre.querySelector('.mermaid > svg');
       if (!svg) return;
       
+      svg.style.width = '';
+      svg.style.height = '';
+      svg.style.minWidth = '';
+      
       var svgRect = svg.getBoundingClientRect();
       var preRect = pre.getBoundingClientRect();
       
@@ -177,8 +194,9 @@
       var scale = Math.min(scaleX, scaleY, 1);
       
       svg.dataset.scale = scale;
-      svg.style.transform = 'scale(' + scale + ')';
-      svg.style.transformOrigin = 'center center';
+      svg.style.width = (svgRect.width * scale) + 'px';
+      svg.style.height = (svgRect.height * scale) + 'px';
+      svg.style.minWidth = (svgRect.width * scale) + 'px';
       
       this.updateScaleDisplay(pre, scale);
     },
