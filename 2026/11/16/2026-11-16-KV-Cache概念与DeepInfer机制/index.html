@@ -1,0 +1,1537 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Yuchen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="KV Cache 概念与 DeepInfer 机制 面向：第一次接触 LLM 推理内部机制的工程师。前置知识：知道 Transformer 有 attention 即可，不要求读过 vLLM 源码。目标：读完后能说清 KV Cache 是什么、为什么占显存、block 是什么、前缀缓存为什么能复用、SWA（滑动窗口注意力）和 state（SWA 窗口、压缩累加器等非 KV 状态）为什么特殊。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KV Cache 概念与 DeepInfer 机制">
+<meta property="og:url" content="https://orion-wyc.github.io/2026/11/16/2026-11-16-KV-Cache%E6%A6%82%E5%BF%B5%E4%B8%8EDeepInfer%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="Yuchen&#39;s Blog">
+<meta property="og:description" content="KV Cache 概念与 DeepInfer 机制 面向：第一次接触 LLM 推理内部机制的工程师。前置知识：知道 Transformer 有 attention 即可，不要求读过 vLLM 源码。目标：读完后能说清 KV Cache 是什么、为什么占显存、block 是什么、前缀缓存为什么能复用、SWA（滑动窗口注意力）和 state（SWA 窗口、压缩累加器等非 KV 状态）为什么特殊。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-11-16T07:10:00.000Z">
+<meta property="article:modified_time" content="2026-11-18T11:17:32.575Z">
+<meta property="article:author" content="Yuchen">
+<meta property="article:tag" content="KV Cache">
+<meta property="article:tag" content="DeepInfer">
+<meta property="article:tag" content="LLM推理">
+<meta property="article:tag" content="推理系统">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>KV Cache 概念与 DeepInfer 机制 - Yuchen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"orion-wyc.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="/css/custom.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Yuchen&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="KV Cache 概念与 DeepInfer 机制"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-11-16 15:10" pubdate>
+          2026年11月16日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          14k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          121 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">KV Cache 概念与 DeepInfer 机制</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="KV-Cache-概念与-DeepInfer-机制"><a href="#KV-Cache-概念与-DeepInfer-机制" class="headerlink" title="KV Cache 概念与 DeepInfer 机制"></a>KV Cache 概念与 DeepInfer 机制</h1><blockquote>
+<p>面向：第一次接触 LLM 推理内部机制的工程师。<br>前置知识：知道 Transformer 有 attention 即可，不要求读过 vLLM 源码。<br>目标：读完后能说清 KV Cache 是什么、为什么占显存、block 是什么、前缀缓存为什么能复用、SWA（滑动窗口注意力）和 state（SWA 窗口、压缩累加器等非 KV 状态）为什么特殊。</p>
+</blockquote>
+<hr>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E9%80%9F%E8%A7%88">核心概念速览</a></li>
+<li><a href="#%E4%BB%8E-attention-%E5%88%B0-kv-cache">从 Attention 到 KV Cache</a></li>
+<li><a href="#kv-cache-%E7%9A%84%E6%98%BE%E5%AD%98%E5%BC%80%E9%94%80">KV Cache 的显存开销</a></li>
+<li><a href="#kv-cache-%E7%9A%84%E6%98%BE%E5%AD%98%E5%B8%83%E5%B1%80">KV Cache 的显存布局</a></li>
+<li><a href="#%E5%89%8D%E7%BC%80%E7%BC%93%E5%AD%98">前缀缓存</a></li>
+<li><a href="#swa-%E4%B8%8E-state">SWA 与 state</a></li>
+<li><a href="#%E9%87%8F%E5%8C%96%E5%8E%8B%E7%BC%A9%E4%B8%8E%E5%B8%83%E5%B1%80">量化、压缩与布局</a></li>
+<li><a href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E4%B8%8E%E8%B5%84%E6%BA%90%E9%87%8A%E6%94%BE">引用计数与资源释放</a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E8%AF%AF%E8%A7%A3">常见误解</a></li>
+<li><a href="#%E8%87%AA%E6%B5%8B">自测</a></li>
+<li><a href="#%E6%9C%AF%E8%AF%AD%E8%A1%A8">术语表</a></li>
+</ul>
+<hr>
+<h2 id="核心概念速览"><a href="#核心概念速览" class="headerlink" title="核心概念速览"></a>核心概念速览</h2><ol>
+<li>KV Cache 是模型生成 token 时留下的 K&#x2F;V 中间结果，用来避免对历史 token 重复计算。</li>
+<li>它按 block 管理。block 是分配、复用、传输的最小单位。</li>
+<li>前缀能复用，是因为 causal attention 下，前缀的 K&#x2F;V 只由前缀本身决定，与后面的 token 无关。</li>
+</ol>
+<p>后续内容都围绕这三个判断展开。文中会反复出现 P、D、CE、Store、TE 和 HBM 这几个名字：P 是 Prefill 实例，D 是 Decode 实例，CE 是 D 的另一种叫法；Store 是跨实例共享的 KV 对象池，TE 是负责搬运 KV 和 state 的传输引擎，HBM 指 GPU 上的高带宽显存。先建立这个印象，后文用到时会再解释。</p>
+<hr>
+<h2 id="从-Attention-到-KV-Cache"><a href="#从-Attention-到-KV-Cache" class="headerlink" title="从 Attention 到 KV Cache"></a>从 Attention 到 KV Cache</h2><h3 id="Attention-的计算过程"><a href="#Attention-的计算过程" class="headerlink" title="Attention 的计算过程"></a>Attention 的计算过程</h3><p>Transformer 的每一层都会把输入投影成三个张量：</p>
+<ul>
+<li><strong>Q（Query）</strong>：当前 token 想“查询”什么。</li>
+<li><strong>K（Key）</strong>：每个历史 token 的“索引”。</li>
+<li><strong>V（Value）</strong>：每个历史 token 的“内容”。</li>
+</ul>
+<p>注意力计算可以粗略写成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Attention(Q, K, V) = softmax(Q × Kᵀ / sqrt(d)) × V<br></code></pre></td></tr></table></figure>
+
+<p>对第 <code>t</code> 个 token 来说，它用自己的 Q 去和所有历史 token 的 K 做点积，得到权重，再用权重加权所有历史 token 的 V。</p>
+<p>因为模型是 causal 的，第 <code>t</code> 个 token 只能看到位置 <code>&lt;= t</code> 的 token，看不到未来。这个限制决定了 KV Cache 的两个关键性质：</p>
+<ul>
+<li>历史 token 的 K&#x2F;V 一旦算出来，后续 token 不会改变它们。</li>
+<li>同一段前缀，如果后面接的内容不同，前缀本身的 K&#x2F;V 是一样的。</li>
+</ul>
+<h3 id="Causal-Attention-的可见性约束"><a href="#Causal-Attention-的可见性约束" class="headerlink" title="Causal Attention 的可见性约束"></a>Causal Attention 的可见性约束</h3><p>Causal attention（因果注意力）是自注意力的一种掩码（mask）方式：第 <code>i</code> 个 token 只能看位置 <code>&lt;= i</code> 的 token，不能看后面的 token。</p>
+<p>假设有 4 个 token：<code>我 爱 吃 苹果</code>。每个 token 作为 Query 时，能看到的内容是：</p>
+<table>
+<thead>
+<tr>
+<th>Query</th>
+<th>我</th>
+<th>爱</th>
+<th>吃</th>
+<th>苹果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>我</td>
+<td>可见</td>
+<td>不可见</td>
+<td>不可见</td>
+<td>不可见</td>
+</tr>
+<tr>
+<td>爱</td>
+<td>可见</td>
+<td>可见</td>
+<td>不可见</td>
+<td>不可见</td>
+</tr>
+<tr>
+<td>吃</td>
+<td>可见</td>
+<td>可见</td>
+<td>可见</td>
+<td>不可见</td>
+</tr>
+<tr>
+<td>苹果</td>
+<td>可见</td>
+<td>可见</td>
+<td>可见</td>
+<td>可见</td>
+</tr>
+</tbody></table>
+<p>这张表的可见区域呈下三角形状。实现时，把未来位置的 attention score 设成 <code>-inf</code>，softmax 后权重就是 0：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">score[i][j] = Q_i · K_j / sqrt(d)   if j &lt;= i<br>score[i][j] = -inf                   if j &gt; i<br></code></pre></td></tr></table></figure>
+
+<p>之所以叫“causal”，是因为因果关系里现在不能影响过去，过去也不能被未来影响。放在语言模型里，第 <code>i</code> 个 token 的表示只能由它和它之前的 token 决定，不能依赖还没生成的 token。这种掩码方式带来三个直接结果。</p>
+<ol>
+<li>训练和推理保持一致。训练时用掩码模拟“只能看左边”，推理时自然就是从左到右生成。</li>
+<li>前缀的 K&#x2F;V 保持稳定。同一段前缀，不管后面接什么问题，前缀里每个 token 的 K&#x2F;V 都不变。这是前缀缓存和 KV Cache 复用的前提。</li>
+<li>Prefill 可以并行。虽然逻辑上是顺序的，但有了掩码，可以把整段 prompt 一次算完，不用真的一个 token 一个 token 算。</li>
+</ol>
+<p>下面补充几个容易混淆的地方。</p>
+<ul>
+<li>Causal attention 不是“每个 token 只能看自己”，而是“能看到自己和所有左边的 token”。</li>
+<li>它不是一种独立的 attention 层，而是自注意力（self-attention）上的一种掩码。</li>
+<li>它和 padding 掩码（padding mask）不是一回事：causal 掩码管“未来不可见”，padding 掩码管“补齐的无效 token 不可见”。实际实现里两者经常叠加。</li>
+<li>它不是“只在训练时用”。Prefill 阶段同样要使用 causal 掩码；Decode 阶段只有一个新 token，天然满足“不看未来”。</li>
+</ul>
+<p>和它相对的是 bidirectional attention（双向注意力），例如 BERT 的 encoder，每个 token 可以看左右两边。双向注意力下，在开头加一段新内容会改变后面所有 token 的表示，所以不能直接做前缀缓存。另一类变体叫 sliding window causal attention（滑动窗口因果注意力，后文简称 SWA）：仍然是 causal，但每个 token 只看最近 <code>W</code> 个 token，不看更远的历史。这就是后面 SWA 和 state 的来源。</p>
+<p>因此，causal attention 可以概括为“只能看左边”的掩码；它让前缀的 K&#x2F;V 不随后缀变化，KV Cache 才能复用。</p>
+<p>这里的“稳定”有适用条件：讨论对象通常是 decoder-only 模型，前缀 token、位置编码、模型权重、量化方式和 attention 配置都必须一致。多模态输入还需要保证图像等额外信息一致，否则即使文本 token 相同，也不能直接复用。</p>
+<h3 id="Prefill-与-Decode-的差异"><a href="#Prefill-与-Decode-的差异" class="headerlink" title="Prefill 与 Decode 的差异"></a>Prefill 与 Decode 的差异</h3><p>LLM 推理通常分为 Prefill 和 Decode 两个阶段，二者在输入形式、并行度和 KV Cache 使用方式上都有差异。</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>输入</th>
+<th>并行度</th>
+<th>计算内容</th>
+<th>KV Cache 操作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Prefill</td>
+<td>prompt 的全部 token</td>
+<td>高，一次算很多 token</td>
+<td>所有 token 的 Q&#x2F;K&#x2F;V 和 attention</td>
+<td>把每一层、每个 token 的 K&#x2F;V 写入缓存</td>
+</tr>
+<tr>
+<td>Decode</td>
+<td>上一步新生成的 1 个 token</td>
+<td>低，一次 1 个 token</td>
+<td>当前 token 的 Q&#x2F;K&#x2F;V，和全部历史 K&#x2F;V 做 attention</td>
+<td>读历史 K&#x2F;V，追加当前 token 的 K&#x2F;V</td>
+</tr>
+</tbody></table>
+<p>Prefill 像“一次性读完一整段文章”，Decode 像“每写一个字都回看一遍笔记”。如果没有 KV Cache，Decode 每生成一个 token 都要把整段 prompt 重新算一遍，成本会随着上下文长度线性增长。</p>
+<h3 id="Prefill-的并行计算"><a href="#Prefill-的并行计算" class="headerlink" title="Prefill 的并行计算"></a>Prefill 的并行计算</h3><p>很多人第一次看到 causal attention 会以为：既然 token <code>i</code> 只能看左边的 token，那是不是必须从左到右一个一个算？不是。causal attention 限制的是“每个位置能看到谁”，不是“必须按什么顺序执行”。</p>
+<p>下面以一层 transformer 为例，说明这些步骤为什么可以并行。</p>
+<ol>
+<li>输入 <code>X</code> 是整段 prompt 的 embedding，形状 <code>[L, d]</code>，所有位置已知。</li>
+<li>用大张量乘法分别算出所有位置的 Q、K、V：</li>
+</ol>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">Q = X × W_Q    [L, d]<br>K = X × W_K    [L, d]<br>V = X × W_V    [L, d]<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>一次大张量乘法算出所有 attention score：</li>
+</ol>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">S = Q × Kᵀ / sqrt(d)    [L, L]<br></code></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>把 <code>S</code> 的上三角（<code>j &gt; i</code>）设成 <code>-inf</code>，做逐行 softmax：</li>
+</ol>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">S_masked[i][j] = -inf   if j &gt; i<br></code></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>一次大张量乘法算出输出：</li>
+</ol>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">O = softmax(S_masked) × V    [L, d]<br></code></pre></td></tr></table></figure>
+
+<p>第 3 步到第 5 步都是大张量运算，GPU 可以并行完成；掩码只是加在 score 表上的一个逐元素操作，不引入顺序依赖。关键区别在于，transformer 的 causal attention 没有 RNN 那种递推关系。</p>
+<ul>
+<li>RNN：<code>h_t = f(h_&#123;t-1&#125;, x_t)</code>，<code>h_t</code> 依赖 <code>h_&#123;t-1&#125;</code>，必须按时间顺序算。</li>
+<li>Transformer：<code>h_i^(l)</code> 依赖的是上一层所有位置 <code>j &lt;= i</code> 的 <code>h_j^(l-1)</code>，不依赖同一层的 <code>h_&#123;i-1&#125;^(l)</code>。上一层的所有 <code>h^(l-1)</code> 已经算好了，所以同一层的所有位置可以一起算。</li>
+</ul>
+<p>这里说的是同一层内的位置并行，层与层之间仍然有依赖，实际执行时按层顺序算，或者用流水线并行把不同 microbatch 的层重叠起来。“逻辑上顺序”指的是位置 <code>i</code> 的可见范围是 <code>0..i</code>，这是一个偏序关系；“计算上并行”指的是所有位置的输入都已知，大张量乘法可以一次完成。</p>
+<p>Decode 不能这样并行，因为第 <code>t+1</code> 个 token 还没生成。你必须先采样出第 <code>t</code> 个 token，才能把它作为第 <code>t+1</code> 步的输入，这是真正的顺序依赖。Prefill 的情况不同：prompt 的每个 token 都是用户已经给定的，不需要等模型生成，所以可以一次算完。Prefill 一次算完所有位置，但只有最后一个位置用于采样首 token；所有位置的 K&#x2F;V 都会写入缓存，供后续 Decode 使用。训练阶段也是同一个道理：整段 ground truth 已经给定，用 causal 掩码防止看到未来，所有位置并行算 loss。</p>
+<p>还有一个容易忽略的情况：长 prompt 放不下时，Prefill 会被切成多个 chunk。chunk 之间仍然有顺序，后一个 chunk 要读前一个 chunk 的 KV；但每个 chunk 内部仍然可以并行。这种顺序来自分块和 KV 依赖，不是 causal attention 本身要求的。</p>
+<h3 id="只缓存-K-V-的原因"><a href="#只缓存-K-V-的原因" class="headerlink" title="只缓存 K&#x2F;V 的原因"></a>只缓存 K&#x2F;V 的原因</h3><p>Q 是“当前 token 的提问”，只对当前这一步有用。第 <code>t</code> 个 token 算完 attention 后，它的 Q 不再被后面的 token 使用；K 和 V 不同，第 <code>t</code> 个 token 的 K&#x2F;V 会被第 <code>t+1</code>、<code>t+2</code>、……、最后一个 token 反复使用。因此，Q 用完就可以丢弃，K&#x2F;V 要留给未来。</p>
+<hr>
+<h2 id="KV-Cache-的显存开销"><a href="#KV-Cache-的显存开销" class="headerlink" title="KV Cache 的显存开销"></a>KV Cache 的显存开销</h2><p>下面用一个 Llama 风格的模型估算 KV Cache 的大小。</p>
+<ul>
+<li>32 层</li>
+<li>32 个 query head</li>
+<li>8 个 KV head（GQA，Grouped Query Attention）</li>
+<li>每个 head 128 维</li>
+<li>FP16，每个元素 2 字节</li>
+</ul>
+<p>每个 token、每一层的 K 和 V 大小：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">K：8 × 128 × 2 字节 = 2048 字节<br>V：8 × 128 × 2 字节 = 2048 字节<br>合计：4096 字节 = 4 KiB<br></code></pre></td></tr></table></figure>
+
+<p>把每层的 4 KiB 乘以 32 层，就得到每 token 的缓存大小。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">4 KiB × 32 = 128 KiB / token<br></code></pre></td></tr></table></figure>
+
+<p>按照上述示例估算，不同上下文长度对应的单请求 KV Cache 大小如下。</p>
+<table>
+<thead>
+<tr>
+<th>上下文长度</th>
+<th>KV Cache 大小</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1K token</td>
+<td>128 MiB</td>
+</tr>
+<tr>
+<td>8K token</td>
+<td>1 GiB</td>
+</tr>
+<tr>
+<td>32K token</td>
+<td>4 GiB</td>
+</tr>
+<tr>
+<td>128K token</td>
+<td>16 GiB</td>
+</tr>
+</tbody></table>
+<p>如果同时跑 32 个 8K 请求，仅 KV Cache 就需要 32 GiB。这还没算模型权重、激活值和通信缓冲。实际部署里，KV Cache 往往比模型权重更早成为并发瓶颈。</p>
+<p>实际数值会因模型结构和数据类型而变化，主要受以下因素影响。</p>
+<ul>
+<li>GQA 越激进，KV head 越少，缓存越小。</li>
+<li>FP8&#x2F;FP4 量化会把每元素字节数降下来。</li>
+<li>DeepSeek 的 MLA（Multi-head Latent Attention）把 K&#x2F;V 压成 latent（隐向量），缓存的是压缩后的表示，不是完整的 K&#x2F;V。</li>
+<li>DeepSeek V4 一类模型还有 SWA、压缩累加器等 state，缓存对象不只是 K&#x2F;V。</li>
+</ul>
+<p>但无论怎么优化，<strong>缓存大小仍然随上下文长度增长</strong>，所以需要分块、复用和跨实例共享。</p>
+<hr>
+<h2 id="KV-Cache-的显存布局"><a href="#KV-Cache-的显存布局" class="headerlink" title="KV Cache 的显存布局"></a>KV Cache 的显存布局</h2><h3 id="连续内存分配的问题"><a href="#连续内存分配的问题" class="headerlink" title="连续内存分配的问题"></a>连续内存分配的问题</h3><p>最朴素的做法是给每个请求分配一块连续显存，按需增长：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">请求 A：[token 0 ... token 1023][空闲空间]<br>请求 B：[token 0 ... token 511][空闲空间]<br></code></pre></td></tr></table></figure>
+
+<p>这种做法的具体问题如下。</p>
+<ul>
+<li>请求长度不可预测，预留多了浪费，预留少了要扩容拷贝。</li>
+<li>请求结束后留下不同大小的空洞，显存碎片化。</li>
+<li>两个请求共享同一段前缀时，无法让它们指向同一份物理内存。</li>
+</ul>
+<h3 id="分页管理与-block-table"><a href="#分页管理与-block-table" class="headerlink" title="分页管理与 block table"></a>分页管理与 block table</h3><p>PagedAttention（分页注意力）借用了操作系统的分页思想：把 KV Cache 切成固定大小的 block。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs text">逻辑序列：<br>  block 0      block 1      block 2      block 3<br>  [0..127]     [128..255]   [256..383]   [384..511]<br><br>block table（每个请求一份）：<br>  逻辑 block 0 -&gt; 物理 block 7<br>  逻辑 block 1 -&gt; 物理 block 2<br>  逻辑 block 2 -&gt; 物理 block 9<br>  逻辑 block 3 -&gt; 物理 block 4<br><br>物理 block 池：<br>  block 2, 4, 7, 9 已被占用，其余空闲<br></code></pre></td></tr></table></figure>
+
+<p>采用 block 管理后，可以获得以下好处。</p>
+<ul>
+<li>不需要连续分配，显存碎片少。</li>
+<li>block 可以按需分配，不用提前猜请求长度。</li>
+<li>两个请求可以指向同一个物理 block，实现前缀共享。</li>
+<li>传输和写回可以按 block 进行，粒度固定。</li>
+</ul>
+<h3 id="DeepInfer-的-KV-Cache-布局"><a href="#DeepInfer-的-KV-Cache-布局" class="headerlink" title="DeepInfer 的 KV Cache 布局"></a>DeepInfer 的 KV Cache 布局</h3><p>DeepInfer 的 <code>CacheEngine</code> 里有两块主要的 GPU 缓冲区：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">gpu_blocks: 每块包含所有参与 KV 的层的一段连续字节<br>gpu_states: [num_state_seqs, bytes_of_state_per_seqs]<br></code></pre></td></tr></table></figure>
+
+<h4 id="普通-GQA-模型的-block-形状"><a href="#普通-GQA-模型的-block-形状" class="headerlink" title="普通 GQA 模型的 block 形状"></a>普通 GQA 模型的 block 形状</h4><p>对普通 GQA 模型，一个 block 的逻辑形状可以写成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">[num_layers, block_size, 2, num_kv_heads, head_dim]<br></code></pre></td></tr></table></figure>
+
+<p>这五个维度按“层 → token → K&#x2F;V → head → head 维度”的顺序排列，分别表示：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>含义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>num_layers</code></td>
+<td>参与 KV Cache 的层数</td>
+<td>一个 block 包含所有参与 KV 的层的 K&#x2F;V；带 <code>attn_module_list</code> 的模型可能不等于 <code>num_hidden_layers</code></td>
+</tr>
+<tr>
+<td><code>block_size</code></td>
+<td>一个 block 容纳的 token 数</td>
+<td>例如 128</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>K 和 V 两份张量</td>
+<td>不是 batch size，也不是每个元素的 2 字节</td>
+</tr>
+<tr>
+<td><code>num_kv_heads</code></td>
+<td>KV head 数</td>
+<td>GQA 下通常小于 query head 数；MHA 时等于 query head 数，MQA 时为 1</td>
+</tr>
+<tr>
+<td><code>head_dim</code></td>
+<td>每个 head 的维度</td>
+<td>例如 128</td>
+</tr>
+</tbody></table>
+<p>GQA 让多个 query head 共享一个 KV head；MHA（Multi-Head Attention）每个 query head 有独立的 KV head；MQA（Multi-Query Attention）所有 query head 共享一个 KV head。</p>
+<p>这五个维度相乘，得到一个 block 里的标量元素个数：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">元素数 = num_layers × block_size × 2 × num_kv_heads × head_dim<br></code></pre></td></tr></table></figure>
+
+<p>再乘以每个元素的字节数，并加上 padding 和对齐，就得到 <code>block_bytes</code>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">block_bytes ≈ 元素数 × element_size + padding<br></code></pre></td></tr></table></figure>
+
+<p>其中 <code>element_size</code> 是每个元素的字节数，FP16 为 2，FP8 为 1；padding 包括层内 32B pad、块尾 padding 和注册对齐。以前面的 Llama 风格模型为例：32 层、<code>block_size=128</code>、8 个 KV head、<code>head_dim=128</code>、FP16。一个 block 的元素数是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">32 × 128 × 2 × 8 × 128 = 8,388,608 个元素<br></code></pre></td></tr></table></figure>
+
+<p>按 FP16 每元素 2 字节计算：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">8,388,608 × 2 B = 16 MiB<br></code></pre></td></tr></table></figure>
+
+<p>这和上一节的估算一致：每 token 128 KiB，128 个 token 正好是 16 MiB。GQA 的作用也可以直接从公式看出来：如果 KV head 从 8 增加到 32（MHA），块大小会变成 64 MiB；如果减少到 1（MQA），块大小会变成 2 MiB。在 KV 传输的示例配置里，<code>block_bytes</code> 可能是 2 MiB，这对应另一套模型规模、<code>block_size</code> 和量化配置，不要把 16 MiB 当成固定值。</p>
+<p>这里要区分 query head 和 KV head。GQA 中多个 query head 共享一个 KV head，所以 <code>num_kv_heads</code> 通常小于 <code>num_query_heads</code>，缓存大小也按 <code>num_kv_heads</code> 计算，而不是按 query head 数计算。</p>
+<p>上面的公式只适用于普通 GQA 模型。DeepSeek 这类带 MLA、SWA、压缩注意力的模型，块内布局由 <code>GPUCacheInterface._kvcache_layout</code> 决定，不能直接套用。对外真正使用的是两个值：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">gpu_blocks: [num_gpu_blocks, block_bytes]<br>gpu_states: [num_state_seqs, state_bytes]<br></code></pre></td></tr></table></figure>
+
+<h4 id="KV-Cache-容量与布局字段"><a href="#KV-Cache-容量与布局字段" class="headerlink" title="KV Cache 容量与布局字段"></a>KV Cache 容量与布局字段</h4><p>实际实现主要通过以下字段描述 KV Cache 的容量和布局。</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>block_size</code></td>
+<td>一个 block 放多少个 token，例如 128</td>
+</tr>
+<tr>
+<td><code>block_bytes</code></td>
+<td>一个 block 的字节数，包含所有参与 KV 的层、padding、对齐</td>
+</tr>
+<tr>
+<td><code>num_gpu_blocks</code></td>
+<td>显存能放下多少个 block</td>
+</tr>
+<tr>
+<td><code>bytes_of_state_per_seqs</code></td>
+<td>每个 state slot 的字节数</td>
+</tr>
+<tr>
+<td><code>num_state_seqs</code></td>
+<td>同时能容纳多少个 state slot</td>
+</tr>
+</tbody></table>
+<p>一个 block 包含所有参与 KV Cache 的层的 K&#x2F;V。这一点很重要：池化时一个对象就是一块 <code>block_bytes</code>，不需要按层拆成多个对象；P&#x2F;D 传输时一个 block 也是一段连续字节。</p>
+<h3 id="block-的生命周期"><a href="#block-的生命周期" class="headerlink" title="block 的生命周期"></a>block 的生命周期</h3><p>一个 block 从分配到释放，大致经历以下状态。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">free  -&gt;  allocated  -&gt;  written  -&gt;  readable  -&gt;  pinned  -&gt;  freed<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>free</strong>：在空闲链表里，可以被分配。</li>
+<li><strong>allocated</strong>：已经分配给某个请求，但可能还没写完。</li>
+<li><strong>written</strong>：模型 forward 已经把 K&#x2F;V 写进 HBM，但写入可能还在计算流上，尚未对其他线程可见。</li>
+<li><strong>readable</strong>：写完成事件或流同步之后，block 可以被后续消费者安全读取。这里的消费者有三类：本地 attention、池化 Put 线程、P&#x2F;D 传输。</li>
+<li><strong>pinned</strong>：引用计数大于 0，暂时不能被复用。</li>
+<li><strong>freed</strong>：引用计数归零，回到空闲链表。</li>
+</ul>
+<p><code>readable</code> 是概念状态，代码里不一定有同名字段；实际靠写完成事件、<code>pin</code> 和 <code>ref_count</code> 保证读取安全。三类消费者的区别如下。</p>
+<table>
+<thead>
+<tr>
+<th>消费者</th>
+<th>属于哪条路径</th>
+<th>读什么</th>
+<th>写到哪里</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>本地 attention</td>
+<td>实例内计算</td>
+<td>本地 HBM 中的历史 K&#x2F;V</td>
+<td>不写，只参与当前 token 的 attention</td>
+</tr>
+<tr>
+<td>池化 Put 线程</td>
+<td>池化</td>
+<td>本地 HBM 中的完整 block</td>
+<td>Store 对象</td>
+</tr>
+<tr>
+<td>P&#x2F;D 传输</td>
+<td>P&#x2F;D 直传</td>
+<td>P 的 HBM 中的 block&#x2F;state</td>
+<td>D 的 HBM</td>
+</tr>
+</tbody></table>
+<p><code>BlockManager</code> 用引用计数管理 block：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">ref_count = 0  -&gt; 在 free list 里<br>ref_count &gt; 0  -&gt; 正在被使用，不能分配给别的请求<br></code></pre></td></tr></table></figure>
+
+<p>一个 block 可能同时被多个“持有者”引用：</p>
+<ul>
+<li>请求本身持有引用，直到请求结束。</li>
+<li>异步 Put 任务持有引用，直到写 Store 完成。</li>
+<li>P&#x2F;D 传输持有引用，直到 CE 读完并发出通知。</li>
+</ul>
+<p>所以释放 block 不是“请求结束就立刻 free”，而是“所有引用都释放后才 free”。这是后面理解 pin&#x2F;unpin 的基础。</p>
+<hr>
+<h2 id="前缀缓存"><a href="#前缀缓存" class="headerlink" title="前缀缓存"></a>前缀缓存</h2><h3 id="前缀复用的原理"><a href="#前缀复用的原理" class="headerlink" title="前缀复用的原理"></a>前缀复用的原理</h3><p>假设两个请求共享同一段系统提示。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">请求 A：[系统提示 2000 token][用户问题 A]<br>请求 B：[系统提示 2000 token][用户问题 B]<br></code></pre></td></tr></table></figure>
+
+<p>系统提示的 K&#x2F;V 只由系统提示本身决定，因此请求 A 和请求 B 在这 2000 个 token 上的 K&#x2F;V 完全一样。B 可以直接复用 A 算好的结果，只需要计算用户问题部分，这就是前缀缓存（prefix caching）的核心。需要注意的是，它只能复用<strong>从第一个 token 开始的连续前缀</strong>；如果两个请求只有中间一段相同、开头不同，那一段不能直接复用，因为 K&#x2F;V 依赖它前面的上下文。</p>
+<h3 id="链式-block-hash"><a href="#链式-block-hash" class="headerlink" title="链式 block hash"></a>链式 block hash</h3><p>为了判断“这段前缀算过没有”，系统要给每个 block 生成一个内容 hash。</p>
+<p>不能只 hash 当前 block 的 token，因为同样的 token 出现在不同上下文里，K&#x2F;V 不一样。例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">句子一：小明 喜欢 苹果<br>句子二：小红 喜欢 苹果<br></code></pre></td></tr></table></figure>
+
+<p>“喜欢 苹果”这段 token 相同，但前面的主语不同，K&#x2F;V 不同。所以 hash 必须把前一块的 hash 也带进来：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">h0 = hash(NONE_HASH, tokens[0:128], extras)<br>h1 = hash(h0, tokens[128:256], extras)<br>h2 = hash(h1, tokens[256:384], extras)<br>...<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>第一块用约定的 <code>NONE_HASH</code> 作为前驱。</li>
+<li><code>extras</code> 放图片标识、LoRA（低秩适配）标识、cache salt（请求级缓存隔离盐）等额外信息。</li>
+<li>这样任何一个 block 的 hash 都唯一对应“从开头到这里的完整前缀”。</li>
+</ul>
+<h3 id="PoolKey-与完整缓存-key"><a href="#PoolKey-与完整缓存-key" class="headerlink" title="PoolKey 与完整缓存 key"></a>PoolKey 与完整缓存 key</h3><p>只有内容 hash 还不够。不同模型、不同并行分片、不同缓存角色的对象不能混在一起。vllm-ascend 用 <code>PoolKey</code> 把这些信息拼成一个字符串：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">&lt;model&gt;@dcp:&lt;cp&gt;@head_or_tp_rank:&lt;tp&gt;@pp_rank:&lt;pp&gt;@group:0@cache_role:kv@cache_family:default@&lt;block_hash_hex&gt;<br></code></pre></td></tr></table></figure>
+
+<p>PoolKey 中各字段的含义如下。</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;model&gt;</code></td>
+<td>模型标识；共享 Store 时通常拼上 <code>layout_version</code>，形成 <code>model_id@layout_version</code></td>
+</tr>
+<tr>
+<td><code>dcp:&lt;cp&gt;</code></td>
+<td>CP（上下文并行）rank</td>
+</tr>
+<tr>
+<td><code>head_or_tp_rank:&lt;tp&gt;</code></td>
+<td>TP（张量并行）rank</td>
+</tr>
+<tr>
+<td><code>pp_rank:&lt;pp&gt;</code></td>
+<td>PP（流水线并行）rank</td>
+</tr>
+<tr>
+<td><code>group:0</code></td>
+<td>兼容 vllm-ascend 的固定占位</td>
+</tr>
+<tr>
+<td><code>cache_role:kv</code></td>
+<td>缓存角色，表示全局 KV block（可在实例间共享的 KV block）</td>
+</tr>
+<tr>
+<td><code>cache_family:default</code></td>
+<td>兼容 vllm-ascend 的固定占位</td>
+</tr>
+<tr>
+<td><code>&lt;block_hash_hex&gt;</code></td>
+<td>链式 block hash 的十六进制字符串</td>
+</tr>
+</tbody></table>
+<p>同一个逻辑 block，在不同 TP&#x2F;CP&#x2F;PP rank 上对应不同的物理分片，所以每个 rank 的 key 不同。查询时必须把所有必要分片都查到，少一个都不算命中。</p>
+<h3 id="命中长度-H-与恢复位置-S"><a href="#命中长度-H-与恢复位置-S" class="headerlink" title="命中长度 H 与恢复位置 S"></a>命中长度 H 与恢复位置 S</h3><p>前缀匹配的输出通常包含两个长度，含义如下。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">H：全局 KV 可复用的 token 数<br>S：本地真正开始执行的位置<br></code></pre></td></tr></table></figure>
+
+<p>池化指把 KV 放进 Store，供多个实例共享。实现上可以先只缓存 KV block，不缓存 SWA 等 state；需要进一步提升命中率时，再引入 SWA 快照、copy_state（state 快照缓冲区）和多租户（block 与 SWA 使用独立租户和 TTL，即对象存活时间）。</p>
+<p>只缓存 KV block 时，可以用下面的公式计算 <code>max_hit</code>、<code>H</code> 和 <code>S</code>。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">max_hit = max(0, ((request_token_count - lookahead_tokens) // block_size) * block_size)<br>H = 连续命中的完整 block 数 × block_size<br>S = max(0, H - block_size)<br></code></pre></td></tr></table></figure>
+
+<p><code>max_hit</code> 是本次查询的候选上限；<code>lookahead_tokens</code> 是池化预留的 token 数，用来避免命中到 prompt 末尾、导致本步没有 token 可算。</p>
+<p>如果没有 SWA 快照，命中边界需要回退一个 block。这种设计在工程上常称为 Rollback &#x2F; Recompute Last Block：把恢复位置从 <code>H</code> 回退到 <code>H - block_size</code>，重新计算最后一个命中 block。</p>
+<p>这样做的原因是模型可能使用 SWA（滑动窗口注意力）。最后一个命中 block 的 SWA 窗口可能跨越 block 边界，如果直接从这个 block 之后续算，窗口可能不完整；回退一个 block 重算，可以把窗口补齐。它回退的是执行起点，不是丢弃缓存：前 <code>H - block_size</code> 个 token 仍然复用，只有最后一个命中 block 被重算。如果 SWA 快照也能命中，就可以做到 <code>S = H</code>，不再回退。</p>
+<p>即使模型没有 SWA，部分实现也会保留这个安全边界，用来处理最后一个 block 未写完整、状态不一致或额外 token 的情况；是否回退取决于具体的缓存策略。</p>
+<p>举个例子，<code>block_size=128</code>，命中了 4 个 block：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">H = 4 × 128 = 512<br>S = 512 - 128 = 384<br></code></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>范围</th>
+<th>处理方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>token 0..383（block 0..2）</td>
+<td>直接复用 Store 中的 KV</td>
+</tr>
+<tr>
+<td>token 384..511（block 3）</td>
+<td>Rollback 重算</td>
+</tr>
+<tr>
+<td>token 512 以后</td>
+<td>正常 Prefill 计算</td>
+</tr>
+</tbody></table>
+<p>代价是多算一个 block 的 token；收益是避免 SWA 窗口错位和 block 边界错误。</p>
+<h3 id="前缀命中的判定条件"><a href="#前缀命中的判定条件" class="headerlink" title="前缀命中的判定条件"></a>前缀命中的判定条件</h3><p>算命中需要同时满足以下条件。</p>
+<ul>
+<li>同一个模型、同一份 KV 布局、同一个并行分片。</li>
+<li>从第一个 token 开始的连续完整 block。</li>
+<li>一个 block 的所有必要分片都存在。</li>
+</ul>
+<p>以下情况都不能视为命中。</p>
+<ul>
+<li>只匹配到中间一段，开头不同。</li>
+<li>某个 block 少一个 rank 的分片。</li>
+<li>模型不同、量化不同、<code>layout_version</code> 不同。</li>
+<li>block 没写完整，或者 Store 里只有半成品。</li>
+<li>请求太短，连一个 block 都不够。</li>
+</ul>
+<p>查询时遇到第一个缺失或未确认的 block，就会截断整个前缀。后面即使还有命中的 block，也不能用，因为前缀断了。</p>
+<hr>
+<h2 id="SWA-与-state"><a href="#SWA-与-state" class="headerlink" title="SWA 与 state"></a>SWA 与 state</h2><h3 id="滑动窗口注意力"><a href="#滑动窗口注意力" class="headerlink" title="滑动窗口注意力"></a>滑动窗口注意力</h3><p>标准 attention 让每个 token 看所有历史 token。SWA（Sliding Window Attention）只让每个 token 看最近 <code>W</code> 个 token。</p>
+<p>这样 KV Cache 不需要保存全部历史，只需要保存最近 <code>W</code> 个 token 的 K&#x2F;V。实现上通常用一个长度为 <code>W</code> 的 ring buffer（环形缓冲区）：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">物理 ring：  [slot 0][slot 1][slot 2] ... [slot W-1]<br>                 ↑<br>             写指针循环覆盖<br></code></pre></td></tr></table></figure>
+
+<p>当写到第 <code>W</code> 个 token 后，新 token 会覆盖最老的 slot。ring buffer 的物理顺序和逻辑顺序不再一致：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">逻辑窗口：token 200, 201, ..., 327<br>物理位置：可能从 slot 72 开始，绕一圈回到 slot 71<br></code></pre></td></tr></table></figure>
+
+<p>所以判断 SWA 是否可复用，不能只看 ring buffer 的原始字节，还要知道：</p>
+<ul>
+<li>当前有效窗口从哪个 token 开始（<code>swa_valid_start</code>）。</li>
+<li>窗口在 ring 里的相位。</li>
+<li>哪些层有 SWA，哪些层没有。</li>
+<li>压缩累加器的状态。</li>
+</ul>
+<h3 id="state-的组成"><a href="#state-的组成" class="headerlink" title="state 的组成"></a>state 的组成</h3><p>DeepInfer 的 <code>gpu_states</code> 不只有 SWA ring，还可能包含：</p>
+<ul>
+<li>压缩注意力需要的累加器。</li>
+<li>某些层的滑动窗口状态。</li>
+<li>量化&#x2F;反量化需要的中间状态。</li>
+</ul>
+<p>这些 state 和 KV block 一样，是请求继续 Decode 所必需的。P&#x2F;D 传输时如果只传 KV block、不传 state，D 的 Decode 结果就会错。</p>
+<h3 id="copy-state-的作用"><a href="#copy-state-的作用" class="headerlink" title="copy_state 的作用"></a>copy_state 的作用</h3><p><code>copy_state</code> 是一块额外的 GPU 缓冲区，用来在特定时刻给 state 拍快照。之所以需要快照，是因为 ring buffer 会被后续 token 覆盖：如果请求结束时才去读当前 state，可能已经错过了某个 block 边界对应的窗口。<code>copy_state</code> 在跨一个 block 的 token 边界（示例中是 128 个 token）时把 state 复制出来，请求结束时用这份快照写 Store。</p>
+<p>DeepInfer 现有代码里已经有这套机制的雏形，相关入口如下。</p>
+<ul>
+<li><code>LLMEngine.copy_state</code>：快照缓冲区。</li>
+<li><code>do_copy_state()</code>：把 <code>gpu_states[state_id]</code> 复制到 <code>copy_state[state_id]</code>。</li>
+<li><code>should_copy_state()</code>：判断某个序列是否需要在当前 step 拍快照。</li>
+<li><code>copy_state_event</code>：保证拷贝完成后再消费。</li>
+</ul>
+<p>这套机制还需要补齐分配、注册、跨 block 边界维护和请求结束落盘。</p>
+<h3 id="P-D-传输-state-的必要性"><a href="#P-D-传输-state-的必要性" class="headerlink" title="P&#x2F;D 传输 state 的必要性"></a>P&#x2F;D 传输 state 的必要性</h3><p>在 P&#x2F;D（Prefill&#x2F;Decode）分离部署中，P 是 Prefill 实例，D 是 Decode 实例，也叫 CE（Completion Engine）。P 做完 Prefill 后，D 要接着 Decode。D 需要的不只是 KV block，还包括：</p>
+<ul>
+<li>SWA 窗口的当前位置。</li>
+<li>压缩累加器。</li>
+<li>其他影响后续 attention 的 state。</li>
+</ul>
+<p><code>raw_slot</code> 模式要求两端的 state 布局完全一致，整槽逐字节拷贝。这里的 <code>raw_slot</code> 指直接复制整个 state 槽位，不做字段重排或格式转换。只要有一项不一致（层集合、偏移、顺序、压缩率、环境变量），就必须拒绝传输，不能降级为“只传 KV block”。</p>
+<p>KV block 决定 D 能看到什么，state 决定 D 怎么继续算。</p>
+<hr>
+<h2 id="量化、压缩与布局"><a href="#量化、压缩与布局" class="headerlink" title="量化、压缩与布局"></a>量化、压缩与布局</h2><p>KV Cache 的物理布局不是“几个浮点数拼在一起”这么简单。它会受这些因素影响：</p>
+<ul>
+<li>数据类型：FP16、BF16、FP8、FP4。</li>
+<li>量化粒度：per-tensor（按张量）、per-channel（按通道）、per-block（按块）。</li>
+<li>模型结构：GQA、MLA、SWA、压缩注意力。</li>
+<li>并行切分：TP&#x2F;CP&#x2F;PP 把 KV 切到不同 rank。</li>
+<li>对齐和 padding：层内 32B pad、块尾 padding、2 MiB 注册对齐。</li>
+</ul>
+<p>这些因素综合起来，用一个 <code>layout_version</code> 描述。两个实例只有 <code>layout_version</code> 一致，才能做逐字节的 KV 传输。</p>
+<p>这也是为什么“同一个模型”不等于“KV 可以互相复用”：</p>
+<ul>
+<li>一个用 FP16，一个用 FP8，字节数不同。</li>
+<li>一个 TP&#x3D;8，一个 TP&#x3D;4，分片方式不同。</li>
+<li>一个开了 SWA，一个没开，state 布局不同。</li>
+<li>一个开了压缩，一个没开，block 内容不同。</li>
+</ul>
+<hr>
+<h2 id="引用计数与资源释放"><a href="#引用计数与资源释放" class="headerlink" title="引用计数与资源释放"></a>引用计数与资源释放</h2><p>把前面几节串起来，一个 KV block 的生命周期可以用下面的状态图表示。</p>
+<pre><code class=" mermaid">stateDiagram-v2
+    [*] --&gt; Free
+    Free --&gt; Allocated: 请求分配，ref_count = 1
+    Allocated --&gt; Written: forward 写入 K/V
+    Written --&gt; Readable: 写完成或流同步
+    Readable --&gt; Pinned: Put/传输 pin，ref_count += 1
+    Pinned --&gt; Readable: I/O 完成且请求未结束，ref_count -= 1
+    Readable --&gt; Free: 请求结束且 ref_count = 0
+    Pinned --&gt; Free: 请求结束且 I/O 完成，ref_count = 0
+    Readable --&gt; Readable: attention 读取历史 K/V
+</code></pre>
+
+<p><code>Free</code> 是 block 在空闲链表中的状态，也是生命周期的起点和终点。block 释放后还会被下一次请求重新分配，所以不单独画一个终态。<code>Pinned</code> 表示存在额外引用，例如 Put 或 P&#x2F;D 传输；此时即使请求结束，也不能立即复用。只有所有引用都释放、<code>ref_count</code> 归零，block 才回到 <code>Free</code>。分配失败、请求取消等异常路径也会释放引用回到 <code>Free</code>，图中省略了这些分支。</p>
+<p>生命周期里有三个容易出错的地方。</p>
+<ul>
+<li><strong>请求结束了，但 Put 还没完成</strong>：不能 free，因为 Put 线程还在读 HBM。</li>
+<li><strong>D 还在 Pull，P 就 free 了</strong>：D 可能读到已经被复用的 block，结果错误。</li>
+<li><strong>Notify 丢了，P 一直 pin</strong>：显存泄漏。需要超时、隔离和断链回收。</li>
+</ul>
+<p>这就是工程上反复强调 <code>pin/unpin</code>、<code>ref_count</code> 和 <code>QUARANTINED</code>（通知超时后的隔离态）的原因。</p>
+<hr>
+<h2 id="常见误解"><a href="#常见误解" class="headerlink" title="常见误解"></a>常见误解</h2><table>
+<thead>
+<tr>
+<th>误解</th>
+<th>实际情况</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>KV Cache 是模型权重的一部分</td>
+<td>不是。模型权重是训练出来的参数；KV Cache 是推理时产生的中间结果，请求结束就失效。</td>
+</tr>
+<tr>
+<td>前缀缓存命中就不用算任何东西</td>
+<td>不是。命中只覆盖前缀，用户问题部分还要算。没有 SWA 快照时，还会回退一个 block 重算，补齐 SWA。</td>
+</tr>
+<tr>
+<td>Store 里存的是指针</td>
+<td>不是。Store 里存的是一块 block 的字节，一个对象对应一块 <code>block_bytes</code> 连续内存。</td>
+</tr>
+<tr>
+<td>P&#x2F;D 传输一定经过 Store</td>
+<td>不是。P&#x2F;D 直传是 D 通过 TE 直接读 P 的 HBM，不经过 Store。只有池化才会把 block 写进 Store。</td>
+</tr>
+<tr>
+<td>P 返回首 token 后就可以释放 KV</td>
+<td>不是。D 还没拉取，P 必须 pin 到收到 Notify 或超时。</td>
+</tr>
+<tr>
+<td>block hash 只由当前 block 的 token 决定</td>
+<td>不是。hash 是链式的，带前一块 hash 和 extras，否则相同 token 在不同上下文会误命中。</td>
+</tr>
+<tr>
+<td>所有 rank 的 KV 都一样</td>
+<td>不是。TP&#x2F;CP&#x2F;PP 会把 KV 切到不同 rank，每个 rank 的 key 和物理地址都不同。</td>
+</tr>
+<tr>
+<td>block_size 越大越好</td>
+<td>不是。block 大，元数据少、传输批量大；但内部碎片多，短请求浪费，前缀匹配粒度也变粗。</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="自测"><a href="#自测" class="headerlink" title="自测"></a>自测</h2><table>
+<thead>
+<tr>
+<th>问题</th>
+<th>答案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>为什么只缓存 K&#x2F;V，不缓存 Q？</td>
+<td>Q 只对当前 token 有用，历史 token 的 Q 不再参与后续 attention；K&#x2F;V 会被后续所有 token 反复使用。</td>
+</tr>
+<tr>
+<td>为什么前缀缓存只能复用从开头开始的连续前缀？</td>
+<td>K&#x2F;V 依赖它前面的全部上下文。中间一段相同、开头不同，K&#x2F;V 就不一样。</td>
+</tr>
+<tr>
+<td>为什么 block hash 要带前一块的 hash？</td>
+<td>为了表达完整前缀。只 hash 当前块，会把不同上下文中的相同 token 误判为同一份 KV。</td>
+</tr>
+<tr>
+<td>H 和 S 有什么区别？</td>
+<td>H 是全局可复用的 token 数，用于统计和计划；S 是本地真正开始执行的位置，装载时使用 S 对应的 block 数。只缓存 KV block 时，<code>S = H - block_size</code>。</td>
+</tr>
+<tr>
+<td>为什么没有 SWA 快照时要回退一个 block？</td>
+<td>为了补齐最后一个命中 block 的 SWA 窗口。回退一块重算，比直接续算安全。</td>
+</tr>
+<tr>
+<td>为什么 P&#x2F;D 不能只传 KV block？</td>
+<td>D 还需要 SWA 窗口位置、压缩累加器等 state，否则 Decode 结果会错。</td>
+</tr>
+<tr>
+<td>为什么 Read 提交后不能立刻 unpin？</td>
+<td>Read 是异步的，提交只代表请求发出，不代表数据已经读完。必须等 Read 完成、流同步、Notify 发出后才能释放。</td>
+</tr>
+<tr>
+<td>为什么不同 TP rank 的 key 不同？</td>
+<td>每个 rank 只持有 KV 的一个分片，物理布局和内容都不同；key 必须带 rank 信息，否则会读到错误分片。</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="术语表"><a href="#术语表" class="headerlink" title="术语表"></a>术语表</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>一句话解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>KV Cache</td>
+<td>历史 token 的 K&#x2F;V 缓存，避免 Decode 重复计算</td>
+</tr>
+<tr>
+<td>Prefill</td>
+<td>一次算完 prompt 的所有 token，产出首 token 和 KV</td>
+</tr>
+<tr>
+<td>Decode</td>
+<td>每次生成一个 token，读历史 KV</td>
+</tr>
+<tr>
+<td>block</td>
+<td>KV Cache 的固定大小分配单位，含多个 token、所有参与 KV 的层</td>
+</tr>
+<tr>
+<td>block table</td>
+<td>逻辑 block 到物理 block 的映射表</td>
+</tr>
+<tr>
+<td>block hash</td>
+<td>链式内容 hash，标识一段前缀</td>
+</tr>
+<tr>
+<td>PoolKey</td>
+<td>带模型、并行 rank、角色信息的完整缓存 key</td>
+</tr>
+<tr>
+<td>prefix caching</td>
+<td>复用相同前缀的 KV，跳过重复 Prefill</td>
+</tr>
+<tr>
+<td>H &#x2F; S</td>
+<td>全局命中长度 &#x2F; 本地恢复执行位置</td>
+</tr>
+<tr>
+<td>Rollback &#x2F; Recompute Last Block</td>
+<td>命中边界回退一个 block，重新计算最后一个命中 block</td>
+</tr>
+<tr>
+<td>SWA</td>
+<td>滑动窗口注意力，只保留最近 W 个 token</td>
+</tr>
+<tr>
+<td>state</td>
+<td>SWA ring、压缩累加器等非 KV 张量</td>
+</tr>
+<tr>
+<td>copy_state</td>
+<td>state 的快照缓冲区</td>
+</tr>
+<tr>
+<td>pin</td>
+<td>增加引用，防止 block 被复用</td>
+</tr>
+<tr>
+<td>ref_count</td>
+<td>引用计数，归零才回 free list</td>
+</tr>
+<tr>
+<td>layout_version</td>
+<td>KV 物理布局版本，传输双方必须一致</td>
+</tr>
+</tbody></table>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8E%A8%E7%90%86%E6%9C%8D%E5%8A%A1/" class="category-chain-item">推理服务</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/KV-Cache/" class="print-no-link">#KV Cache</a>
+      
+        <a href="/tags/DeepInfer/" class="print-no-link">#DeepInfer</a>
+      
+        <a href="/tags/LLM%E6%8E%A8%E7%90%86/" class="print-no-link">#LLM推理</a>
+      
+        <a href="/tags/%E6%8E%A8%E7%90%86%E7%B3%BB%E7%BB%9F/" class="print-no-link">#推理系统</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>KV Cache 概念与 DeepInfer 机制</div>
+      <div>https://orion-wyc.github.io/2026/11/16/2026-11-16-KV-Cache概念与DeepInfer机制/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Yuchen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年11月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/11/17/2026-11-18-vLLM-Router%E8%81%8A%E5%A4%A9%E8%AF%B7%E6%B1%82%E8%B7%AF%E7%94%B1%E4%B8%8EWorker%E9%80%89%E6%8B%A9%E8%B0%83%E7%94%A8%E6%B5%81%E7%A8%8B/" title="vLLM Router Chat 请求路由与 Worker 选择调用流程">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">vLLM Router Chat 请求路由与 Worker 选择调用流程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/11/16/2026-11-16-vLLM-Router%E5%9C%A8regular%E6%B7%B7%E9%83%A8%E4%B8%8B%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" title="vLLM Router 在 regular 混部下的生命周期">
+                        <span class="hidden-mobile">vLLM Router 在 regular 混部下的生命周期</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="" target="_blank" rel="nofollow noopener"><span>Yuchen</span></a> <i class="iconfont icon-love"></i> <a href="" target="_blank" rel="nofollow noopener"><span>NoCookEatMcDonald's</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="/js/mermaid-viewer.js"></script><!-- hexo injector body_end end --></body>
+</html>

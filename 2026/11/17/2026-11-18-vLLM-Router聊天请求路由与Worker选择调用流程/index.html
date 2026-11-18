@@ -1,0 +1,1884 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Yuchen">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="vLLM Router Chat 请求路由与 Worker 选择调用流程 分析对象：vLLM Router router&#x2F; 子树，仓库提交 2d61d39，分析日期 2026-11-18。分析方式：静态代码阅读，未进行运行时和性能验证。文中源码路径均相对于 router&#x2F;。  1. 结论摘要Chat 请求到达 Router 后，选择过程分两层：  先确定由哪个 Router 实例处理：单 Rout">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vLLM Router Chat 请求路由与 Worker 选择调用流程">
+<meta property="og:url" content="https://orion-wyc.github.io/2026/11/17/2026-11-18-vLLM-Router%E8%81%8A%E5%A4%A9%E8%AF%B7%E6%B1%82%E8%B7%AF%E7%94%B1%E4%B8%8EWorker%E9%80%89%E6%8B%A9%E8%B0%83%E7%94%A8%E6%B5%81%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Yuchen&#39;s Blog">
+<meta property="og:description" content="vLLM Router Chat 请求路由与 Worker 选择调用流程 分析对象：vLLM Router router&#x2F; 子树，仓库提交 2d61d39，分析日期 2026-11-18。分析方式：静态代码阅读，未进行运行时和性能验证。文中源码路径均相对于 router&#x2F;。  1. 结论摘要Chat 请求到达 Router 后，选择过程分两层：  先确定由哪个 Router 实例处理：单 Rout">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-11-17T17:05:00.000Z">
+<meta property="article:modified_time" content="2026-11-18T11:17:32.575Z">
+<meta property="article:author" content="Yuchen">
+<meta property="article:tag" content="推理系统">
+<meta property="article:tag" content="vLLM">
+<meta property="article:tag" content="Router">
+<meta property="article:tag" content="源码分析">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>vLLM Router Chat 请求路由与 Worker 选择调用流程 - Yuchen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/katex.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"orion-wyc.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="/css/custom.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Yuchen&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>归档</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="vLLM Router Chat 请求路由与 Worker 选择调用流程"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-11-18 01:05" pubdate>
+          2026年11月18日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          24k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          197 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">vLLM Router Chat 请求路由与 Worker 选择调用流程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="vLLM-Router-Chat-请求路由与-Worker-选择调用流程"><a href="#vLLM-Router-Chat-请求路由与-Worker-选择调用流程" class="headerlink" title="vLLM Router Chat 请求路由与 Worker 选择调用流程"></a>vLLM Router Chat 请求路由与 Worker 选择调用流程</h1><blockquote>
+<p>分析对象：vLLM Router <code>router/</code> 子树，仓库提交 <code>2d61d39</code>，分析日期 2026-11-18。<br>分析方式：静态代码阅读，未进行运行时和性能验证。<br>文中源码路径均相对于 <code>router/</code>。</p>
+</blockquote>
+<h2 id="1-结论摘要"><a href="#1-结论摘要" class="headerlink" title="1. 结论摘要"></a>1. 结论摘要</h2><p>Chat 请求到达 Router 后，选择过程分两层：</p>
+<ol>
+<li><strong>先确定由哪个 Router 实例处理</strong>：单 Router 模式下由启动参数决定；IGW 模式下由 <code>RouterManager</code> 按请求的 <code>model</code> 和 worker 类型决定。</li>
+<li><strong>再由该 Router 选择 worker</strong>：Regular Router 选一个 worker；PD Router 同时选一对 Prefill&#x2F;Decode worker。</li>
+</ol>
+<p>关键结论：</p>
+<ul>
+<li>请求本身不带“Regular 或 PD”标记，判断依据是部署模式和 worker 注册类型。</li>
+<li>单 Router 模式（<code>enable_igw=false</code>）下，进程启动时 <code>AppState.router</code> 已经固定，请求不参与 Router 类型判断。</li>
+<li>IGW 模式（<code>enable_igw=true</code>）下，<code>RouterManager::get_router_for_model</code> 查该模型的 worker：存在 <code>Prefill</code>&#x2F;<code>Decode</code> 类型则走 <code>http-pd</code>，否则走 <code>http-regular</code>。</li>
+<li>Regular 路径的候选池先按 model 过滤，再过滤健康状态和熔断状态，最后交给 <code>--policy</code> 指定的策略选择。</li>
+<li>PD 路径在同一个准入锁内完成 P&#x2F;D 成对选择和负载预留，不是两次独立请求。</li>
+<li>选择发生在每次重试 attempt 内，失败重试会重新走选择流程。</li>
+</ul>
+<h2 id="2-对象与术语"><a href="#2-对象与术语" class="headerlink" title="2. 对象与术语"></a>2. 对象与术语</h2><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>含义</th>
+<th>主要代码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>RouterManager</code></td>
+<td>IGW 模式下的元路由，持有 <code>http-regular</code> 和 <code>http-pd</code> 两个 Router</td>
+<td><code>src/routers/router_manager.rs</code></td>
+</tr>
+<tr>
+<td><code>Router</code></td>
+<td>Regular Router，单 worker 选择与转发</td>
+<td><code>src/routers/http/router.rs</code></td>
+</tr>
+<tr>
+<td><code>VllmPDRouter</code></td>
+<td>PD Router，负责 P&#x2F;D 成对选择和两阶段编排</td>
+<td><code>src/routers/http/vllm_pd_router.rs</code></td>
+</tr>
+<tr>
+<td><code>PdRouterBase</code></td>
+<td>PD 公共逻辑，包括候选过滤、准入和阶段选择</td>
+<td><code>src/routers/http/pd_router.rs</code></td>
+</tr>
+<tr>
+<td><code>Worker</code></td>
+<td>后端推理实例，带有 <code>WorkerType</code>、健康状态和熔断状态</td>
+<td><code>src/core/worker.rs</code></td>
+</tr>
+<tr>
+<td><code>PolicyRegistry</code></td>
+<td>维护 model 到策略实例的映射，以及 PD 的 P&#x2F;D 策略</td>
+<td><code>src/policies/registry.rs</code></td>
+</tr>
+<tr>
+<td><code>LoadBalancingPolicy</code></td>
+<td>负载均衡策略统一接口</td>
+<td><code>src/policies/mod.rs</code></td>
+</tr>
+<tr>
+<td><code>PdAttempt</code></td>
+<td>一次 P&#x2F;D 准入的生命周期句柄，负责释放 P&#x2F;D 负载</td>
+<td><code>src/routers/http/pd_types.rs</code></td>
+</tr>
+</tbody></table>
+<p><code>WorkerType</code> 有三种：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs rust"><span class="hljs-keyword">enum</span> <span class="hljs-title class_">WorkerType</span> &#123;<br>    Regular,<br>    Prefill &#123; bootstrap_port: <span class="hljs-type">Option</span>&lt;<span class="hljs-type">u16</span>&gt; &#125;,<br>    Decode,<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>它是 IGW 判断走 Regular 还是 PD 的直接依据。</p>
+<h2 id="3-启动阶段：Router-实例的创建与保存"><a href="#3-启动阶段：Router-实例的创建与保存" class="headerlink" title="3. 启动阶段：Router 实例的创建与保存"></a>3. 启动阶段：Router 实例的创建与保存</h2><h3 id="3-1-启动装配流程"><a href="#3-1-启动装配流程" class="headerlink" title="3.1 启动装配流程"></a>3.1 启动装配流程</h3><pre><code class=" mermaid">flowchart TD
+    A[&quot;main.rs 解析 CLI&quot;] --&gt; B[&quot;server.rs::startup&quot;]
+    B --&gt; C[&quot;AppContext::new&lt;br/&gt;WorkerRegistry + PolicyRegistry&quot;]
+    C --&gt; D&#123;&quot;enable_igw&quot;&#125;
+    D -- &quot;false&quot; --&gt; E[&quot;RouterFactory::create_router&lt;br/&gt;按 RoutingMode 创建单个 Router&quot;]
+    D -- &quot;true&quot; --&gt; F[&quot;RouterManager::new&lt;br/&gt;注册 http-regular / http-pd&quot;]
+    E --&gt; G[&quot;Arc 包装后的 Router 实例&quot;]
+    F --&gt; G
+    G --&gt; H[&quot;AppState.router&quot;]
+    H --&gt; I[&quot;Arc 包装的 AppState&quot;]
+    I --&gt; J[&quot;build_app_with_wasm_middleware&quot;]
+    J --&gt; K[&quot;.with_state(app_state)&quot;]
+    K --&gt; L[&quot;serve(listener, app)&quot;]
+</code></pre>
+
+<h3 id="3-2-单-Router-模式"><a href="#3-2-单-Router-模式" class="headerlink" title="3.2 单 Router 模式"></a>3.2 单 Router 模式</h3><p><code>enable_igw=false</code> 时，<code>RouterFactory::create_router</code> 只创建一个 Router：</p>
+<table>
+<thead>
+<tr>
+<th>启动条件</th>
+<th>RoutingMode</th>
+<th>Router 实现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--vllm-pd-disaggregation</code>，且配置了 <code>--prefill/--decode</code>、<code>--vllm-discovery-address</code> 或 K8s discovery</td>
+<td><code>VllmPrefillDecode</code></td>
+<td><code>VllmPDRouter</code></td>
+</tr>
+<tr>
+<td><code>--backend openai</code></td>
+<td><code>OpenAI</code></td>
+<td><code>OpenAIRouter</code></td>
+</tr>
+<tr>
+<td>其他，配合 <code>--worker-urls</code></td>
+<td><code>Regular</code></td>
+<td><code>Router</code></td>
+</tr>
+</tbody></table>
+<p>代码位置：</p>
+<ul>
+<li>CLI 转 <code>RouterConfig</code>：<code>src/main.rs:484-570</code></li>
+<li>Router 创建：<code>src/routers/factory.rs:17-46</code></li>
+<li>单 Router 分支：<code>src/server.rs:1210-1215</code></li>
+</ul>
+<p>PD 模式缺少 P&#x2F;D 地址或发现配置时，启动阶段直接报错，不会进入服务状态（<code>src/main.rs:518</code>）。</p>
+<h3 id="3-3-IGW-模式"><a href="#3-3-IGW-模式" class="headerlink" title="3.3 IGW 模式"></a>3.3 IGW 模式</h3><p><code>enable_igw=true</code> 时，启动阶段注册两个 Router：</p>
+<ol>
+<li><code>http-regular</code> → <code>Router</code></li>
+<li><code>http-pd</code> → <code>VllmPDRouter</code></li>
+</ol>
+<p>代码位置：<code>src/server.rs:1160-1199</code>。</p>
+<p>第一个注册成功的 Router 被设为默认 Router，正常情况下是 <code>http-regular</code>（<code>src/routers/router_manager.rs:87-97</code>）。两个 Router 共享 <code>AppContext</code> 里的 <code>WorkerRegistry</code> 和 <code>PolicyRegistry</code>，因此动态添加的 worker 对两者都可见。</p>
+<h3 id="3-4-Router-实例保存位置"><a href="#3-4-Router-实例保存位置" class="headerlink" title="3.4 Router 实例保存位置"></a>3.4 Router 实例保存位置</h3><p>Router 实例没有存放在全局静态变量中，所有权链如下：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs text">RouterFactory::create_router()<br>  → Box&lt;dyn RouterTrait&gt;<br>  → Arc::from(...)<br>  → 局部变量 router                       src/server.rs:1148<br>  → AppState.router                       src/server.rs:1245<br>  → Arc&lt;AppState&gt;                         src/server.rs:1244<br>  → build_app_with_wasm_middleware()      src/server.rs:1339<br>  → .with_state(app_state)                src/server.rs:1053<br>  → Axum Router 内部状态<br>  → serve(listener, app)                  src/server.rs:1352<br></code></pre></td></tr></table></figure>
+
+<p><code>AppState</code> 定义在 <code>src/server.rs:111-117</code>：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs rust"><span class="hljs-meta">#[derive(Clone)]</span><br><span class="hljs-keyword">pub</span> <span class="hljs-keyword">struct</span> <span class="hljs-title class_">AppState</span> &#123;<br>    <span class="hljs-keyword">pub</span> router: Arc&lt;<span class="hljs-keyword">dyn</span> RouterTrait&gt;,<br>    <span class="hljs-keyword">pub</span> context: Arc&lt;AppContext&gt;,<br>    <span class="hljs-keyword">pub</span> concurrency_queue_tx: <span class="hljs-type">Option</span>&lt;tokio::sync::mpsc::Sender&lt;QueuedRequest&gt;&gt;,<br>    <span class="hljs-keyword">pub</span> router_manager: <span class="hljs-type">Option</span>&lt;Arc&lt;RouterManager&gt;&gt;,<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>请求处理函数通过 Axum 的 <code>State</code> 提取器拿到它：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs rust"><span class="hljs-keyword">async</span> <span class="hljs-keyword">fn</span> <span class="hljs-title function_">v1_chat_completions</span>(<br>    <span class="hljs-title function_ invoke__">State</span>(state): State&lt;Arc&lt;AppState&gt;&gt;,<br>    headers: http::HeaderMap,<br>    <span class="hljs-title function_ invoke__">Json</span>(body): Json&lt;ChatCompletionRequest&gt;,<br>) <span class="hljs-punctuation">-&gt;</span> Response &#123;<br>    ...<br>    state.router.<span class="hljs-title function_ invoke__">route_chat</span>(<span class="hljs-title function_ invoke__">Some</span>(&amp;headers), &amp;body, <span class="hljs-literal">None</span>).<span class="hljs-keyword">await</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>代码位置：<code>src/server.rs:266-276</code>。</p>
+<p>IGW 模式下：</p>
+<ul>
+<li><code>AppState.router</code> 指向 <code>RouterManager</code></li>
+<li>真正的 <code>http-regular</code> &#x2F; <code>http-pd</code> 保存在 <code>RouterManager.routers</code></li>
+<li>类型为 <code>Arc&lt;DashMap&lt;RouterId, Arc&lt;dyn RouterTrait&gt;&gt;&gt;</code>，定义在 <code>src/routers/router_manager.rs:55</code></li>
+</ul>
+<h2 id="4-请求入口调用链"><a href="#4-请求入口调用链" class="headerlink" title="4. 请求入口调用链"></a>4. 请求入口调用链</h2><h3 id="4-1-HTTP-入口"><a href="#4-1-HTTP-入口" class="headerlink" title="4.1 HTTP 入口"></a>4.1 HTTP 入口</h3><pre><code class=" mermaid">sequenceDiagram
+    autonumber
+    participant C as Client
+    participant AX as Axum 路由层
+    participant H as v1_chat_completions
+    participant AUTH as authorize_request
+    participant RM as RouterManager
+    participant WR as WorkerRegistry
+    participant R as 目标 Router
+
+    C-&gt;&gt;AX: POST /v1/chat/completions
+    Note over AX: RequestId / CORS / BodyLimit / 并发限制等 layer
+    AX-&gt;&gt;AX: 匹配 route，进入 post(v1_chat_completions)
+    AX-&gt;&gt;AX: ChatCompletionRequest 反序列化
+    AX-&gt;&gt;H: v1_chat_completions(State, HeaderMap, Json)
+    H-&gt;&gt;AUTH: authorize_request(&amp;state, &amp;headers)
+    alt 配置了 api_key_validation_urls
+        AUTH-&gt;&gt;AUTH: 查 api_key_cache
+        AUTH-&gt;&gt;AUTH: 请求 validation URL 校验 Bearer token
+    end
+    AUTH--&gt;&gt;H: Ok / 401
+    alt enable_igw = true
+        H-&gt;&gt;RM: state.router.route_chat(headers, body, None)
+        RM-&gt;&gt;RM: select_router_for_request(headers, body.model)
+        RM-&gt;&gt;WR: get_by_model(model)
+        WR--&gt;&gt;RM: worker 列表
+        RM-&gt;&gt;RM: 检查 Prefill/Decode 类型
+        RM-&gt;&gt;R: 选中实例 route_chat(...)
+    else enable_igw = false
+        H-&gt;&gt;R: state.router.route_chat(headers, body, None)
+    end
+    R--&gt;&gt;AX: Response
+    AX--&gt;&gt;C: JSON 或 SSE
+</code></pre>
+
+<p>代码位置：</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>代码位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>路由注册</td>
+<td><code>src/server.rs:957-967</code></td>
+</tr>
+<tr>
+<td>入口函数</td>
+<td><code>src/server.rs:266-276</code></td>
+</tr>
+<tr>
+<td>鉴权</td>
+<td><code>src/server.rs:493</code></td>
+</tr>
+<tr>
+<td>RouterManager 入口</td>
+<td><code>src/routers/router_manager.rs:627-649</code></td>
+</tr>
+<tr>
+<td>Router 选择</td>
+<td><code>src/routers/router_manager.rs:398-476</code></td>
+</tr>
+<tr>
+<td>按 model 取 Router</td>
+<td><code>src/routers/router_manager.rs:111-143</code></td>
+</tr>
+</tbody></table>
+<p>从入口到 worker 的模块调用总览：</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>模块</th>
+<th>关键函数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HTTP 接入</td>
+<td><code>src/server.rs</code></td>
+<td><code>v1_chat_completions</code></td>
+</tr>
+<tr>
+<td>鉴权</td>
+<td><code>src/server.rs</code></td>
+<td><code>authorize_request</code></td>
+</tr>
+<tr>
+<td>元路由（IGW）</td>
+<td><code>src/routers/router_manager.rs</code></td>
+<td><code>route_chat</code>、<code>select_router_for_request</code>、<code>get_router_for_model</code></td>
+</tr>
+<tr>
+<td>Regular 请求处理</td>
+<td><code>src/routers/http/router.rs</code></td>
+<td><code>route_chat</code>、<code>route_typed_request</code>、<code>route_prepared_request</code></td>
+</tr>
+<tr>
+<td>重试循环</td>
+<td><code>src/core/retry.rs</code></td>
+<td><code>RetryExecutor::execute_response_with_retry</code></td>
+</tr>
+<tr>
+<td>策略查找</td>
+<td><code>src/policies/registry.rs</code></td>
+<td><code>get_policy_or_default</code></td>
+</tr>
+<tr>
+<td>候选 worker</td>
+<td><code>src/core/worker_registry.rs</code></td>
+<td><code>get_by_model_fast</code>、<code>get_all</code></td>
+</tr>
+<tr>
+<td>选择算法</td>
+<td><code>src/policies/*</code></td>
+<td><code>select_worker_with_qualified_inputs</code>、<code>select_worker_with_inputs</code>、<code>select_worker_with_headers</code></td>
+</tr>
+<tr>
+<td>Regular 下发</td>
+<td><code>src/routers/http/router.rs</code></td>
+<td><code>send_typed_request</code></td>
+</tr>
+<tr>
+<td>PD 请求处理</td>
+<td><code>src/routers/http/vllm_pd_router.rs</code></td>
+<td><code>route_chat</code>、<code>route_transparent</code>、<code>admit_pair</code>、<code>process_vllm_two_stage_request</code></td>
+</tr>
+<tr>
+<td>PD 准入与选择</td>
+<td><code>src/routers/http/pd_router.rs</code></td>
+<td><code>select_and_admit</code>、<code>select_pd_pair</code>、<code>select_stage</code></td>
+</tr>
+<tr>
+<td>传输</td>
+<td><code>src/backend/frontend.rs</code> &#x2F; <code>src/otel_http.rs</code></td>
+<td><code>dispatch_with_first_output</code>（gRPC）、<code>send_client_request</code>（HTTP）</td>
+</tr>
+</tbody></table>
+<p>补充：配置了 <code>epd</code> 时，<code>/v1/chat/completions</code> 会注册成 <code>epd_chat_completions</code>，走 <code>route_transparent</code>（<code>src/server.rs:961-965</code>），而不是 <code>v1_chat_completions</code>。</p>
+<h3 id="4-2-Router-选择判定"><a href="#4-2-Router-选择判定" class="headerlink" title="4.2 Router 选择判定"></a>4.2 Router 选择判定</h3><pre><code class=" mermaid">flowchart TD
+    A[&quot;route_chat 请求&quot;] --&gt; B&#123;&quot;IGW 模式?&quot;&#125;
+    B -- &quot;否&quot; --&gt; C[&quot;使用启动时创建的 AppState.router&quot;]
+    B -- &quot;是&quot; --&gt; D&#123;&quot;请求带 model?&quot;&#125;
+    D -- &quot;是&quot; --&gt; E[&quot;worker_registry.get_by_model(model)&quot;]
+    E --&gt; F&#123;&quot;存在 Prefill/Decode worker?&quot;&#125;
+    F -- &quot;是&quot; --&gt; G[&quot;http-pd&quot;]
+    F -- &quot;否&quot; --&gt; H[&quot;http-regular&quot;]
+    E --&gt; I&#123;&quot;该 model 没有 worker?&quot;&#125;
+    I -- &quot;是&quot; --&gt; J[&quot;默认 Router&lt;br/&gt;通常为 http-regular&quot;]
+    D -- &quot;否&quot; --&gt; K[&quot;遍历所有 Router 打分&quot;]
+    K --&gt; L&#123;&quot;x-prefer-pd 命中?&quot;&#125;
+    L -- &quot;是&quot; --&gt; G
+    L -- &quot;否&quot; --&gt; H
+</code></pre>
+
+<p>具体规则：</p>
+<ol>
+<li><p><strong>请求带 <code>model</code></strong></p>
+<ul>
+<li><code>worker_registry.get_by_model(model)</code> 取该模型的 worker。</li>
+<li>任意 worker 是 <code>WorkerType::Prefill &#123; .. &#125;</code> 或 <code>WorkerType::Decode</code> → 选 <code>http-pd</code>。</li>
+<li>全部是 <code>WorkerType::Regular</code> → 选 <code>http-regular</code>。</li>
+<li>模型没有 worker，或对应 Router 创建失败 → 退回默认 Router。</li>
+</ul>
+</li>
+<li><p><strong>请求不带 <code>model</code></strong></p>
+<ul>
+<li>遍历所有已注册 Router 打分。</li>
+<li>代码期望无 <code>x-prefer-pd</code> 时偏向 Regular，有 <code>x-prefer-pd</code> 时偏向 PD。</li>
+<li>当前实现存在类型字符串不一致，见 9.2 节；上图描述的是代码意图。</li>
+</ul>
+</li>
+</ol>
+<h3 id="4-3-Worker-类型如何产生"><a href="#4-3-Worker-类型如何产生" class="headerlink" title="4.3 Worker 类型如何产生"></a>4.3 Worker 类型如何产生</h3><p>IGW 模式下通过 <code>POST /workers</code> 动态添加：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;url&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;http://127.0.0.1:8000&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;model_id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;deepseek-v4&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;worker_type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;prefill&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>RouterManager::add_worker</code> 根据 <code>worker_type</code> 创建不同类型的 worker（<code>src/routers/router_manager.rs:187-204</code>）：</p>
+<table>
+<thead>
+<tr>
+<th><code>worker_type</code></th>
+<th>创建的 Worker</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&quot;prefill&quot;</code></td>
+<td><code>WorkerFactory::create_prefill_with_labels</code></td>
+</tr>
+<tr>
+<td><code>&quot;decode&quot;</code></td>
+<td><code>WorkerFactory::create_decode_with_labels</code></td>
+</tr>
+<tr>
+<td>其他或省略</td>
+<td><code>WorkerFactory::create_regular_with_labels</code></td>
+</tr>
+</tbody></table>
+<p>未指定 <code>model_id</code> 时，会访问 worker 的 <code>/v1/models</code> 或 gRPC <code>GetModelInfo</code> 自动发现模型（<code>src/routers/router_manager.rs:162-177</code>）。</p>
+<p>静态 PD 模式下，<code>--prefill</code> &#x2F; <code>--decode</code> 在启动时直接注册为 <code>Prefill</code> &#x2F; <code>Decode</code>（<code>src/routers/http/pd_router.rs:1064-1083</code>）。</p>
+<h2 id="5-Regular-Router-调用链"><a href="#5-Regular-Router-调用链" class="headerlink" title="5. Regular Router 调用链"></a>5. Regular Router 调用链</h2><h3 id="5-1-调用时序"><a href="#5-1-调用时序" class="headerlink" title="5.1 调用时序"></a>5.1 调用时序</h3><pre><code class=" mermaid">sequenceDiagram
+    autonumber
+    participant C as Client
+    participant S as Axum 路由层
+    participant R as Router
+    participant RR as RetryExecutor
+    participant PR as PolicyRegistry
+    participant WR as WorkerRegistry
+    participant P as LoadBalancingPolicy
+    participant IP as 输入准备
+    participant W as Worker
+    participant M as RouterMetrics
+
+    C-&gt;&gt;S: POST /v1/chat/completions
+    Note over S: 入口与鉴权见 4.1 节
+    S-&gt;&gt;R: route_chat
+    R-&gt;&gt;R: route_typed_request
+    R-&gt;&gt;R: route_prepared_request
+    R-&gt;&gt;R: typed_req.get_model()
+    R-&gt;&gt;WR: has_model(model)
+    R-&gt;&gt;R: classify_worker_urls
+    alt gRPC 池
+        R-&gt;&gt;R: EngineFrontend::prepare(chat)
+    else HTTP 池
+        R-&gt;&gt;R: 保留 raw body
+    end
+    R-&gt;&gt;R: extract_text_for_routing
+    R-&gt;&gt;R: resolve_affinity_identity
+    R-&gt;&gt;RR: RetryExecutor::execute_response_with_retry(...)
+    loop 每个 attempt
+        RR-&gt;&gt;R: 执行 attempt 闭包
+        opt 启用 Program scheduling
+            R-&gt;&gt;R: acquire_program_completion
+        end
+        Note over R: forced_worker_url 存在时跳过策略选择
+        R-&gt;&gt;PR: get_policy_or_default(model)
+        PR--&gt;&gt;R: Arc 包装的 Policy
+        R-&gt;&gt;WR: get_by_model_fast(model) / get_all
+        WR--&gt;&gt;R: worker 列表
+        R-&gt;&gt;R: filter is_available
+        opt kv_aware / cache_aware 需要 token
+            R-&gt;&gt;IP: prepare_http_kv_inputs
+            IP-&gt;&gt;W: POST /tokenize
+            W--&gt;&gt;IP: token ids
+            IP--&gt;&gt;R: WorkerTokenInputs
+        end
+        R-&gt;&gt;R: select_worker_for_model
+        alt kv_aware
+            R-&gt;&gt;P: select_worker_with_qualified_inputs
+        else cache_aware
+            R-&gt;&gt;P: select_worker_with_inputs
+        else 其他策略
+            R-&gt;&gt;P: select_worker_with_headers
+        end
+        P--&gt;&gt;R: worker index / receipt
+        R-&gt;&gt;R: RequestLoadGuard::from_selection
+        R-&gt;&gt;R: send_typed_request
+        alt gRPC worker
+            R-&gt;&gt;W: EngineFrontend::dispatch_with_first_output
+            W--&gt;&gt;R: gRPC stream
+        else HTTP worker
+            R-&gt;&gt;W: POST worker_url + route
+            W--&gt;&gt;R: Response / SSE
+        end
+        R-&gt;&gt;W: record_outcome
+        R-&gt;&gt;R: failed_workers.push (kv/plugin)
+        R--&gt;&gt;RR: Response
+        RR-&gt;&gt;RR: should_retry / backoff
+    end
+    RR--&gt;&gt;R: final Response
+    R-&gt;&gt;M: record_request / record_generate_duration
+    R--&gt;&gt;S: Response
+    S--&gt;&gt;C: JSON 或 SSE
+</code></pre>
+
+<p>函数调用栈（Regular）：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs text">server.rs::v1_chat_completions<br>  → server.rs::authorize_request<br>  → routers/router_manager.rs::route_chat                 // 仅 IGW<br>      → select_router_for_request<br>      → get_router_for_model<br>  → routers/http/router.rs::route_chat<br>      → route_typed_request<br>      → route_prepared_request<br>          → core/retry.rs::RetryExecutor::execute_response_with_retry<br>              → policies/registry.rs::get_policy_or_default<br>              → core/worker_registry.rs::get_by_model_fast / get_all<br>              → policies/*::select_worker_with_*<br>              → routers/http/router.rs::send_typed_request<br>                  → backend/frontend.rs::dispatch_with_first_output   // gRPC<br>                  → otel_http.rs::send_client_request                 // HTTP<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-2-分步说明"><a href="#5-2-分步说明" class="headerlink" title="5.2 分步说明"></a>5.2 分步说明</h3><ol>
+<li><p><strong>进入 Regular Router</strong></p>
+<ul>
+<li><code>route_chat</code>：<code>src/routers/http/router.rs:2976-2984</code></li>
+<li><code>route_typed_request</code>：<code>src/routers/http/router.rs:1496-1505</code></li>
+<li><code>route_prepared_request</code>：<code>src/routers/http/router.rs:1508</code></li>
+</ul>
+</li>
+<li><p><strong>解析 model</strong></p>
+<ul>
+<li>代码：<code>src/routers/http/router.rs:1519-1521</code></li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs rust"><span class="hljs-keyword">let</span> <span class="hljs-variable">model_id</span> = model_id<br>    .<span class="hljs-title function_ invoke__">or_else</span>(|| typed_req.<span class="hljs-title function_ invoke__">get_model</span>())<br>    .<span class="hljs-title function_ invoke__">filter</span>(|model| <span class="hljs-keyword">self</span>.worker_registry.<span class="hljs-title function_ invoke__">has_model</span>(model));<br></code></pre></td></tr></table></figure>
+
+<p>如果请求里的 <code>model</code> 没有注册，会被当成 <code>None</code>，后续从全部 worker 中选择。</p>
+</li>
+<li><p><strong>判断 backend 池类型</strong></p>
+<ul>
+<li>代码：<code>src/routers/http/router.rs:1525-1530</code></li>
+<li>所有 worker URL 必须是同一种协议，全部 HTTP 或全部 gRPC。混合池在启动或添加 worker 时会被拒绝。</li>
+</ul>
+</li>
+<li><p><strong>准备 token 输入</strong></p>
+<ul>
+<li>gRPC 池在进入策略前由 <code>EngineFrontend</code> 统一 tokenize（<code>src/routers/http/router.rs:1557-1595</code>）。</li>
+<li>HTTP 池中，<code>kv_aware</code> 或 <code>cache_aware</code> 需要 token 时，会向候选 worker 的 <code>/tokenize</code> 取 token（<code>src/backend/preprocess.rs</code> 的 <code>prepare_http_kv_inputs</code>）。</li>
+<li>取不到 token 时，两种策略都会退化为按负载选择。</li>
+</ul>
+</li>
+<li><p><strong>Program scheduling 覆盖</strong></p>
+<ul>
+<li>如果启用 <code>--enable-program-scheduling</code> 且请求被识别为 Program turn，<code>acquire_program_completion</code> 会先向调度器申请目标 worker（<code>src/routers/http/router.rs:1685-1694</code>）。</li>
+<li>拿到 <code>forced_worker_url</code> 后直接使用该 worker，不再走负载均衡策略（<code>src/routers/http/router.rs:1767-1798</code>）。</li>
+<li>策略只用于生成 KV receipt。</li>
+</ul>
+</li>
+<li><p><strong>构造候选池</strong></p>
+<ul>
+<li><code>available_workers</code>：<code>src/routers/http/router.rs:1427-1436</code></li>
+<li>有 model：<code>worker_registry.get_by_model_fast(model)</code></li>
+<li>无 model：<code>worker_registry.get_all()</code></li>
+<li>过滤 <code>worker.is_available()</code></li>
+</ul>
+<p><code>is_available()</code> &#x3D; <code>is_healthy() &amp;&amp; circuit_breaker.can_execute()</code>（<code>src/core/worker.rs:80</code>）。</p>
+</li>
+<li><p><strong>选择策略</strong></p>
+<ul>
+<li><code>policy_for_model</code>：<code>src/routers/http/router.rs:1420-1425</code></li>
+<li><code>select_worker_for_model</code>：<code>src/routers/http/router.rs:1440-1494</code></li>
+</ul>
+<p>策略分三条分支：</p>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>调用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>kv_aware</code></td>
+<td><code>select_worker_with_qualified_inputs</code>（<code>src/policies/kv_aware.rs:1205</code>）</td>
+</tr>
+<tr>
+<td><code>cache_aware</code></td>
+<td><code>select_worker_with_inputs</code>（<code>src/policies/cache_aware.rs:253</code>）</td>
+</tr>
+<tr>
+<td>其他</td>
+<td><code>select_worker_with_headers</code>（<code>src/policies/mod.rs:79</code>）</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>预留负载</strong></p>
+<ul>
+<li><code>RequestLoadGuard::from_selection</code>：<code>src/routers/http/router.rs:1836-1840</code></li>
+<li>策略声明 <code>tracks_request_load()</code>（<code>cache_aware</code>、<code>kv_aware</code>、<code>power_of_two</code>）或命中 Program 调度时，Router 通过 <code>RequestLoadGuard</code> 维护该 worker 的在途负载。</li>
+<li><code>random</code>、<code>round_robin</code>、哈希类策略默认不跟踪在途负载，因为它们本来就不看 load。</li>
+</ul>
+</li>
+<li><p><strong>下发请求</strong></p>
+<ul>
+<li><code>send_typed_request</code>：<code>src/routers/http/router.rs:2070</code></li>
+<li>gRPC 分支：<code>src/routers/http/router.rs:2087-2122</code></li>
+<li>HTTP 分支：<code>src/routers/http/router.rs:2125</code> 起</li>
+<li>DP 模式会从 worker URL 中解析 <code>@rank</code>，并通过 <code>X-data-parallel-rank</code> 头下发。</li>
+</ul>
+</li>
+<li><p><strong>记录结果与重试</strong></p>
+<ul>
+<li><code>worker.record_outcome</code>：<code>src/routers/http/router.rs:1901-1904</code></li>
+<li>重试判定：<code>src/routers/http/router.rs:1915-1918</code></li>
+<li>整个 attempt 由 <code>RetryExecutor</code> 包住：<code>src/routers/http/router.rs:1678-1927</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="5-3-策略分支图"><a href="#5-3-策略分支图" class="headerlink" title="5.3 策略分支图"></a>5.3 策略分支图</h3><pre><code class=" mermaid">flowchart TD
+    A[&quot;可用 worker 列表&quot;] --&gt; B&#123;&quot;policy 类型&quot;&#125;
+    B -- &quot;kv_aware&quot; --&gt; C[&quot;查 KV 索引命中&lt;br/&gt;计算前缀复用和负载 cost&quot;]
+    B -- &quot;cache_aware&quot; --&gt; D&#123;&quot;负载失衡?&quot;&#125;
+    D -- &quot;是&quot; --&gt; E[&quot;选最低 load&quot;]
+    D -- &quot;否&quot; --&gt; F&#123;&quot;最高前缀匹配率大于 cache_threshold?&quot;&#125;
+    F -- &quot;是&quot; --&gt; G[&quot;在最高匹配率中选最低 load&quot;]
+    F -- &quot;否&quot; --&gt; E
+    B -- &quot;其他&quot; --&gt; H[&quot;按策略自身规则选择&quot;]
+</code></pre>
+
+<h2 id="6-PD-Router-调用链"><a href="#6-PD-Router-调用链" class="headerlink" title="6. PD Router 调用链"></a>6. PD Router 调用链</h2><h3 id="6-1-调用时序"><a href="#6-1-调用时序" class="headerlink" title="6.1 调用时序"></a>6.1 调用时序</h3><pre><code class=" mermaid">sequenceDiagram
+    autonumber
+    participant C as Client
+    participant S as Axum 路由层
+    participant V as VllmPDRouter
+    participant B as PdRouterBase
+    participant PR as PolicyRegistry
+    participant WR as WorkerRegistry
+    participant IP as 输入准备
+    participant PL as PdLoadManager
+    participant PP as Prefill Policy
+    participant DP as Decode Policy
+    participant PW as Prefill Worker
+    participant DW as Decode Worker
+    participant MET as RouterMetrics
+
+    C-&gt;&gt;S: POST /v1/chat/completions
+    Note over S: 入口与鉴权见 4.1 节
+    S-&gt;&gt;V: route_chat
+    Note over V: 命中 Program turn 时可能直接由 process_program_request 返回
+    Note over V: gRPC P/D 走 process_grpc_two_stage_chat；此处画 HTTP 路径
+    V-&gt;&gt;V: serde_json::to_value(body)
+    V-&gt;&gt;V: route_transparent
+    alt use_discovery = true
+        V-&gt;&gt;V: process_vllm_request
+        V-&gt;&gt;V: admit_discovered_pair
+        V-&gt;&gt;V: discovery_candidates(service_registry)
+    else 静态 URL
+        V-&gt;&gt;WR: get_prefill_workers / get_decode_workers
+        WR--&gt;&gt;V: P/D worker 列表
+        V-&gt;&gt;V: filter is_available
+    end
+    V-&gt;&gt;V: admit_pair
+    V-&gt;&gt;V: admit_pair_with_tokens
+    V-&gt;&gt;PR: get_prefill_policy / get_decode_policy
+    PR--&gt;&gt;V: P/D policies
+    V-&gt;&gt;IP: tokio::join!(prepare_prefill_inputs, prepare_decode_inputs)
+    IP-&gt;&gt;PW: POST /tokenize
+    PW--&gt;&gt;IP: tokens
+    IP-&gt;&gt;DW: POST /tokenize
+    DW--&gt;&gt;IP: tokens
+    IP--&gt;&gt;V: WorkerTokenInputs
+    V-&gt;&gt;V: cache_aware prepare_selection (可选)
+    V-&gt;&gt;V: extract_affinity_key
+    V-&gt;&gt;B: select_and_admit(context)
+    B-&gt;&gt;PL: pd_load.admit(closure)
+    PL-&gt;&gt;B: 锁内执行 select_pd_pair
+    B-&gt;&gt;B: select_pd_pair(loads, P/D pools, policies)
+    B-&gt;&gt;B: eligible 过滤：is_available / model / 粒度
+    B-&gt;&gt;B: select_stage(Prefill)
+    B-&gt;&gt;PP: pick_prefill / select_prepared / select_worker_with_headers
+    PP--&gt;&gt;B: StageDecision(P)
+    B-&gt;&gt;B: select_stage(Decode)
+    B-&gt;&gt;DP: select_decode / select_prepared / select_worker_with_headers
+    DP--&gt;&gt;B: StageDecision(D)
+    B-&gt;&gt;B: PdAttempt::attach_workers(P, D)
+    B--&gt;&gt;V: (PdSelection, PdAttempt)
+    V-&gt;&gt;V: process_vllm_two_stage_request
+    Note over V: NIXL 推送模式可能改走 process_concurrent_two_stage
+    V-&gt;&gt;PW: send_client_request(POST prefill_url, kv_transfer_params)
+    PW--&gt;&gt;V: prefill response
+    V-&gt;&gt;V: finish_prefill_response + parse kv_transfer_params
+    V-&gt;&gt;DW: send_client_request(POST decode_url, kv_transfer_params)
+    DW--&gt;&gt;V: decode response / SSE
+    V-&gt;&gt;V: handle_decode_response -&gt; finalize_decode_stream / finalize_decode_body
+    V-&gt;&gt;MET: record_pd_request / prefill / decode 指标
+    V--&gt;&gt;S: attempt.track_response
+    S--&gt;&gt;C: JSON 或 SSE
+</code></pre>
+
+<p>函数调用栈（PD）：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs text">server.rs::v1_chat_completions<br>  → server.rs::authorize_request<br>  → routers/router_manager.rs::route_chat                 // 仅 IGW<br>      → select_router_for_request<br>      → get_router_for_model<br>  → routers/http/vllm_pd_router.rs::route_chat<br>      → route_grpc_chat                                   // gRPC P/D 池<br>      → route_transparent                                 // HTTP 路径<br>          → process_vllm_request                          // 服务发现<br>              → admit_discovered_pair<br>          → admit_pair                                    // 静态 URL；发现路径内部也会调用<br>      → admit_pair_with_tokens<br>          → pd_router.rs::prepare_prefill_inputs<br>          → pd_router.rs::prepare_decode_inputs<br>          → pd_router.rs::select_and_admit<br>              → pd_load.admit<br>              → select_pd_pair<br>                  → select_stage(Prefill)<br>                  → select_stage(Decode)<br>      → process_vllm_two_stage_request<br>          → otel_http.rs::send_client_request(Prefill)<br>          → otel_http.rs::send_client_request(Decode)<br></code></pre></td></tr></table></figure>
+
+<h3 id="6-2-分步说明"><a href="#6-2-分步说明" class="headerlink" title="6.2 分步说明"></a>6.2 分步说明</h3><ol>
+<li><p><strong>进入 PD Router</strong></p>
+<ul>
+<li><code>route_chat</code>：<code>src/routers/http/vllm_pd_router.rs:2796-2830</code></li>
+<li><code>route_transparent</code>：<code>src/routers/http/vllm_pd_router.rs:2975-3089</code></li>
+</ul>
+</li>
+<li><p><strong>构造候选池</strong></p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>来源</th>
+<th>代码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>静态 URL</td>
+<td><code>worker_registry.get_prefill_workers()</code> &#x2F; <code>get_decode_workers()</code>，过滤 <code>is_available()</code></td>
+<td><code>src/routers/http/vllm_pd_router.rs:3004-3015</code></td>
+</tr>
+<tr>
+<td>服务发现</td>
+<td>service registry 的实例快照，转成临时 worker</td>
+<td><code>src/routers/http/vllm_pd_router.rs:1363-1394</code></td>
+</tr>
+</tbody></table>
+<p>任一池为空直接返回 503。</p>
+</li>
+<li><p><strong>准备 P&#x2F;D 输入</strong></p>
+<ul>
+<li><code>admit_pair</code>：<code>src/routers/http/vllm_pd_router.rs:946-965</code></li>
+<li><code>admit_pair_with_tokens</code>：<code>src/routers/http/vllm_pd_router.rs:970-1057</code></li>
+<li>P 和 D 的 token 输入准备并发执行（<code>src/routers/http/vllm_pd_router.rs:990-1005</code>）。</li>
+<li>同时提取 session affinity key 和 cache salt。</li>
+</ul>
+</li>
+<li><p><strong>成对选择与准入</strong></p>
+<ul>
+<li><code>select_and_admit</code>：<code>src/routers/http/pd_router.rs:563-627</code></li>
+<li><code>select_pd_pair</code>：<code>src/routers/http/pd_router.rs:35-110</code></li>
+<li>选择和预留在同一个准入锁内完成，避免并发请求同时基于旧负载选中同一实例。</li>
+</ul>
+</li>
+<li><p><strong>候选过滤</strong></p>
+<ul>
+<li>代码：<code>src/routers/http/pd_router.rs:56-67</code></li>
+<li>条件：<ul>
+<li><code>worker.is_available()</code></li>
+<li>同一 endpoint 的聚合&#x2F;按 rank 计数粒度不能中途切换</li>
+<li>model 匹配；worker 未标注模型时视为匹配</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Prefill 阶段选择</strong></p>
+<ul>
+<li>代码：<code>src/routers/http/pd_router.rs:112-334</code></li>
+<li>分支：<ul>
+<li><code>kv_aware</code> 且待处理 token 数已知：计算 <code>active_prefill_tokens + new_prefill_tokens</code>，调 <code>pick_prefill</code>（<code>src/policies/kv_aware.rs:1795</code>）</li>
+<li><code>kv_aware</code> 但存在未知 backlog：按投影后的占用选最低的 P，不使用 session affinity</li>
+<li><code>cache_aware</code>：用预先准备好的前缀匹配结果 <code>select_prepared</code></li>
+<li>其他策略：<code>select_worker_with_headers</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Decode 阶段选择</strong></p>
+<ul>
+<li><code>kv_aware</code>：<code>select_decode</code>（<code>src/policies/kv_aware.rs:1829</code>），选占用最低的 D；开启 session affinity 时优先粘住原 D。</li>
+<li><code>cache_aware</code>：<code>select_prepared</code>。</li>
+<li>其他策略：<code>select_worker_with_headers</code>。</li>
+</ul>
+</li>
+<li><p><strong>两阶段下发</strong></p>
+<ul>
+<li><code>process_vllm_two_stage_request</code>：<code>src/routers/http/vllm_pd_router.rs:1613</code></li>
+<li>先发 Prefill，读取并校验 P 的响应，提取 <code>kv_transfer_params</code>。</li>
+<li>再发 Decode。</li>
+<li>成功响应通过 <code>attempt.track_response</code> 绑定生命周期（<code>src/routers/http/vllm_pd_router.rs:3073</code>）。</li>
+</ul>
+</li>
+<li><p><strong>生命周期与负载释放</strong></p>
+<ul>
+<li><code>PdAttempt</code> 定义：<code>src/routers/http/pd_types.rs</code></li>
+<li>P&#x2F;D 负载在 <code>select_and_admit</code> 提交预留，<code>PdAttempt</code> 在 stream 结束、失败或客户端断开时释放。</li>
+<li><code>Drop</code> 实现负责兜底释放，避免取消或异常路径泄漏占用。</li>
+</ul>
+</li>
+</ol>
+<h3 id="6-3-PD-策略来源"><a href="#6-3-PD-策略来源" class="headerlink" title="6.3 PD 策略来源"></a>6.3 PD 策略来源</h3><table>
+<thead>
+<tr>
+<th>配置</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--policy cache_aware</code></td>
+<td>P 和 D 都使用 <code>cache_aware</code></td>
+</tr>
+<tr>
+<td><code>--policy kv_aware</code></td>
+<td>P 和 D 都使用 <code>kv_aware</code></td>
+</tr>
+<tr>
+<td><code>--prefill-policy kv_aware</code></td>
+<td>P 使用 <code>kv_aware</code>，D 继承主策略</td>
+</tr>
+<tr>
+<td><code>--decode-policy power_of_two</code></td>
+<td>D 使用 <code>power_of_two</code>，P 继承主策略</td>
+</tr>
+</tbody></table>
+<p>策略实例由 <code>RouterFactory::create_vllm_pd_router</code> 创建，并写入 <code>PolicyRegistry</code>（<code>src/routers/factory.rs:72-84</code>）。</p>
+<h2 id="7-各策略如何选择-Worker"><a href="#7-各策略如何选择-Worker" class="headerlink" title="7. 各策略如何选择 Worker"></a>7. 各策略如何选择 Worker</h2><table>
+<thead>
+<tr>
+<th>策略</th>
+<th>选择依据</th>
+<th>关键实现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>random</code></td>
+<td>健康 worker 中均匀随机</td>
+<td><code>src/policies/random.rs:22-41</code></td>
+</tr>
+<tr>
+<td><code>round_robin</code></td>
+<td>原子计数器取模</td>
+<td><code>src/policies/round_robin.rs:26-46</code></td>
+</tr>
+<tr>
+<td><code>power_of_two</code></td>
+<td>随机抽两个，选 load 更小的</td>
+<td><code>src/policies/power_of_two.rs:42-97</code></td>
+</tr>
+<tr>
+<td><code>cache_aware</code></td>
+<td>前缀匹配率超过阈值且负载均衡时，在最高匹配率 worker 中选负载最低的；否则选最低 load</td>
+<td><code>src/policies/cache_aware.rs:253-393</code></td>
+</tr>
+<tr>
+<td><code>kv_aware</code></td>
+<td>KV 层级命中 + 传输代价 + 实时负载</td>
+<td><code>src/policies/kv_aware.rs:1205-1346</code></td>
+</tr>
+<tr>
+<td><code>consistent_hash</code></td>
+<td>session key 映射到 160 个虚拟节点的哈希环</td>
+<td><code>src/policies/consistent_hash.rs:328</code></td>
+</tr>
+<tr>
+<td><code>rendezvous_hash</code></td>
+<td>对每个 worker 算 hash(key + url)，取最大值</td>
+<td><code>src/policies/rendezvous_hash.rs:43</code></td>
+</tr>
+<tr>
+<td><code>sticky_least_loaded</code></td>
+<td>已有 session 粘住原 worker，新 session 选活跃 session 最少的 worker</td>
+<td><code>src/policies/sticky_least_loaded.rs:205</code></td>
+</tr>
+</tbody></table>
+<h3 id="7-1-cache-aware-的判定"><a href="#7-1-cache-aware-的判定" class="headerlink" title="7.1 cache_aware 的判定"></a>7.1 cache_aware 的判定</h3><p>代码：<code>src/policies/cache_aware.rs:338-393</code></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs text">if 负载失衡:<br>    选最低 load<br>else if 最高前缀匹配率 &gt; cache_threshold:<br>    在匹配率最高的 worker 中选负载最低的<br>else:<br>    选最低 load<br></code></pre></td></tr></table></figure>
+
+<p>负载失衡判定（<code>src/policies/cache_aware.rs:443-446</code>）：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">max_load - min_load &gt; balance_abs_threshold<br>且<br>max_load &gt; min_load * balance_rel_threshold<br></code></pre></td></tr></table></figure>
+
+<p>默认配置（<code>src/policies/mod.rs:215-225</code>）：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cache_threshold</code></td>
+<td>0.5</td>
+</tr>
+<tr>
+<td><code>balance_abs_threshold</code></td>
+<td>32</td>
+</tr>
+<tr>
+<td><code>balance_rel_threshold</code></td>
+<td>1.1</td>
+</tr>
+<tr>
+<td><code>eviction_interval_secs</code></td>
+<td>30</td>
+</tr>
+<tr>
+<td><code>max_tree_size</code></td>
+<td>1 &lt;&lt; 25</td>
+</tr>
+</tbody></table>
+<h3 id="7-2-kv-aware-的-cost"><a href="#7-2-kv-aware-的-cost" class="headerlink" title="7.2 kv_aware 的 cost"></a>7.2 kv_aware 的 cost</h3><p>代码：<code>src/policies/kv_aware.rs:777-820</code></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">ptoken = new_prefill_tokens + active_prefill_tokens<br>projected_batchsize = active_requests + 1<br>cost = ptoken * projected_batchsize<br></code></pre></td></tr></table></figure>
+
+<p><code>new_prefill_tokens</code> 会扣除 KV 命中带来的可复用 token；device、host、external、disk 各层使用不同的传输信用系数。多个 scorer 可以对 cost 累加。</p>
+<p>选择器：</p>
+<ul>
+<li>所有 cost 为 0 或 temperature &lt;&#x3D; 0 且存在 0 cost 时，按 <code>ptoken</code>、<code>batchsize</code> 做确定性选择。</li>
+<li>否则由 <code>TemperaturePicker</code> 选择；<code>router_temperature &lt;= 0</code> 时退化为最小 cost，temperature 大于 0 时按 cost 加权随机。</li>
+</ul>
+<p><code>kv_aware</code> 还支持 session affinity：同一 session 的请求优先回到之前的 worker，绑定记录有上限和空闲 TTL（<code>src/policies/kv_aware.rs:481-694</code>）。</p>
+<h2 id="8-会影响选择结果的请求输入"><a href="#8-会影响选择结果的请求输入" class="headerlink" title="8. 会影响选择结果的请求输入"></a>8. 会影响选择结果的请求输入</h2><table>
+<thead>
+<tr>
+<th>输入</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>body.model</code></td>
+<td>Regular 模式限定 worker 池；IGW 模式决定走 <code>http-regular</code> 还是 <code>http-pd</code></td>
+</tr>
+<tr>
+<td><code>x-prefer-pd</code></td>
+<td>仅 IGW 且请求未指定 model 时，期望偏好 PD Router</td>
+</tr>
+<tr>
+<td><code>x-session-id</code> 等 session 头</td>
+<td>哈希类、sticky 类策略的 key</td>
+</tr>
+<tr>
+<td><code>x-claude-code-session-id</code>、<code>session-id</code>、<code>thread-id</code> 等</td>
+<td>KV-aware session affinity 的身份来源</td>
+</tr>
+<tr>
+<td><code>lora_name</code>、<code>cache_salt</code></td>
+<td>隔离 cache 身份和 KV 前缀匹配作用域</td>
+</tr>
+<tr>
+<td><code>X-data-parallel-rank</code></td>
+<td>选择 DP rank；Router 选中后自行写入，客户端传入值会被覆盖</td>
+</tr>
+<tr>
+<td>可重试状态码</td>
+<td>触发下一次 attempt 重新选择</td>
+</tr>
+<tr>
+<td>Program scheduling 头&#x2F;body</td>
+<td>命中时直接绑定 worker，绕过策略</td>
+</tr>
+</tbody></table>
+<p>session key 提取顺序（<code>src/policies/hash_key.rs:13-33</code>）：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs text">x-session-id<br>&gt; x-user-id<br>&gt; x-tenant-id<br>&gt; x-correlation-id<br>&gt; x-request-id<br>&gt; x-trace-id<br>&gt; body.session_params.session_id<br>&gt; body.user<br>&gt; body.session_id<br>&gt; body.user_id<br>&gt; 请求体哈希<br></code></pre></td></tr></table></figure>
+
+<h2 id="9-失败处理与边界"><a href="#9-失败处理与边界" class="headerlink" title="9. 失败处理与边界"></a>9. 失败处理与边界</h2><h3 id="9-1-重试"><a href="#9-1-重试" class="headerlink" title="9.1 重试"></a>9.1 重试</h3><p>Regular 路径由 <code>RetryExecutor</code> 包住（<code>src/routers/http/router.rs:1678-1927</code>）：</p>
+<ul>
+<li>每次 attempt 重新执行 Program 调度、候选池构造、策略选择和负载预留。</li>
+<li><code>failed_workers</code> 记录本请求已经失败的 worker。</li>
+<li>只有 <code>kv_aware</code> 或 plugin 自带 token 的场景会填充排除列表（<code>src/routers/http/router.rs:1906-1908</code>）。</li>
+<li>其他策略重试时没有排除列表，可能再次选到同一个 worker。</li>
+<li>失败状态会通过 <code>worker.record_outcome</code> 计入熔断器。</li>
+</ul>
+<p>PD 路径：</p>
+<ul>
+<li>P 或 D 任一池为空，返回 503。</li>
+<li><code>select_pd_pair</code> 返回 <code>None</code> 时返回 <code>No eligible P/D pair</code>。</li>
+<li>Prefill 失败不会继续发 Decode；<code>PdAttempt</code> 负责释放已预留的 P 负载。</li>
+</ul>
+<h3 id="9-2-已知边界"><a href="#9-2-已知边界" class="headerlink" title="9.2 已知边界"></a>9.2 已知边界</h3><ol>
+<li><p><strong>请求 model 未注册时按无 model 处理</strong></p>
+<ul>
+<li><code>route_prepared_request</code> 用 <code>has_model</code> 过滤，未注册的 model 会变成 <code>None</code>。</li>
+<li>结果是可能从全部 worker 中选择，而不是返回 404。</li>
+</ul>
+</li>
+<li><p><strong><code>is_pd_mode</code> 与 <code>router_type</code> 字符串不一致</strong></p>
+<ul>
+<li><code>RouterManager</code> 用 <code>is_pd_mode()</code> 判断 Router 是否是 PD。</li>
+<li>默认实现是 <code>router_type() == &quot;pd&quot;</code>（<code>src/routers/mod.rs:190-192</code>）。</li>
+<li><code>VllmPDRouter::router_type()</code> 返回 <code>&quot;vllm_pd&quot;</code>（<code>src/routers/http/vllm_pd_router.rs:2965-2967</code>）。</li>
+<li>因此 <code>http-pd</code> 的 <code>is_pd_mode()</code> 恒为 <code>false</code>，无 model 请求时 <code>x-prefer-pd</code> 的加分分支不会命中。</li>
+<li>建议 chat 请求始终携带 <code>model</code>，走确定性的 <code>get_router_for_model</code> 判断。</li>
+</ul>
+</li>
+<li><p><strong>IGW 下 model 发现失败</strong></p>
+<ul>
+<li><code>add_worker</code> 自动发现模型失败时，<code>model_id</code> 会被写成 <code>&quot;unknown&quot;</code>（<code>src/routers/router_manager.rs:164-174</code>）。</li>
+<li>此时 <code>get_by_model(实际模型名)</code> 找不到该 worker，<code>RouterManager</code> 会退回默认 Router。</li>
+<li>动态添加 PD worker 时应显式传 <code>model_id</code>，或确保 worker 的 <code>/v1/models</code> 可用。</li>
+</ul>
+</li>
+<li><p><strong>同一模型同时存在 Regular 和 P&#x2F;D worker</strong></p>
+<ul>
+<li><code>get_router_for_model</code> 只要发现任意 P&#x2F;D worker 就选 <code>http-pd</code>。</li>
+<li>Regular Router 不会收到该模型的请求。</li>
+</ul>
+</li>
+<li><p><strong>静态 PD 模式的 worker model 标签</strong></p>
+<ul>
+<li>静态 <code>--prefill</code> &#x2F; <code>--decode</code> 创建的 worker 默认 model 为 <code>&quot;unknown&quot;</code>。</li>
+<li>PD 准入的 model 过滤允许 <code>&quot;unknown&quot;</code> 匹配任意请求（<code>src/routers/http/pd_router.rs:62-67</code>）。</li>
+<li>多模型部署需要额外的模型标注能力。</li>
+</ul>
+</li>
+<li><p><strong>负载跟踪范围</strong></p>
+<ul>
+<li><code>RequestLoadGuard</code> 在策略声明 <code>tracks_request_load()</code>、命中 Program 调度或存在 KV receipt 时维护 in-flight load。</li>
+<li><code>round_robin</code>、<code>random</code>、哈希类策略不维护该计数；<code>power_of_two</code> 优先使用 <code>/get_load</code> 缓存，缺失时使用本地 in-flight 计数。</li>
+</ul>
+</li>
+</ol>
+<h2 id="10-观测与定位"><a href="#10-观测与定位" class="headerlink" title="10. 观测与定位"></a>10. 观测与定位</h2><table>
+<thead>
+<tr>
+<th>手段</th>
+<th>Regular 路径</th>
+<th>PD 路径</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>启动日志</td>
+<td><code>Single router mode (enable_igw=false)</code></td>
+<td><code>Multi-router mode enabled (enable_igw=true)</code>；<code>Created HTTP vLLM PD Router</code></td>
+</tr>
+<tr>
+<td>请求日志</td>
+<td><code>http proxy stages</code></td>
+<td><code>Transparent proxy: prefill=..., decode=...</code>；<code>P/D admission</code></td>
+</tr>
+<tr>
+<td>指标</td>
+<td><code>vllm_router_requests_total</code></td>
+<td><code>vllm_router_pd_requests_total</code>、<code>vllm_router_pd_prefill_requests_total</code>、<code>vllm_router_pd_decode_requests_total</code></td>
+</tr>
+<tr>
+<td>响应特征</td>
+<td>可能带 <code>x-router-stages</code></td>
+<td>两阶段路径不加该头</td>
+</tr>
+<tr>
+<td>典型错误</td>
+<td><code>No available workers (all circuits open or unhealthy)</code></td>
+<td><code>No eligible P/D pair</code></td>
+</tr>
+</tbody></table>
+<p>代码位置：</p>
+<ul>
+<li>Regular 指标：<code>src/routers/http/router.rs:1934-1940</code></li>
+<li>PD 指标：<code>src/routers/http/vllm_pd_router.rs:1467-1473</code></li>
+<li>PD 选择 debug 日志：<code>src/routers/http/pd_router.rs:611-624</code></li>
+<li>Regular stage 日志：<code>src/routers/http/router.rs:87-98</code></li>
+</ul>
+<h2 id="11-代码索引"><a href="#11-代码索引" class="headerlink" title="11. 代码索引"></a>11. 代码索引</h2><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>代码位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HTTP 路由注册</td>
+<td><code>src/server.rs:957-967</code></td>
+</tr>
+<tr>
+<td>chat 入口</td>
+<td><code>src/server.rs:266-276</code></td>
+</tr>
+<tr>
+<td><code>AppState</code></td>
+<td><code>src/server.rs:111-117</code></td>
+</tr>
+<tr>
+<td>Router 创建</td>
+<td><code>src/server.rs:1148-1216</code></td>
+</tr>
+<tr>
+<td><code>AppState</code> 构造</td>
+<td><code>src/server.rs:1244-1249</code></td>
+</tr>
+<tr>
+<td>Axum 状态挂载</td>
+<td><code>src/server.rs:1339-1347</code>、<code>1053</code></td>
+</tr>
+<tr>
+<td>IGW Router 选择</td>
+<td><code>src/routers/router_manager.rs:398-476</code></td>
+</tr>
+<tr>
+<td>按 model 取 Router</td>
+<td><code>src/routers/router_manager.rs:111-143</code></td>
+</tr>
+<tr>
+<td>IGW route_chat</td>
+<td><code>src/routers/router_manager.rs:627-649</code></td>
+</tr>
+<tr>
+<td>Regular route_chat</td>
+<td><code>src/routers/http/router.rs:2976-2984</code></td>
+</tr>
+<tr>
+<td>Regular 主流程</td>
+<td><code>src/routers/http/router.rs:1508-1943</code></td>
+</tr>
+<tr>
+<td>Regular 选 worker</td>
+<td><code>src/routers/http/router.rs:1440-1494</code></td>
+</tr>
+<tr>
+<td>Regular 候选池</td>
+<td><code>src/routers/http/router.rs:1427-1436</code></td>
+</tr>
+<tr>
+<td>Regular 下发</td>
+<td><code>src/routers/http/router.rs:2070</code></td>
+</tr>
+<tr>
+<td>PD route_chat</td>
+<td><code>src/routers/http/vllm_pd_router.rs:2796-2830</code></td>
+</tr>
+<tr>
+<td>PD 透明转发</td>
+<td><code>src/routers/http/vllm_pd_router.rs:2975-3089</code></td>
+</tr>
+<tr>
+<td>PD 准入</td>
+<td><code>src/routers/http/vllm_pd_router.rs:946-1058</code></td>
+</tr>
+<tr>
+<td>PD 成对选择</td>
+<td><code>src/routers/http/pd_router.rs:35-110</code></td>
+</tr>
+<tr>
+<td>PD 阶段选择</td>
+<td><code>src/routers/http/pd_router.rs:112-334</code></td>
+</tr>
+<tr>
+<td>PD 准入与预留</td>
+<td><code>src/routers/http/pd_router.rs:563-627</code></td>
+</tr>
+<tr>
+<td>PD 两阶段请求</td>
+<td><code>src/routers/http/vllm_pd_router.rs:1613</code></td>
+</tr>
+<tr>
+<td>策略统一接口</td>
+<td><code>src/policies/mod.rs:61-202</code></td>
+</tr>
+<tr>
+<td>KV-aware 选择</td>
+<td><code>src/policies/kv_aware.rs:1205-1346</code></td>
+</tr>
+<tr>
+<td>Cache-aware 选择</td>
+<td><code>src/policies/cache_aware.rs:253-393</code></td>
+</tr>
+<tr>
+<td>session key 提取</td>
+<td><code>src/policies/hash_key.rs:13-33</code></td>
+</tr>
+<tr>
+<td>粘性 session</td>
+<td><code>src/policies/sticky_least_loaded.rs:205</code></td>
+</tr>
+</tbody></table>
+<h2 id="12-小结"><a href="#12-小结" class="headerlink" title="12. 小结"></a>12. 小结</h2><ul>
+<li>Chat 请求的 Router 类型不由请求直接决定：单 Router 模式在启动时固定，IGW 模式按 <code>model</code> 对应的 worker 类型决定。</li>
+<li>Regular 路径的核心是“model 过滤候选池 → 健康&#x2F;熔断过滤 → 策略选择 → 负载预留 → 下发”，每次重试都会重新走一遍。</li>
+<li>PD 路径的核心是“P&#x2F;D 候选池 → 准入锁内成对选择 → 同时预留 P&#x2F;D 负载 → 先 P 后 D 两阶段下发”。</li>
+<li>默认策略是 <code>cache_aware</code>，但部署常用 <code>round_robin</code> 建立基线；具体选择依据取决于 <code>--policy</code>、<code>--prefill-policy</code> 和 <code>--decode-policy</code>。</li>
+<li>需要模型级确定性的请求应始终携带 <code>model</code>，避免落到无 model 的打分分支。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8E%A8%E7%90%86%E6%9C%8D%E5%8A%A1/" class="category-chain-item">推理服务</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8E%A8%E7%90%86%E7%B3%BB%E7%BB%9F/" class="print-no-link">#推理系统</a>
+      
+        <a href="/tags/vLLM/" class="print-no-link">#vLLM</a>
+      
+        <a href="/tags/Router/" class="print-no-link">#Router</a>
+      
+        <a href="/tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="print-no-link">#源码分析</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>vLLM Router Chat 请求路由与 Worker 选择调用流程</div>
+      <div>https://orion-wyc.github.io/2026/11/17/2026-11-18-vLLM-Router聊天请求路由与Worker选择调用流程/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Yuchen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年11月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/11/16/2026-11-16-KV-Cache%E6%A6%82%E5%BF%B5%E4%B8%8EDeepInfer%E6%9C%BA%E5%88%B6/" title="KV Cache 概念与 DeepInfer 机制">
+                        <span class="hidden-mobile">KV Cache 概念与 DeepInfer 机制</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+  <script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="" target="_blank" rel="nofollow noopener"><span>Yuchen</span></a> <i class="iconfont icon-love"></i> <a href="" target="_blank" rel="nofollow noopener"><span>NoCookEatMcDonald's</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<!-- hexo injector body_end start --><script src="/js/mermaid-viewer.js"></script><!-- hexo injector body_end end --></body>
+</html>
